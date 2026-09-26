@@ -12,8 +12,8 @@ DST = pathlib.Path('GMCM2026-Overleaf')
 
 FILES = ['main.tex', 'anonymous.tex', 'config.tex', 'reference.bib',
          'gmcm2026.cls', 'gmcm-numerical.bst', '.latexmkrc', '.gitignore',
-         'build.sh', 'build.bat', 'LICENSE', 'README.md']
-GLOBS = [('sections', '*.tex'), ('figures', '*.pdf')]
+         'build.sh', 'build.bat', 'LICENSE', 'README.md', 'review_2026-09-26.md']
+GLOBS = [('sections', '*.tex'), ('figures', '*.pdf'), ('fonts', 'DejaVuSansMono*')]
 
 
 def digest(p):

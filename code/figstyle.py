@@ -24,15 +24,15 @@ ROOT = Path(__file__).resolve().parents[1]
 PAPER_FIGS = ROOT / "paper" / "figures"
 
 # ---- 语义色板（NPG 色系）----
-MAIN = "#3C5488"          # 主方法 M1 / hero
+MAIN = "#244966"          # 主方法 M1 / hero
 MAIN_MID = "#6E7FA8"
 MAIN_LIGHT = "#8491B4"    # 主方法的对照臂 / 次要变体
 MAIN_PALE = "#C9D0E0"
-BASE = "#8A8A8A"          # baseline M0，恒灰
+BASE = "#989EA5"          # baseline M0，恒灰
 BASE_DARK = "#4D4D4D"
 POS = "#00A087"           # 仅用于有符号变化：增/优
 NEG = "#E64B35"           # 仅用于有符号变化：减/劣
-CRIT = "#DC0000"          # 临界线 / 判据线
+CRIT = "#B75A42"          # 临界线 / 判据线
 ACCENT = ("#4DBBD5", "#F39B7F", "#7E6148", "#91D1C2", "#B09C85")
 INK = "#2B2B2B"
 MID = "#A8A8A8"
@@ -48,14 +48,14 @@ def apply_style() -> None:
         "figure.dpi": 120,
         "savefig.dpi": 400,
         "savefig.bbox": "tight",
-        "savefig.pad_inches": 0.02,
+        "savefig.pad_inches": 0.10,
         "pdf.fonttype": 42,          # 嵌入 TrueType，Overleaf 可直接用
         "ps.fonttype": 42,
         "font.family": "sans-serif",
         "font.sans-serif": CJK,
-        "font.size": 7.0,
+        "font.size": 8.0,
         "axes.titlesize": 7.5,
-        "axes.labelsize": 7.0,
+        "axes.labelsize": 8.0,
         "axes.linewidth": 0.7,
         "axes.edgecolor": INK,
         "axes.labelcolor": INK,
@@ -63,15 +63,15 @@ def apply_style() -> None:
         "axes.spines.top": False,
         "axes.spines.right": False,
         "axes.unicode_minus": False,
-        "xtick.labelsize": 6.5,
-        "ytick.labelsize": 6.5,
+        "xtick.labelsize": 7.0,
+        "ytick.labelsize": 7.0,
         "xtick.direction": "out",
         "ytick.direction": "out",
         "xtick.major.width": 0.7,
         "ytick.major.width": 0.7,
         "xtick.major.size": 2.4,
         "ytick.major.size": 2.4,
-        "legend.fontsize": 6.5,
+        "legend.fontsize": 7.0,
         "legend.frameon": True,          # 不透明白底，避免曲线穿过图例文字
         "legend.framealpha": 1.0,
         "legend.facecolor": "white",

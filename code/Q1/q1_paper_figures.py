@@ -68,7 +68,7 @@ def fig_gating_stability(c: dict) -> list[str]:
     o0 = sorted(m0, key=m0.get, reverse=True)
     o1 = sorted(m1, key=m1.get, reverse=True)
 
-    fig = plt.figure(figsize=(6.3, 4.4))
+    fig = plt.figure(figsize=(7.2, 4.4))
     gs = fig.add_gridspec(2, 2, hspace=0.62, wspace=0.36)
     a = fig.add_subplot(gs[0, 0])
     b = fig.add_subplot(gs[0, 1])
@@ -85,20 +85,20 @@ def fig_gating_stability(c: dict) -> list[str]:
                ls="-" if moved else ":", zorder=3 if moved else 2)
         a.plot([0], [r0[dm]], "o", color=S.BASE, ms=3.4, zorder=4)
         a.plot([1], [r1[dm]], "o", color=S.MAIN, ms=3.4, zorder=4)
-        a.text(-0.045, r0[dm], dm, ha="right", va="center", fontsize=6.1,
+        a.text(-0.045, r0[dm], dm, ha="right", va="center", fontsize=7.0,
                color=S.BASE_DARK)
-        a.text(1.045, r1[dm], dm, ha="left", va="center", fontsize=6.1,
+        a.text(1.045, r1[dm], dm, ha="left", va="center", fontsize=7.0,
                color=S.NEG if moved else S.BASE_DARK,
                fontweight="bold" if moved else "normal")
     a.set_xlim(-0.62, 1.62)
     a.set_ylim(len(o0) - 0.4, -0.6)
     a.set_xticks([0, 1])
-    a.set_xticklabels(["M0\n等权平均", "M1\n门控 $Q=V(1-P)$"], fontsize=6.4)
+    a.set_xticklabels(["M0\n等权平均", "M1\n门控 $Q=V(1-P)$"], fontsize=7.0)
     a.set_yticks([])
     a.spines["left"].set_visible(False)
     a.spines["bottom"].set_visible(False)
     a.tick_params(axis="x", length=0)
-    a.set_title("域序：M0 vs M1", fontsize=7, pad=3)
+    a.set_title("域序：M0 vs M1", fontsize=7.0, pad=3)
     S.panel(a, "a", dx=-0.10, dy=1.10)
 
     # --- b: 可分辨域对数（4 个估计量） ---
@@ -110,19 +110,19 @@ def fig_gating_stability(c: dict) -> list[str]:
     b.bar(x - 0.19, v0, 0.36, color=S.BASE, label="M0", zorder=3)
     b.bar(x + 0.19, v1, 0.36, color=S.MAIN, label="M1", zorder=3)
     for xi, va, vb in zip(x, v0, v1):
-        b.text(xi - 0.19, va + 0.25, str(va), ha="center", fontsize=6.0,
+        b.text(xi - 0.19, va + 0.25, str(va), ha="center", fontsize=7.0,
                color=S.BASE_DARK)
-        b.text(xi + 0.19, vb + 0.25, str(vb), ha="center", fontsize=6.0,
+        b.text(xi + 0.19, vb + 0.25, str(vb), ha="center", fontsize=7.0,
                color=S.MAIN)
     b.axhline(total, color=S.CRIT, ls="--", lw=0.9)
-    b.text(0.02, total + 1.5, f"上限 {total}", fontsize=6.0,
+    b.text(0.02, total + 1.5, f"上限 {total}", fontsize=7.0,
            color=S.CRIT, ha="left", va="bottom")
     b.set_xticks(x)
-    b.set_xticklabels([e.replace("trimmed10", "截尾10%") for e in ests], fontsize=6.1)
+    b.set_xticklabels([e.replace("trimmed10", "截尾10%") for e in ests], fontsize=7.0)
     b.set_ylabel("可分辨域对数", labelpad=1.5)
     b.set_ylim(0, total + 4.6)
-    b.legend(loc="lower center", bbox_to_anchor=(0.5, 0.02), ncol=2)
-    b.set_title("可分辨域对数（4 个估计量）", fontsize=7, pad=3)
+    b.legend(loc="upper center", bbox_to_anchor=(0.5, -0.20), ncol=2)
+    b.set_title("可分辨域对数（4 个估计量）", fontsize=7.0, pad=3)
     S.panel(b, "b", dx=-0.26, dy=1.08)
 
     # --- c: 区间半宽 vs 样本量 ---
@@ -138,11 +138,11 @@ def fig_gating_stability(c: dict) -> list[str]:
     cc.set_xlim(120, 2.4e6)
     cc.annotate(f"book：n={n_by[bk]}\n半宽 {hw0[bk]:.4f}",
                 xy=(n_by[bk], hw0[bk]), xytext=(14, -18),
-                textcoords="offset points", fontsize=6.0, color=S.NEG, ha="left")
+                textcoords="offset points", fontsize=7.0, color=S.NEG, ha="left")
     cc.set_xlabel("域样本量 $n$（对数）")
     cc.set_ylabel("自助半宽（对数）", labelpad=1.5)
     cc.legend(loc="lower left", bbox_to_anchor=(0.0, 0.0), ncol=2)
-    cc.set_title("区间半宽 vs 样本量", fontsize=7, pad=3)
+    cc.set_title("区间半宽 vs 样本量", fontsize=7.0, pad=3)
     S.panel(cc, "c", dx=-0.28, dy=1.08)
 
     # --- d: 权重扰动下的域序稳定性 ---
@@ -157,9 +157,9 @@ def fig_gating_stability(c: dict) -> list[str]:
                markeredgecolor="white", markeredgewidth=0.8)
         d.plot([t.min()], [i], "|", color=col, ms=7, mew=1.2, zorder=4)
         d.text(t.mean(), i + 0.34, f"均值 {t.mean():.4f}", ha="center",
-               fontsize=6.0, color=col)
+               fontsize=7.0, color=col)
     d.set_yticks([0, 1])
-    d.set_yticklabels(["M0", "M1"], fontsize=6.4)
+    d.set_yticklabels(["M0", "M1"], fontsize=7.0)
     d.set_ylim(-0.72, 1.62)
     d.set_xlim(0.775, 1.045)
     d.set_xlabel(r"域序 Kendall $\tau$（$n_{\rm rep}$ = " + f"{t0.size})")
@@ -167,8 +167,8 @@ def fig_gating_stability(c: dict) -> list[str]:
     d.tick_params(axis="y", length=0)
     d.annotate(f"域序不变的重复比  {c['frac']['M0']:.3f} → {c['frac']['M1']:.3f}",
                xy=(0.5, -0.40), xycoords="axes fraction", ha="center",
-               fontsize=6.1, color=S.BASE_DARK)
-    d.set_title("权重扰动下的域序稳定性", fontsize=7, pad=3)
+               fontsize=7.0, color=S.BASE_DARK)
+    d.set_title("权重扰动下的域序稳定性", fontsize=7.0, pad=3)
     S.panel(d, "d", dx=-0.18, dy=1.08)
 
     return S.save(fig, "fig_q1_gating_stability")
@@ -209,18 +209,18 @@ def fig_conflict_matrix() -> list[str]:
     if dec["choice"] != f"CD2@{prim_anchor}" or not prim_key.startswith("CD2"):
         raise AssertionError(f"裁定与判据键不符：{dec['choice']} / {prim_key}")
 
-    fig, axes = plt.subplots(1, 2, figsize=(6.3, 2.75),
+    fig, axes = plt.subplots(1, 2, figsize=(7.2, 2.75),
                              gridspec_kw={"wspace": 0.10})
     lo_band, hi_band = 0.01, 0.50
     for ax, pop, title in zip(axes, pops,
                               ["主口径 pooled + ecdf", "消融臂 per_domain + ecdf"]):
         M = np.array([[val[(pop, a, kk)] for a in anchors] for kk in crits])
-        im = ax.imshow(M, cmap="YlGnBu", vmin=0.0, vmax=0.9, aspect="auto")
+        im = ax.imshow(M, cmap="Blues", vmin=0.0, vmax=1.0, aspect="auto")
         for i in range(len(crits)):
             for j in range(len(anchors)):
                 v = M[i, j]
                 inband = lo_band < v < hi_band
-                ax.text(j, i, f"{v:.3f}", ha="center", va="center", fontsize=6.0,
+                ax.text(j, i, f"{v:.3f}", ha="center", va="center", fontsize=7.0,
                         color="white" if v > 0.55 else S.INK,
                         fontweight="bold" if not inband else "normal")
                 if not inband:
@@ -231,23 +231,22 @@ def fig_conflict_matrix() -> list[str]:
             j = anchors.index(prim_anchor)
             ax.add_patch(plt.Rectangle((j - 0.5, i - 0.5), 1, 1, fill=False,
                                        edgecolor=S.INK, lw=1.8, zorder=6))
-            ax.annotate("主判据", xy=(j, i - 0.52), ha="center", va="bottom",
-                        fontsize=6.2, color=S.INK, fontweight="bold")
+            # The black cell border identifies the selected criterion; avoid text on adjacent cells.
         ax.set_xticks(range(len(anchors)))
-        ax.set_xticklabels(anchors, fontsize=6.4)
+        ax.set_xticklabels(anchors, fontsize=7.0)
         ax.set_yticks(range(len(crits)))
-        ax.set_yticklabels([short[kk] for kk in crits], fontsize=6.1)
+        ax.set_yticklabels([short[kk] for kk in crits], fontsize=7.0)
         if pop == "per_domain":
             ax.tick_params(labelleft=False)
-        ax.set_title(title, fontsize=7, pad=3)
+        ax.set_title(title, fontsize=7.0, pad=3)
         ax.tick_params(length=0)
         for sp in ax.spines.values():
             sp.set_visible(False)
     fig.colorbar(im, ax=axes, fraction=0.030, pad=0.015, label="冲突率")
     axes[0].annotate("红框：非退化带 (0.01, 0.50) 之外　　黑框：主判据",
-                     xy=(0.0, -0.32), xycoords="axes fraction", fontsize=6.1,
+                     xy=(0.0, -0.32), xycoords="axes fraction", fontsize=7.0,
                      color=S.CRIT)
-    axes[0].set_ylabel("冲突判据", fontsize=7, labelpad=1.5)
+    axes[0].set_ylabel("冲突判据", fontsize=7.0, labelpad=1.5)
     for ax, lab in zip(axes, "ab"):
         S.panel(ax, lab, dx=-0.20, dy=1.12)
     print(f"[conflict] 主判据 {dec['choice']} = {prim_val:.6f}"
@@ -262,7 +261,8 @@ def fig_q_increment() -> list[str]:
     val = S.load_csv(TBL + "q1c_validation_by_scale.csv")
     inc = S.load_csv(TBL + "q1c_q_increment_test.csv")
     scales = [r["scale"] for r in inc]
-    fig, (a, b) = plt.subplots(1, 2, figsize=(6.3, 2.6),
+    scale_labels = [s.replace("test_", "") for s in scales]
+    fig, (a, b) = plt.subplots(1, 2, figsize=(7.2, 2.6),
                                gridspec_kw={"width_ratios": [1.15, 1.0]})
 
     x = np.arange(len(scales))
@@ -272,10 +272,10 @@ def fig_q_increment() -> list[str]:
              for s in scales]
         a.bar(x + off, v, 0.36, color=col, label=mid, zorder=3)
         for xi, vi in zip(x + off, v):
-            a.text(xi, vi + 0.02, f"{vi:.3f}", ha="center", fontsize=5.8,
+            a.text(xi, vi + 0.02, f"{vi:.3f}", ha="center", fontsize=7.0,
                    color=S.BASE_DARK)
     a.set_xticks(x)
-    a.set_xticklabels(scales, fontsize=6.2)
+    a.set_xticklabels(scale_labels, fontsize=7.0)
     a.set_ylabel("去偏 $R^2$（配比 → 损失）")
     a.set_ylim(0, 1.22)
     a.legend(loc="upper right", ncol=2)
@@ -293,14 +293,17 @@ def fig_q_increment() -> list[str]:
     for yi, vi in zip(y, v):
         # 数值列固定在轴内右侧空白带，既不压零线也不压误差棒
         b.text(0.78, yi, f"{vi:+.5f}", transform=b.get_yaxis_transform(),
-               ha="left", va="center", fontsize=6.0, color=S.BASE_DARK)
+               ha="left", va="center", fontsize=7.0, color=S.BASE_DARK)
     # 显著性并入刻度标签，避免与数值列争位
     b.set_yticks(y)
     b.set_yticklabels([f"{s}\n（{'显著' if sig == 'True' else '不显著'}）"
-                       for s, sig in zip(scales, [r["significant"] for r in inc])],
-                      fontsize=6.2)
+                       for s, sig in zip(scale_labels, [r["significant"] for r in inc])],
+                      fontsize=7.0)
     b.set_ylim(-0.68, len(scales) - 0.32)
-    b.set_xlabel("引入域级 $Q$ 的去偏 $R^2$ 增量（95% 区间）")
+    b.ticklabel_format(axis="x", style="sci", scilimits=(-3, -3))
+    b.xaxis.set_major_locator(plt.MaxNLocator(4))
+    b.xaxis.get_offset_text().set_visible(False)
+    b.set_xlabel("引入域级 $Q$ 的去偏 $R^2$ 增量（95% 区间，$\\times 10^{-3}$）")
     b.spines["left"].set_visible(False)
     b.tick_params(axis="y", length=0)
     S.panel(b, "b", dx=-0.10, dy=1.08)

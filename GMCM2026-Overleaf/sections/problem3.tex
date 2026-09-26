@@ -23,12 +23,15 @@
 
 题给的三类质量成本函数为指数型 $g=10^{7}\mathrm{e}^{6Q}$、幂函数型 $g=5\times10^{9}Q^{4}$ 与对数渐进型 $g=2\times10^{9}\ln(1+10Q)$。前两者的 $g'(Q)$ 无界递增，对数渐进型的 $g'=cr/(1+rQ)$ 单调递减并以 $c$ 为上界；这一差别既决定式~\eqref{eq:q3-R2} 下最优质量的取值，也是成本函数敏感性的来源。求解流程见图~\ref{fig:q3-framework}，三档锚点取 $C=10^{19}$、$10^{22}$、$10^{24}$ FLOPs。
 
-\begin{figure}[htbp]
+问题三的建模与求解流程。上方为优化目标与成本结构、三类质量成本函数，
+  中部由分段 KKT 条件展开为三个活跃集分支，经可行性核验与候选解比较选择合法配置；
+  下方两条路径分别为沿预算的活跃约束集扫描与转移定位、成本函数与上下文长度的敏感性。
+  上下文跨临界的规模变化幅度见图~\ref{fig:q3-lctx}，对应 $L_{\text{ctx}}$ 由 2048 增至 131072。
+
+\begin{figure}[H]
   \centering
   \includegraphics[width=0.96\linewidth]{figures/fig_framework_q3.pdf}
-  \caption{问题三的建模与求解流程。上排五个环节依次为优化目标与成本结构、三类质量成本函数、
-  三分支分段 KKT 求解、沿预算的活跃约束集扫描与转移定位、成本函数与上下文长度的敏感性；
-  下方为本问产出，其中跨临界一行的两个百分数为 $L_{\text{ctx}}$ 由 2048 增至 131072 时的规模变化幅度。}
+  \caption{算力约束下的联合优化与结构性转移识别流程}
   \label{fig:q3-framework}
 \end{figure}
 
@@ -60,7 +63,7 @@
 
 上下文长度取附件 C7 的基准值 $2048$，成本函数取指数型，二者在 \S\ref{subsec:q3-sensitivity} 中另行扰动。三档解列于表~\ref{tab:q3-anchors}。
 
-\begin{table}[htbp]
+\begin{table}[H]
   \centering
   \caption{三档算力预算下的最优配置（$L_{\text{ctx}}=2048$，指数型成本函数；$N^{*}$、$D^{*}$ 以十亿计，
   预算违反量取相对形式 $(\text{cost}-C)/C$）}
@@ -90,7 +93,7 @@
 
 最优性以预先设定的五项判据判定：预算相对违反量不超过 $10^{-9}$、驻点相对残差小于 $10^{-8}$、互补松弛、乘子非负、变量界。五项在三档锚点上全部通过；另沿 $\log_{10}C$ 由 $18.0$ 到 $25.0$ 以 $0.125$ 为步长取 57 个点扫描，分支枚举与 KKT 判据全部通过。表~\ref{tab:q3-kkt} 另列三条相互独立的核验与一次重复性检查。
 
-\begin{table}[htbp]
+\begin{table}[H]
   \centering
   \caption{最优性的独立核验（$\partial L/\partial N$、$\partial L/\partial D$、$\partial L/\partial Q$ 为对拉格朗日函数
   的中心差分重建结果，差分进化在整个可行域上独立求解同一目标）}
@@ -114,15 +117,17 @@
 
 三条核验落在不同环节：中心差分重建不经过分支枚举的代数约减，其边界段的 $\partial L/\partial Q\le0$ 正是上界乘子非负的等价陈述；邻域采样检验局部最优性；差分进化不依赖驻点条件，其与分支枚举解的损失相对差低于 $10^{-13}$，若枚举不完备，数值解应更优并出现可分辨的落差，实测没有出现。三档锚点解因此可视为式~\eqref{eq:q3-problem} 在给定参数下的最优解，其沿预算的完整路径见图~\ref{fig:q3-optimal-path}。
 
-\begin{figure}[htbp]
-  \centering
-  \includegraphics[width=0.86\linewidth]{figures/fig_q3_optimal_path.pdf}
-  \caption{最优配置沿算力预算的路径，四联图共用横轴 $\log_{10}C$（FLOPs，18--25）。
+最优配置沿算力预算的路径，四联图共用横轴 $\log_{10}C$（FLOPs，18--25）。
   (a) 最优质量 $Q^{*}$，虚线为 $Q=1$ 与 $Q_0=0.35$，红色竖线为活跃约束集变化的位置 $\log_{10}C=21.4052$，
   左右两侧分别为内点分支与上界分支；(b) 最优规模 $N^{*}$ 与 $D^{*}$（B），纵轴为对数刻度；
   (c) 三项成本占预算的比例，点划线为 $C_{Q}$ 与 $C_{\text{attn}}$ 在 $\log_{10}C=22.625$ 处的排序翻转；
   (d) 饱和点附近的导数 $dQ^{*}/d\log_{10}C$，饱和前约为 $0.15$，饱和后为零，
-  跨越饱和点的区段以灰线单列。}
+  跨越饱和点的区段以灰线单列。
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.86\linewidth]{figures/fig_q3_optimal_path.pdf}
+  \caption{最优质量、训练规模与成本份额随算力预算的变化}
   \label{fig:q3-optimal-path}
 \end{figure}
 
@@ -139,7 +144,7 @@
 
 三种定义的结果列于表~\ref{tab:q3-transfer}，对比见图~\ref{fig:q3-transition}。
 
-\begin{table}[htbp]
+\begin{table}[H]
   \centering
   \caption{结构性转移的三种定义与识别结果（$\delta$ 为定义 D 的份额突变阈值）}
   \label{tab:q3-transfer}
@@ -160,15 +165,17 @@
 
 合读的结论是转移存在，形态为连续饱和而非突跳。三条读数支持这一形态：饱和前 $dQ^{*}/d\log_{10}C$ 由 $0.1483$ 升至 $0.1500$（对应 $\log_{10}C$ 由 $20.875$ 至 $21.375$），饱和点之后恒为零，即在饱和处导数由正转零；跨越饱和点的 $\log_{10}C\in(21.375,21.5]$ 区段差商为 $0.0363$，既不是左导数也不是右导数，不参与符号判定，该区段单列排除后导数序列自 $21.625$ 起严格为零；定义 D 在细网格上判不出突变，与光滑饱和一致。
 
-\begin{figure}[htbp]
-  \centering
-  \includegraphics[width=0.92\linewidth]{figures/fig_q3_transition_definitions.pdf}
-  \caption{结构性转移的三种定义及其识别结果。
+结构性转移的三种定义及其识别结果。
   (a) 最优质量 $Q^{*}$ 随 $\log_{10}C$ 的路径；红色虚线为定义 A 的位置 21.4052，
   红色点划线为定义 C 的翻转位置 22.625，灰色虚线为定义 D 在 $\delta=0.05$ 下的阈值（细网格上无越阈点）。
   (b) 三种扫描步长下相邻点的 $|\Delta Q^{*}|$，横轴为 $\log_{10}C$，纵轴为对数刻度，
   阈值线为 0.05，仅步长 0.5 出现越阈点。
-  (c) 三项成本占比随 $\log_{10}C$ 的演化，点划线标出 22.625 处 $C_{Q}$ 与 $C_{\text{attn}}$ 的排序翻转。}
+  (c) 三项成本占比随 $\log_{10}C$ 的演化，点划线标出 22.625 处 $C_{Q}$ 与 $C_{\text{attn}}$ 的排序翻转。
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.92\linewidth]{figures/fig_q3_transition_definitions.pdf}
+  \caption{结构性转移的定义对照与扫描步长敏感性}
   \label{fig:q3-transition}
 \end{figure}
 
@@ -177,7 +184,7 @@
 
 题目要求讨论成本函数 $g$ 的选取对最优解的影响，三类 $g$ 在三个预算档下的最优质量列于表~\ref{tab:q3-costform}。
 
-\begin{table}[htbp]
+\begin{table}[H]
   \centering
   \caption{三类质量成本函数在各预算档下的最优质量（末行按列给出跨形式极差）}
   \label{tab:q3-costform}
@@ -204,15 +211,17 @@ $L_{\text{ctx}}$ 经 $k=6+\eta L_{\text{ctx}}$ 进入成本。两类成本相等
 
 跨临界（$L_{\text{ctx}}$ 由 $2048$ 增至 $131072$）的后果可概括为显著压缩可负担规模、几乎不改变相对配比：$N^{*}$ 由 $5.6475$B 降至 $2.5507$B，降幅 $54.8351\%$；$D^{*}$ 由 $249.0624$B 降至 $116.1159$B，降幅 $53.3788\%$；$N^{*}{:}D^{*}$ 的相对极差仅 $3.22\%$，五档取值始终落在 $0.0220$ 至 $0.0227$ 的窄带内。原因见图~\ref{fig:q3-lctx}（c）：$C_{\text{attn}}/C_{\text{train}}$ 与三个决策变量均无关，只随 $L_{\text{ctx}}$ 由 $0.0683$ 线性升至 $4.3691$，预算中被注意力开销占去的部分显著增加，可支付的规模因此被压缩，而训练开销与质量开销之间的相对权衡未被重排。两项读数的性质不同，不宜互相替代：配比未重排不等于 $L_{\text{ctx}}$ 不重要。一种常见的近似是把 $L_{\text{ctx}}$ 视为对有效预算的整体缩放；该近似随 $L_{\text{ctx}}$ 增大而失效，本节不采用它解释上述读数，失效的解析原因仍在成本侧的不对称——$C_{Q}$ 只随 $D$ 缩放而不随 $ND$ 缩放。
 
-\begin{figure}[htbp]
-  \centering
-  \includegraphics[width=0.96\linewidth]{figures/fig_q3_lctx_compression.pdf}
-  \caption{上下文长度跨临界的影响，横轴为 $L_{\text{ctx}}$（token，对数刻度），红色虚线为临界值 30000，
+上下文长度跨临界的影响，横轴为 $L_{\text{ctx}}$（token，对数刻度），红色虚线为临界值 30000，
   右侧阴影为位于临界之上的两档。
   (a) 最优规模 $N^{*}$ 与 $D^{*}$（B），纵轴为对数刻度，两档的降幅为 54.8351\% 与 53.3788\%；
   (b) 最优配比 $N^{*}{:}D^{*}$，纵轴为线性刻度，五档的相对极差为 3.22\%；
   (c) 注意力开销与训练开销之比 $C_{\text{attn}}/C_{\text{train}}$，纵轴为对数刻度，
-  红色虚线为两者相等的条件 $L_{\text{ctx}}=6/\eta=30000$。}
+  红色虚线为两者相等的条件 $L_{\text{ctx}}=6/\eta=30000$。
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.96\linewidth]{figures/fig_q3_lctx_compression.pdf}
+  \caption{上下文长度对最优规模与相对配比的影响}
   \label{fig:q3-lctx}
 \end{figure}
 
@@ -221,7 +230,7 @@ $L_{\text{ctx}}$ 经 $k=6+\eta L_{\text{ctx}}$ 进入成本。两类成本相等
 
 本文主方法（式~\eqref{eq:q3-problem} 的分支枚举解）记为 M1o，基线记为 M0o，取 Chinchilla 经验配置：$D/N$ 固定为 20（Hoffmann 等\citep{hoffmann2022} 的 Approach 1/2 给出的约 20 tokens/param），质量固定在 $Q_0$ 即不投入质量提升，$N$ 与 $D$ 由预算约束确定。三档的损失与差距构成列于表~\ref{tab:q3-baseline}。
 
-\begin{table}[htbp]
+\begin{table}[H]
   \centering
   \caption{与基线的同口径对照及差距分解（报告差距为 $L(\text{M0o})-L(\text{M1o})$，
   仅质量通道差距以诊断配置 M0o$'$ 为参照，配比口径差距为前两者之差）}

@@ -82,3 +82,9 @@ Thumbs.db
 # 代理/编译产生的日志文件（可重跑再生）
 scratch/*.log
 *.log
+
+# Local rendering / compilation tools for the visual review
+scratch/visual-review-env/
+scratch/tools/
+scratch/visual_review/
+scratch/visual-source-hashes.json

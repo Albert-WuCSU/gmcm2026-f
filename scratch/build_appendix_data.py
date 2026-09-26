@@ -200,7 +200,7 @@ out += table('逐月样本量与规模分位、能力前沿（$N$ 单位为十�
              body, colspec='@{}lrrrrrrr@{}', small=True)
 
 d = rows('results/Q4/experiments/round1/tables/q4_frontier_scenarios.csv')
-sname = {'conservative': '保守', 'neutral': '中性', 'optimistic': '较高'}
+sname = {'conservative': '保守', 'neutral': '中性', 'optimistic': '乐观'}
 body = [[sname[r['scenario']], r['horizon'].replace('h', ''), num(r['median'], 5),
          span(r['lo80'], r['hi80']), span(r['lo95'], r['hi95']),
          num(r['width95'], 5)] for r in d]

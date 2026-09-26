@@ -19,6 +19,30 @@
 \DeclareCaptionLabelSeparator{gmcmcolon}{：}
 \captionsetup{labelfont=bf, labelsep=gmcmcolon}
 \captionsetup[subfigure]{labelfont=bf}
+% 图题只保留主题；面板解释与结果解读放在引用该图的正文中。
+\captionsetup[figure]{justification=centering,singlelinecheck=true,skip=6pt}
+\setlength{\emergencystretch}{1em}
+% Use the verified bundled heading font for contest titles.
+\renewcommand{\gmcmcontestfont}{\heiti}
+\setmonofont[Path=fonts/,Scale=0.90]{DejaVuSansMono.ttf}
+% Generated code excerpts contain Unicode mathematical symbols in comments.
+% Render them explicitly; Latin Modern Mono does not provide these glyphs.
+\lstset{literate=
+  {→}{{\ensuremath{\rightarrow}}}1
+  {⇒}{{\ensuremath{\Rightarrow}}}1
+  {∂}{{\ensuremath{\partial}}}1
+  {∈}{{\ensuremath{\in}}}1
+  {≈}{{\ensuremath{\approx}}}1
+  {α}{{\ensuremath{\alpha}}}1
+  {β}{{\ensuremath{\beta}}}1
+  {γ}{{\ensuremath{\gamma}}}1
+  {λ}{{\ensuremath{\lambda}}}1
+  {μ}{{\ensuremath{\mu}}}1
+  {η}{{\ensuremath{\eta}}}1
+  {κ}{{\ensuremath{\kappa}}}1
+  {τ}{{\ensuremath{\tau}}}1
+  {Δ}{{\ensuremath{\Delta}}}1
+}
 
 % 私人信息可写入 config.local.tex，格式同上；该文件被 Git 忽略。
 % 手工打包不受 Git 忽略规则保护，分享前请检查压缩包。

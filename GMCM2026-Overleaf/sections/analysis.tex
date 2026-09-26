@@ -3,6 +3,13 @@
 
 \subsection{总体思路}
 \label{subsec:analysis-overall}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.98\linewidth]{figures/fig_framework_overall.pdf}
+  \caption{四个子问题的研究框架与衔接关系}
+  \label{fig:framework-overall}
+\end{figure}
 四个子问题沿「刻画数据—纳入规律—求解配置—检验外推」的顺序展开，
 前一问的输出构成后一问的输入，因此建模设计上需要保证接口的可用性：
 问题一输出的质量评分必须定义在可比较的尺度上并能聚合到领域级，
@@ -10,13 +17,11 @@
 问题四的预测则要求把损失尺度上的规律可靠地换算到基准得分尺度。
 本文的整体框架、各问的方法要点以及证据的追溯路径见图~\ref{fig:framework-overall}。
 
-\begin{figure}[htbp]
-  \centering
-  \includegraphics[width=0.98\linewidth]{figures/fig_framework_overall.pdf}
-  \caption{全文框架。上排为数据层（附件 A、B、C 三组，按问映射为 18/13/4/8 个文件），
-  中部四列为四个子问题的方法要点与相互依赖，下方为汇总结论与证据链。}
-  \label{fig:framework-overall}
-\end{figure}
+全文框架。左侧四个分组自上而下对应四个子问题，各组由数据输入连接至方法要点，组间箭头表示相互衔接；
+  右侧列出基线对照、敏感性、条件性与外推边界、证据与结论一致性等共同检验。
+  数据来自附件 A、B、C 三组，按问映射为 18/13/4/8 个文件。
+
+
 
 在方法选择上，本文遵循两条原则。其一是\textbf{可检验优先}：
 凡进入主结论的量，都必须给出可机械判定的判据与重抽样区间，
@@ -93,7 +98,7 @@
 并同时给出不分解、不外推衰减的纯趋势基线作为对照。
 
 \subsection{关键难点与应对}
-\begin{table}[htbp]
+\begin{table}[H]
   \centering
   \caption{四个子问题的主要难点与本文的应对方式}
   \label{tab:difficulties}

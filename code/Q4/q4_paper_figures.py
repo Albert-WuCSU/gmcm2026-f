@@ -69,9 +69,17 @@ def fig_decomposition(c: dict) -> list[str]:
               float(r["tech_points"]), float(r["total_points"])) for r in sp]
     rows += [("趋势 " + k, float(v["scale_points"]), float(v["tech_points"]),
               float(v["total_points"])) for k, v in tm["trend_method"].items()]
+    short = {
+        'single_last_month':'末月端点', 'first_vs_last2_merged':'末两月合并',
+        'first_vs_last3_merged':'末三月合并', 'drop_last_month':'剔除末月',
+        'decile_month':'分位组 + 月效应', 'linear_month':'线性 + 月效应',
+        'decile_quarter':'分位组 + 季效应', 'linear_quarter':'线性 + 季效应',
+        'decile':'分位组', 'linear':'线性',
+    }
+    rows = [(r[0].split(' ',1)[0]+' · '+short.get(r[0].split(' ',1)[1],r[0]),*r[1:]) for r in rows]
     rows.sort(key=lambda r: r[3])
 
-    fig = plt.figure(figsize=(6.3, 4.3))
+    fig = plt.figure(figsize=(7.2, 4.3))
     gs = fig.add_gridspec(2, 1, height_ratios=[1.55, 1.0], hspace=0.46)
     a = fig.add_subplot(gs[0])
     b = fig.add_subplot(gs[1])
@@ -80,32 +88,35 @@ def fig_decomposition(c: dict) -> list[str]:
     tech = np.array([r[2] for r in rows])
     scale = np.array([r[1] for r in rows])
     a.barh(y, tech, 0.58, color=S.MAIN, label="技术/数据工程通道", zorder=3)
-    a.barh(y, scale, 0.58, left=tech, color=S.ACCENT[0], label="规模通道", zorder=3)
+    # Diverging contributions: negative scale effects must extend left of zero,
+    # rather than overpainting the positive technical contribution.
+    a.barh(y, scale, 0.58, left=np.where(scale >= 0, tech, 0),
+           color=S.ACCENT[0], label="规模通道", zorder=3)
     a.axvline(0, color=S.INK, lw=0.8, zorder=4)
     for yi, r in zip(y, rows):
         a.plot([r[3]], [yi], "D", color=S.INK, ms=4.0, zorder=5)
-        a.text(r[3] + 0.16, yi, f"{r[3]:.4f}", va="center", fontsize=5.9,
+        a.text(0.99, yi, f"{r[3]:.4f}", transform=a.get_yaxis_transform(), ha="right", va="center", fontsize=7.0,
                color=S.INK)
     a.set_yticks(y)
-    a.set_yticklabels([r[0] for r in rows], fontsize=6.1)
+    a.set_yticklabels([r[0] for r in rows], fontsize=7.0)
     a.set_xlabel("能力提升（C1 分值）")
     a.set_xlim(-5.6, 12.6)
     a.tick_params(axis="y", length=0)
     # 图例放在左上空白区（所有口径的合成柱都不落在负侧）
-    a.legend(loc="upper left", bbox_to_anchor=(0.005, 0.99), ncol=1)
+    a.legend(loc="lower center", bbox_to_anchor=(0.45, 1.12), ncol=2)
     a.annotate(f"◇ 合成总提升　极差 [{c['range'][0]:.4f}, {c['range'][1]:.4f}]",
                xy=(0.5, 1.015), xycoords="axes fraction", ha="center",
-               fontsize=6.1, color=S.CRIT)
-    S.panel(a, "a", dx=-0.30, dy=1.09)
+               fontsize=7.0, color=S.BASE_DARK)
+    S.panel(a, "a", dx=-0.08, dy=1.12)
 
     # --- b: 分组份额区间（份额可读的子组才画；分母为负者只标注口径） ---
     grp = S.load_csv(R1T + "q4_by_type_group.csv")
     for i, r in enumerate(grp):
-        b.text(-2.35, i - 0.34, f"{r['group']}（n = {int(float(r['n']))}）",
-               va="center", fontsize=6.1, color=S.BASE_DARK)
+        b.text(-2.35, i - 0.34, f"{dict(chat_finetuned='对话微调',pretrained='预训练')[r['group']]}（n = {int(float(r['n']))}）",
+               va="center", fontsize=7.0, color=S.BASE_DARK)
         if str(r["share_interpretable"]).strip().lower() not in ("true", "1"):
             b.text(-0.04, i, "规模份额不可读（分母为负）", va="center",
-                   fontsize=6.1, color=S.BASE_DARK)
+                   fontsize=7.0, color=S.BASE_DARK)
             continue
         lo, hi = [float(v) for v in r["scale_share_ci95"].strip("[]").split(",")]
         pt = float(r["scale_share"])
@@ -113,11 +124,11 @@ def fig_decomposition(c: dict) -> list[str]:
         b.plot([lo, hi], [i, i], color=col, lw=2.4, solid_capstyle="round", zorder=3)
         b.plot([pt], [i], "o", color="white", ms=5.0, zorder=4,
                markeredgecolor=col, markeredgewidth=1.4)
-        b.text(hi + 0.09, i, f"[{lo:.4f}, {hi:.4f}]", va="center", fontsize=6.0,
+        b.text(hi + 0.09, i, f"[{lo:.4f}, {hi:.4f}]", va="center", fontsize=7.0,
                color=col)
     b.axvline(0, color=S.INK, lw=0.8, zorder=2)
     b.axvline(1, color=S.MID, ls=":", lw=0.8, zorder=2)
-    b.text(1.0, len(grp) - 0.62, "份额 = 1", fontsize=6.0, color=S.BASE_DARK,
+    b.text(1.0, len(grp) - 0.62, "份额 = 1", fontsize=7.0, color=S.BASE_DARK,
            ha="center")
     b.set_yticks([])
     b.set_ylim(-0.86, len(grp) - 0.14)
@@ -126,6 +137,7 @@ def fig_decomposition(c: dict) -> list[str]:
     b.spines["left"].set_visible(False)
     S.panel(b, "b", dx=-0.06, dy=1.10)
 
+    fig.subplots_adjust(top=.83)
     return S.save(fig, "fig_q4_channel_decomposition")
 
 
@@ -143,24 +155,24 @@ def fig_N_trend(c: dict) -> list[str]:
     qmax = np.array([float(r["N_max"]) for r in rows])
     sq = np.array([float(r["S_q90"]) for r in rows])
 
-    fig, (a, b) = plt.subplots(1, 2, figsize=(6.3, 2.9),
+    fig, (a, b) = plt.subplots(1, 2, figsize=(7.2, 2.9),
                                gridspec_kw={"wspace": 0.34})
 
     # --- a: 规模分位 ---
     a.fill_between(x, q10, qmax, color=S.MAIN_PALE, alpha=0.55, zorder=1,
                    lw=0)
-    for v, col, lab, dy in ((qmax, S.MAIN_LIGHT, r"$N_{\max}$", -14),
-                            (q90, S.MAIN, r"$N_{q90}$", 6),
+    for v, col, lab, dy in ((qmax, S.MAIN_LIGHT, r"$N_{\max}$", 0),
+                            (q90, S.MAIN, r"$N_{q90}$", 0),
                             (q50, S.BASE_DARK, r"$N_{q50}$", 0),
                             (q10, S.BASE, r"$N_{q10}$", 0)):
         a.semilogy(x, v, "-", color=col, lw=1.3, zorder=3)
         a.annotate(lab, xy=(x[-1], v[-1]), xytext=(4, dy),
-                   textcoords="offset points", color=col, fontsize=6.5,
+                   textcoords="offset points", color=col, fontsize=7.0,
                    va="center", ha="left")
     a.set_yscale("log")
     a.set_ylim(0.075, 4000)
     a.set_xticks(x[::2])
-    a.set_xticklabels([m[2:] for m in months[::2]], fontsize=6.0, rotation=30,
+    a.set_xticklabels([m[2:] for m in months[::2]], fontsize=7.0, rotation=30,
                       ha="right")
     a.set_ylabel("模型规模 $N$（B 参数，对数）")
     a.set_xlim(-0.4, len(rows) + 1.9)
@@ -171,7 +183,7 @@ def fig_N_trend(c: dict) -> list[str]:
                arrowprops=dict(arrowstyle="-|>", lw=0.9, color=S.NEG))
     a.text((i_first + i_last) / 2 + 0.2, 0.128,
            rf"$N_{{q90}}$ 端点比值 {meta['N_q90_ratio_first_over_last']}×",
-           ha="center", va="bottom", fontsize=6.3, color=S.NEG)
+           ha="center", va="bottom", fontsize=7.0, color=S.NEG)
     S.panel(a, "a", dx=-0.30, dy=1.08)
 
     # --- b: 前沿分值 ---
@@ -180,13 +192,13 @@ def fig_N_trend(c: dict) -> list[str]:
     b.plot(x, np.polyval(fit, x), "--", color=S.CRIT, lw=1.0, zorder=2)
     b.set_ylim(23.5, 47.5)
     b.annotate(f"线性拟合斜率 +{meta['S_q90_slope_per_month']:.4f}/月",
-               xy=(0.02, 0.97), xycoords="axes fraction", fontsize=6.3,
+               xy=(0.02, 0.97), xycoords="axes fraction", fontsize=7.0,
                color=S.CRIT, ha="left", va="top")
     b.annotate(f"前沿当前值\n{meta['S_q90_last']:.4f}", xy=(x[-1], sq[-1]),
-               xytext=(-6, 12), textcoords="offset points", fontsize=6.3,
+               xytext=(-6, 12), textcoords="offset points", fontsize=7.0,
                color=S.MAIN, ha="right")
     b.set_xticks(x[::2])
-    b.set_xticklabels([m[2:] for m in months[::2]], fontsize=6.0, rotation=30,
+    b.set_xticklabels([m[2:] for m in months[::2]], fontsize=7.0, rotation=30,
                       ha="right")
     b.set_ylabel(r"前沿能力 $S_{q90}$")
     b.set_xlabel("月份（2024–2025）")
@@ -204,53 +216,30 @@ def fig_forecast(c: dict) -> list[str]:
     spr = S.load_csv(R2T + "q4_scenario_spread_scaling.csv")
     cur = c["meta"]["S_q90_last"]
 
-    fig = plt.figure(figsize=(6.3, 3.2))
-    gs = fig.add_gridspec(1, 2, width_ratios=[1.5, 1.0], wspace=0.30)
-    a = fig.add_subplot(gs[0])
-    b = fig.add_subplot(gs[1])
-
-    # --- a: 三情景 + baseline ---
-    order = ["conservative", "neutral", "optimistic"]
-    zh = {"conservative": "保守", "neutral": "中性", "optimistic": "乐观"}
-    xpos, labels = [], []
-    for i, s in enumerate(order):
-        for j, h in enumerate(("h12", "h24")):
-            r = next(r for r in sc if r["scenario"] == s and r["horizon"] == h)
-            xp = i * 2.6 + j * 1.05
-            xpos.append(xp)
-            labels.append(f"{h[1:]}")
-            a.plot([xp, xp], [float(r["lo95"]), float(r["hi95"])], color=S.MID,
-                   lw=1.0, zorder=2)
-            a.plot([xp, xp], [float(r["lo80"]), float(r["hi80"])], color=S.MAIN,
-                   lw=3.0, solid_capstyle="butt", zorder=3)
-            a.plot([xp], [float(r["median"])], "o", color="white", ms=4.6,
-                   markeredgecolor=S.MAIN, markeredgewidth=1.4, zorder=4)
-        a.text(i * 2.6 + 0.52, 0.30, zh[s], transform=a.get_xaxis_transform(),
-               ha="center", va="top", fontsize=6.4, color=S.BASE_DARK)
-    # baseline（M0a，h12）—— 硬性要求同图列出
-    xb = -1.75
-    a.plot([xb, xb], [m0["h12"]["lo95"], m0["h12"]["hi95"]], color=S.MID, lw=1.0,
-           zorder=2)
-    a.plot([xb, xb], [m0["h12"]["lo80"], m0["h12"]["hi80"]], color=S.ACCENT[0],
-           lw=3.0, solid_capstyle="butt", zorder=3)
-    a.plot([xb], [m0["h12"]["point"]], "o", color="white", ms=4.6,
-           markeredgecolor=S.ACCENT[0], markeredgewidth=1.4, zorder=4)
-    a.text(xb, 0.30, "baseline\nM0a  h12", transform=a.get_xaxis_transform(),
-           ha="center", va="top", fontsize=6.2, color=S.ACCENT[0])
-    a.axhline(cur, color=S.CRIT, ls="--", lw=1.0, zorder=1)
-    a.set_xlim(-2.9, len(order) * 2.6 - 1.4)
-    a.set_ylim(24, 106)
-    a.annotate(f"当前前沿 {cur:.4f}", xy=(a.get_xlim()[1], cur),
-               xytext=(-2, 3), textcoords="offset points", fontsize=6.2,
-               color=S.CRIT, ha="right", va="bottom")
-    a.set_xticks([])
-    a.set_ylabel("C1 分值")
-    a.legend(handles=[
-        Line2D([], [], color=S.MAIN, lw=3, label="主方法：80% 区间"),
-        Line2D([], [], color=S.MID, lw=1, label="95% 区间"),
-        Line2D([], [], color=S.ACCENT[0], lw=3, label="baseline M0a 80% 区间"),
-    ], loc="upper left", bbox_to_anchor=(0.0, 1.0), ncol=1)
-    S.panel(a, "a", dx=-0.14, dy=1.07)
+    fig = plt.figure(figsize=(7.2, 4.1))
+    gs = fig.add_gridspec(1, 2, width_ratios=[1.55, 1.0], wspace=.56)
+    a, b = fig.add_subplot(gs[0]), fig.add_subplot(gs[1])
+    entries=[("纯趋势基线 · 12月", m0["h12"]["point"], m0["h12"], S.BASE)]
+    for scenario, name in [("conservative","保守"),("neutral","中性"),("optimistic","乐观")]:
+        for horizon in ("h12","h24"):
+            r=next(r for r in sc if r['scenario']==scenario and r['horizon']==horizon)
+            entries.append((f"{name} · {horizon[1:]}月",float(r['median']),r,S.MAIN))
+    for i,(label,point,r,col) in enumerate(entries):
+        a.plot([float(r['lo95']),float(r['hi95'])],[i,i],color=S.MID,lw=1.2,zorder=2)
+        a.plot([float(r['lo80']),float(r['hi80'])],[i,i],color=col,lw=3.2,zorder=3)
+        a.plot(point,i,'o',ms=5,mfc='white',mec=col,mew=1.3,zorder=4)
+        a.text(126,i,f'{point:.2f}',ha='right',va='center',fontsize=7,color=col)
+    a.axvline(cur,color=S.CRIT,ls='--',lw=.9,zorder=1)
+    a.text(cur,7.0,f'当前前沿 {cur:.2f}',ha='center',fontsize=7,color=S.CRIT)
+    a.set(yticks=range(len(entries)),yticklabels=[r[0] for r in entries],
+          ylim=(7.5,-.7),xlim=(20,129),xlabel='能力得分（分）')
+    a.set_xticks([20,40,60,80,100])
+    a.spines['left'].set_visible(False)
+    a.tick_params(axis='y',length=0,labelsize=7.5)
+    a.legend(handles=[Line2D([],[],color=S.MAIN,lw=3,label='80% 区间'),
+                      Line2D([],[],color=S.MID,lw=1,label='95% 区间')],
+             loc='lower center',bbox_to_anchor=(.5,1.04),ncol=2)
+    S.panel(a,'a',dx=-.27,dy=1.06)
 
     # --- b: 情景极差随规模份额缩放 ---
     ss = np.array([float(r["scale_share"]) for r in spr])
@@ -260,7 +249,7 @@ def fig_forecast(c: dict) -> list[str]:
     for xi, yi in zip(ss[o], sd[o]):
         b.annotate(f"{yi:.4g}", xy=(xi, yi), xytext=(9, -3),
                    textcoords="offset points", ha="left", va="center",
-                   fontsize=6.0, color=S.MAIN)
+                   fontsize=7.0, color=S.MAIN)
     b.set_xlabel("规模通道份额")
     b.set_ylabel("h12 情景极差（分值）")
     b.set_ylim(-1.4, 15.2)

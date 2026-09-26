@@ -53,14 +53,11 @@ $\boldsymbol{b}=(b_1,\dots,b_{17})$ 由问题一配比模型的系数 $\theta_d$
 多源数据整备、退化检验、参数辨识（联合拟合）、跨源验证与条件化检验五个环节依次衔接，
 末一环节由参数共享假设的检验结果触发。
 
-\begin{figure}[htbp]
-  \centering
-  \includegraphics[width=0.96\linewidth]{figures/fig_framework_q2.pdf}
-  \caption{问题二的建模与求解流程。上排五个环节依次为多源数据整备、退化检验、参数辨识（联合拟合）、
-  跨源验证与条件化检验，下方汇文本问在质量指数上的两条路线结论及其区间，两路线的差别仅在于
-  数据量指数的来源假设。}
-  \label{fig:q2-framework}
-\end{figure}
+问题二的建模与求解流程。上方列出多源数据，中部为广义标度律与退化检验；
+  参数辨识分为左侧主路线 A 与右侧敏感性路线 B，下接跨源验证及条件化结果与适用边界。
+  本问同时报告质量指数的两条路线结论及其区间，两路线的差别仅在于数据量指数的来源假设。
+
+
 
 单位方面，$N$ 与 $D$ 均以十亿计，损失以 nats/token 计，$Q$ 无量纲且取值于 $(0,1]$。
 数据量的量纲被系数 $B$ 与不可约项 $E_s$ 吸收，二者的数值随单位选择而变，
@@ -85,7 +82,14 @@ B7 上质量在设计网格内变动，但数据量只有 5 个不同取值，�
 该顺序的代价是 $\gamma$ 的精度部分继承自 $\beta$，
 本文把这一依赖作为独立的可检验命题处理，结果见 \S\ref{subsec:q2-conditional}。
 
-\begin{table}[htbp]
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.96\linewidth]{figures/fig_framework_q2.pdf}
+  \caption{广义标度律的参数估计与跨源检验流程}
+  \label{fig:q2-framework}
+\end{figure}
+
+\begin{table}[H]
   \centering
   \caption{广义标度律与基线的参数估计（$N$、$D$ 以十亿计，损失以 nats/token 计）}
   \label{tab:q2-params}
@@ -131,7 +135,7 @@ $\alpha$ 由 0.33997658 变为 0.28321756。
 主方法的评价不以拟合优度的直观好坏为准，而以实验前声明的三项判据为准，
 阈值、实测与结论列于表~\ref{tab:q2-criteria}。
 
-\begin{table}[htbp]
+\begin{table}[H]
   \centering
   \caption{三项预声明判据的阈值、实测值与结论}
   \label{tab:q2-criteria}
@@ -185,14 +189,16 @@ $\gamma=0.965913$，自助（bootstrap）95\% 区间 $[0.883860,1.055546]$ 含 1
 若 $\beta$ 改在 B7 上自由估计，$\gamma=1.179781$，区间 $[1.088441,1.283359]$ 不含 1.0，
 此时质量的放大作用略强于按比例。两条路线并列见图~\ref{fig:q2-gamma-routes}。
 
-\begin{figure}[htbp]
-  \centering
-  \includegraphics[width=0.92\linewidth]{figures/fig_q2_gamma_routes.pdf}
-  \caption{质量指数 $\gamma$ 的两条路线与数据量指数 $\beta$ 的辨识缺口。
+质量指数 $\gamma$ 的两条路线与数据量指数 $\beta$ 的辨识缺口。
   (a) 路线 A（$\beta$ 取自 B1）与路线 B（$\beta$ 在 B7 上自由估计）的 $\gamma$ 点估计与自助 95\% 区间，
   虚线为 $\gamma=1$；两条区间的交叉与否决定了有效 token 数是否按比例放大。
   (b) 两条路线下 $\beta$ 的估计与区间，二者的区间不重叠。
-  横轴为指数取值，纵轴为路线。}
+  横轴为指数取值，纵轴为路线。
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.92\linewidth]{figures/fig_q2_gamma_routes.pdf}
+  \caption{两条估计路线下的质量指数与数据量指数}
   \label{fig:q2-gamma-routes}
 \end{figure}
 
@@ -223,7 +229,7 @@ $\gamma=0.965913$，自助（bootstrap）95\% 区间 $[0.883860,1.055546]$ 含 1
 两侧量级的相对差为 15.0\%--31.8\%，该差可视为配比与质量的效应形状
 跨来源迁移这一假设的代价的量化。
 
-\begin{table}[htbp]
+\begin{table}[H]
   \centering
   \caption{参照点 $N=1.0$B、$D=150.0$B、$Q=0.5$ 处的边际效用、弹性与等价条件}
   \label{tab:q2-elasticity}
@@ -277,12 +283,14 @@ $\boldsymbol{b}$ 的绝对量级在附件 B 上不可辨识，实测 RMSE 随标
 故配比在较小尺度上的回归预测\citep{liu2024regmix}与训练过程中的动态调整\citep{xie2023doremi}
 都以图~\ref{fig:q2-domain-ratio} 给出的域间排序为共同前提。
 
-\begin{figure}[htbp]
+17 个训练领域相对参照域 \texttt{train\_the\_pile\_philpapers} 的权重比 $b_i/b_{\text{ref}}$，
+  按取值降序排列。横轴为中心化权重之比（非有界比例），纵轴为领域名；
+  正负分别对应上调该域会抬高与降低损失。\texttt{dm\_mathematics} 为唯一绝对值超过 1 的域。
+
+\begin{figure}[H]
   \centering
   \includegraphics[width=0.92\linewidth]{figures/fig_q2_domain_ratio.pdf}
-  \caption{17 个训练领域相对参照域 \texttt{train\_the\_pile\_philpapers} 的权重比 $b_i/b_{\text{ref}}$，
-  按取值降序排列。横轴为中心化权重之比（非有界比例），纵轴为领域名；
-  正负分别对应上调该域会抬高与降低损失。\texttt{dm\_mathematics} 为唯一绝对值超过 1 的域。}
+  \caption{各训练领域相对 philpapers 的中心化权重比}
   \label{fig:q2-domain-ratio}
 \end{figure}
 
@@ -305,18 +313,21 @@ B2 为经真实数据校准并注入噪声的半合成轨迹，$n=1029$，秩相
 故跨源未去偏的决定系数没有解释意义，本节只报秩相关与去源偏 RMSE。
 其中 B2 的秩相关建立在半合成轨迹之上，不构成直接观测的迁移验证；
 B5 的数值来自已发表文献，与本文实测结果的性质不同。
-图~\ref{fig:q2-cross-source-validation}（b）另给出各边际效用两侧取值的对照，
+图~\ref{fig:q2-cross-source-validation}右侧六个分量面板另给出各边际效用两侧取值的对照，
 其中 $Q$ 通道的量明确依赖半合成网格，符号一致性是它们可以承担的全部结论。
 
-\begin{figure}[htbp]
-  \centering
-  \includegraphics[width=0.92\linewidth]{figures/fig_q2_cross_source_validation.pdf}
-  \caption{跨源迁移验证与弹性对照。
+跨源迁移验证与弹性对照。
   (a) 三个外部来源的去源偏秩相关：B4（真实收敛点，$n=57$）、
   B5（已发表文献值，$n=44$）、B2（半合成轨迹，$n=1029$），
   点旁标注各自的去源偏 RMSE，横轴为 Spearman 秩相关。
-  (b) 各边际效用在 B1 侧与 B7 侧的取值对照，星号标出无真实数据支撑、
-  依赖半合成网格的量，横轴为对 $L$ 的偏导。}
+  右侧六个面板分别对照 B1 侧与 B7 侧的参数量、数据量和质量偏导、质量与参数量的替代率、
+  质量增加 $0.1$ 时的参数量变化及质量与数据量的弹性比；圆点对应 B1，方点对应 B7。
+  各面板使用独立横轴，并标明相应单位；星号标出无真实数据支撑、依赖半合成网格的量。
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.92\linewidth]{figures/fig_q2_cross_source_validation.pdf}
+  \caption{跨源验证结果与两侧参数下的边际效应对照}
   \label{fig:q2-cross-source-validation}
 \end{figure}
 

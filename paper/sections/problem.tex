@@ -38,13 +38,11 @@
 赛题附件共 40 个文件、约 551\,MB，按所服务的问题分为三组（附件编号与文件名的对照见《数据说明》）。
 图~\ref{fig:data-pipeline}给出数据的整体构成与本队的处理路径。
 
-\begin{figure}[htbp]
-  \centering
-  \includegraphics[width=0.98\linewidth]{figures/fig_data_pipeline.pdf}
-  \caption{附件数据的构成、按问映射与规范化流程。左侧为 40 个原始附件（只读），
-  中部为按子问题划分的输入集，右侧为规范化、清洗与一致性核验环节。}
-  \label{fig:data-pipeline}
-\end{figure}
+附件数据的构成、按问映射与规范化流程。上方为 40 个原始附件（只读），
+  中部三列分别为问题一、问题二与三、问题四的处理路径及输出，下方汇总为可追溯的数据输入。
+  各路径按所需口径进行规范化、清洗与一致性核验。
+
+
 
 \textbf{附件 A（质量信号与配方实验）}服务问题一。其中 A1 为质量主样本（51\,230 条 $\times$ 27 字段），
 A2、A3 为 arxiv 与 github 两个域的扩展集（17\,523 条与 203\,752 条），三者合为 22 个质量指标的
@@ -64,6 +62,13 @@ C7 为架构元数据并给出上下文长度的可行取值，C8 为 BBH 等基
 按题目要求的可信度分级，A4--A11、B1、B4、B5、C1--C4、C8 等属真实观测；A12--A15、A13、A15
 与 B10 为外推或子集；B2、B6、B7、B8 为半合成数据。后两类在后续各节首次使用时均标明其性质，
 其结论仅作补充分析，不作为直接实验观测。
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.98\linewidth]{figures/fig_data_pipeline.pdf}
+  \caption{附件数据来源与分题处理流程}
+  \label{fig:data-pipeline}
+\end{figure}
 
 \subsection{任务说明}
 赛题四问构成一条递进主线，前一问的输出是后一问的输入。

@@ -54,7 +54,7 @@ def assert_canonical() -> dict:
 # --------------------------------------------------------------------------- #
 def fig_gamma_routes(p: dict) -> list[str]:
     A, B = p["route_A_beta_shared_from_B1"], p["route_B_beta_free_on_B7"]
-    fig, (a, b) = plt.subplots(1, 2, figsize=(6.3, 2.7),
+    fig, (a, b) = plt.subplots(1, 2, figsize=(7.2, 2.7),
                                gridspec_kw={"width_ratios": [1.32, 1.0]})
 
     # --- a: 两条路线的 gamma 区间 ---
@@ -67,16 +67,16 @@ def fig_gamma_routes(p: dict) -> list[str]:
         a.plot(ci, [y, y], color=col, lw=2.6, solid_capstyle="round", zorder=3)
         a.plot([g], [y], "o", color="white", ms=5.6, zorder=4,
                markeredgecolor=col, markeredgewidth=1.5)
-        a.text(g, y + 0.26, rf"$\gamma$ = {g:.4f}", ha="center", fontsize=6.8,
+        a.text(g, y + 0.26, rf"$\gamma$ = {g:.4f}", ha="center", fontsize=7.0,
                color=col, fontweight="bold",
                bbox=dict(fc="white", ec="none", pad=0.6))
         a.text(ci[1] + 0.010, y, "CI 含 1.0" if contains else "CI 不含 1.0",
-               va="center", fontsize=6.2, color=col)
+               va="center", fontsize=7.0, color=col)
     a.axvline(1.0, color=S.BASE_DARK, ls="--", lw=1.0, zorder=2)
-    a.text(1.0, 1.48, "1.0", ha="center", fontsize=6.4, color=S.BASE_DARK,
+    a.text(1.0, 1.48, "1.0", ha="center", fontsize=7.0, color=S.BASE_DARK,
            bbox=dict(fc="white", ec="none", pad=0.6))
     a.set_yticks([1, 0])
-    a.set_yticklabels([r[0] for r in rows], fontsize=6.4)
+    a.set_yticklabels([r[0] for r in rows], fontsize=7.0)
     a.set_ylim(-0.42, 1.72)
     a.set_xlim(0.80, 1.38)
     a.set_xlabel(r"指数 $\gamma$（自助 95% 区间）")
@@ -85,7 +85,7 @@ def fig_gamma_routes(p: dict) -> list[str]:
     a.annotate(f"$\\gamma$ 位移 {p['gamma_shift']:.4f}，为区间宽的 "
                f"{p['shift_as_fraction_of_ci_width']:.3f} 倍（判据阈 0.5）",
                xy=(0.5, -0.46), xycoords="axes fraction", ha="center",
-               fontsize=6.2, color=S.CRIT)
+               fontsize=7.0, color=S.CRIT)
     S.panel(a, "a", dx=-0.30, dy=1.06)
 
     # --- b: beta 的辨识缺口 ---
@@ -102,12 +102,12 @@ def fig_gamma_routes(p: dict) -> list[str]:
     b.annotate("", xy=(ci7[1], 0.52), xytext=(p["beta_b1_point"], 0.52),
                arrowprops=dict(arrowstyle="<->", lw=0.8, color=S.CRIT))
     b.text((ci7[1] + p["beta_b1_point"]) / 2, 0.60,
-           f"辨识缺口 {p['beta_shift']:.4f}", ha="center", fontsize=6.2,
+           f"辨识缺口 {p['beta_shift']:.4f}", ha="center", fontsize=7.0,
            color=S.CRIT)
     b.text(0.004, 1.22, r"B1（真实训练日志）" + f"　$\\beta$ = {p['beta_b1_point']:.4f}",
-           fontsize=6.2, color=S.MAIN)
+           fontsize=7.0, color=S.MAIN)
     b.text(0.004, 0.22, r"B7 上自由估计" + f"　$\\beta$ = {B['beta']:.4f}",
-           fontsize=6.2, color=S.NEG)
+           fontsize=7.0, color=S.NEG)
     b.set_yticks([])
     b.set_ylim(-0.32, 1.62)
     b.set_xlim(0.0, 0.325)
@@ -116,7 +116,7 @@ def fig_gamma_routes(p: dict) -> list[str]:
     b1_width = b1hi - b1lo
     b.annotate(f"B1 区间宽 {b1_width:.3e}",
                xy=(0.5, -0.46), xycoords="axes fraction", ha="center",
-               fontsize=6.2, color=S.BASE_DARK)
+               fontsize=7.0, color=S.BASE_DARK)
     S.panel(b, "b", dx=-0.06, dy=1.06)
 
     fig.subplots_adjust(wspace=0.16)
@@ -134,13 +134,13 @@ def fig_domain_ratio() -> list[str]:
     ref = next(r for r in rows
                if abs(float(r["b_ratio_vs_reference_domain"]) - 1.0) < 1e-9)
 
-    fig, ax = plt.subplots(figsize=(6.3, 3.9))
+    fig, ax = plt.subplots(figsize=(7.2, 3.9))
     y = np.arange(len(rows))
     cols = [S.NEG if v > 0 else S.POS for v in vals]
     ax.barh(y, vals, color=cols, height=0.66, zorder=3)
     ax.axvline(0.0, color=S.INK, lw=0.8, zorder=4)
     ax.set_yticks(y)
-    ax.set_yticklabels(names, fontsize=6.3)
+    ax.set_yticklabels(names, fontsize=7.0)
     ax.set_xlabel(r"域权重比 $b_i/b_{\mathrm{ref}}$（中心化 $w$ 之比，非有界比例）")
     ax.set_ylim(-0.8, len(rows) - 0.2)
     ax.set_xlim(-2.05, 1.55)
@@ -150,7 +150,7 @@ def fig_domain_ratio() -> list[str]:
     ax.plot([1.0], [ref_i], "D", color=S.MAIN, ms=4.6, zorder=5)
     # 注解放进左侧空白区（除 dm_mathematics 外，负侧长条都很短）
     ax.annotate("参考域 philpapers\n比值 ≡ 1", xy=(1.0, ref_i),
-                xytext=(-1.35, ref_i - 1.1), fontsize=6.2,
+                xytext=(-1.35, ref_i - 1.1), fontsize=7.0,
                 color=S.MAIN, ha="center", va="center",
                 arrowprops=dict(arrowstyle="-", lw=0.7, color=S.MAIN,
                                 connectionstyle="arc3,rad=-0.15"))
@@ -158,7 +158,7 @@ def fig_domain_ratio() -> list[str]:
         if i == ref_i:
             continue
         off = 0.05 if v >= 0 else -0.05
-        ax.text(v + off, i, f"{v:.3f}", va="center", fontsize=5.6,
+        ax.text(v + off, i, f"{v:.3f}", va="center", fontsize=7.0,
                 ha="left" if v >= 0 else "right", color=S.BASE_DARK)
 
     ax.legend(handles=[
@@ -170,7 +170,7 @@ def fig_domain_ratio() -> list[str]:
     ax.annotate(r"$|b_i/b_{\mathrm{ref}}|>1$：" + "、".join(over)
                 + f"（{len(over)}/{len(rows)}）",
                 xy=(0.5, 1.015), xycoords="axes fraction", ha="center",
-                fontsize=6.2, color=S.BASE_DARK)
+                fontsize=7.0, color=S.BASE_DARK)
     return S.save(fig, "fig_q2_domain_ratio")
 
 
@@ -178,63 +178,56 @@ def fig_domain_ratio() -> list[str]:
 # 图 3：跨源验证与弹性对照
 # --------------------------------------------------------------------------- #
 def fig_cross_source_validation() -> list[str]:
-    rows = S.load_csv(TBL + "q2_validation.csv")
-    el = S.load_csv(TBL + "q2_elasticity.csv")
-
-    fig, (a, b) = plt.subplots(1, 2, figsize=(6.3, 3.0),
-                               gridspec_kw={"width_ratios": [1.05, 1.0]})
-
-    # --- a: 三个外部源的秩相关（棒棒糖）+ 去偏 RMSE 直接标注 ---
-    prov = (("real", S.POS, "真实（跨族收敛点）"),
-            ("literature", S.ACCENT[0], "文献值（非本队观测）"),
-            ("SEMI-SYNTHETIC", S.NEG, "半合成（Cerebras 轨迹）"))
-    rows = sorted(rows, key=lambda r: float(r["spearman"]))
-    y = np.arange(len(rows))
+    rows = sorted(S.load_csv(TBL + "q2_validation.csv"), key=lambda r: float(r["spearman"]))
+    effects = S.load_csv(TBL + "q2_elasticity.csv")
+    fig = plt.figure(figsize=(7.2, 4.8))
+    gs = fig.add_gridspec(3, 3, width_ratios=[1.55, 1, 1], wspace=.85, hspace=1.10)
+    a = fig.add_subplot(gs[:, 0])
+    provenance = {"B4": "真实收敛点", "B5": "文献报告值", "B2": "半合成轨迹"}
     for i, r in enumerate(rows):
-        rho = float(r["spearman"])
-        key, col, lab = next((k, c, l) for k, c, l in prov
-                             if r["data_provenance"].startswith(k))
-        a.plot([0.70, rho], [i, i], color=col, lw=1.0, ls=":", zorder=2)
-        a.plot([rho], [i], "o", color=col, ms=6.0, zorder=4,
-               markeredgecolor="white", markeredgewidth=0.8)
-        a.text(rho + 0.013, i, f"{rho:.3f}", fontsize=6.4, color=col,
-               fontweight="bold", va="center", ha="left")
-        a.text(0.705, i + 0.30, f"{r['source']}　n = {int(float(r['n']))}"
-               f"　RMSE {float(r['rmse_after_deoffset']):.3f}",
-               fontsize=6.1, color=S.BASE_DARK, va="center")
-        a.text(0.705, i - 0.30, lab, fontsize=6.0, color=col, va="center")
-    a.set_yticks([])
-    a.set_ylim(-0.78, len(rows) - 0.22)
-    a.set_xlim(0.70, 1.05)
-    a.set_xlabel("Spearman 秩相关（去偏后）")
-    a.spines["left"].set_visible(False)
-    S.panel(a, "a", dx=-0.06, dy=1.06)
-
-    # --- b: 弹性 B1 vs B7 ---
-    keys = [r["quantity"] for r in el]
-    y = np.arange(len(keys))[::-1]
-    b1 = np.array([float(r["B1_side_primary"]) for r in el])
-    b7 = np.array([float(r["B7_side_sensitivity"]) for r in el])
-    supported = [r["real_data_supported"] == "yes" for r in el]
-    h = 0.34
-    b.barh(y + h / 2, b1, h, color=S.MAIN, label="B1 侧（主）", zorder=3)
-    b.barh(y - h / 2, b7, h, color=S.MAIN_LIGHT, label="B7 侧（敏感性）", zorder=3)
-    b.axvline(0, color=S.INK, lw=0.8, zorder=4)
-    b.set_yticks(y)
-    b.set_yticklabels([k.replace("_", " ") + ("" if s else " *")
-                       for k, s in zip(keys, supported)], fontsize=6.1)
-    b.set_xlabel("弹性（对 $L$ 的偏导）")
-    # 不截断：x 轴须覆盖最大绝对值（elasticity_ratio_Q_over_D ≈ 0.966）
-    b.set_xlim(-2.35, 1.15)
-    b.tick_params(axis="y", length=0)
-    b.legend(loc="upper left", bbox_to_anchor=(0.0, 1.0))
-    b.annotate("* 无真实数据支撑",
-               xy=(0.5, 1.015), xycoords="axes fraction", ha="center",
-               fontsize=6.0, color=S.BASE_DARK)
-    S.panel(b, "b", dx=-0.28, dy=1.08)
-
-    fig.subplots_adjust(wspace=0.34)
-    return S.save(fig, "fig_q2_cross_source_validation")
+        rho=float(r["spearman"])
+        a.plot([.7, rho], [i,i], color=S.PALE, lw=2)
+        a.plot(rho,i,'o',color=S.MAIN,ms=6)
+        a.text(rho+.012,i,f"{rho:.3f}",va='center',fontsize=8.0,color=S.MAIN)
+        a.text(.705,i+.23,f"{r['source']}  {provenance[r['source']]}",fontsize=8.0,color=S.INK)
+        a.text(.705,i-.25,f"n = {int(float(r['n']))} · RMSE {float(r['rmse_after_deoffset']):.3f}",fontsize=7.0,color=S.BASE_DARK)
+    a.set(xlim=(.69,1.08),ylim=(-.65,2.65),yticks=[],xlabel='Spearman 秩相关')
+    a.spines['left'].set_visible(False)
+    a.set_title('外部来源验证',loc='left',pad=18,fontsize=9.0)
+    S.panel(a,'a',dx=-.12)
+    labels = [
+        (r'$\partial L/\partial N$', 'nats/token / B 参数'),
+        (r'$\partial L/\partial D$', 'nats/token / B token'),
+        (r'$\partial L/\partial Q$ *', 'nats/token / 单位 Q'),
+        (r'$dN/dQ$ *', 'B 参数 / 单位 Q'),
+        (r'$\Delta N$（$\Delta Q=0.1$）*', 'B 参数'),
+        (r'质量 / 数据量弹性比 *', '无量纲'),
+    ]
+    for i,(r,(title,unit)) in enumerate(zip(effects,labels)):
+        ax=fig.add_subplot(gs[i//2,1+i%2])
+        vals=[float(r['B1_side_primary']),float(r['B7_side_sensitivity'])]
+        ax.plot(vals,[1,0],color=S.PALE,lw=1.4)
+        for y,v,col,mark in zip([1,0],vals,[S.MAIN,S.MAIN_LIGHT],['o','s']):
+            ax.plot(v,y,marker=mark,color=col,ms=5)
+            ax.annotate(f'{v:.4g}',(v,y),xytext=(0,7),textcoords='offset points',
+                        ha='center',fontsize=7.0,color=col)
+        low,high=min(vals),max(vals)
+        span=max(high-low,max(abs(v) for v in vals)*.20,1e-8)
+        ax.set(xlim=(low-span*.7,high+span*.7),ylim=(-.5,1.7),yticks=[1,0],
+               yticklabels=['B1','B7'],xlabel=unit)
+        ax.set_title(title,fontsize=8.0,pad=9)
+        ax.spines['left'].set_visible(False)
+        ax.tick_params(axis='y',length=0,labelsize=7)
+        ax.tick_params(axis='x',labelsize=6.5)
+        ax.xaxis.set_major_locator(plt.MaxNLocator(3))
+        if max(abs(v) for v in vals) < .001:
+            ax.ticklabel_format(axis='x', style='sci', scilimits=(0,0))
+            ax.xaxis.get_offset_text().set_visible(False)
+            ax.set_title(title + r' ($\times 10^{-4}$)', fontsize=8.0, pad=9)
+        ax.xaxis.get_offset_text().set_fontsize(6)
+    fig.text(.54,.015,'* 依赖半合成质量网格；各分量使用独立数轴',ha='center',fontsize=7.0,color=S.BASE_DARK)
+    fig.subplots_adjust(bottom=.16,top=.89)
+    return S.save(fig,"fig_q2_cross_source_validation")
 
 
 def main() -> None:

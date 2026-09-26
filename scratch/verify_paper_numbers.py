@@ -40,6 +40,10 @@ def rounds_to(value, token, decimals):
 
 
 def present(value):
+    # Exact zero is a legitimate reported result. The old nonzero-only matcher
+    # made the Q4 zero-share limiting case fail even when explicitly printed.
+    if float(value) == 0.0:
+        return re.search(r'(?<![\d.])0\.0+(?![\d.])', TEXT) is not None
     for tok, dec in TOKENS:
         if abs(tok) < 1e-12:
             continue

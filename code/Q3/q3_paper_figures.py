@@ -132,7 +132,7 @@ def fig_optimal_path(pts: list, sat: float, c_trans: float) -> list[str]:
     dQ = np.gradient(Q, lc)
     xmax = lc[-1] + 1.35          # 右侧留白供直接标注
 
-    fig, axes = plt.subplots(4, 1, figsize=(6.3, 7.4), sharex=True,
+    fig, axes = plt.subplots(4, 1, figsize=(7.2, 7.4), sharex=True,
                              gridspec_kw={"height_ratios": [1.15, 1.0, 1.0, 0.8],
                                           "hspace": 0.16})
     (a, b, c, d) = axes
@@ -146,15 +146,15 @@ def fig_optimal_path(pts: list, sat: float, c_trans: float) -> list[str]:
     a.set_ylim(0.30, 1.14)
     a.set_ylabel(r"最优质量 $Q^{*}$", labelpad=1.5)
     a.text(0.015, 0.74, "内点分支  $Q_0<Q^{*}<1$", transform=a.transAxes,
-           fontsize=6.2, color=S.BASE_DARK, va="top")
+           fontsize=7.0, color=S.BASE_DARK, va="top")
     a.text(0.985, 0.74, r"边界分支  $Q^{*}\equiv1$", transform=a.transAxes,
-           fontsize=6.2, color=S.NEG, va="top", ha="right")
-    a.text(lc[0] + 0.08, Q0_DEFAULT + 0.025, r"$Q_0=0.35$", fontsize=6.2,
+           fontsize=7.0, color=S.NEG, va="top", ha="right")
+    a.text(lc[0] + 0.08, Q0_DEFAULT + 0.025, r"$Q_0=0.35$", fontsize=7.0,
            color=S.BASE_DARK)
     S.vline(a, sat, None, y=0.99)
     a.annotate(rf"$\log_{{10}}C = {sat:.4f}$",
                xy=(sat, 0.86), xytext=(10, 0), textcoords="offset points",
-               fontsize=6.2, color=S.CRIT, ha="left", va="top")
+               fontsize=7.0, color=S.CRIT, ha="left", va="top")
     S.panel(a, "a")
 
     # --- b: 规模路径 ---
@@ -181,7 +181,7 @@ def fig_optimal_path(pts: list, sat: float, c_trans: float) -> list[str]:
     S.vline(c, sat, None)
     S.vline(c, c_trans, None, ls="-.", lw=0.9)
     c.annotate(rf"$\log_{{10}}C = {c_trans:.3f}$", xy=(c_trans, 0.60),
-               xytext=(-16, 0), textcoords="offset points", fontsize=6.2,
+               xytext=(-16, 0), textcoords="offset points", fontsize=7.0,
                color=S.CRIT, ha="right", va="center")
     S.panel(c, "c")
 
@@ -213,7 +213,7 @@ def fig_transition_definitions(model: Model, pts: list, sat: float,
     sh = {k: np.array([p["cost_shares"][k] for p in pts])
           for k in ("C_train", "C_Q", "C_attn")}
 
-    fig = plt.figure(figsize=(6.3, 4.8))
+    fig = plt.figure(figsize=(7.2, 4.8))
     gs = fig.add_gridspec(2, 2, height_ratios=[1.15, 1.0], hspace=0.62, wspace=0.30)
     a = fig.add_subplot(gs[0, :])
     b = fig.add_subplot(gs[1, 0])
@@ -246,7 +246,7 @@ def fig_transition_definitions(model: Model, pts: list, sat: float,
         dq = np.abs(np.diff(np.array([q["Q"] for q in p])))
         b.plot(x, dq, "o-", ms=2.2, lw=1.1, color=col, label=f"扫描步长 {st:g}")
     b.axhline(D_THRESHOLD, color=S.CRIT, ls="--", lw=0.9)
-    b.text(lc[-1], D_THRESHOLD * 1.45, f" 判定阈值 {D_THRESHOLD}", fontsize=6.2,
+    b.text(lc[-1], D_THRESHOLD * 1.45, f" 判定阈值 {D_THRESHOLD}", fontsize=7.0,
            color=S.CRIT, ha="right")
     b.set_yscale("log")
     b.set_ylim(2.2e-4, 1.4)
@@ -255,9 +255,9 @@ def fig_transition_definitions(model: Model, pts: list, sat: float,
     b.set_ylabel(r"相邻点 $|\Delta Q^{*}|$", labelpad=1.5)
     b.legend(loc="lower left", bbox_to_anchor=(0.005, 0.02))
     b.annotate("仅步长 0.5 出现越阈点", xy=(18.07, 0.082), xytext=(19.4, 0.42),
-               fontsize=6.0, color=S.NEG, ha="left",
+               fontsize=7.0, color=S.NEG, ha="left",
                arrowprops=dict(arrowstyle="-", lw=0.6, color=S.NEG))
-    b.annotate("饱和后 $\\Delta Q^{*}=0$", xy=(21.7, 2.6e-4), fontsize=6.0,
+    b.annotate("饱和后 $\\Delta Q^{*}=0$", xy=(21.7, 2.6e-4), fontsize=7.0,
                color=S.BASE_DARK, ha="left", va="bottom")
     S.panel(b, "b")
 
@@ -289,7 +289,7 @@ def fig_lctx_compression(law: dict, meta: dict) -> list[str]:
     ratio = np.array([float(r["attn_over_train"]) for r in rows])
     crit, n_pct, d_pct = meta["crit"], meta["n_pct"], meta["d_pct"]
 
-    fig, (a, b, c) = plt.subplots(1, 3, figsize=(6.3, 2.45))
+    fig, (a, b, c) = plt.subplots(1, 3, figsize=(7.2, 2.45))
     for ax in (a, b, c):
         ax.axvspan(crit, L[-1], color="#FBF0ED", zorder=0)
 
@@ -303,10 +303,10 @@ def fig_lctx_compression(law: dict, meta: dict) -> list[str]:
     S.direct_label(a, L[-1], N[-1], r" $N^{*}$", S.MAIN, fs=7)
     S.direct_label(a, L[-1], D[-1], r" $D^{*}$", S.ACCENT[2], fs=7)
     a.axvline(crit, color=S.CRIT, ls="--", lw=0.9)
-    a.annotate(f"临界 {crit:.0f}", xy=(crit, 2200), fontsize=6.0, color=S.CRIT,
+    a.annotate(f"临界 {crit:.0f}", xy=(crit, 2200), fontsize=7.0, color=S.CRIT,
                ha="center", va="bottom")
     a.text(0.03, 0.05, f"$N^{{*}}$ {n_pct:+.1f}%\n$D^{{*}}$ {d_pct:+.1f}%",
-           transform=a.transAxes, fontsize=6.5, color=S.NEG, va="bottom")
+           transform=a.transAxes, fontsize=7.0, color=S.NEG, va="bottom")
     S.panel(a, "a", dx=-0.34, dy=1.09)
 
     # --- b: N:D 几乎不动 ---
@@ -317,7 +317,7 @@ def fig_lctx_compression(law: dict, meta: dict) -> list[str]:
     b.set_xlim(L[0] * 0.72, L[-1] * 1.35)
     b.axvline(crit, color=S.CRIT, ls="--", lw=0.9)
     b.annotate(f"相对极差 {meta['nd_spread']:.2%}", xy=(0.5, 0.05),
-               xycoords="axes fraction", fontsize=6.5, color=S.POS,
+               xycoords="axes fraction", fontsize=7.0, color=S.POS,
                ha="center", va="bottom")
     S.panel(b, "b", dx=-0.34, dy=1.09)
 
@@ -325,7 +325,7 @@ def fig_lctx_compression(law: dict, meta: dict) -> list[str]:
     c.loglog(L, ratio, "o-", color=S.ACCENT[0], lw=1.4, ms=3.2)
     c.axhline(1.0, color=S.CRIT, ls="--", lw=0.9)
     c.annotate(r"$C_{\mathrm{attn}}=C_{\mathrm{train}}$", xy=(L[0] * 1.05, 1.16),
-               fontsize=6.0, color=S.CRIT, ha="left", va="bottom")
+               fontsize=7.0, color=S.CRIT, ha="left", va="bottom")
     c.set_xlabel(r"上下文长度 $L_{\mathrm{ctx}}$")
     c.set_ylabel(r"$C_{\mathrm{attn}}/C_{\mathrm{train}}$", labelpad=1.5)
     c.set_ylim(0.03, 12)

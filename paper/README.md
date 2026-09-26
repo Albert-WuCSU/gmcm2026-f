@@ -1,3 +1,9 @@
+## 当前比赛论文
+
+本队论文入口为 `main.tex`，编译结果为 `main.pdf`。2026-09-26 已更新18张图、精简图注并调整排版；当前改动、核验结果与仍存在的问题见 `review_2026-09-26.md`。`docs/preview.pdf` 是模板示例。
+
+---
+
 <div align="center">
 
 # 🏆 GMCM2026 LaTeX Template

@@ -1,372 +1,219 @@
-"""全篇框架图 + 数据预处理图 + 四问方法流程图（Type 3）。
-
-风格：计算机顶会 / 美赛 pipeline figure —— 圆角盒 + 浅色填充 + 细箭头 +
-阶段色 + 正交布线；全部矢量（PDF），中文用 Microsoft YaHei。
-
-两条硬性纪律：
-1. **图内只放数据与结果**，不写「不得表述为……」「判 FAIL」这类报告口吻；
-   口径限制写进图规划与正文，不进图。
-2. 图内出现的所有计数、行数、参数值均从落盘工件读取
-   （`workspace/data/data_profile.json`、各问 `metrics/*.json`），不手打。
-
-输出全部落 `paper/figures/`。
-"""
-from __future__ import annotations
-
-import sys
+"""Source-backed paper flowcharts with grouped branches and explicit dependencies."""
 from pathlib import Path
-
+import sys
 ROOT = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(ROOT / "code"))
+sys.path.insert(0, str(ROOT / 'code'))
+import matplotlib.pyplot as plt
+from matplotlib.patches import Rectangle, Polygon
+import numpy as np
+import figstyle as S
 
-import matplotlib.pyplot as plt  # noqa: E402
-from matplotlib.patches import (  # noqa: E402
-    FancyArrowPatch,
-    FancyBboxPatch,
-    Rectangle,
-)
-
-import figstyle as S  # noqa: E402
-
-STAGE = [("#284B63", "#F1F5F7"),      # 深蓝：定义 / 输入
-         ("#008C83", "#EFF8F7"),      # 蓝绿：建模 / 求解
-         ("#D05A3A", "#FCF3EF"),      # 暖红：检验 / 边界
-         ("#3C78A8", "#F0F6FA"),      # 天青：预测 / 输出
-         ("#765B45", "#F7F3EF")]      # 褐：补充
-DATA = ("#68788D", "#F3F5F8")
-OUT = ("#30363D", "#F7F7F6")
+INK = '#333333'
+INPUT = '#E2E2E2'
+METHOD = '#FAF6D9'
+PROCESS = '#DCEBF1'
+OUTPUT = '#DCEADC'
+CHECK = '#F4DFD8'
 
 
-def canvas(w=6.3, h=3.2):
-    fig, ax = plt.subplots(figsize=(w, h))
-    fig.patch.set_facecolor("white")
-    ax.set_facecolor("white")
-    ax.set_xlim(0, 100)
-    ax.set_ylim(0, 100)
-    ax.axis("off")
+def canvas(height=4.6):
+    fig, ax = plt.subplots(figsize=(7.2, height))
+    fig.subplots_adjust(left=.015, right=.985, bottom=.025, top=.975)
+    ax.set(xlim=(0,100), ylim=(0,100))
+    ax.axis('off')
     return fig, ax
 
 
-def _upp(ax) -> float:
-    """每 pt 等于多少画布单位（画布高 100 单位）—— 让行距与字号解耦。"""
-    return 100.0 / (ax.figure.get_size_inches()[1] * 72.0)
-
-
-def box(ax, x, y, w, h, title, body=None, stage=0, fs=6.6, bfs=5.6,
-        align="center", pad=0.32, wrap=None, accent=True):
-    edge, fill = STAGE[stage] if isinstance(stage, int) else stage
-    # 极轻投影用于建立层级；保持矢量、低墨量，缩印后不显脏。
-    ax.add_patch(FancyBboxPatch(
-        (x + 0.35, y - 0.45), w, h,
-        boxstyle=f"round,pad={pad},rounding_size=1.6",
-        linewidth=0, facecolor="#000000", alpha=0.055, zorder=1.5))
-    ax.add_patch(FancyBboxPatch(
-        (x, y), w, h, boxstyle=f"round,pad={pad},rounding_size=1.6",
-        linewidth=0.75, edgecolor=edge, facecolor=fill, zorder=2))
-    if accent:
-        ax.add_patch(Rectangle((x + 1.2, y + h - 0.75), w - 2.4, 0.75,
-                               linewidth=0, facecolor=edge, alpha=0.9, zorder=2.2))
-    upp = _upp(ax)
-    cx = x + w / 2 if align == "center" else x + 1.4
-    ha = "center" if align == "center" else "left"
+def node(ax, x, y, w, h, title, body='', fill='white'):
+    ax.add_patch(Rectangle((x,y),w,h,fc=fill,ec=INK,lw=.85,zorder=2))
     if body:
-        ax.text(cx, y + h - 0.65 * fs * upp - 0.65, title, ha=ha, va="top",
-                fontsize=fs, color=edge, fontweight="bold", zorder=3)
-        ax.text(cx, y + h - 2.15 * fs * upp - 0.7, body, ha=ha, va="top",
-                fontsize=bfs, color=S.INK, linespacing=1.5, zorder=3)
+        ax.text(x+w/2,y+h*.68,title,ha='center',va='center',fontsize=9,
+                weight='bold',color=INK,zorder=3)
+        ax.text(x+w/2,y+h*.28,body,ha='center',va='center',fontsize=8,
+                color=INK,linespacing=1.35,zorder=3)
     else:
-        ax.text(cx, y + h / 2 - 0.15, title, ha=ha, va="center", fontsize=fs,
-                color=edge, fontweight="bold", linespacing=1.5, zorder=3)
-    return (x, y, w, h)
+        ax.text(x+w/2,y+h/2,title,ha='center',va='center',fontsize=9,
+                color=INK,weight='bold',linespacing=1.45,zorder=3)
 
 
-def arrow(ax, p1, p2, color=None, lw=0.9, ls="-", ms=6.0):
-    ax.add_patch(FancyArrowPatch(
-        p1, p2, arrowstyle="-|>", mutation_scale=ms, linewidth=lw,
-        color=color or "#68727D", linestyle=ls, zorder=1,
-        shrinkA=1.5, shrinkB=1.5, connectionstyle="arc3,rad=0"))
+def group(ax,x,y,w,h,label,label_x=None):
+    ax.add_patch(Rectangle((x,y),w,h,fc='#FAFAFA',ec=INK,lw=.75,
+                           ls=(0,(5,3)),zorder=0))
+    ax.text(x+1.5 if label_x is None else label_x,y+h,label,fontsize=8,weight='bold',va='center',ha='left',
+            bbox=dict(fc='white',ec='none',pad=2),color=INK,zorder=4)
 
 
-def group(ax, x, y, w, h, label, color=None, fs=5.8, ls=(0, (3, 2))):
-    c = color or S.BASE
-    ax.add_patch(FancyBboxPatch(
-        (x, y), w, h, boxstyle="round,pad=0.5,rounding_size=1.4",
-        linewidth=0.65, edgecolor=c, facecolor="#FAFBFC", alpha=0.65,
-        linestyle=ls, zorder=0))
-    ax.text(x + 0.9, y + h + 0.6, label.upper(), ha="left", va="bottom",
-            fontsize=fs, color=c, fontweight="bold", zorder=3)
+def edge(ax, points, label=None, label_at=None, dashed=False, head=True):
+    points = [p for i,p in enumerate(points) if i == 0 or p != points[i-1]]
+    # Draw to the exact box boundary. FancyArrowPatch shortens its endpoint
+    # even after shrinking is disabled; explicit triangles avoid that gap.
+    xs, ys = zip(*points)
+    ax.plot(xs,ys,color=INK,lw=.85,ls=':' if dashed else '-',
+            solid_capstyle='butt',solid_joinstyle='miter',zorder=1)
+    if head:
+        start, tip = ax.transData.transform(np.array(points[-2:]))
+        delta = tip-start
+        length = np.linalg.norm(delta)
+        direction = delta/length
+        normal = np.array([-direction[1],direction[0]])
+        px_per_pt = ax.figure.dpi/72
+        head_length = min(5.5*px_per_pt,length)
+        half_width = 2.1*px_per_pt
+        base = tip-direction*head_length
+        vertices = ax.transData.inverted().transform(
+            [tip,base+normal*half_width,base-normal*half_width])
+        ax.add_patch(Polygon(vertices,closed=True,fc=INK,ec='none',zorder=2.5))
+    if label:
+        ax.text(*label_at,label,fontsize=7.5,ha='center',va='center',color=INK,
+                zorder=4)
 
 
-def tag(ax, x, y, text, color=None, fs=5.4):
-    ax.text(x, y, text, ha="center", va="center", fontsize=fs,
-            color=color or S.MID, style="italic", zorder=3)
+def split(ax, source, destinations, bus_y):
+    """One stem, one crossbar, and separate arrowheads at destination boxes."""
+    edge(ax, [source, (source[0], bus_y)], head=False)
+    xs = [p[0] for p in destinations]
+    edge(ax, [(min(xs), bus_y), (max(xs), bus_y)], head=False)
+    for x, y in destinations:
+        edge(ax, [(x, bus_y), (x, y)])
 
 
-def save(fig, name):
-    return S.save(fig, name)
+def merge(ax, sources, destination, bus_y):
+    """Plain incoming lines join a crossbar; only the outgoing stem has a head."""
+    for x, y in sources:
+        edge(ax, [(x, y), (x, bus_y)], head=False)
+    xs = [p[0] for p in sources]
+    edge(ax, [(min(xs), bus_y), (max(xs), bus_y)], head=False)
+    edge(ax, [(destination[0], bus_y), destination])
 
 
-def _summary_row_count(path: str, heading: str) -> int:
-    """Number of check rows in a robustness report's summary table.
-
-    The row count is read from the landed report rather than typed in, so the
-    figure cannot drift from the artifacts it summarises.
-    """
-    import re
-    text = Path(path).read_text(encoding="utf-8")
-    start = text.index(heading)
-    body = text[start:]
-    nxt = re.search(r"\n## ", body)
-    if nxt:
-        body = body[: nxt.start()]
-    # 行首形如 "| R1 | ..." 或 "| R1 规格扰动 | ..." 的都是检查行。
-    return len(re.findall(r"^\|\s*\*{0,2}R\d+\*{0,2}(?:\s|\|)", body, re.M))
-
-
-def facts() -> dict:
-    p = S.load_json("workspace/data/data_profile.json")
-    raw = p["raw_files"]
-    per_q = {q: len(p["attachment_mapping"][q]) for q in ("Q1", "Q2", "Q3", "Q4")}
-    # 分母取自 data_profile 的覆盖统计，分子取自 Q1 的规范化核验工件；
-    # 剔除行数与保留率由二者现算，不手打。
-    n_total = p["coverage"]["rows"]["A_quality_total"]
-    n_rows = S.load_json("workspace/data/q1_canonical_verification.json")["n_rows"]
-    m1s = S.load_json("results/Q2/experiments/round1/metrics/q2_M1s.json")
-    m1o = S.load_json("results/Q3/experiments/round1/metrics/q3_M1o.json")
-    q4tm = S.load_json("results/Q4/experiments/round2/metrics/q4_trend_method.json")
-    nmeta = S.load_json("results/Q4/experiments/round2/n_frontier_meta.json")
-    probe = S.load_json("workspace/data/q2_probe_beta_sharing.json")
-    # 稳健性检查项数：Q1 取核验工件的 n_checks，Q2/Q3/Q4 取各自报告汇总表的行数。
-    n_checks = {
-        "Q1": S.load_json("robustness/Q1/q1_robustness_summary.json")["n_checks"],
-        "Q2": _summary_row_count("robustness/Q2/q2_robustness_report.md",
-                                "## 7. 检查结果汇总"),
-        "Q3": _summary_row_count("robustness/Q3/q3_robustness_report.md",
-                                "## 9. 检查结果汇总"),
-        "Q4": _summary_row_count("robustness/Q4/q4_robustness_report.md",
-                                "## 7. 检查结果汇总"),
-    }
-
-    lctx = m1o["lctx_sensitivity"]
-    f = {
-        "n_raw": len(raw), "mb": sum(x["bytes"] for x in raw) / 1e6, "per_q": per_q,
-        "n_rows": n_rows, "n_total": n_total, "n_drop": n_total - n_rows,
-        "keep_pct": n_rows / n_total,
-        "gamma": m1s["stage3_joint_wls"]["M1s_params"]["gamma"],
-        "gamma_a": probe["route_A_beta_shared_from_B1"]["gamma"],
-        "ci_a": probe["route_A_beta_shared_from_B1"]["gamma_ci95"],
-        "gamma_b": probe["route_B_beta_free_on_B7"]["gamma"],
-        "ci_b": probe["route_B_beta_free_on_B7"]["gamma_ci95"],
-        "shift_frac": probe["shift_as_fraction_of_ci_width"],
-        "sat": m1o["structural_transition"]["main_definition_A"]["changes"][0][
-            "located_log10_C"],
-        "n_pct": lctx["N_B_change_pct"], "d_pct": lctx["D_B_change_pct"],
-        "nd_spread": lctx["N_over_D_relative_spread"],
-        "rng": q4tm["total_points_range"],
-        "ratio": nmeta["N_q90_ratio_first_over_last"],
-        "n_checks": n_checks,
-    }
-    print(f"[facts] 附件 {f['n_raw']} 个 / {f['mb']:.0f} MB；映射 {per_q}；"
-          f"清洗 {n_rows:,}/{n_total:,}（保留 {f['keep_pct']:.4%}，剔除 "
-          f"{f['n_drop']} 行）；γ(A)={f['gamma_a']:.4f}；"
-          f"转移点={f['sat']:.6f}；Q4 极差={f['rng']}；稳健性={n_checks}")
-    return f
+def q1():
+    fig,ax=canvas()
+    node(ax,34,87,32,11,'原始质量信号','20 列主口径',INPUT)
+    edge(ax,[(50,87),(50,81)])
+    node(ax,27,70,46,11,'方向统一与信号规范化','合并总体分位数 · 列表指标压缩',PROCESS)
+    group(ax,4,45,92,19,'信号分组')
+    node(ax,9,48,35,12,'14 项价值指标','$V$：价值合成',METHOD)
+    node(ax,56,48,35,12,'6 项污染指标','$P$：污染合成',METHOD)
+    split(ax,(50,70),[(26.5,60),(73.5,60)],67)
+    node(ax,34,24,32,11,'门控质量合成','$Q=V(1-P)$',OUTPUT)
+    merge(ax,[(26.5,48),(73.5,48)],(50,35),41)
+    group(ax,4,2,41,20,'冲突识别')
+    node(ax,8,5,33,13,'高价值且高污染','$\\mathrm{CD2}@p_{75}$',CHECK)
+    edge(ax,[(26.5,41),(2,41),(2,11.5),(8,11.5)],'价值 / 污染',(11,32))
+    group(ax,55,2,41,19,'配比检验',label_x=80)
+    node(ax,59,5,33,13,'域级聚合与配比建模','Huber 聚合\n主效应 · 交互 · 岭回归',OUTPUT)
+    edge(ax,[(50,24),(50,23),(75.5,23),(75.5,18)])
+    return S.save(fig,'fig_framework_q1')
 
 
-# --------------------------------------------------------------------------- #
-# 全篇框架图
-# --------------------------------------------------------------------------- #
-def fig_overall(f: dict) -> list[str]:
-    fig, ax = canvas(6.3, 3.6)
-    group(ax, 1.5, 30, 19, 62, "数据层")
-    for i, (t, b) in enumerate((("质量信号 A1–A3", "文本 · 22 指标"),
-                                ("标度律 B1–B7", "训练日志 · 收敛点"),
-                                ("榜单与上下文", "C1–C8 · 能力 · 成本"))):
-        box(ax, 3, 74 - i * 17, 16, 13, t, b, stage=DATA, fs=5.9, bfs=5.5)
-
-    xs, ws = [24.0, 43.0, 62.0, 81.0], 18.5
-    specs = [
-        (0, "Q1　质量与配比",
-         f"门控 $Q=V(1-P)$\n域级 Huber + 自助\n样本 {f['n_rows']:,} 行"),
-        (1, "Q2　广义标度律",
-         "$L=E+A N^{-\\alpha}$\n$+\\,B\\,(D Q^{\\gamma}e^{b^{T}z})^{-\\beta}$\n"
-         "三源交叉验证"),
-        (2, "Q3　联合优化",
-         "$\\mathrm{min}\\;L$\n$kND+D\\Delta g\\leq C$\n分段 KKT · 活跃集扫描"),
-        (3, "Q4　归因与预测",
-         "规模 / 技术双通道分解\n端点 × 规格 8 口径\n三情景 + baseline 对照"),
-    ]
-    for (st, title, body), x in zip(specs, xs):
-        box(ax, x, 58, ws, 22, title, body, stage=st, fs=6.2, bfs=5.6)
-    for i in range(3):
-        arrow(ax, (xs[i] + ws, 69), (xs[i + 1], 69), lw=1.1)
-
-    bus = 88.5
-    ax.plot([19.0, 21.5], [61.0, bus], color=DATA[0], lw=0.8, zorder=1)
-    ax.plot([21.5, xs[-1] + ws / 2], [bus, bus], color=DATA[0], lw=0.8, zorder=1)
-    for x in [x + ws / 2 for x in xs]:
-        arrow(ax, (x, bus), (x, 80.9), color=DATA[0], lw=0.8)
-    ax.text(22.4, bus + 1.0, "附件映射　18 / 13 / 4 / 8", ha="left", va="bottom",
-            fontsize=5.3, color=DATA[0])
-
-    for i, t in enumerate(("域序 + 域级 $Q$", "$\\gamma,\\beta$ 等承重参数",
-                           "最优路径 + 转移点", "归因与预测")):
-        tag(ax, xs[i] + ws / 2, 55.2, t, color=STAGE[i][0])
-
-    box(ax, 24.0, 30, 75.5, 20, "论文结论",
-        "① 质量按比例放大有效 token 数（$\\gamma\\approx1$），条件是 $\\beta$ 的来源假设\n"
-        "② 算力约束下存在结构性转移，形态为连续饱和\n"
-        "③ 前沿推进由非规模技术 / 数据工程综合进步主导",
-        stage=OUT, fs=6.6, bfs=5.6, align="left")
-    box(ax, 1.5, 3, 97.5, 21, "证据链与审计",
-        "每个数字：代码 → results → 报告 → 论文，双向可追\n"
-        f"稳健性检查：Q1 {f['n_checks']['Q1']} 项 · Q2 {f['n_checks']['Q2']} 项 · "
-        f"Q3 {f['n_checks']['Q3']} 项 · Q4 {f['n_checks']['Q4']} 项\n"
-        "三层审计：跨媒体一致性 · 语义完备性 · 提交级质量保证",
-        stage=OUT, fs=6.6, bfs=5.6, align="left")
-    arrow(ax, (61.7, 30), (61.7, 24.6), color=S.BASE)
-    return save(fig, "fig_framework_overall")
+def q2():
+    fig,ax=canvas(5.4)
+    group(ax,2,80,96,19,'数据来源')
+    node(ax,6,84,28,12,'B2 / B4 / B5','外部验证来源',INPUT)
+    node(ax,36,84,28,12,'B1 真实训练轨迹','经典标度律参数',INPUT)
+    node(ax,66,84,28,12,'B7 半合成质量网格','设计质量刻度',INPUT)
+    node(ax,27,65,46,10,'广义标度律与退化检验','质量 · 配比进入有效数据量',METHOD)
+    edge(ax,[(50,84),(50,75)])
+    edge(ax,[(70,84),(70,75)])
+    group(ax,2,38,96,20,'参数估计')
+    node(ax,6,40,40,14,'主路线 A','B1 定 $\\beta$ · B7 定 $\\gamma$\n来源分层 WLS 联合核验',PROCESS)
+    node(ax,54,40,40,14,'敏感性路线 B','B7 自由估计 $\\beta$、$\\gamma$\n与路线 A 对照',PROCESS)
+    split(ax,(50,65),[(26,54),(74,54)],62)
+    node(ax,6,21,40,13,'跨源验证','秩相关 · 去源偏 RMSE',CHECK)
+    edge(ax,[(26,40),(26,34)])
+    edge(ax,[(20,84),(20,79),(.5,79),(.5,27.5),(6,27.5)])
+    node(ax,21,0,58,14,'条件化结果与适用边界','质量指数 · 边际效应 · 替代关系\n保留跨源共享假设的检验限制',OUTPUT)
+    edge(ax,[(26,21),(26,14)])
+    edge(ax,[(74,40),(74,14)])
+    return S.save(fig,'fig_framework_q2')
 
 
-# --------------------------------------------------------------------------- #
-# 数据预处理
-# --------------------------------------------------------------------------- #
-def fig_data_pipeline(f: dict) -> list[str]:
-    fig, ax = canvas(6.3, 3.0)
-    box(ax, 1.5, 30, 18, 61, "原始附件",
-        f"{f['n_raw']} 个文件\n≈ {f['mb']:.0f} MB\n只读挂载",
-        stage=DATA, fs=6.2, bfs=5.6)
-
-    y = 78
-    for q, lab in (("Q1", "质量与配比"), ("Q2", "标度律"),
-                   ("Q3", "优化与上下文"), ("Q4", "榜单与归因")):
-        box(ax, 25, y, 17, 13, f"{q}　{lab}", f"{f['per_q'][q]} 个附件",
-            stage=DATA, fs=5.9, bfs=5.5)
-        arrow(ax, (19.7, 60), (25, y + 6.5), color=DATA[0], lw=0.8)
-        y -= 16
-
-    box(ax, 47, 30, 24, 61, "规范化与清洗",
-        "20 列主口径\n"
-        "域级 Huber(k=1.345)\n"
-        "经验分位数 ecdf\n"
-        "单位统一：$N,D$ 以 B 计\n"
-        "种子 20260924",
-        stage=1, fs=6.2, bfs=5.6, align="left")
-    for yy in (78, 62, 46, 30):
-        arrow(ax, (42.2, yy + 6.5), (47, 60), color=STAGE[1][0], lw=0.8)
-
-    box(ax, 76, 30, 22.5, 61, "落盘与核验",
-        f"主样本 {f['n_rows']:,} 行\n"
-        f"保留率 {f['keep_pct']:.3%}\n"
-        f"剔除 {f['n_drop']} 行整条缺失\n"
-        "原始数据只读校验通过",
-        stage=3, fs=6.2, bfs=5.6, align="left")
-    arrow(ax, (71.3, 60), (76, 60), color=STAGE[3][0], lw=1.1)
-
-    box(ax, 1.5, 0.5, 97, 26, "数据审计的关键发现",
-        "① 配方表每行中位 8 个精确零，对数比的伪计数会主导坐标 → 改用加性中心化\n"
-        "② 2024 年前仅 24 行 → 归因窗口限定 2024-06 → 2025-03（278 天）\n"
-        "③ 22 个质量指标方向不一，须先定正/负方向；组内与组间相关同量级 → 语义分组\n"
-        "④ 未闭合风险 5 项（抽样文本统计、id 唯一性、共线性诊断、方向标注、C8 聚合口径）",
-        stage=OUT, fs=6.4, bfs=4.9, align="left")
-    arrow(ax, (50, 30), (50, 27.1), color=S.BASE)
-    return save(fig, "fig_data_pipeline")
+def q3():
+    fig,ax=canvas(4.6)
+    node(ax,3,84,43,14,'目标与算力约束','固定配比，给定 $C$\n最小化损失 $L$',INPUT)
+    node(ax,54,84,43,14,'质量成本函数 $g(Q)$','指数 · 幂函数 · 对数型',INPUT)
+    node(ax,34,62,32,12,'分段 KKT 条件',fill=METHOD)
+    merge(ax,[(24.5,84),(75.5,84)],(50,74),80)
+    group(ax,3,35,94,21,'活跃集分支')
+    for x,title,body in [(7,'质量下界分支','$Q^*=Q_0$'),(37,'内点分支','$Q_0<Q^*<1$'),(67,'质量上界分支','$Q^*=1$')]:
+        node(ax,x,38,26,14,title,body,PROCESS)
+    split(ax,(50,62),[(20,52),(50,52),(80,52)],59)
+    node(ax,29,18,42,12,'可行性核验与候选解比较','选择最小损失的合法配置',OUTPUT)
+    merge(ax,[(20,38),(50,38),(80,38)],(50,30),36)
+    node(ax,3,0,43,10,'预算扫描与结构转移定位',fill=OUTPUT)
+    node(ax,54,0,43,10,'成本形式与上下文敏感性',fill=CHECK)
+    split(ax,(50,18),[(24.5,10),(75.5,10)],16)
+    return S.save(fig,'fig_framework_q3')
 
 
-# --------------------------------------------------------------------------- #
-# 四问方法流程（5 步 + 产出带）
-# --------------------------------------------------------------------------- #
-def flow(name: str, steps: list, out_title: str, out: str,
-         h: float = 2.25, title: str | None = None) -> list[str]:
-    fig, ax = canvas(6.3, h)
-    n = len(steps)
-    gap = 3.6
-    w = (98.5 - 1.5 - gap * (n - 1)) / n
-    y0, bh = 53, 39
-    for i, (t, b, st) in enumerate(steps):
-        x = 1.5 + i * (w + gap)
-        box(ax, x, y0, w, bh, t, b, stage=st, fs=6.0, bfs=5.5)
-        if i:
-            arrow(ax, (x - gap, y0 + bh / 2), (x, y0 + bh / 2), lw=1.1)
-    box(ax, 1.5, 13, 97, 25, out_title, out, stage=OUT, fs=6.2, bfs=5.6,
-        align="left")
-    for i in range(n):
-        x = 1.5 + i * (w + gap) + w / 2
-        arrow(ax, (x, y0), (x, 38.6), color=S.BASE, lw=0.7, ls=(0, (3, 2)))
-    if title:
-        ax.text(1.5, 95, title, ha="left", va="center", fontsize=6.4,
-                color=S.BASE_DARK)
-    return save(fig, name)
+def q4():
+    fig,ax=canvas(5.2)
+    node(ax,23,86,54,12,'C1 榜单与 C4 模型元数据','2024-06 至 2025-03',INPUT)
+    group(ax,2,47,62,33,'主分解输入与规格')
+    node(ax,6,62,54,13,'逐模型得分与参数量','C1 Average · C4 参数量',PROCESS)
+    node(ax,6,50,54,9,'log N 十分位 + 月度固定效应',fill=METHOD)
+    node(ax,70,64,27,11,'月度能力前沿','$S_{q90}$',PROCESS)
+    split(ax,(50,86),[(33,75),(83.5,75)],83)
+    edge(ax,[(33,62),(33,59)])
+    node(ax,6,25,54,14,'能力变化的通道分解','规模贡献 + 非规模月度共同变动',OUTPUT)
+    edge(ax,[(33,50),(33,39)])
+    node(ax,70,44,22,12,'Q2 参数与桥接','Loss → 榜单分数',INPUT)
+    node(ax,6,4,54,14,'端点与规格敏感性','基线对照 · 方向与量级',CHECK)
+    edge(ax,[(33,25),(33,18)])
+    node(ax,70,4,27,32,'前沿情景预测','归因份额 · 前沿趋势\n12 / 24 个月\n三情景 · 纯趋势基线',OUTPUT)
+    edge(ax,[(60,32),(70,32)])
+    edge(ax,[(95,64),(95,36)])
+    edge(ax,[(81,44),(81,36)])
+    return S.save(fig,'fig_framework_q4')
 
 
-def fig_q1_flow(f: dict) -> list[str]:
-    return flow("fig_framework_q1", [
-        ("① 规范化", "20 列主口径\n剔除缺失行", 0),
-        ("② 语义分组", "14 价值指标 $\\to V$\n6 污染指标 $\\to P$", 0),
-        ("③ 门控合成", "$Q=V(1-P)$\n按域 ecdf 归一", 1),
-        ("④ 冲突判据", "CD2：高价值 ∧ 高污染\n分位锚点 p75", 1),
-        ("⑤ 配比与对照", "主效应 + 交互 + 岭\n对照 M0 / M0c", 2),
-    ], "本问产出",
-       "域序（最高档 = arxiv / c4 / commoncrawl）· 域级 $Q$ → Q2 · 配比 → Loss 的去偏 $R^2$\n"
-       "引入域级 $Q$ 的去偏 $R^2$ 增量：三尺度 95% 区间均跨 0"
-       "（实测 1m +0.00028、60m −0.00022、1B −0.00082）")
+def overall():
+    fig,ax=canvas(5.4)
+    rows=[(76,'问题一','A 质量信号与配方实验','质量合成与冲突识别\n配比拟合与质量增量检验'),
+          (52,'问题二','B 训练轨迹与质量网格','广义标度律与参数估计\n跨源验证与边际分析'),
+          (28,'问题三','标度律参数与题给成本','算力约束下分段优化\n最优配置与结构转移'),
+          (4,'问题四','C 榜单与模型元数据\nQ2 参数与 Loss 桥接','规模 / 非规模通道分解\n能力前沿与情景预测')]
+    for y,title,inp,method in rows:
+        group(ax,2,y,74,20,title)
+        node(ax,5,y+4,29,12,inp,fill=INPUT)
+        node(ax,40,y+3,32,14,method,fill=METHOD)
+        edge(ax,[(34,y+10),(40,y+10)])
+    edge(ax,[(56,79),(56,69)],'配比系数',(64,74))
+    edge(ax,[(56,55),(56,45)],'标度律参数',(65,50))
+    edge(ax,[(56,31),(56,21)],'配置规律',(65,26))
+    group(ax,81,4,17,92,'共同检验')
+    for y,t in [(74,'基线\n对照'),(52,'参数与口径\n敏感性'),(30,'条件性与\n外推边界'),(8,'证据与结论\n一致性')]:
+        node(ax,83,y,13,16,t,fill=CHECK)
+    for y in [86,62,38,14]: edge(ax,[(76,y),(81,y)])
+    return S.save(fig,'fig_framework_overall')
 
 
-def fig_q2_flow(f: dict) -> list[str]:
-    return flow("fig_framework_q2", [
-        ("① 多源整备", "B1 真实训练日志\nB4/B5 收敛点 · 文献\nB7 半合成", 0),
-        ("② 退化检验", "模型须能退化回\n既有标度律", 0),
-        ("③ 联合拟合", "$L=E+A N^{-\\alpha}$\n$+\\,B\\,(DQ^{\\gamma}e^{b^{T}z})^{-\\beta}$\n"
-                       "三阶段 WLS", 1),
-        ("④ 交叉源验证", "Spearman + 去偏 RMSE\n三源逐一复现", 1),
-        ("⑤ 条件化检验", "$\\beta$ 跨源共享（P9）\n$\\gamma$ 位移 "
-                         f"{f['shift_frac']:.3f}× 区间宽", 2),
-    ], "本问产出",
-       f"路线 A（$\\beta$ 取自 B1）：$\\gamma$ = {f['gamma_a']:.4f}，"
-       f"CI95 [{f['ci_a'][0]:.4f}, {f['ci_a'][1]:.4f}] 含 1.0\n"
-       f"路线 B（$\\beta$ 在 B7 自由）：$\\gamma$ = {f['gamma_b']:.4f}，"
-       f"CI95 [{f['ci_b'][0]:.4f}, {f['ci_b'][1]:.4f}] 不含 1.0")
+def data_pipeline():
+    p=S.load_json('workspace/data/data_profile.json')
+    total=p['coverage']['rows']['A_quality_total']
+    n=S.load_json('workspace/data/q1_canonical_verification.json')['n_rows']
+    count=len(p['raw_files'])
+    assert 0<n<=total
+    print(f'[facts] 原始附件 {count} 个；Q1 主样本 {n:,}/{total:,}，剔除 {total-n} 行')
+    fig,ax=canvas(4.4)
+    node(ax,24,86,52,12,f'{count} 个原始附件','按问题映射，分别处理',INPUT)
+    items=[(2,'Q1 质量','方向统一 · 列表压缩\n合并总体经验分位数',f'{n:,} 行主样本\n剔除 {total-n} 行缺失'),
+           (35,'Q2 / Q3','数据来源分层\n参数量与 token 单位统一','标度律估计数据\n算力约束与成本参数'),
+           (68,'Q4 榜单','名称连接 · 月度归组\n沿用 Average 与参数量','能力前沿与规模分布\n通道分解与情景输入')]
+    for x,title,processing,out in items:
+        group(ax,x,25,30,53,title)
+        node(ax,x+2,56,26,16,processing,fill=PROCESS)
+        node(ax,x+2,29,26,17,out,fill=OUTPUT)
+        edge(ax,[(x+15,56),(x+15,46)])
+    split(ax,(50,86),[(17,72),(50,72),(83,72)],82)
+    node(ax,13,2,74,14,'可追溯的数据输入','保留来源与处理口径 · 原始附件不覆盖',fill=INPUT)
+    merge(ax,[(17,29),(50,29),(83,29)],(50,16),21)
+    return S.save(fig,'fig_data_pipeline')
 
 
-def fig_q3_flow(f: dict) -> list[str]:
-    return flow("fig_framework_q3", [
-        ("① 目标与成本", "$\\mathrm{min}\\;E+AN^{-\\alpha}$\n"
-                         "$+B(DQ^{\\gamma})^{-\\beta}$\n$k=6+\\eta L_{\\mathrm{ctx}}$", 0),
-        ("② 三类 $g(Q)$", "指数 / 幂 / 对数渐近\n题给参数原样代入", 0),
-        ("③ 分段 KKT", "三分支全枚举\n内点 / $Q\\!=\\!1$ / $Q\\!=\\!Q_0$\n五项硬判据筛", 1),
-        ("④ 活跃集扫描", "沿 $\\log_{10}C$ 扫描\n二分定位 $\\mu$ 由 0 转正\n步长无关", 1),
-        ("⑤ 三定义与敏感性", "A / C / D 三定义并报\n$L_{\\mathrm{ctx}}$ 五档跨临界", 2),
-    ], "本问产出",
-       f"三档锚点解（$C=10^{{19,22,24}}$）· 转移点 $\\log_{{10}}C$ = {f['sat']:.4f}\n"
-       f"跨临界 $L_{{\\mathrm{{ctx}}}}$：$N^{{*}}$ {f['n_pct']:.1f}%、"
-       f"$D^{{*}}$ {f['d_pct']:.1f}%，而 $N{{:}}D$ 相对极差仅 {f['nd_spread']:.2%}")
-
-
-def fig_q4_flow(f: dict) -> list[str]:
-    return flow("fig_framework_q4", [
-        ("① 窗口与样本", "C1 六维等权合成分\n窗口 2024-06 → 2025-03", 0),
-        ("② 规模通道", "$N$ 分位按月趋势\nq90 端点比值 "
-                       f"{f['ratio']}×", 1),
-        ("③ 技术通道", "前沿 $S_{{q90}}$ 月斜率\n扣除规模贡献", 1),
-        ("④ 端点多规格", "端点 4 定义 + 规格 4 组合\n另加 2 趋势口径并报", 2),
-        ("⑤ 情景与对照", "保守 / 中性 / 乐观\n$h$ = 12, 24 月 · baseline 同图", 3),
-    ], "本问产出",
-       f"能力提升约 {f['rng'][0]:.4f} – {f['rng'][1]:.4f} 点；技术通道在全部口径下为正\n"
-       "情景极差随规模份额缩放：11.786 → 4.1408 → 0")
-
-
-def main() -> None:
+def main():
     S.apply_style()
-    f = facts()
-    out = []
-    out += fig_overall(f)
-    out += fig_data_pipeline(f)
-    out += fig_q1_flow(f)
-    out += fig_q2_flow(f)
-    out += fig_q3_flow(f)
-    out += fig_q4_flow(f)
-    print("[figs]", *out, sep="\n  ")
+    out=overall()+data_pipeline()+q1()+q2()+q3()+q4()
+    print('[figs]',*out,sep='\n  ')
 
-
-if __name__ == "__main__":
-    main()
+if __name__=='__main__': main()
