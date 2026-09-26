@@ -1,0 +1,731 @@
+{
+ "schema_version": 1,
+ "question_id": "Q3",
+ "gate": "G4",
+ "purpose": "兑现裁定 q3_result_verdict=1B 与 q3_stability_verdict=2B 的补算要求",
+ "seed": 20260924,
+ "law_params": {
+  "E": 1.6897974079310756,
+  "A": 0.3539803206630743,
+  "alpha": 0.3399765818978297,
+  "B": 1.2403057700818418,
+  "beta": 0.2798780599420644,
+  "gamma": 0.9659129389937917,
+  "source": "results/Q2/experiments/round1/metrics/q2_M1s.json"
+ },
+ "baseline_config": {
+  "Q0": 0.35,
+  "L_ctx": 2048,
+  "form": "exponential"
+ },
+ "Q0_sensitivity": {
+  "Q0_scan": [
+   0.223306,
+   0.25,
+   0.3,
+   0.35,
+   0.381496
+  ],
+  "source_of_range": "Q1 实测域级 Q 范围 0.223306-0.381496",
+  "criterion": "若跨 Q0 范围的最优 Q* 极差 > 0.10 或转移位置 log10 C 移动 > 0.10，则 Q0 是承重参数须显式报敏感性",
+  "rows": [
+   {
+    "Q0": 0.223306,
+    "anchors": [
+     {
+      "C": 1e+19,
+      "ok": true,
+      "branch": "interior",
+      "N_B": 0.2482502788114661,
+      "D_B": 4.854761589813103,
+      "Q": 0.6542659367228537,
+      "loss": 3.1521711385361626,
+      "N_over_D": 0.05113542121870152,
+      "cost_shares": {
+       "C_train": 0.7231175509405795,
+       "C_Q": 0.22751762424854344,
+       "C_attn": 0.049364824810876895
+      },
+      "active_set": [
+       "budget"
+      ],
+      "kkt_passed": true,
+      "budget_violation_rel": 0.0
+     },
+     {
+      "C": 1e+22,
+      "ok": true,
+      "branch": "upper_Q_eq_1",
+      "N_B": 5.653827512670622,
+      "D_B": 248.54059085223903,
+      "Q": 1.0,
+      "loss": 2.151140859140911,
+      "N_over_D": 0.022748105222103958,
+      "cost_shares": {
+       "C_train": 0.843123378345481,
+       "C_Q": 0.09931939902613421,
+       "C_attn": 0.05755722262838484
+      },
+      "active_set": [
+       "budget",
+       "Q_le_1"
+      ],
+      "kkt_passed": true,
+      "budget_violation_rel": -2.097152e-16
+     },
+     {
+      "C": 1e+24,
+      "ok": true,
+      "branch": "upper_Q_eq_1",
+      "N_B": 40.763113482176394,
+      "D_B": 3769.724765284926,
+      "Q": 1.0,
+      "loss": 1.9139144734624352,
+      "N_over_D": 0.010813286385669434,
+      "cost_shares": {
+       "C_train": 0.9219943104232814,
+       "C_Q": 0.015064211318489378,
+       "C_attn": 0.06294147825822934
+      },
+      "active_set": [
+       "budget",
+       "Q_le_1"
+      ],
+      "kkt_passed": true,
+      "budget_violation_rel": -2.6843545600000003e-16
+     }
+    ],
+    "n_sweep_points": 57,
+    "sweep_all_kkt_passed": true,
+    "transition_A": {
+     "verdict": "TRANSITION_EXISTS",
+     "location_log10_C": 21.400909423828125,
+     "n_changes": 1
+    },
+    "transition_C": {
+     "verdict": "TRANSITION_EXISTS",
+     "n_changes": 1,
+     "at": [
+      22.625
+     ]
+    },
+    "share_order_at_1e24": "C_train|C_attn|C_Q",
+    "Q_star_1e19": 0.6542659367228537
+   },
+   {
+    "Q0": 0.25,
+    "anchors": [
+     {
+      "C": 1e+19,
+      "ok": true,
+      "branch": "interior",
+      "N_B": 0.24694937208972909,
+      "D_B": 4.899062039052396,
+      "Q": 0.6530595671077264,
+      "loss": 3.1513626977730964,
+      "N_over_D": 0.05040748006887772,
+      "cost_shares": {
+       "C_train": 0.7258921766235702,
+       "C_Q": 0.22455358411892748,
+       "C_attn": 0.0495542392575024
+      },
+      "active_set": [
+       "budget"
+      ],
+      "kkt_passed": true,
+      "budget_violation_rel": 0.0
+     },
+     {
+      "C": 1e+22,
+      "ok": true,
+      "branch": "upper_Q_eq_1",
+      "N_B": 5.652856589323121,
+      "D_B": 248.62003054781053,
+      "Q": 1.0,
+      "loss": 2.151128635029046,
+      "N_over_D": 0.02273693144059065,
+      "cost_shares": {
+       "C_train": 0.8432480267519437,
+       "C_Q": 0.09918624128845689,
+       "C_attn": 0.05756573195959935
+      },
+      "active_set": [
+       "budget",
+       "Q_le_1"
+      ],
+      "kkt_passed": true,
+      "budget_violation_rel": 2.097152e-16
+     },
+     {
+      "C": 1e+24,
+      "ok": true,
+      "branch": "upper_Q_eq_1",
+      "N_B": 40.76194972805987,
+      "D_B": 3769.925033683868,
+      "Q": 1.0,
+      "loss": 1.9139136073455185,
+      "N_over_D": 0.010812403261034716,
+      "cost_shares": {
+       "C_train": 0.9220169682094574,
+       "C_Q": 0.01504000676077687,
+       "C_attn": 0.06294302502976565
+      },
+      "active_set": [
+       "budget",
+       "Q_le_1"
+      ],
+      "kkt_passed": true,
+      "budget_violation_rel": -1.3421772800000001e-16
+     }
+    ],
+    "n_sweep_points": 57,
+    "sweep_all_kkt_passed": true,
+    "transition_A": {
+     "verdict": "TRANSITION_EXISTS",
+     "location_log10_C": 21.401580810546875,
+     "n_changes": 1
+    },
+    "transition_C": {
+     "verdict": "TRANSITION_EXISTS",
+     "n_changes": 1,
+     "at": [
+      22.625
+     ]
+    },
+    "share_order_at_1e24": "C_train|C_attn|C_Q",
+    "Q_star_1e19": 0.6530595671077264
+   },
+   {
+    "Q0": 0.3,
+    "anchors": [
+     {
+      "C": 1e+19,
+      "ok": true,
+      "branch": "interior",
+      "N_B": 0.24382244428625405,
+      "D_B": 5.008173594369523,
+      "Q": 0.6501360857316517,
+      "loss": 3.149428443775553,
+      "N_over_D": 0.04868490272788733,
+      "cost_shares": {
+       "C_train": 0.7326630763134311,
+       "C_Q": 0.2173204576769054,
+       "C_attn": 0.050016466009663564
+      },
+      "active_set": [
+       "budget"
+      ],
+      "kkt_passed": true,
+      "budget_violation_rel": 0.0
+     },
+     {
+      "C": 1e+22,
+      "ok": true,
+      "branch": "upper_Q_eq_1",
+      "N_B": 5.650560243168212,
+      "D_B": 248.80807004373042,
+      "Q": 1.0,
+      "loss": 2.151099726334702,
+      "N_over_D": 0.02271051836130183,
+      "cost_shares": {
+       "C_train": 0.8435429932611089,
+       "C_Q": 0.09887113839893256,
+       "C_attn": 0.05758586833995838
+      },
+      "active_set": [
+       "budget",
+       "Q_le_1"
+      ],
+      "kkt_passed": true,
+      "budget_violation_rel": 0.0
+     },
+     {
+      "C": 1e+24,
+      "ok": true,
+      "branch": "upper_Q_eq_1",
+      "N_B": 40.7591984001687,
+      "D_B": 3770.3985699147906,
+      "Q": 1.0,
+      "loss": 1.9139115597345566,
+      "N_over_D": 0.010810315579206746,
+      "cost_shares": {
+       "C_train": 0.9220705401532157,
+       "C_Q": 0.014982777638991463,
+       "C_attn": 0.06294668220779286
+      },
+      "active_set": [
+       "budget",
+       "Q_le_1"
+      ],
+      "kkt_passed": true,
+      "budget_violation_rel": 1.3421772800000001e-16
+     }
+    ],
+    "n_sweep_points": 57,
+    "sweep_all_kkt_passed": true,
+    "transition_A": {
+     "verdict": "TRANSITION_EXISTS",
+     "location_log10_C": 21.403106689453125,
+     "n_changes": 1
+    },
+    "transition_C": {
+     "verdict": "TRANSITION_EXISTS",
+     "n_changes": 1,
+     "at": [
+      22.625
+     ]
+    },
+    "share_order_at_1e24": "C_train|C_attn|C_Q",
+    "Q_star_1e19": 0.6501360857316517
+   },
+   {
+    "Q0": 0.35,
+    "anchors": [
+     {
+      "C": 1e+19,
+      "ok": true,
+      "branch": "interior",
+      "N_B": 0.2394782148561009,
+      "D_B": 5.166203145878424,
+      "Q": 0.6460174872692858,
+      "loss": 3.1467632843314814,
+      "N_over_D": 0.04635478088916338,
+      "cost_shares": {
+       "C_train": 0.7423158641753625,
+       "C_Q": 0.2070087061635993,
+       "C_attn": 0.050675429661038086
+      },
+      "active_set": [
+       "budget"
+      ],
+      "kkt_passed": true,
+      "budget_violation_rel": 2.048e-16
+     },
+     {
+      "C": 1e+22,
+      "ok": true,
+      "branch": "upper_Q_eq_1",
+      "N_B": 5.647458027489163,
+      "D_B": 249.06244670522395,
+      "Q": 1.0,
+      "loss": 2.1510606786916924,
+      "N_over_D": 0.022674867697630753,
+      "cost_shares": {
+       "C_train": 0.8439418283949054,
+       "C_Q": 0.09844507612000244,
+       "C_attn": 0.0576130954850922
+      },
+      "active_set": [
+       "budget",
+       "Q_le_1"
+      ],
+      "kkt_passed": true,
+      "budget_violation_rel": 0.0
+     },
+     {
+      "C": 1e+24,
+      "ok": true,
+      "branch": "upper_Q_eq_1",
+      "N_B": 40.755483957180836,
+      "D_B": 3771.0380147805326,
+      "Q": 1.0,
+      "loss": 1.913908795455085,
+      "N_over_D": 0.01080749751061651,
+      "cost_shares": {
+       "C_train": 0.9221428758798423,
+       "C_Q": 0.014905503793426993,
+       "C_attn": 0.06295162032673057
+      },
+      "active_set": [
+       "budget",
+       "Q_le_1"
+      ],
+      "kkt_passed": true,
+      "budget_violation_rel": 1.3421772800000001e-16
+     }
+    ],
+    "n_sweep_points": 57,
+    "sweep_all_kkt_passed": true,
+    "transition_A": {
+     "verdict": "TRANSITION_EXISTS",
+     "location_log10_C": 21.405181884765625,
+     "n_changes": 1
+    },
+    "transition_C": {
+     "verdict": "TRANSITION_EXISTS",
+     "n_changes": 1,
+     "at": [
+      22.625
+     ]
+    },
+    "share_order_at_1e24": "C_train|C_attn|C_Q",
+    "Q_star_1e19": 0.6460174872692858
+   },
+   {
+    "Q0": 0.381496,
+    "anchors": [
+     {
+      "C": 1e+19,
+      "ok": true,
+      "branch": "interior",
+      "N_B": 0.2358795447455115,
+      "D_B": 5.30311370553194,
+      "Q": 0.6425540681614119,
+      "loss": 3.1445762606727303,
+      "N_over_D": 0.04447944318060801,
+      "cost_shares": {
+       "C_train": 0.7505376279567341,
+       "C_Q": 0.19822566997475297,
+       "C_attn": 0.05123670206851305
+      },
+      "active_set": [
+       "budget"
+      ],
+      "kkt_passed": true,
+      "budget_violation_rel": -2.048e-16
+     },
+     {
+      "C": 1e+22,
+      "ok": true,
+      "branch": "upper_Q_eq_1",
+      "N_B": 5.6449662172322626,
+      "D_B": 249.2670607947088,
+      "Q": 1.0,
+      "loss": 2.1510293193543455,
+      "N_over_D": 0.022646258190853943,
+      "cost_shares": {
+       "C_train": 0.8442624823529471,
+       "C_Q": 0.09810253218509178,
+       "C_attn": 0.05763498546196119
+      },
+      "active_set": [
+       "budget",
+       "Q_le_1"
+      ],
+      "kkt_passed": true,
+      "budget_violation_rel": 0.0
+     },
+     {
+      "C": 1e+24,
+      "ok": true,
+      "branch": "upper_Q_eq_1",
+      "N_B": 40.75250240241611,
+      "D_B": 3771.5514128838663,
+      "Q": 1.0,
+      "loss": 1.9139065766784034,
+      "N_over_D": 0.010805235814419207,
+      "cost_shares": {
+       "C_train": 0.9222009480863139,
+       "C_Q": 0.014843467190993649,
+       "C_attn": 0.06295558472269237
+      },
+      "active_set": [
+       "budget",
+       "Q_le_1"
+      ],
+      "kkt_passed": true,
+      "budget_violation_rel": 0.0
+     }
+    ],
+    "n_sweep_points": 57,
+    "sweep_all_kkt_passed": true,
+    "transition_A": {
+     "verdict": "TRANSITION_EXISTS",
+     "location_log10_C": 21.406890869140625,
+     "n_changes": 1
+    },
+    "transition_C": {
+     "verdict": "TRANSITION_EXISTS",
+     "n_changes": 1,
+     "at": [
+      22.625
+     ]
+    },
+    "share_order_at_1e24": "C_train|C_attn|C_Q",
+    "Q_star_1e19": 0.6425540681614119
+   }
+  ],
+  "Q_star_1e19_range": 0.011711868561441796,
+  "transition_location_range": 0.0059814453125,
+  "transition_locations": [
+   21.400909423828125,
+   21.401580810546875,
+   21.403106689453125,
+   21.405181884765625,
+   21.406890869140625
+  ],
+  "verdict": "NOT_LOAD_BEARING_IN_TESTED_RANGE"
+ },
+ "fourth_cost_form_candidates": {
+  "status": "COMPUTED_NOT_CHOSEN — 具体形式属建模判断,须由使用者裁定后采用",
+  "reference_given_forms": {
+   "exponential": {
+    "g_coef": 10000000.0,
+    "g_rate": 6.0
+   },
+   "power": {
+    "g_coef": 5000000000.0,
+    "g_rate": 4.0
+   },
+   "log_asymptotic": {
+    "g_coef": 2000000000.0,
+    "g_rate": 10.0
+   }
+  },
+  "candidates": {
+   "C1_saturating_exponential": {
+    "form": "g = γ(1 − e^(−λQ))，γ=1e7, λ=6.0：与给定指数型同参数但**有界**(≤ γ)，高 Q 端成本不再爆炸",
+    "g_at_Q0": 8775435.71747018,
+    "g_at_1": 9975212.478233336,
+    "anchors": [
+     {
+      "C": 1e+19,
+      "ok": true,
+      "branch": "upper_Q_eq_1",
+      "N_B": 0.22152597792586107,
+      "D_B": 7.0368386991479674,
+      "Q": 1.0,
+      "loss": 2.999104845375715,
+      "N_over_D": 0.03148089467400806,
+      "cost_shares": {
+       "C_train": 0.9353055446011787,
+       "C_Q": 0.0008442635540476568,
+       "C_attn": 0.06385019184477381
+      },
+      "active_set": [
+       "budget",
+       "Q_le_1"
+      ],
+      "kkt_passed": true,
+      "budget_violation_rel": -4.096e-16
+     },
+     {
+      "C": 1e+22,
+      "ok": true,
+      "branch": "upper_Q_eq_1",
+      "N_B": 5.0070695958684395,
+      "D_B": 311.5797389351743,
+      "Q": 1.0,
+      "loss": 2.143182228319097,
+      "N_over_D": 0.016069946052911305,
+      "cost_shares": {
+       "C_train": 0.9360608625065622,
+       "C_Q": 3.7382612989907297e-05,
+       "C_attn": 0.06390175488044798
+      },
+      "active_set": [
+       "budget",
+       "Q_le_1"
+      ],
+      "kkt_passed": true,
+      "budget_violation_rel": 2.097152e-16
+     },
+     {
+      "C": 1e+24,
+      "ok": true,
+      "branch": "upper_Q_eq_1",
+      "N_B": 40.05080903221216,
+      "D_B": 3895.4330921601168,
+      "Q": 1.0,
+      "loss": 1.9133866609300352,
+      "N_over_D": 0.010281477844611872,
+      "cost_shares": {
+       "C_train": 0.9360914812311872,
+       "C_Q": 4.673650097081467e-06,
+       "C_attn": 0.06390384511871572
+      },
+      "active_set": [
+       "budget",
+       "Q_le_1"
+      ],
+      "kkt_passed": true,
+      "budget_violation_rel": 0.0
+     }
+    ],
+    "n_sweep_points": 57,
+    "sweep_all_kkt_passed": true,
+    "transition_A": {
+     "verdict": "NO_TRANSITION",
+     "location_log10_C": null,
+     "n_changes": 0
+    },
+    "transition_C": {
+     "verdict": "NO_TRANSITION",
+     "n_changes": 0,
+     "at": []
+    },
+    "share_order_at_1e24": "C_train|C_attn|C_Q"
+   },
+   "C2_hill": {
+    "form": "g = γQ^λ/(1+Q^λ)，γ=1e7, λ=6.0：有界且中段更陡",
+    "g_at_Q0": 18348.926049986636,
+    "g_at_1": 5000000.0,
+    "anchors": [
+     {
+      "C": 1e+19,
+      "ok": true,
+      "branch": "upper_Q_eq_1",
+      "N_B": 0.2222082514071822,
+      "D_B": 6.996688037217905,
+      "Q": 1.0,
+      "loss": 2.999638824309522,
+      "N_over_D": 0.03175906231994001,
+      "cost_shares": {
+       "C_train": 0.9328330886350442,
+       "C_Q": 0.0034855058474699786,
+       "C_attn": 0.06368140551748569
+      },
+      "active_set": [
+       "budget",
+       "Q_le_1"
+      ],
+      "kkt_passed": true,
+      "budget_violation_rel": 0.0
+     },
+     {
+      "C": 1e+22,
+      "ok": true,
+      "branch": "upper_Q_eq_1",
+      "N_B": 5.007754929357011,
+      "D_B": 311.50039866392865,
+      "Q": 1.0,
+      "loss": 2.1431904287897976,
+      "N_over_D": 0.016076239230627034,
+      "cost_shares": {
+       "C_train": 0.9359505941435777,
+       "C_Q": 0.00015517862955400174,
+       "C_attn": 0.06389422722686824
+      },
+      "active_set": [
+       "budget",
+       "Q_le_1"
+      ],
+      "kkt_passed": true,
+      "budget_violation_rel": 0.0
+     },
+     {
+      "C": 1e+24,
+      "ok": true,
+      "branch": "upper_Q_eq_1",
+      "N_B": 40.05149449052194,
+      "D_B": 3895.3090395130744,
+      "Q": 1.0,
+      "loss": 1.9133871665657038,
+      "N_over_D": 0.010281981245710996,
+      "cost_shares": {
+       "C_train": 0.9360776912096292,
+       "C_Q": 1.94050704600575e-05,
+       "C_attn": 0.0639029037199107
+      },
+      "active_set": [
+       "budget",
+       "Q_le_1"
+      ],
+      "kkt_passed": true,
+      "budget_violation_rel": 0.0
+     }
+    ],
+    "n_sweep_points": 57,
+    "sweep_all_kkt_passed": true,
+    "transition_A": {
+     "verdict": "NO_TRANSITION",
+     "location_log10_C": null,
+     "n_changes": 0
+    },
+    "transition_C": {
+     "verdict": "NO_TRANSITION",
+     "n_changes": 0,
+     "at": []
+    },
+    "share_order_at_1e24": "C_train|C_attn|C_Q"
+   },
+   "C3_quadratic": {
+    "form": "g = γQ²，γ=4.034287935e9(使 g(1) 与指数型 g(1)=1e7·e^6 相同)：多项式族凸改进，避免指数爆炸",
+    "g_at_Q0": 494200272.03749996,
+    "g_at_1": 4034287935.0,
+    "anchors": [
+     {
+      "C": 1e+19,
+      "ok": true,
+      "branch": "lower_Q_eq_Q0",
+      "N_B": 0.14000786803753837,
+      "D_B": 11.143372027786015,
+      "Q": 0.35,
+      "loss": 3.2194341096592742,
+      "N_over_D": 0.012564228106934645,
+      "cost_shares": {
+       "C_train": 0.9360958562156765,
+       "C_Q": 0.0,
+       "C_attn": 0.06390414378432353
+      },
+      "active_set": [
+       "budget",
+       "Q_ge_Q0"
+      ],
+      "kkt_passed": true,
+      "budget_violation_rel": -2.048e-16
+     },
+     {
+      "C": 1e+22,
+      "ok": true,
+      "branch": "upper_Q_eq_1",
+      "N_B": 5.5864127687218215,
+      "D_B": 254.15053915587572,
+      "Q": 1.0,
+      "loss": 2.1502937638057236,
+      "N_over_D": 0.02198072365801892,
+      "cost_shares": {
+       "C_train": 0.8518738902707516,
+       "C_Q": 0.08997151882009834,
+       "C_attn": 0.05815459090914997
+      },
+      "active_set": [
+       "budget",
+       "Q_le_1"
+      ],
+      "kkt_passed": true,
+      "budget_violation_rel": 2.097152e-16
+     },
+     {
+      "C": 1e+24,
+      "ok": true,
+      "branch": "upper_Q_eq_1",
+      "N_B": 40.68296041827715,
+      "D_B": 3783.556493643038,
+      "Q": 1.0,
+      "loss": 1.913854848360747,
+      "N_over_D": 0.0107525711553748,
+      "cost_shares": {
+       "C_train": 0.9235576744271711,
+       "C_Q": 0.013394121665267374,
+       "C_attn": 0.06304820390756155
+      },
+      "active_set": [
+       "budget",
+       "Q_le_1"
+      ],
+      "kkt_passed": true,
+      "budget_violation_rel": -1.3421772800000001e-16
+     }
+    ],
+    "n_sweep_points": 57,
+    "sweep_all_kkt_passed": true,
+    "transition_A": {
+     "verdict": "TRANSITION_EXISTS",
+     "location_log10_C": NaN,
+     "n_changes": 2
+    },
+    "transition_C": {
+     "verdict": "TRANSITION_EXISTS",
+     "n_changes": 2,
+     "at": [
+      19.125,
+      22.5
+     ]
+    },
+    "share_order_at_1e24": "C_train|C_attn|C_Q"
+   }
+  }
+ },
+ "elapsed_seconds": 9.5
+}

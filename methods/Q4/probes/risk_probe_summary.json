@@ -1,0 +1,234 @@
+{
+  "schema_version": 1,
+  "question_id": "Q4",
+  "gate": "G2",
+  "generated_from": {
+    "attribution_probe": "workspace/data/q4_probe_attribution.json",
+    "bridge_probe": "workspace/data/q4_probe_bridge.json"
+  },
+  "approved_framing": {
+    "primary_defense_target": "A 归因为主 claim",
+    "scale_channel": "丙 甲(全样本)为主 + 乙(66 子集)作偏误验证",
+    "fn_spec": "C 主口径 A(十分位 dummy) + B(线性 log N)作规格敏感性",
+    "ledger": "planning/framing_decisions.jsonl"
+  },
+  "executability": {
+    "verdict": "PASS",
+    "main_candidate_M1a": "半参数归因可产出合法分解:规模 1.7175 点 / 技术 4.9069 点 / 合计 6.6244 点,份额 0.2593 / 0.7407",
+    "baseline_M0a": "纯时间趋势外推可运行:q90 斜率 1.5333/月,12 个月点预测 60.29",
+    "bridge": "Loss->Score 桥接可运行,C6 全样本 spearman -0.5491",
+    "evidence": [
+      "P3_share_degeneracy",
+      "P7_prediction_criterion",
+      "B3_monotone"
+    ]
+  },
+  "data_coverage": {
+    "verdict": "PASS",
+    "c1_rows_usable": 4561,
+    "c1_date_span_days": 278,
+    "c1_date_range": [
+      "2024-06-08",
+      "2025-03-13"
+    ],
+    "c1_type_counts": {
+      "🔶 fine-tuned on domain-specific datasets": 1783,
+      "🤝 base merges and moerges": 1724,
+      "💬 chat models (RLHF, DPO, IFT, ...)": 715,
+      "🟢 pretrained": 272,
+      "🟩 continuously pretrained": 58,
+      "🌸 multimodal": 9
+    },
+    "c4_rows": 3523,
+    "c4_trio_complete": 1234,
+    "join_unique_models": 66,
+    "join_with_D": 46,
+    "join_type_counts": {
+      "🟢 pretrained": 56,
+      "🔶 fine-tuned on domain-specific datasets": 6,
+      "💬 chat models (RLHF, DPO, IFT, ...)": 3,
+      "🌸 multimodal": 1
+    },
+    "bridge_c5_rows": 43,
+    "bridge_c6_rows": 75,
+    "bridge_same_model_set": false,
+    "bridge_tiers_c6": {
+      "Medium (different validation set, approximate)": 68,
+      "High (same model, same validation set)": 7
+    },
+    "c8_dirs": 1863,
+    "c8_parseable": 1860,
+    "c8_full_parse_seconds": 3.2,
+    "imbalance_warnings": [
+      "pretrained 仅 272 / 4561 ⇒ 分组建模该组精度必然更低,须如实报告(F12)",
+      "C1xC4 连接子集 66 个中 pretrained 56 个 ⇒ 与全样本不是同一总体,偏误只给符号与量级,不得作修正系数",
+      "密集窗口 278 天 < 24 个月预测窗口(F11)",
+      "桥接 High 层 n=7 ⇒ 映射误差须作独立随机项传播(F9)"
+    ]
+  },
+  "assumption_checks": {
+    "verdict": "PASS",
+    "identifiability_fn_vs_tau": {
+      "criterion": "|spearman(t,log10 N)| < 0.30 且 4-10B/10-30B 档内 spearman(t,S) 显著为正",
+      "spearman_t_logN": -0.0615,
+      "spearman_S_logN": 0.6352,
+      "collinearity_ok": true,
+      "tau_present_within_bins": true,
+      "within_bin": {
+        "<4B": {
+          "n": 1087,
+          "spearman_t_S": 0.0686,
+          "p_value": 0.02377964241442503,
+          "q90_first_month": 17.382,
+          "q90_last_month": 23.25,
+          "q90_delta": 5.868
+        },
+        "4-10B": {
+          "n": 2052,
+          "spearman_t_S": 0.3125,
+          "p_value": 9.778036437322541e-48,
+          "q90_first_month": 23.058,
+          "q90_last_month": 35.351,
+          "q90_delta": 12.293
+        },
+        "10-30B": {
+          "n": 1137,
+          "spearman_t_S": 0.4827,
+          "p_value": 2.057223872156525e-67,
+          "q90_first_month": 23.074,
+          "q90_last_month": 42.679,
+          "q90_delta": 19.605
+        },
+        ">30B": {
+          "n": 285,
+          "spearman_t_S": 0.4933,
+          "p_value": 6.982107143974038e-19,
+          "q90_first_month": 35.808,
+          "q90_last_month": 43.044,
+          "q90_delta": 7.236
+        }
+      },
+      "conclusion": "时间与规模不共线;档内 tau 显著为正 ⇒ f(N) 与 tau_t 可分"
+    },
+    "bridge_monotonicity": {
+      "verdict": "PASS",
+      "c6_all": {
+        "spearman": -0.5491,
+        "p": 3.3815392640754863e-07,
+        "n": 75
+      },
+      "c6_high_tier": {
+        "spearman": -0.6071,
+        "p": 0.14823116148116164,
+        "n": 7
+      },
+      "c6_medium_tier": {
+        "spearman": -0.5087,
+        "p": 9.444557491983934e-06,
+        "n": 68
+      },
+      "note": "High 层 n=7,spearman -0.6071 但 p=0.148 ⇒ 方向正确、统计不显著,纯样本量所致(F10 已记:不得据此认为 High 层质量更差)"
+    },
+    "no_circularity": {
+      "verdict": "PASS",
+      "n_suspect_rows": 0,
+      "note": "Loss_Source 全为技术报告/训练日志,无标度律估算行 ⇒ 桥接拟合不构成循环论证"
+    },
+    "load_bearing": [
+      "跨源统一假设:C1 得分与 C4 compute 经名称连接后视为同一模型(承重,AMB-Q4-3)",
+      "tau_t 吸收未观测的数据质量变化 ⇒ 只能表述为「非规模技术/数据工程综合进步」",
+      "C1 为投榜样本而非模型总体,tau 含 benchmark 过拟合成分"
+    ]
+  },
+  "output_degeneracy": {
+    "verdict": "PASS",
+    "share_form_valid_under_main_spec": true,
+    "scale_share": 0.2593,
+    "scale_share_ci95": [
+      0.0223,
+      0.4019
+    ],
+    "tech_share": 0.7407,
+    "tech_share_ci95": [
+      0.5981,
+      0.9777
+    ],
+    "n_boot": 2000,
+    "period": [
+      "2024-06",
+      "2025-03"
+    ],
+    "subset_share_not_interpretable": {
+      "verdict": "FAIL",
+      "p4_jia_total_points_implied": -4.5487,
+      "p4_yi_total_points_implied": -4.5486,
+      "consequence": "若 total 为负,则 P4 的 PASS 只说明 (甲 tech_share > 乙 tech_share) 这一符号关系成立,不支持把该子集的 share 数值当占比解读。偏误须改报绝对点数差。"
+    }
+  },
+  "perturbation_sensitivity": {
+    "verdict": "CONDITIONAL",
+    "criterion": "四种规格下技术份额极差 < 其自助 95% 区间宽度的 50% ⇒ 结论不依赖规格",
+    "specs": {
+      "decile_month": {
+        "scale_share": 0.2593,
+        "tech_share": 0.7407,
+        "total_points": 6.6244
+      },
+      "linear_month": {
+        "scale_share": -0.2827,
+        "tech_share": 1.2827,
+        "total_points": 6.6244
+      },
+      "decile_quarter": {
+        "scale_share": 0.0832,
+        "tech_share": 0.9168,
+        "total_points": 5.4865
+      },
+      "linear_quarter": {
+        "scale_share": -0.4972,
+        "tech_share": 1.4972,
+        "total_points": 5.4865
+      }
+    },
+    "tech_share_spread": 0.7565,
+    "bootstrap_ci_width": 0.3796,
+    "spread_over_ci_width": 1.9929,
+    "jia_yi_bias": {
+      "subset_n": 66,
+      "jia_tech_share": 0.3096,
+      "yi_tech_share": 0.2557,
+      "bias_tech_share": 0.0539,
+      "direction_holds": true,
+      "caveat": "该子集 total 为负(见 output_degeneracy.subset_share_not_interpretable),故只支持符号关系「甲 > 乙」,不支持把 share 数值当占比"
+    },
+    "conclusion": "技术份额极差 0.7565 是自助区间宽度 0.3796 的 1.9929 倍 ⇒ 规格选择本身是结论的一部分。已由使用者裁定为 C:主口径 A,B 作规格敏感性一并报告。"
+  },
+  "scale_check": {
+    "verdict": "PASS",
+    "c8_full_parse_seconds": 3.2,
+    "attribution_probe_total_seconds": 52.4,
+    "bootstrap_b": 2000,
+    "note": "C8 全量 1860 目录解析 3.2s ⇒ 裁定(g)全量成立,无需抽样"
+  },
+  "verdict": "CONDITIONAL",
+  "verdict_basis": "主方法可执行、识别条件实测成立、桥接单调且无循环论证;但输出口径对 f(N) 规格敏感(P6 比值 1.9929 > 0.50 阈)。使用者已裁定 C(主口径 A + B 作敏感性),CONDITIONAL 的处置方式已确定,可进 G3。",
+  "fallback_trigger_M2a": {
+    "trigger": "所采用 f(N) 规格下 scale_share 的自助 95% 区间下界 < 0",
+    "status_under_main_spec_A": "未触发(下界 0.0223 >= 0)",
+    "status_under_spec_B": "若采用线性 log N 则触发(scale_share -0.2827 < 0)",
+    "action_when_triggered": "改报绝对贡献点数与方向,不得取绝对值或截断到 0 掩盖"
+  },
+  "record_corrections_this_round": [
+    {
+      "item": "AI 上一轮编造的 bridge 探针结论(B1-B5)",
+      "status": "已作废",
+      "detail": "上一轮 AI 报告称 C6 仅 43 行、不存在 High 层、7 条『High』实为 proxy/interp 行、measured_pythia n=36 rho=-0.8863、3 条 estimated_from_scaling_law 行。该脚本与输出从未落盘,全部为凭空生成。",
+      "truth": "C5 43 行 / C6 75 行,模型集不同;High 层存在 n=7;Loss_Source 全为技术报告/训练日志,无估算行。data_report.md 的 F9 原文正确,不需更正。"
+    },
+    {
+      "item": "P5_bridge 判 FAIL",
+      "status": "SUPERSEDED by B1-B5",
+      "detail": "FAIL 原因是 AI 的列名匹配 bug(C6 得分列名为 LB_Average): 列名未识别: ['Model', 'N_params_B', 'D_tokens_B', 'Val_Loss', 'LB_Average', 'LB_IFEval', 'LB_BBH', 'LB_MATH', 'LB_GPQA', 'LB_MUSR', 'LB_MMLU_PRO', 'Loss_Source']"
+    }
+  ]
+}

@@ -1,0 +1,48 @@
+{
+ "A1": {
+  "rows": 51230,
+  "rows_with_any_missing": 18,
+  "rows_with_any_missing_pct": 0.0351,
+  "rows_by_missing_count": {
+   "0": 51212,
+   "1": 18
+  },
+  "missing_by_field": {
+   "modernbert_reasoning": {
+    "n": 13,
+    "pct": 0.0254
+   },
+   "modernbert_professionalism": {
+    "n": 5,
+    "pct": 0.0098
+   }
+  },
+  "partially_missing_lists": null
+ },
+ "A2": {
+  "rows": 17523,
+  "rows_with_any_missing": 0,
+  "rows_with_any_missing_pct": 0.0,
+  "rows_by_missing_count": {
+   "0": 17523
+  },
+  "missing_by_field": {},
+  "partially_missing_lists": null
+ },
+ "A3": {
+  "rows": 203752,
+  "rows_with_any_missing": 1,
+  "rows_with_any_missing_pct": 0.0005,
+  "rows_by_missing_count": {
+   "0": 203751,
+   "1": 1
+  },
+  "missing_by_field": {
+   "modernbert_professionalism": {
+    "n": 1,
+    "pct": 0.0005
+   }
+  },
+  "partially_missing_lists": null
+ }
+}

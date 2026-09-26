@@ -1,0 +1,133 @@
+{
+ "schema_version": 1,
+ "question_id": "Q2",
+ "language": "python",
+ "reviewed_files": [
+  "code/Q2/q2_common.py",
+  "code/Q2/q2_scaling_baseline.py",
+  "code/Q2/q2_scaling_main.py",
+  "code/Q2/run_all.py"
+ ],
+ "decision_id": "methods/Q2/q2_decisions.jsonl (6 DECIDED records)",
+ "plan": "code/Q2/q2_code_plan.md",
+ "run_summary": "results/Q2/experiments/round1/run_summary.json",
+ "checks": {
+  "syntax": {
+   "status": "PASS",
+   "evidence": [
+    "ast.parse 通过全部 4 个文件",
+    "两个脚本实跑成功：q2_scaling_baseline.py 164 s、q2_scaling_main.py 224 s，退出码 0",
+    "run_all.py 装配成功，无 logs/ 失败日志生成",
+    "首轮曾有 2 处运行期错误并已修复：① numpy 数组真值歧义（elasticity_signs 改用 np.all）；② KeyError 'A'（P8 后参数改名为 A_B1/A_B7，validate_transfer 未同步）"
+   ]
+  },
+  "input_contract": {
+   "status": "PASS",
+   "evidence": [
+    "B1/B7/B4/B5/B2 五个文件的列名与单位在代码生成前逐个核实存在（N_params_B、D_tokens_B、val_loss、Q_score）",
+    "原始数据只读：code/Q2 内 data_raw 仅出现 1 次（q2_common.PATHS 定义），对 data_raw 的写操作 0 处",
+    "全部写入落在 results/Q2/experiments/round1/ 下（metrics/、tables/、run_summary.json）",
+    "缺失值处理显式：load_nd/load_b7 用 isfinite + 正值掩码，n_dropped 记录于 metrics（B1 0、B7 0）",
+    "题目硬性约束『不重复读取附件 A 原始文件』满足：p 与 Q 经 Q1 输出 q1c_coefficients.csv / q1a_domain_quality.csv 引入",
+    "B8/B9/B10 未进拟合，符合 P5/P7 限制"
+   ]
+  },
+  "method_alignment": {
+   "status": "PASS",
+   "evidence": [
+    "裁定1=A：exp(b^T z_p) 形式在位；B 侧 z_p=0 已在 docstring 与 run_summary 显式声明（B 侧 11 文件零配比列，P2）",
+    "裁定2=A：乘性 D_eff = D*Q^gamma 在位（Q ** g）；beta 先由 B1 钉住（fit_classic）再估 gamma（fit_gamma_on_b7 的 beta_fixed 参数），估计顺序与 P4 约束一致",
+    "裁定2=A：prohibited_claim_reminder 字段在 q2c 输出中在位，禁称『Q 与 D 替代率随位置变化』",
+    "裁定3=B：异方差 WLS 在位（sqrt(w1)/sqrt(w7) 残差加权）；sigma 可切换（--sigma-mode residual|p5_anchor），所用方式与权重份额写入 run_summary.sigma_spec",
+    "裁定4：B1 退化检验阈 1e-6 在位，实测相对差 1.0122e-08 PASS；B7 超越性用自助区间，实测降幅区间 [0.036236, 0.047781] 不含 0 PASS",
+    "裁定4：M0s_joint 在 B7 上另设自有截距，与 M1s 成嵌套比较（仅差 gamma 一个参数），避免把截距失配算成 Q 通道功劳",
+    "裁定5：fallback 读『或』，cond1（gamma 区间含 0）与 cond2（B7 上不优于 M0s）分别计算，observed=false",
+    "裁定6：主线只输出 b_i/b_j 比值与方向（main_line_a）；敏感性臂带 reference_point 字段，kappa=-14.2151 随参照点报出",
+    "裁定6：符号自洽检查为硬失败（sign_coherence_ok 为 False 时 SystemExit），实测通过",
+    "P1：E_s 来源专属在位（E_B1/E_B7 独立参数）；跨源验证只报 Spearman 与去源偏后 RMSE，无未去偏 R²",
+    "P8（G3 新增，判 FAIL）：形状参数改为来源专属（A_B1/alpha_B1/B_B1 与 A_B7/alpha_B7/B_B7）。新联合 WLS 逐位复现两段式（gamma 差 1.03e-7、beta 差 6.86e-8），证实 WLS 在该参数结构下无实质作用，run_summary.structural_consequence 已如实记录",
+    "P8 后 Q2c 按参数来源拆开报（primary_B1_side / sensitivity_B7_side / cross_side_difference），避免把可由真实数据回答的 dL/dN、dL/dD 挂到半合成参数上",
+    "M2s 未实现：code/Q2 下无 M2s 文件，源码无加性 C*Q^-delta 项，与 fallback observed=false 一致"
+   ]
+  },
+  "reproducibility": {
+   "status": "PASS",
+   "evidence": [
+    "种子固定 SEED=20260924，_multistart 与所有自助均由 np.random.default_rng(seed) 驱动",
+    "确定性实测：fit_classic 同种子两次调用逐位一致；fit_gamma_on_b7 同种子两次一致（差 < 1e-15）",
+    "M0s 逐位复现 G2 探针的独立实现值（E=1.6897975629 两处一致），构成跨实现交叉验证",
+    "环境记录于 run_summary.environment：python/numpy/scipy/platform，并注明本机无 MATLAB",
+    "自助分组口径显式且两种都报：B1 按 N 分组（8 组，诚实口径）与逐行（对照），理由写入 metrics.bootstrap.grouping_note",
+    "重跑方式记于代码计划：cd code/Q2 && PYTHONIOENCODING=utf-8 python run_all.py --run"
+   ]
+  },
+  "output_contract": {
+   "status": "PASS",
+   "evidence": [
+    "run_summary.json 契约字段齐备（16 键）：question/round/implementation_target/random_seed/approved_decision_ids/methods/comparison/output_degeneracy/fallback_trigger/assumptions/gc5_disclosure/environment/warnings/errors",
+    "两方法 status 均为 success，角色标注正确（M1s=main、M0s=usable_baseline），指标口径可直接比较",
+    "4 张表落盘且行数正确：q2_params 17、q2_elasticity 6、q2_domain_ratio 17、q2_validation 3",
+    "run_summary 与磁盘 metrics 逐项一致（M0s rmse、M1s gamma、M1s rmse_B7 三项实测相等）；output_files 全部存在，缺失 0",
+    "退化证据齐备：output_degeneracy 记 kappa 不可辨识（RMSE 随 kappa 变化 0.0）、形状参数不可共享（P8）、M1s≡M0s on B1，并注明退化是结构性且被用作 Q=1 退化约束的依据",
+    "fallback_trigger 四字段齐备（fallback_id/condition/observed/evidence），cond1 与 cond2 分列",
+    "figures 本轮为空且已在 run_summary 记为 []，未伪造图件"
+   ]
+  }
+ },
+ "findings": [
+  {
+   "id": "F1",
+   "severity": "major",
+   "status": "REPAIRED",
+   "check": "output_contract / gc5",
+   "issue": "B2 是半合成数据（题目定性『Cerebras 半合成轨迹 1029 行』），参与迁移验证并报出 Spearman 0.788102，但 gc5_disclosure 仅列 B7 为半合成、B8/B9/B10 为未入拟合，遗漏 B2。方法卡把『半合成被表述为直接观测』列为 unacceptable failure 第 2 条，GC5 为硬约束。",
+   "repair": "run_summary.gc5_disclosure 新增 semi_synthetic_sources_used_in_validation_only=['B2']、semi_synthetic_all_touched=['B2','B7'] 与 per_source_provenance 逐源定性；q2_validation.csv 新增 data_provenance 列，B2 标注 'SEMI-SYNTHETIC (Cerebras trajectory) — GC5: 不得表述为直接观测'。已重跑装配并核验落盘。",
+   "residual_risk": "B5 为他人发表的文献值而非本队观测，已在 per_source_provenance 标注，论文表述须相应区分"
+  },
+  {
+   "id": "F2",
+   "severity": "minor",
+   "status": "REPAIRED",
+   "check": "output_contract",
+   "issue": "q2_domain_ratio.csv 列名 ratio_to_highest_loss_domain 误导：值为中心化 w 之比，低于均值的域取负值且绝对值可超 1（train_the_pile_dm_mathematics = -1.618816 > 基准域的 1.0）。该表喂域间替代关系判定（题目必答项），标签必须准确。",
+   "repair": "列名改为 b_ratio_vs_reference_domain，新增 sign_meaning（above/below_mean_loss 及其对 L 的方向）、abs_gt_1、note（说明为中心化 w 之比、非有界比例）。已重跑核验。",
+   "residual_risk": "无"
+  },
+  {
+   "id": "F3",
+   "severity": "minor",
+   "status": "OPEN_NOT_BLOCKING",
+   "check": "syntax / efficiency",
+   "issue": "sigma_spec(mode='residual') 在 q2_scaling_main.py:33 调用 fit_gamma_on_b7 取 sigma_B7，主流程 :191 又以相同参数调用一次，重复一次昂贵拟合。",
+   "impact": "仅耗时，无正确性影响。不阻塞 G3。",
+   "suggested_fix": "把 sigma_spec 的拟合结果回传复用，或将 stage2 提到 sigma_spec 之前"
+  },
+  {
+   "id": "F4",
+   "severity": "info",
+   "status": "OPEN_CARRIED_TO_G4",
+   "check": "method_alignment",
+   "issue": "beta 是否可跨源共享从未检验。P8 只检验了 A/alpha/B，P1 只检验了 E。当前 beta 作为跨源共享参数使用（实质由 B1 决定，B7 权重份额约 1.6e-6），属承重假设。",
+   "impact": "若 beta 亦不可共享，则 gamma 的反解（gamma = -[Q 指数]/beta）会受影响。已记入 run_summary.assumptions.load_bearing 与 manifest 待办。",
+   "suggested_fix": "G4 稳健性阶段补一个与 P8 同构的探针；或在论文显式声明该假设未检验"
+  },
+  {
+   "id": "F5",
+   "severity": "info",
+   "status": "OPEN_CARRIED_TO_G4",
+   "check": "input_contract",
+   "issue": "AMB-Q2-3 尺度对齐未解决：Q1 输出的经验域级 Q 落在 0.2233-0.3815，B7 的设计网格 Q 为 0.1-1.0（离散 10 级）。本轮未做任何映射，故 gamma 的解释绑定在 B7 的设计刻度上，不能直接代入 Q1 的经验 Q。",
+   "impact": "影响 Q3 使用 Q2 标度律时的 Q 取值口径。已记入 run_summary 与 manifest 待办。",
+   "suggested_fix": "由使用者在 Q3 的 G2.5 裁定对齐规则，或声明 Q2 的 Q 仅指设计刻度"
+  }
+ ],
+ "verdict": "PASSED",
+ "verdict_basis": "五项命名检查全 PASS；F1（major, GC5 硬约束）与 F2 已修复并核验落盘；F3 为效率项不阻塞；F4/F5 为承重假设与口径问题，已登记转 G4，不构成本轮实现缺陷。",
+ "ai_self_corrections_in_this_round": [
+  "曾声称『半合成残差小于 B1，自由估计 sigma 会反向加权半合成点』——与实测相反（B6 上 0.0699 vs B1 的 1.465e-4，大约 477 倍），已更正，该『陷阱』警告不成立",
+  "曾声称联合拟合对指标 1 的不利影响严重——实为 1e-6 权重级，可忽略，已更正",
+  "曾声称假设(b) 能把 kappa 钉成单一值——实际 kappa 随参照点变（1B run 内 -14.2151 到 -1.6413，差 8.7 倍），已更正为『只能给参照点上的量级』",
+  "曾在工具全部失效的一轮中凭空报告两个不存在的表格 bug（B2 与 B4 同值、domain_ratio 表结构错乱），工具恢复后核验证明表格正确（B2 n=1029 spearman=0.788102、域比值表 17 域齐全无错乱）。该捏造已在对话中更正并记入本评审"
+ ],
+ "reviewed_at": "2026-09-25T14:55:00+08:00"
+}

@@ -1,0 +1,269 @@
+{
+  "schema_version": 1,
+  "question_id": "Q4",
+  "title": "技术演进分析与前沿预测",
+  "rigor_profile": "lean",
+  "current_gate": "G4",
+  "status": "g4_passed_round1_final_paper_figures_pending",
+  "depends_on": [
+    "Q2"
+  ],
+  "artifacts": {
+    "parse": "planning/parse/problem_parse.json",
+    "classification": "planning/classification/problem_classification.json",
+    "data_profile": "workspace/data/data_profile.json",
+    "method_card": "methods/Q4/q4_method_card.md",
+    "decision_ledger": "methods/Q4/q4_decisions.jsonl",
+    "risk_probe": "methods/Q4/probes/risk_probe_summary.json",
+    "latest_run": "results/Q4/experiments/round1/run_summary.json",
+    "framing_decisions": "planning/framing_decisions.jsonl",
+    "choice_card": "planning/choice_cards/q4_framing_card.md",
+    "idea_review": "planning/review_of_user_ideas.md",
+    "data_report": "workspace/data/data_report.md",
+    "code_review": "code/Q4/reviews/q4_python_review.json",
+    "robustness_report": "robustness/Q4/q4_robustness_report.md",
+    "final_result_analysis": "results/Q4/reports/q4_final_result_analysis.md",
+    "supplementary_run": "results/Q4/experiments/round2/run_summary.json",
+    "supplementary_metrics": "results/Q4/experiments/round2/metrics/q4_trend_method.json",
+    "supplementary_tables": [
+      "results/Q4/experiments/round2/tables/q4_endpoint_sensitivity.csv",
+      "results/Q4/experiments/round2/tables/q4_N_and_frontier_by_month.csv",
+      "results/Q4/experiments/round2/tables/q4_scenario_spread_scaling.csv"
+    ],
+    "supplementary_aux": "results/Q4/experiments/round2/n_frontier_meta.json",
+    "number_provenance_check": "scratch/verify_q4_reports_numbers.py",
+    "round2_reproducibility_check": "scratch/verify_q4_round2_values.py",
+    "figure_plan": [
+      "methods/Q4/q4_figure_table_plan.md"
+    ],
+    "paper_figures": [
+      "paper/figures/fig_q4_channel_decomposition.pdf",
+      "paper/figures/fig_q4_scale_vs_frontier.pdf",
+      "paper/figures/fig_q4_forecast_scenarios.pdf"
+    ],
+    "paper_figures_png": [
+      "paper/figures/fig_q4_channel_decomposition.png",
+      "paper/figures/fig_q4_scale_vs_frontier.png",
+      "paper/figures/fig_q4_forecast_scenarios.png"
+    ],
+    "figure_scripts": [
+      "code/Q4/q4_paper_figures.py",
+      "code/figstyle.py"
+    ],
+    "method_flow_figure": [
+      "paper/figures/fig_framework_q4.pdf",
+      "paper/figures/fig_framework_q4.png"
+    ],
+    "shared_paper_figures": [
+      "paper/figures/fig_framework_overall.pdf",
+      "paper/figures/fig_framework_overall.png",
+      "paper/figures/fig_data_pipeline.pdf",
+      "paper/figures/fig_data_pipeline.png"
+    ],
+    "framework_script": [
+      "code/paper_framework_figures.py"
+    ]
+  },
+  "allowed": {
+    "code_generation": true,
+    "freeze": false,
+    "paper_writing": false,
+    "final_assembly": false
+  },
+  "blockers": [],
+  "next_action": {
+    "owner": "human",
+    "skill": "paper-section-writer",
+    "target": "paper",
+    "reason": "论文图已出（3 张，Type 3，均通过渲染核验）。**待使用者决定**：Q4-F2（matplotlib）与既有 TikZ 图 fig_q4_frontier_vs_scale.tex 讲同一 claim，建议择一；另 TikZ 图需在导言区补 pgfplots，其趋势线截距已由 27.0855 修正为落盘 OLS 值 28.0897。"
+  },
+  "updated_at": "2026-09-26T00:32:34+08:00",
+  "success_criteria_mode": "relative_to_baseline",
+  "declared_baseline": "纯时间趋势外推（不分解规模/技术进步）",
+  "scope_profile": "mandatory_plus_A18_sampling",
+  "gate_history": [
+    {
+      "gate": "G1",
+      "result": "PASSED",
+      "at": "2026-09-24T00:35:00+08:00",
+      "basis": [
+        "planning/parse/problem_parse.json",
+        "planning/classification/problem_classification.json",
+        "planning/framing_decisions.jsonl"
+      ]
+    },
+    {
+      "gate": "G2",
+      "result": "PASSED_CONDITIONAL",
+      "at": "2026-09-25T17:10:00+08:00",
+      "basis": [
+        "methods/Q4/q4_method_card.md",
+        "methods/Q4/probes/risk_probe_summary.json",
+        "workspace/data/q4_probe_attribution.json",
+        "workspace/data/q4_probe_bridge.json"
+      ],
+      "condition": "P6 技术份额极差 / 自助区间宽 = 1.9929 > 0.50 阈 ⇒ 输出口径对 f(N) 规格敏感，处置方式由 G2.5 裁定"
+    },
+    {
+      "gate": "G2.5",
+      "result": "PASSED",
+      "at": "2026-09-25T17:15:00+08:00",
+      "basis": [
+        "methods/Q4/q4_decisions.jsonl"
+      ],
+      "decision": "q4_fn_spec_and_method_choice = C_main_spec_A"
+    },
+    {
+      "gate": "G3",
+      "result": "PASSED_WITH_FINDINGS",
+      "at": "2026-09-25T18:05:00+08:00",
+      "basis": [
+        "results/Q4/experiments/round1/run_summary.json",
+        "code/Q4/reviews/q4_python_review.json"
+      ],
+      "checks": {
+        "syntax": "PASS",
+        "input_contract": "PASS",
+        "method_alignment": "PASS",
+        "reproducibility": "PASS",
+        "output_contract": "PASS"
+      },
+      "findings": [
+        {
+          "id": "F-Q4-1",
+          "severity": "high"
+        },
+        {
+          "id": "F-Q4-2",
+          "severity": "high"
+        },
+        {
+          "id": "F-Q4-3",
+          "severity": "high"
+        },
+        {
+          "id": "F-Q4-4",
+          "severity": "medium"
+        },
+        {
+          "id": "F-Q4-5",
+          "severity": "medium"
+        },
+        {
+          "id": "F-Q4-6",
+          "severity": "medium"
+        },
+        {
+          "id": "F-Q4-7",
+          "severity": "low"
+        }
+      ],
+      "blocking": false,
+      "reproducibility": "两次运行 q4_M1a.json 逐字节一致 sha256 a5cb20771e10af7f"
+    },
+    {
+      "gate": "G4",
+      "result": "PASSED",
+      "at": "2026-09-25T20:45:00+08:00",
+      "basis": [
+        "methods/Q4/q4_decisions.jsonl",
+        "robustness/Q4/q4_robustness_report.md",
+        "results/Q4/reports/q4_final_result_analysis.md",
+        "results/Q4/experiments/round1/run_summary.json",
+        "results/Q4/experiments/round2/run_summary.json",
+        "code/Q4/reviews/q4_python_review.json"
+      ],
+      "verdicts": {
+        "result": "accept_round1_with_claim_reframed_plus_supplementary_run",
+        "stability": "keep_all_at_face_value_plus_new_endpoint_sensitivity",
+        "claim_scope": "robust_direction_only_no_percentage_split",
+        "horizon_scope": "h12_main_h24_not_main"
+      },
+      "note": "6 条裁定全部 DECIDED/by human;两款 blocker 已清;round2 补跑已落盘并逐字节复现"
+    }
+  ],
+  "task_type": {
+    "primary": "descriptive_inference",
+    "secondary": "prediction",
+    "confidence": "medium"
+  },
+  "carried_forward_todos": [
+    "缺失 benchmark 用可比样本子集或层次模型，不得填 0",
+    "贡献表述为“非规模技术/数据工程综合进步”，不过度因果化（时间项会吸收未观测的数据质量变化）",
+    "桥接须对 pretrained / chat 分别检验是否需要不同映射；映射误差作为独立随机项传播到前沿预测",
+    "前沿用 0.9/0.95 分位数定义；报告中位数与 80%/95% 区间，不给虚假精确点值",
+    "Monte Carlo 同时抽取标度律参数、桥接误差与技术趋势三个不确定性来源",
+    "每个数据编号增加 confidence_tier 与 fit_allowed 字段；禁止把半合成与真实观测等权拟合",
+    "实验设计四件套：baseline + 主方法 + 消融 + 参数扰动",
+    "不可行候选须记录违反了哪条约束及违反程度，而非只给极大惩罚值",
+    "24 个月视界不作主报；若列出须声明饱和形态在 9.1 个月窗口内不可检验",
+    "规格 B(线性 log N)的负份额须在正文作规格敏感性一并报告(裁定 C 的约定)",
+    "F-Q4-1 pretrained 组 total_points 为负，只能报绝对点数与方向，不得给占比",
+    "F-Q4-3 预测判据由 FAIL 翻 PASS 系 AI 修对象不一致缺陷所致，发现次序须披露，裕度仅 1.881 点",
+    "F-Q4-6 chat_finetuned 组 scale_share 的 CI95 含 0，不得声称规模贡献显著为正",
+    "F-Q4-2 已清：乙侧偏误只报机制与绝对点数差，不得表述为固定的「甲高估」",
+    "26%/74% 及任何百分比分割已作废，不得进入论文",
+    "预测维度主方法未打赢 baseline(56.330 < 60.290)，预测表须同表列出 baseline",
+    "总提升区间 5.4865-6.6592 的准确表述是「四端点/规格算法极差」(趋势法 drop-last 给 5.3581)",
+    "N 下降倍数须写明是端点比值 3.162 还是斜率隐含值 3.675",
+    "AI 上一轮编造的 bridge 结论已作废;data_report.md 的 F9 原文正确,不需更正",
+    "figures: round1/round2 均为空;论文图另在 paper/figures/ 制作(Q4 已有 fig_q4_frontier_vs_scale.tex)",
+    "G5 前必须按模板目录内的修改说明把届数由第二十二届改为第二十三届",
+    "Q4 侧 G4 已过，无阻塞项"
+  ],
+  "data_readiness": {
+    "status": "ready_with_warnings",
+    "warnings": [
+      "F11 密集窗口 15 个月 < 预测窗口 24 个月",
+      "F9 桥接高可比仅 7 条",
+      "F12 pretrained 仅 275 条 (6.0%)",
+      "C3 历史锚点仅 24 行"
+    ]
+  },
+  "resolved_blockers": [
+    {
+      "id": "F-Q4-2",
+      "resolved_at": "2026-09-25T20:45:00+08:00",
+      "resolved_by": "q4_scale_channel_bias_direction_correction",
+      "resolution": "撤回实证方向断言、保留机制断言;现行表述为「重分配 0.2451 点、净效应方向随样本而定」",
+      "recorded_in": "results/Q4/reports/q4_final_result_analysis.md §4"
+    },
+    {
+      "id": "G4-verdicts",
+      "resolved_at": "2026-09-25T20:45:00+08:00",
+      "resolved_by": "q4_result_verdict + q4_stability_verdict + q4_claim_scope + q4_horizon_scope",
+      "resolution": "三类裁定齐备;另兑现 q4_result_verdict 的 supplementary_run_required(round2 已落盘)",
+      "recorded_in": "results/Q4/reports/q4_final_result_analysis.md §11"
+    }
+  ],
+  "resolved_blockers_note": "本轮清空的 blocker: []",
+  "g4_summary": {
+    "main_claim": "窗口 2024-06->2025-03 能力提升约 5.4865-6.6592 点(四端点/规格算法极差);非规模技术/数据工程综合进步主导;规模通道贡献与 0 不可区分",
+    "main_claim_evidence": "round2 趋势法 scale_share=0.0911,CI95 [-0.1942,+0.2258] 含 0(B=1000);端点定义使其极差 0.2875 且符号翻转;slope_tau/slope_f = 9.98",
+    "withdrawn_claims": [
+      "26%/74% 及任何百分比分割(端点敏感性极差 0.2875 > 主口径点值 0.2593,且符号翻转)",
+      "甲单独使用时对技术进步占比系统性高估(66 子集 total 为负,判不了方向)"
+    ],
+    "checks": {
+      "R1_spec_perturbation": "CONDITIONAL(极差 0.7565 = 区间宽 0.3796 的 1.9929 倍,阈 0.50)",
+      "R2_endpoint_sensitivity": "FAIL(预声明判据外的新增项,主张已撤回)",
+      "R3_trend_bootstrap": "PASS(CI 含 0)",
+      "R4_prediction_criterion": "PASS(裕度 1.881;发现次序须披露)",
+      "R5_prediction_vs_baseline": "FAIL(主 56.330 < 基线 60.290;预测非主 claim)",
+      "R6_subgroup_share": "FAIL(pretrained total -3.5789,该组改报点数)"
+    },
+    "no_loosening": "预声明判据文字一律未改;端点为新增条目而非放宽既有阈",
+    "must_write_limits": [
+      "pretrained 组 total_points=-3.5789(负),只报绝对点数与方向,不得给占比",
+      "chat_finetuned 组 scale_share CI95 [-0.0328,0.3567] 含 0,不得称规模贡献显著为正",
+      "预测判据由 FAIL 翻 PASS 系修对象不一致缺陷所致,且缺陷在看到 FAIL 后才被发现,裕度仅 1.881",
+      "乙侧偏误方向不成立,机制成立(重分配精确抵消 0.2451 点)",
+      "预测表须同表列出 baseline 的 60.290,不得只报主方法中位数",
+      "总提升区间是四端点/规格算法极差;趋势法 drop-last 给 5.3581,略低于下界",
+      "N 下降倍数须写明端点比值 3.162 还是斜率隐含值 3.675"
+    ],
+    "open_wording_items_require_human": [
+      "q4_claim_scope 原文写「下降约 3.7 倍」(对应斜率隐含值 3.675),落盘端点比值为 3.162;两者非同一量,AI 未改写账本"
+    ]
+  }
+}

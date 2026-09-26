@@ -1,0 +1,398 @@
+{
+  "attribution": {
+    "method_id": "M1a",
+    "role": "main",
+    "approved_spec": "C_main_spec_A",
+    "main_spec_decile_month": {
+      "fn_spec": "decile",
+      "scale_points": 1.7175070832909345,
+      "tech_points": 4.906940400824513,
+      "total_points": 6.624447484115447,
+      "scale_share": 0.2592679747872242,
+      "tech_share": 0.7407320252127758,
+      "share_interpretable": true,
+      "first_period": "2024-06",
+      "last_period": "2025-03",
+      "n": 4561,
+      "tau_path": {
+        "2024-07": 1.71251,
+        "2024-08": 2.671654,
+        "2024-09": 2.70517,
+        "2024-10": 3.795942,
+        "2024-11": 5.141191,
+        "2024-12": 7.538554,
+        "2025-01": 5.357917,
+        "2025-02": 4.745888,
+        "2025-03": 4.90694
+      },
+      "scale_share_ci95": [
+        0.0223,
+        0.4019
+      ],
+      "tech_share_ci95": [
+        0.5981,
+        0.9777
+      ],
+      "scale_points_ci95": [
+        0.1314,
+        2.9714
+      ],
+      "tech_points_ci95": [
+        3.7183,
+        6.5857
+      ],
+      "n_boot_effective": 2000
+    },
+    "sensitivity_specs": {
+      "decile_month": {
+        "scale_share": 0.2593,
+        "tech_share": 0.7407,
+        "scale_points": 1.7175,
+        "tech_points": 4.9069,
+        "total_points": 6.6244,
+        "share_interpretable": true
+      },
+      "linear_month": {
+        "scale_share": -0.2827,
+        "tech_share": 1.2827,
+        "scale_points": -1.873,
+        "tech_points": 8.4975,
+        "total_points": 6.6244,
+        "share_interpretable": true
+      },
+      "decile_quarter": {
+        "scale_share": 0.0832,
+        "tech_share": 0.9168,
+        "scale_points": 0.4567,
+        "tech_points": 5.0298,
+        "total_points": 5.4865,
+        "share_interpretable": true
+      },
+      "linear_quarter": {
+        "scale_share": -0.4972,
+        "tech_share": 1.4972,
+        "scale_points": -2.728,
+        "tech_points": 8.2145,
+        "total_points": 5.4865,
+        "share_interpretable": true
+      }
+    },
+    "by_type_group": {
+      "chat_finetuned": {
+        "fn_spec": "decile",
+        "scale_points": 1.0921499007511706,
+        "tech_points": 5.93561821656219,
+        "total_points": 7.027768117313361,
+        "scale_share": 0.15540494258206794,
+        "tech_share": 0.8445950574179321,
+        "share_interpretable": true,
+        "first_period": "2024-06",
+        "last_period": "2025-03",
+        "n": 4231,
+        "tau_path": {
+          "2024-07": 1.354859,
+          "2024-08": 2.068982,
+          "2024-09": 1.888855,
+          "2024-10": 2.84541,
+          "2024-11": 4.618845,
+          "2024-12": 6.781429,
+          "2025-01": 5.025468,
+          "2025-02": 4.907053,
+          "2025-03": 5.935618
+        },
+        "scale_share_ci95": [
+          -0.0328,
+          0.3567
+        ],
+        "tech_share_ci95": [
+          0.6433,
+          1.0328
+        ],
+        "scale_points_ci95": [
+          -0.1703,
+          2.8464
+        ],
+        "tech_points_ci95": [
+          4.2665,
+          7.3471
+        ],
+        "n_boot_effective": 400
+      },
+      "pretrained": {
+        "fn_spec": "decile",
+        "scale_points": -5.974465736569386,
+        "tech_points": 2.3955310703589454,
+        "total_points": -3.578934666210441,
+        "scale_share": 1.6693419393697555,
+        "tech_share": -0.6693419393697556,
+        "share_interpretable": false,
+        "first_period": "2024-06",
+        "last_period": "2025-03",
+        "n": 330,
+        "tau_path": {
+          "2024-07": 1.220619,
+          "2024-08": 1.008817,
+          "2024-09": 3.483482,
+          "2024-10": 4.734448,
+          "2024-11": 3.055054,
+          "2024-12": 4.323772,
+          "2025-01": 3.239243,
+          "2025-02": 2.956564,
+          "2025-03": 2.395531
+        },
+        "scale_share_ci95": [
+          0.7253,
+          4.1625
+        ],
+        "tech_share_ci95": [
+          -3.1625,
+          0.2747
+        ],
+        "scale_points_ci95": [
+          -7.6798,
+          -2.9817
+        ],
+        "tech_points_ci95": [
+          -1.3339,
+          4.5576
+        ],
+        "n_boot_effective": 400
+      }
+    },
+    "m2a_fallback_triggered": false,
+    "m2a_note": "未触发，占比口径成立",
+    "wording_red_line": "tau_t 只能表述为「非规模技术/数据工程综合进步」，不得写成架构/算法进步"
+  },
+  "yi_bias_probe": {
+    "subset_n": 66,
+    "subset_quarters": 4,
+    "type_counts": {
+      "🟢 pretrained": 56,
+      "🔶 fine-tuned on domain-specific datasets": 6,
+      "💬 chat models (RLHF, DPO, IFT, ...)": 3,
+      "🌸 multimodal": 1
+    },
+    "jia_only_N": {
+      "scale_points": -3.1404,
+      "tech_points": -1.4083,
+      "total_points": -4.5487,
+      "scale_share": 0.6904,
+      "tech_share": 0.3096,
+      "share_interpretable": 0,
+      "n": 66
+    },
+    "yi_N_plus_compute": {
+      "scale_points": -3.3855,
+      "tech_points": -1.1631,
+      "total_points": -4.5487,
+      "scale_share": 0.7443,
+      "tech_share": 0.2557,
+      "share_interpretable": 0,
+      "n": 66
+    },
+    "tech_points_diff_jia_minus_yi": -0.2451,
+    "scale_points_diff_jia_minus_yi": 0.2451,
+    "share_interpretable": false,
+    "reporting_rule": "B5 判该子集 total 为负 ⇒ 不得把 share 当占比读。偏误只报绝对点数差与符号关系。",
+    "generalization_limit": "本子集 pretrained 占比远高于 C1 全样本 ⇒ 不是同一总体。只给偏误的符号与量级，不得作为对全样本数字的修正系数，不得表述为『已校正』。"
+  },
+  "bridge": {
+    "n_total": 75,
+    "tiers": {
+      "High": {
+        "n": 7,
+        "spearman": -0.6071,
+        "p_value": 0.14823116148116164
+      },
+      "Medium": {
+        "n": 68,
+        "spearman": -0.5087,
+        "p_value": 9.444557491983934e-06
+      }
+    },
+    "form": "LB_Average = a + b * Val_Loss（High 层权重 3:1）",
+    "intercept": 62.7406,
+    "slope": -22.393,
+    "slope_ci95": [
+      -44.481,
+      -7.8308
+    ],
+    "monotone_decreasing": true,
+    "rmse": 10.9842,
+    "mapping_error_sigma": 10.1726,
+    "high_tier_caveat": "High 层 n=7，方向正确但 p 不显著（样本量所致）。按 F10 纪律：不得据此认为 High 层质量更差。映射误差作独立随机项传播。",
+    "no_circularity": "Loss_Source 全为技术报告/训练日志，无标度律估算行（B4 PASS）"
+  },
+  "frontier": {
+    "current_frontier": 41.387,
+    "n_mc": 4000,
+    "frontier_slope_per_month": 1.5333,
+    "frontier_slope_se": 0.2225,
+    "slope_tech_channel": 1.1358,
+    "slope_scale_channel": 0.3975,
+    "tau_slope_mean_level_for_reference": 0.4675,
+    "object_consistency_note": "前沿为 q90 水平，故用 q90 自身斜率按归因份额拆通道；tau 的均值层面斜率仅作参照，不直接加到 q90 上",
+    "scenarios": {
+      "conservative": {
+        "config": {
+          "compute_growth_per_year": 1.5,
+          "tech_decay": 0.5
+        },
+        "h12": {
+          "median": 50.249,
+          "lo80": 37.246,
+          "hi80": 63.701,
+          "lo95": 30.237,
+          "hi95": 71.12,
+          "width95": 40.883
+        },
+        "h24": {
+          "median": 63.455,
+          "lo80": 50.05,
+          "hi80": 76.902,
+          "lo95": 42.025,
+          "hi95": 84.668,
+          "width95": 42.642
+        }
+      },
+      "neutral": {
+        "config": {
+          "compute_growth_per_year": 2.5,
+          "tech_decay": 0.75
+        },
+        "h12": {
+          "median": 56.33,
+          "lo80": 43.268,
+          "hi80": 69.699,
+          "lo95": 35.513,
+          "hi95": 77.449,
+          "width95": 41.935
+        },
+        "h24": {
+          "median": 79.836,
+          "lo80": 65.792,
+          "hi80": 93.667,
+          "lo95": 58.464,
+          "hi95": 100.0,
+          "width95": 41.536
+        }
+      },
+      "optimistic": {
+        "config": {
+          "compute_growth_per_year": 4.0,
+          "tech_decay": 1.0
+        },
+        "h12": {
+          "median": 62.035,
+          "lo80": 49.189,
+          "hi80": 75.672,
+          "lo95": 41.683,
+          "hi95": 82.867,
+          "width95": 41.184
+        },
+        "h24": {
+          "median": 94.118,
+          "lo80": 78.496,
+          "hi80": 100.0,
+          "lo95": 70.764,
+          "hi95": 100.0,
+          "width95": 29.236
+        }
+      }
+    },
+    "user_criterion": {
+      "statement": "中性情景下 12 个月的 80% 区间下界 > 当前前沿值",
+      "lo80": 43.268,
+      "current_frontier": 41.387,
+      "passed": true,
+      "width95_reported_not_gated": 41.935
+    },
+    "uncertainty_sources": [
+      "技术趋势斜率",
+      "桥接映射误差",
+      "桥接斜率不确定性"
+    ],
+    "horizon_note": "被判定视界为 12 个月。24 个月一并列出但未经裁定作主报；饱和形态(得分 0-100 上界)在 9.1 个月窗口内不可检验，该假设不可验证。"
+  },
+  "c8": {
+    "n_dirs_used": 1860,
+    "n_unparseable_files": 4,
+    "n_task_rows": 65137,
+    "n_bbh_subtasks": 24,
+    "aggregation": "BBH 子任务逐任务 z-score 后按模型取均值（避免不同量纲直接相加）",
+    "per_model_z_describe": {
+      "count": 1860.0,
+      "mean": -0.0,
+      "std": 0.8037,
+      "min": -1.4642,
+      "25%": -0.7291,
+      "50%": 0.0781,
+      "75%": 0.4764,
+      "max": 2.1825
+    },
+    "hardest_5_tasks": [
+      {
+        "task": "leaderboard_bbh_tracking_shuffled_objects_seven_objects",
+        "mean": 0.17434193548387097,
+        "count": 1860
+      },
+      {
+        "task": "leaderboard_bbh_tracking_shuffled_objects_five_objects",
+        "mean": 0.20326774193548386,
+        "count": 1860
+      },
+      {
+        "task": "leaderboard_bbh_geometric_shapes",
+        "mean": 0.3285279569892473,
+        "count": 1860
+      },
+      {
+        "task": "leaderboard_bbh_tracking_shuffled_objects_three_objects",
+        "mean": 0.3298129032258065,
+        "count": 1860
+      },
+      {
+        "task": "leaderboard_bbh_object_counting",
+        "mean": 0.3409129032258064,
+        "count": 1860
+      }
+    ],
+    "easiest_5_tasks": [
+      {
+        "task": "leaderboard_bbh_boolean_expressions",
+        "mean": 0.7639655913978495,
+        "count": 1860
+      },
+      {
+        "task": "leaderboard_bbh_sports_understanding",
+        "mean": 0.6800677419354838,
+        "count": 1860
+      },
+      {
+        "task": "leaderboard_bbh_hyperbaton",
+        "mean": 0.6319892473118279,
+        "count": 1860
+      },
+      {
+        "task": "leaderboard_bbh_snarks",
+        "mean": 0.6026247432644678,
+        "count": 1860
+      },
+      {
+        "task": "leaderboard_bbh_navigate",
+        "mean": 0.5850408602150537,
+        "count": 1860
+      }
+    ],
+    "compliance": "满足题目「至少一项 C8 逐任务聚合，不得仅用汇总表」的硬性要求"
+  },
+  "q2_params": {
+    "E": 1.6897974079310756,
+    "A": 0.3539803206630743,
+    "alpha": 0.3399765818978297,
+    "B": 1.2403057700818418,
+    "beta": 0.2798780599420644,
+    "gamma": 0.9659128363851796,
+    "source": "results/Q2/experiments/round1/metrics/q2_M1s.json"
+  }
+}

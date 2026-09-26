@@ -1,0 +1,295 @@
+{
+ "schema_version": 1,
+ "question": "Q2",
+ "gate": "G2",
+ "seed": 20260924,
+ "criteria_predeclared_before_execution": true,
+ "underlying_probe_output": "workspace/data/q2_probe_scaling.json",
+ "probe_script": "workspace/code/scripts/probe_q2_scaling.py",
+ "methods": {
+  "M1s": {
+   "role": "main_candidate",
+   "form": "L = E_s + A·N^(-alpha) + B·(D·Q^gamma·exp(b^T z_p))^(-beta)，E_s 来源专属截距",
+   "executability": {
+    "legal_result": true,
+    "evidence": "P3 的乘性 D_eff 拟合在 B6 上收敛，RMSE=0.07247、R²=0.9559；P5 的同形式在 B8 calibrated 上收敛，RMSE=0.6673"
+   },
+   "data_coverage": {
+    "B_files_with_mixture_columns": 0,
+    "B_files_checked": 11,
+    "B1_N_range_B": [
+     0.070542,
+     11.965825
+    ],
+    "A_scale_inside_B1_range": {
+     "1m": false,
+     "60m": false,
+     "1B": true
+    },
+    "n_A_scales_inside": 1,
+    "Q_bearing_rows": {
+     "B6": 360,
+     "B7": 450,
+     "B8": 1704
+    },
+    "B8_calibrated_vs_extrapolated": [
+     984,
+     720
+    ],
+    "finding": "p 与 (N,D) 仅在 1B 一点联合观测；Q 仅出现在半合成 B6-B8"
+   },
+   "assumption_checks": {
+    "cross_source_shared_E": {
+     "criterion": "三源各自拟合的 E 极差 < 0.15 才可共享",
+     "E_by_source": {
+      "B1": 1.6897975629224566,
+      "B4": 0.033051000544624856,
+      "B5": 1.937754040619923e-12
+     },
+     "E_spread": 1.6897975629205189,
+     "admissible": false,
+     "verdict": "FAIL",
+     "consequence": "必须来源专属截距 E_s；B1 主拟合、B4/B5 仅验证；禁止报跨源未去偏 R²"
+    },
+    "joint_identifiability_of_p": {
+     "criterion": "A 侧三尺度全部落入 B1 的 N 区间才算可直接联合",
+     "direct_joint_identifiable": false,
+     "verdict": "FAIL",
+     "consequence": "跨来源统一假设是承重假设，非可选设计（对应 AMB-Q2-2）。Q1 已实测的跨尺度可分性 L(p,scale) ~ f(p)+g(scale)（去偏后 R² 0.771/0.705、Spearman 0.922/0.887）可作为该假设的经验支撑 —— 属 AI 意见，采纳由使用者在 G2.5 裁定"
+    },
+    "beta_gamma_identifiability": {
+     "criterion": "沿 βγ=const 重参数化后预测最大变化 < 1e-8 即确认 β 与 γ 不可分辨",
+     "worst_max_abs_pred_diff": 0.9944728324465535,
+     "separately_identifiable": true,
+     "elasticity_ratio_Q_over_D": {
+      "min": 2.0,
+      "max": 2.0,
+      "constant": true,
+      "value": 2.0
+     },
+     "required_estimation_order": "β 必须先由 B1 真实数据（无 Q 变化，Q 视为常数）钉住，再用 B6-B8 估 γ；不得在含 Q 数据上同时自由估 β 与 γ",
+     "prohibited_claim": "不得在采用该形式的同时声称『Q 与 D 的替代率随位置变化』—— 该比值恒为 γ",
+     "criterion_design_flaw": "预声明判据测错对象：(D·Q^g)^(-b) = D^(-b)·Q^(-bg)，beta 由 D 变化辨识、gamma 再由 Q 指数反解，故字面结论为『可分辨』。评审 3.2 的『只能辨识 beta*gamma』成立于固定 D 沿 Q 方向。估计顺序约束仍成立，理由改为 gamma 的精度继承 beta 的精度。"
+    },
+    "Q_scale_alignment": {
+     "criterion": "Q 取值数 <= 20 即判为离散设计网格",
+     "per_file_Q_levels": {
+      "B6": 8,
+      "B7": 10,
+      "B8": 12
+     },
+     "is_discrete_grid": {
+      "B6": true,
+      "B7": true,
+      "B8": true
+     },
+     "B6_subset_of_B7": true,
+     "consequence": "Q1->Q2 是尺度校准问题，不是直接代入；须建立对齐规则并声明假设",
+     "verdict": "CONDITIONAL"
+    }
+   },
+   "output_degeneracy": {
+    "form_discriminability_on_B6": {
+     "criterion": "两式在 B6 上的 RMSE 相对差 > 10% 才算可区分",
+     "additive_rmse": 0.06990692443086688,
+     "multiplicative_rmse": 0.0724711308038097,
+     "relative_difference": 0.03538245290920752,
+     "distinguishable": false,
+     "consequence": "形式选择不能靠拟合优度，须靠机理与 Q3 可用性 —— 属人工裁定"
+    },
+    "small_sample_parameter_collapse": {
+     "observed": "B4(n=57)/B5(n=44) 单独拟合时 E 落到下界 0.0331/0.0000",
+     "consequence": "小样本大跨度下幂律项吸收全部结构 -> 不可作主拟合"
+    }
+   },
+   "perturbation_sensitivity": {
+    "beta_gamma_reparameterization": [
+     {
+      "scale": 0.5,
+      "beta": 0.14,
+      "gamma": 4.0,
+      "beta_times_gamma": 0.56,
+      "max_abs_pred_diff": 0.757315907047253
+     },
+     {
+      "scale": 0.8,
+      "beta": 0.22400000000000003,
+      "gamma": 2.5,
+      "beta_times_gamma": 0.56,
+      "max_abs_pred_diff": 0.2348994174912571
+     },
+     {
+      "scale": 1.25,
+      "beta": 0.35000000000000003,
+      "gamma": 1.6,
+      "beta_times_gamma": 0.56,
+      "max_abs_pred_diff": 0.22918402147003603
+     },
+     {
+      "scale": 2.0,
+      "beta": 0.56,
+      "gamma": 1.0,
+      "beta_times_gamma": 0.56,
+      "max_abs_pred_diff": 0.6576550891781805
+     },
+     {
+      "scale": 4.0,
+      "beta": 1.12,
+      "gamma": 0.5,
+      "beta_times_gamma": 0.56,
+      "max_abs_pred_diff": 0.9944728324465535
+     }
+    ],
+    "elasticity_ratio_constant": true,
+    "note": "参数扰动的完整检查留到 G3 实验阶段（本阶段只验承重假设）"
+   },
+   "scale_check": {
+    "rows": {
+     "B1": 1176,
+     "B2": 1029,
+     "B4": 57,
+     "B5": 44,
+     "B6": 360,
+     "B7": 450,
+     "B8": 1704
+    },
+    "runtime": "全部探针合计秒级；非线性最小二乘 12 起点多起始",
+    "memory": "可忽略（最大表 1704 行）"
+   },
+   "verdict": "CONDITIONAL",
+   "conditional_on": [
+    "来源专属截距 E_s（P1 FAIL 的直接后果）",
+    "跨源统一假设须显式声明并检验（P2 FAIL 的直接后果，对应 AMB-Q2-2）",
+    "beta 先由 B1 钉住再估 gamma（P4）",
+    "不得声称 Q 与 D 的替代率随位置变化（P4，弹性比恒为 gamma）",
+    "半合成参与拟合的程度须由使用者裁定（P5 + GC5 + 题目 success_criteria 第 3 条）"
+   ],
+   "fallback_trigger": "gamma 的自助 95% 区间含 0，或 M1s 在 B1 留出集 RMSE 不优于 M0s -> 考虑 M2s"
+  },
+  "M0s": {
+   "role": "usable_baseline",
+   "form": "L = E + A·N^(-alpha) + B·D^(-beta)，仅用 B1",
+   "executability": {
+    "legal_result": true,
+    "evidence": "P1 在 B1 上拟合收敛：E=1.6898、alpha=0.3400、beta=0.2799、RMSE=0.00015、R²=1.0000、n=1176"
+   },
+   "data_coverage": {
+    "B1_rows": 1176,
+    "B1_N_range_B": [
+     0.070542,
+     11.965825
+    ],
+    "val_loss_min": 2.0933
+   },
+   "assumption_checks": {
+    "cross_source_shared_E": {
+     "verdict": "FAIL",
+     "consequence": "baseline 亦须限定在 B1 内，不跨源共享 E"
+    }
+   },
+   "output_degeneracy": {
+    "E_at_lower_bound": false,
+    "note": "B1 上 E 未触下界（1.6898），无退化"
+   },
+   "perturbation_sensitivity": {
+    "note": "留到 G3；baseline 的扰动检查与主方法同口径"
+   },
+   "scale_check": {
+    "rows": 1176,
+    "runtime": "秒级"
+   },
+   "verdict": "CONDITIONAL",
+   "conditional_on": [
+    "仅用 B1 拟合，不与 B4/B5 共享 E"
+   ],
+   "is_declared_baseline_by": "planning/framing_decisions.jsonl#HD-2"
+  },
+  "M2s": {
+   "role": "conditional_fallback",
+   "form": "L = E_s + A·N^(-alpha) + B·D^(-beta) + C·Q^(-delta)（Q 为加性独立衰减项）",
+   "executability": {
+    "legal_result": true,
+    "evidence": "P3 的加性拟合在 B6 上收敛，RMSE=0.06991、R²=0.9590（略优于乘性式）"
+   },
+   "probe_depth": "仅验触发条件与风险轮廓的可信度，未完整实现（契约要求）",
+   "fields_intentionally_absent": {
+    "fields": [
+     "data_coverage",
+     "assumption_checks",
+     "output_degeneracy",
+     "perturbation_sensitivity",
+     "scale_check"
+    ],
+    "reason": "AGENTS.md# method-selector：『Probe the fallback only enough to establish that its trigger and risk profile are credible. Do not fully implement it.』M2s 与 M1s 共用同一批数据（B1+B6-B8），其 data_coverage / scale_check 与 M1s 同；assumption_checks 待触发后再查。这不是探针缺口。"
+   },
+   "verdict": "CONDITIONAL",
+   "activation_trigger": "见 M1s 的 fallback_trigger；触发前保持休眠",
+   "main_risk": "Q 与 D 无交互 -> dL=0 解出的 ΔN/ΔQ 不含 D，替代率的解释范围变窄"
+  }
+ },
+ "criterion_self_audit": {
+  "note": "两条预声明判据自身有问题，照实记录，不事后放宽（与 Q1 的 R6/R7 同一纪律）",
+  "P4": "判据测错对象，详见 methods.M1s.assumption_checks.beta_gamma_identifiability.criterion_design_flaw",
+  "P5": {
+   "criterion": "用 calibrated 拟合去预测 extrapolated，偏差占 RMSE < 50% 才算同律",
+   "bias_share_of_rmse": 0.03202227107797604,
+   "prediction_rmse": 0.6293200406951934,
+   "val_loss_range_calibrated": [
+    0.5,
+    3.3659
+   ],
+   "val_loss_range_extrapolated": [
+    0.5,
+    2.6033
+   ],
+   "flaw": "判据太松：bias 占比 3.2% 通过，但预测 RMSE 0.6293 而 val_loss 全域仅 0.5-2.603，低 bias 只说明误差对称、不说明误差小。另 calibrated 半数的 val_loss 下界也是 0.5，低于自然语言熵的常见量级，属半合成生成产物，须按 GC5 披露。",
+   "verdict_recorded_as": "PASS"
+  }
+ },
+ "data_usability_notes": {
+  "B3_missing_from_profile": "workspace/data/profile_b_scaling.json 漏了 B3；磁盘上实为 8 个 pythia_*_trajectory.csv（8×500）。B2 已画像可用，故『B2 或 B3』的硬性要求不受阻。",
+  "B6_subset_of_B7": "B6 的 360 个 (N,D,Q) 点全部包含于 B7（共享 360 点）-> 用 B7 即覆盖 B6",
+  "B9": {
+   "has_val_loss": false,
+   "D_missing_or_zero_rows": 4,
+   "permitted_use": "仅用于百亿参数以上外推的可信度讨论，不进主拟合"
+  },
+  "B10": {
+   "provenance": "估算值，非观测（GC5）",
+   "permitted_use": "仅用于百亿参数以上外推的可信度讨论，不进主拟合"
+  }
+ },
+ "pending_human_decisions": [
+  "p 如何进入标度律（exp(b^T z_p) 低维投影 / 标量化为 Q_corpus / 仅经 Q 间接）—— AMB-Q2-1 + P2",
+  "Q 进入方式（D_eff 乘性 vs 加性独立项）—— P3 显示拟合优度不可区分",
+  "半合成 B6-B8 参与拟合的程度上限 —— 题目 success_criteria 第 3 条 + GC5 + P5"
+ ],
+ "probes_added_after_G2": [
+  {
+   "probe_id": "P8_shape_param_cross_source_sharing",
+   "added_at_gate": "G3",
+   "load_bearing_risk": "P1 只检验了 E 的跨源可共享性。若 A/alpha/B 也不可共享，联合 WLS 中被 B1 钉死的形状参数会迫使 gamma 吸收 B7 的形状失配",
+   "criterion_timing_disclosure": "参数数值在 G3 调试中先被观察到，本判据非盲设；故判据改挂在 gamma 的自助区间尺度上以保持决策相关性",
+   "predeclared_criterion": "强制共享造成的 gamma 位移 < gamma 自助 95% 区间宽度的 50% 才可共享",
+   "observed": {
+    "gamma_source_specific_shape": 0.9659128363851796,
+    "gamma_shared_shape": 0.7968091215858158,
+    "gamma_shift": 0.1691037147993637,
+    "threshold": 0.08584312637409258,
+    "shift_as_fraction_of_ci_width": 0.9849578058377841,
+    "rmse_B7_penalty_of_sharing": 0.015493377039945314,
+    "A_ratio_B7_over_B1": 1.4947,
+    "alpha_B7_vs_B1": [
+     0.283218,
+     0.339977
+    ],
+    "B_ratio_B7_over_B1": 0.8497
+   },
+   "verdict": "FAIL",
+   "consequence": "形状参数须来源专属。连带后果：除 beta 外几乎所有参数都来源专属 ⇒ 裁定3=B 的联合 WLS 在数值上退化为『B1 定 beta、B7 定 gamma』的两段式（实测 gamma 差 1.03e-7、beta 差 6.86e-8）。WLS 机制被忠实实现但在该参数结构下无实质作用 —— 不得表述为『联合拟合提升了估计』",
+   "evidence": "workspace/data/q2_probe_shape_sharing.json",
+   "script": "workspace/code/scripts/probe_q2_shape_sharing.py"
+  }
+ ],
+ "last_updated": "2026-09-25T14:30:00+08:00"
+}

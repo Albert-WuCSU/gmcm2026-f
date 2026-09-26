@@ -1,0 +1,909 @@
+% 本文件由 scratch/build_appendix_code.py 从建模源码逐符号抽取生成，请勿手工编辑。
+\clearpage
+\section{核心算法程序}
+\label{app:code}
+
+本节按子问题列出建模与求解的核心程序，由 \texttt{scratch/build\_appendix\_code.py}
+从实际运行的源文件中按符号抽取，未经人工转录。省略的部分为输入输出装配、
+绘图与结果落盘代码，其路径在各问的方法说明中给出；行内注释保留原样。
+
+\subsection{问题一：质量指标规范化与门控合成}
+
+\subsubsection*{指标方向表（三层可信度）（\texttt{DIRECTION}）}
+
+\begin{lstlisting}[language=Python]
+DIRECTION: dict[str, tuple[int, str, str]] = {
+    "fineweb_edu": (+1, "A", "赛题正文明示：教育价值越高越好"),
+    "ad_en_margin": (+1, "A", "原文核验：margin 最低 6/6 条为广告文案，最高端为论坛/新闻 → margin 度量非广告性"),
+    "fluency_en_margin": (+1, "A", "原文核验：margin 最低端为 SEO 垃圾/机翻乱码，最高端为通顺散文 → margin 度量流畅度"),
+    "modernbert_cleanliness": (+1, "A", "6 类有序 logits 的 softmax 期望类别，与 fineweb_edu pearson +0.302"),
+    "modernbert_readability": (+1, "A", "期望类别与 fineweb_edu pearson +0.331"),
+    "modernbert_reasoning": (+1, "A", "期望类别与 fineweb_edu spearman +0.485"),
+    "modernbert_professionalism": (+1, "A", "期望类别与 fineweb_edu spearman +0.368"),
+    "qurater": (+1, "A", "4 个准则与 fineweb_edu 全为正相关 +0.24~+0.61"),
+    # dsir：G2 补充探针证实原始字段为"按 token 求和"的对数似然比，被长度主导
+    # （log(-dsir) ~ log(word_count) 的 Pearson = 0.937~0.939）。逐 token 归一化后
+    # 与 fineweb_edu 的 Spearman 由 -0.499 转为 +0.374，dsir_books 上 book 域由第 7 升至第 1。
+    # 故方向依据由"建模判断"升级为"数据可证"，tier C -> B。逐 token 化是使用该字段的前置条件。
+    "dsir_books": (+1, "B", "逐 token 归一化后的 DSIR 对数似然比；归一化后与 fineweb_edu Spearman +0.374，book 域在 book 相似度上升至第 1（原始字段下为第 7）"),
+    "dsir_wiki": (+1, "B", "同上；与 dsir_books 逐 token 后互相关 0.99966，canonical 规格下合并"),
+    "dsir_math": (+1, "B", "同上；与 dsir_books 逐 token 后互相关 0.99623，canonical 规格下合并"),
+    # 长度类：非单调。Gopher / RedPajama-v2 过滤器以区间方式使用长度，两端皆劣。
+    "rps_doc_word_count": (0, "C", "文档长度对质量非单调（Gopher/RPv2 按区间过滤）；AUC=0.987 近乎纯域标签。按到域内中位数距离处理"),
+    "rps_doc_num_sentences": (0, "C", "句数对质量非单调；AUC=0.947。按到域内中位数距离处理"),
+    "rps_doc_unigram_entropy": (+1, "B", "一元词熵 = 词汇多样性，低熵对应重复/模板文本"),
+    "rps_doc_frac_unique_words": (+1, "B", "唯一词占比高 = 重复度低"),
+    "rps_doc_frac_no_alph_words": (-1, "B", "非字母词占比高 = 符号/数字噪声，Gopher 过滤视为劣质"),
+    "rps_doc_frac_chars_top_2gram": (-1, "B", "最高频 2-gram 字符占比高 = 模板化重复"),
+    "rps_doc_frac_chars_top_3gram": (-1, "B", "最高频 3-gram 字符占比高 = 模板化重复"),
+    "rps_lines_uppercase_letter_fraction": (-1, "B", "大写字母占比高 = 标题堆砌/全大写喊话"),
+    "rps_lines_ending_with_terminal_punctution_mark": (+1, "B", "C4 规则保留以终止标点结尾的行，句子完整性"),
+    "rps_lines_numerical_chars_fraction": (-1, "B", "数字字符占比高 = 表格/清单残渣"),
+    "rps_doc_mean_word_length": (0, "C", "非单调：Gopher 过滤保留区间约 [3,10]，过短为乱码、过长为连写/编码残渣（本库 max=83）"),
+}
+\end{lstlisting}
+
+\subsubsection*{经验分位数归一化（\texttt{normalize}）}
+
+\begin{lstlisting}[language=Python]
+def normalize(X: np.ndarray, dom_idx: np.ndarray, population: str,
+              scheme: str = "ecdf", ref_mask: np.ndarray | None = None) -> np.ndarray:
+    """归一化到 [0,1]，不含方向统一。
+
+    population: 'pooled' 合并全体 | 'per_domain' 按域分别 | 'ref_A1' 以 A1 分布为参照
+    scheme:     'ecdf' 经验分位数 | 'winsor_minmax' 1%-99% 截尾后 Min-Max
+    """
+    fn = _ecdf_rank if scheme == "ecdf" else _winsor_minmax
+    Z = np.empty_like(X)
+    if population == "per_domain":
+        for d in np.unique(dom_idx):
+            m = dom_idx == d
+            for j in range(X.shape[1]):
+                Z[m, j] = fn(X[m, j])
+    elif population == "ref_A1":
+        if ref_mask is None:
+            raise ValueError("ref_A1 需要 ref_mask 指明 A1 行")
+        for j in range(X.shape[1]):
+            if scheme == "ecdf":
+                Z[:, j] = _ecdf_rank(X[:, j], ref=X[ref_mask, j])
+            else:
+                lo, hi = np.quantile(X[ref_mask, j], [0.01, 0.99])
+                Z[:, j] = np.full(X.shape[0], 0.5) if hi <= lo else \
+                    np.clip((X[:, j] - lo) / (hi - lo), 0.0, 1.0)
+    elif population == "pooled":
+        for j in range(X.shape[1]):
+            Z[:, j] = fn(X[:, j])
+    else:
+        raise ValueError(population)
+    return Z
+\end{lstlisting}
+
+\subsubsection*{方向统一（\texttt{apply\_direction}）}
+
+\begin{lstlisting}[language=Python]
+def apply_direction(Z: np.ndarray, columns: list[str],
+                    tier_c_override: dict[str, int] | None = None,
+                    nonmonotone_as_distance: bool = True) -> np.ndarray:
+    """把已归一化的 Z 统一为"越高越好"。
+
+    tier_c_override: 覆写 tier C 指标的方向（+1/-1/0），用于敏感性分析。
+    nonmonotone_as_distance: sign=0 的非单调指标按"到域内中位数的距离"取反处理，
+        即 1-2*|z-0.5|，两端劣、中间优；False 时退化为 sign=+1。
+    """
+    U = Z.copy()
+    ov = tier_c_override or {}
+    for j, c in enumerate(columns):
+        sign = ov.get(c, DIRECTION[c][0])
+        if sign == -1:
+            U[:, j] = 1.0 - U[:, j]
+        elif sign == 0:
+            if nonmonotone_as_distance:
+                U[:, j] = 1.0 - 2.0 * np.abs(U[:, j] - 0.5)
+    return U
+\end{lstlisting}
+
+\subsubsection*{dsir 逐 token 归一化（\texttt{per\_token\_dsir}）}
+
+\begin{lstlisting}[language=Python]
+def per_token_dsir(X: np.ndarray, columns: list[str]) -> np.ndarray:
+    """dsir 三列各除以词数。修正"按 token 求和"导致的长度主导。"""
+    Xo = X.copy()
+    wc = X[:, columns.index("rps_doc_word_count")]
+    for c in DSIR_COLS:
+        Xo[:, columns.index(c)] = X[:, columns.index(c)] / np.maximum(wc, 1.0)
+    return Xo
+\end{lstlisting}
+
+\subsubsection*{dsir 三列合一（\texttt{collapse\_dsir}）}
+
+\begin{lstlisting}[language=Python]
+def collapse_dsir(U: np.ndarray, columns: list[str]) -> tuple[np.ndarray, list[str]]:
+    """把逐 token 后互相关仍达 0.996 的 dsir 三列合为 1 个代表量。"""
+    ids = [columns.index(c) for c in DSIR_COLS]
+    keep = [j for j in range(len(columns)) if j not in ids]
+    rep = U[:, ids].mean(1, keepdims=True)
+    return np.hstack([U[:, keep], rep]), [columns[j] for j in keep] + [DSIR_REP]
+\end{lstlisting}
+
+\subsubsection*{规范化主入口（\texttt{build\_canonical}）}
+
+\begin{lstlisting}[language=Python]
+def build_canonical(X: np.ndarray, dom_idx: np.ndarray, columns: list[str],
+                    ref_mask: np.ndarray | None = None,
+                    population: str | None = None) -> tuple[np.ndarray, list[str]]:
+    """按 G2.5 决策规格产出方向统一后的指标矩阵（默认 20 列）。
+
+    population 缺省取 CANONICAL['population_primary']；传 'per_domain' 得到消融臂。
+    """
+    pop = population or CANONICAL["population_primary"]
+    Xp = per_token_dsir(X, columns) if CANONICAL["dsir_per_token"] else X
+    Z = normalize(Xp, dom_idx, pop, scheme=CANONICAL["scheme"], ref_mask=ref_mask)
+    U = apply_direction(Z, columns)
+    if CANONICAL["dsir_collapse"]:
+        U, columns = collapse_dsir(U, columns)
+    return U, columns
+\end{lstlisting}
+
+\subsubsection*{价值组 / 污染组划分（\texttt{vp\_split}）}
+
+\begin{lstlisting}[language=Python]
+def vp_split(cols: list[str]) -> tuple[list[int], list[int]]:
+    """语义分组。P = 污染组 6 列，V = 其余 14 列（canonical 20 列口径）。
+
+    注意：风险探针里的『价值组 16 列』是 22 列口径；dsir 三合一后为 14 列。
+    分组是语义划分，不得声称由相关结构导出（组内相关 0.051/0.026 与组间 0.016 同量级）。
+    """
+    poll = set(qf.POLLUTION_COLS)
+    p_idx = [j for j, c in enumerate(cols) if c in poll]
+    v_idx = [j for j, c in enumerate(cols) if c not in poll]
+    assert len(p_idx) == 6, f"污染组应为 6 列，实得 {len(p_idx)}"
+    assert len(v_idx) == len(cols) - 6
+    return v_idx, p_idx
+\end{lstlisting}
+
+\subsubsection*{门控合成 Q = V·(1−P)（\texttt{gated}）}
+
+\begin{lstlisting}[language=Python]
+def gated(U: np.ndarray, w: np.ndarray, v_idx: list[int], p_idx: list[int]) -> np.ndarray:
+    """门控合成。w 为 20 列权重（扰动用），组内按 w 重新归一化。"""
+    wv, wp = w[v_idx], w[p_idx]
+    V = U[:, v_idx] @ (wv / wv.sum())
+    P = (1.0 - U[:, p_idx]) @ (wp / wp.sum())
+    return V * (1.0 - P)
+\end{lstlisting}
+
+\subsubsection*{冲突判据与冲突率（\texttt{conflict\_rates}）}
+
+\begin{lstlisting}[language=Python]
+def conflict_rates(U: np.ndarray, V: np.ndarray, P: np.ndarray) -> dict:
+    """判据 × 三个锚点，全部分位数锚定。绝对阈版不实现（冲突率恰为 0.0）。
+
+    决策 q1b_conflict_criterion = CD2@p75 为主报，CD1/CD3 为已声明的敏感性臂。
+    CD1 的固定阈 0.25 对锚点零响应（评审 F1），按决策的 required_fix 改为 MAD 自身
+    分位数锚定；同时保留固定阈版作对照，以便与首轮及探针数值衔接。
+    """
+    out = {}
+    mad = np.abs(U - np.median(U, axis=1, keepdims=True)).mean(1)
+    for a in ANCHORS:
+        qv, qp = np.quantile(V, a / 100), np.quantile(P, a / 100)
+        n_hi = (U >= np.quantile(U, a / 100, axis=0)).sum(1)
+        n_lo = (U <= np.quantile(U, 1 - a / 100, axis=0)).sum(1)
+        out[f"p{a}"] = {
+            "CD2_high_value_and_high_pollution": float(np.mean((V > qv) & (P > qp))),
+            "CD1_indicator_MAD_anchored": float(np.mean(mad > np.quantile(mad, a / 100))),
+            "CD1_indicator_MAD_gt_0.25_fixed_ref": float(np.mean(mad > 0.25)),
+            "CD3_ge5_high_and_ge5_low": float(np.mean((n_hi >= 5) & (n_lo >= 5))),
+            "CD3_ge3_high_and_ge3_low": float(np.mean((n_hi >= 3) & (n_lo >= 3))),
+        }
+    return out
+\end{lstlisting}
+
+\subsubsection*{域级 Huber M 估计（\texttt{huber\_mean}）}
+
+\begin{lstlisting}[language=Python]
+def huber_mean(v: np.ndarray, k: float = 1.345, iters: int = 30) -> float:
+    """Huber M 估计。与 probe_q1_quality.huber_mean 同参数，保证与探针数值可比。"""
+    mu = float(np.median(v))
+    s = float(np.median(np.abs(v - mu))) * 1.4826
+    if s <= 0:
+        return mu
+    for _ in range(iters):
+        r = (v - mu) / s
+        w = np.where(np.abs(r) <= k, 1.0, k / np.maximum(np.abs(r), 1e-12))
+        new = float(np.sum(w * v) / np.sum(w))
+        if abs(new - mu) < 1e-12:
+            break
+        mu = new
+    return mu
+\end{lstlisting}
+
+\subsubsection*{域级质量到配比域的跨体系映射（\texttt{build\_Q\_corpus}）}
+
+\begin{lstlisting}[language=Python]
+def build_Q_corpus(P: np.ndarray, pcols: list[str], domain_Q: dict[str, float],
+                   mapping: dict[str, str]) -> tuple[np.ndarray, dict]:
+    """语料级 Q = Σ_{i∈mapped} p_i·Q_i / Σ_{i∈mapped} p_i（6 域重归一化）。
+
+    17 配方域中仅 6 个有质量域对应（11 个 inferred 全为 (none)）。
+    """
+    idx, qv = [], []
+    for j, c in enumerate(pcols):
+        dom = c.removeprefix("train_the_pile_")
+        if dom in mapping and mapping[dom] in domain_Q:
+            idx.append(j)
+            qv.append(domain_Q[mapping[dom]])
+    idx = np.array(idx)
+    qv = np.array(qv)
+    w = P[:, idx]
+    mass = w.sum(1)
+    valid = mass > 1e-12
+    Qc = np.where(valid, (w @ qv) / np.maximum(mass, 1e-12), np.nan)
+    info = {"n_mapped_domains": int(len(idx)),
+            "mapped": [pcols[j].removeprefix("train_the_pile_") for j in idx],
+            "mapped_mass_median": float(np.median(mass)),
+            "mapped_mass_min": float(mass.min()), "mapped_mass_max": float(mass.max()),
+            "n_rows_with_zero_mapped_mass": int((~valid).sum()),
+            "n_rows_total": int(len(mass)),
+            "zero_mass_handling": ("该类行在 6 个映射域上配比质量全为 0，无任何质量信息；"
+                                  "不作插补，嵌套检验限定在 mass>0 的同一子集上（A/B 同行，保持可比）")}
+    return Qc, valid, info
+\end{lstlisting}
+
+\subsection{问题二：广义标度律的参数估计}
+
+\subsubsection*{经典标度律拟合（baseline）（\texttt{fit\_classic}）}
+
+\begin{lstlisting}[language=Python]
+def fit_classic(N, D, L, seed=SEED):
+    """M0s: L = E + A*N^-alpha + B*D^-beta"""
+    def resid(th):
+        E, A, a, Bc, b = th
+        return E + A * N ** (-a) + Bc * D ** (-b) - L
+    r = _multistart(resid, [0, 0, 1e-4, 0, 1e-4], [5, 50, 2, 50, 2], seed=seed)
+    p = dict(zip(["E", "A", "alpha", "B", "beta"], map(float, r.x)))
+    p["rmse"] = float(np.sqrt(np.mean(r.fun ** 2)))
+    return p
+\end{lstlisting}
+
+\subsubsection*{给定 β 后由 B7 反解 γ（\texttt{fit\_gamma\_on\_b7}）}
+
+\begin{lstlisting}[language=Python]
+def fit_gamma_on_b7(N, D, Q, L, beta_fixed, seed=SEED):
+    """M1s 阶段 2：beta 固定（由 B1 钉住），估 gamma 与 B7 专属 E/A/alpha/B。
+
+    L = E_B7 + A'*N^-alpha' + B'*(D*Q^gamma)^-beta
+    z_p = 0（B7 无配比列）⇒ exp(b^T z_p) = 1，该因子不参与本阶段。
+    """
+    def resid(th):
+        E, A, a, Bc, g = th
+        return E + A * N ** (-a) + Bc * (D * Q ** g) ** (-beta_fixed) - L
+    r = _multistart(resid, [0, 0, 1e-4, 0, 1e-4], [5, 50, 2, 50, 10], seed=seed)
+    p = dict(zip(["E_B7", "A", "alpha", "B", "gamma"], map(float, r.x)))
+    p["beta_fixed"] = float(beta_fixed)
+    p["rmse"] = float(np.sqrt(np.mean(r.fun ** 2)))
+    return p
+\end{lstlisting}
+
+\subsubsection*{联合加权最小二乘（\texttt{fit\_joint\_wls}）}
+
+\begin{lstlisting}[language=Python]
+def fit_joint_wls(b1, b7, sigma_b1, sigma_b7, with_Q: bool, seed=SEED):
+    """联合拟合，来源专属 E_s（P1），形状参数共享。
+
+    with_Q=True  -> M1s_joint: 参数 (E_B1, E_B7, A, alpha, B, beta, gamma)
+    with_Q=False -> M0s_joint: 参数 (E_B1, E_B7, A, alpha, B, beta)，无 Q 通道
+                   （B7 上加自有截距，使与 M1s 成嵌套比较、仅差 gamma 一个参数；
+                    这是 P1『E 跨源不可共享』的机械后果，不是建模选择）
+    B1 上 Q 恒为 1（无 Q 变化）⇒ Q^gamma = 1，gamma 不受 B1 约束。
+    """
+    n1, n7 = b1["n"], b7["n"]
+    w1, w7 = 1.0 / sigma_b1 ** 2, 1.0 / sigma_b7 ** 2
+
+    def resid(th):
+        if with_Q:
+            E1, E7, A, a, Bc, b, g = th
+        else:
+            E1, E7, A, a, Bc, b = th
+            g = 0.0
+        r1 = E1 + A * b1["N"] ** (-a) + Bc * b1["D"] ** (-b) - b1["L"]
+        Deff7 = b7["D"] * (b7["Q"] ** g if with_Q else 1.0)
+        r7 = E7 + A * b7["N"] ** (-a) + Bc * Deff7 ** (-b) - b7["L"]
+        return np.concatenate([r1 * np.sqrt(w1), r7 * np.sqrt(w7)])
+
+    lo = [0, 0, 0, 1e-4, 0, 1e-4] + ([1e-4] if with_Q else [])
+    hi = [5, 5, 50, 2, 50, 2] + ([10] if with_Q else [])
+    r = _multistart(resid, lo, hi, seed=seed)
+    keys = ["E_B1", "E_B7", "A", "alpha", "B", "beta"] + (["gamma"] if with_Q else [])
+    p = dict(zip(keys, map(float, r.x)))
+    if not with_Q:
+        p["gamma"] = 0.0
+    p["beta_fixed"] = p["beta"]
+    # 分源未加权 RMSE（可比口径）
+    p["rmse_B1"] = float(np.sqrt(np.mean((
+        p["E_B1"] + p["A"] * b1["N"] ** (-p["alpha"]) + p["B"] * b1["D"] ** (-p["beta"]) - b1["L"]) ** 2)))
+    Deff7 = b7["D"] * (b7["Q"] ** p["gamma"] if with_Q else 1.0)
+    p["rmse_B7"] = float(np.sqrt(np.mean((
+        p["E_B7"] + p["A"] * b7["N"] ** (-p["alpha"]) + p["B"] * Deff7 ** (-p["beta"]) - b7["L"]) ** 2)))
+    p["n_B1"], p["n_B7"] = n1, n7
+    return p
+\end{lstlisting}
+
+\subsubsection*{跨源迁移验证（\texttt{validate\_transfer}）}
+
+\begin{lstlisting}[language=Python]
+def validate_transfer(p, codes=("B4", "B5", "B2")) -> dict:
+    """真实/轨迹数据上的迁移验证。P1：禁止报跨源未去偏 R²，用 Spearman。"""
+    out = {}
+    for code in codes:
+        d = C.load_nd(code)
+        # 用共享形状参数 + 该源自有截距（去源偏）：E_s 由该源残差中位数吸收
+        # 用 B1 侧形状参数（真实数据支撑）+ 该源自有截距（去源偏）
+        core = p["A_B1"] * d["N"] ** (-p["alpha_B1"]) + p["B_B1"] * d["D"] ** (-p["beta"])
+        E_s = float(np.median(d["L"] - core))
+        pred = E_s + core
+        rho, pv = spearmanr(pred, d["L"])
+        out[code] = {
+            "n": d["n"], "E_s_deoffset": E_s,
+            "spearman": float(rho), "spearman_p": float(pv),
+            "rmse_after_deoffset": float(np.sqrt(np.mean((pred - d["L"]) ** 2))),
+            "note": "禁止报跨源未去偏 R²（P1：E 极差 1.6898）；此处仅报秩相关与去源偏后 RMSE",
+        }
+    return out
+\end{lstlisting}
+
+\subsection{问题三：分段 KKT 求解与结构性转移识别}
+
+\subsubsection*{三类质量成本函数 g(Q)（\texttt{g\_value}）}
+
+\begin{lstlisting}[language=Python]
+def g_value(q, form):
+    c, r = G_SPECS[form]["g_coef"], G_SPECS[form]["g_rate"]
+    if form == "exponential":
+        return c * np.exp(r * q)
+    if form == "power":
+        return c * q ** r
+    return c * np.log1p(r * q)
+\end{lstlisting}
+
+\subsubsection*{g 的导数（\texttt{g\_prime}）}
+
+\begin{lstlisting}[language=Python]
+def g_prime(q, form):
+    c, r = G_SPECS[form]["g_coef"], G_SPECS[form]["g_rate"]
+    if form == "exponential":
+        return c * r * np.exp(r * q)
+    if form == "power":
+        return c * r * q ** (r - 1.0)
+    return c * r / (1.0 + r * q)
+\end{lstlisting}
+
+\subsubsection*{目标函数（\texttt{loss}）}
+
+\begin{lstlisting}[language=Python]
+def loss(self, N_B, D_B, Q):
+    return self.E + self.A * N_B ** (-self.al) + self.B * (D_B * Q ** self.ga) ** (-self.be)
+\end{lstlisting}
+
+\subsubsection*{三类算力开销分解（\texttt{cost\_parts}）}
+
+\begin{lstlisting}[language=Python]
+def cost_parts(self, N_B, D_B, Q):
+    N, D = N_B * 1e9, D_B * 1e9
+    return {"C_train": 6.0 * N * D,
+            "C_Q": D * self.dg(Q),
+            "C_attn": ETA * N * D * self.L_ctx}
+\end{lstlisting}
+
+\subsubsection*{KKT 约减式 (R1)（\texttt{R1}）}
+
+\begin{lstlisting}[language=Python]
+def R1(self, N_B, D_B, Q):
+    """α·A·N^-α·(k·N + Δg) − β·B·S^-β·k·N = 0,单位:N,Δg 均为 FLOPs/token 量纲。"""
+    S = D_B * Q ** self.ga
+    kN = self.k * N_B * 1e9
+    lhs = self.al * self.A * N_B ** (-self.al) * (kN + self.dg(Q))
+    rhs = self.be * self.B * S ** (-self.be) * kN
+    return lhs - rhs
+\end{lstlisting}
+
+\subsubsection*{KKT 约减式 (R2)（\texttt{R2}）}
+
+\begin{lstlisting}[language=Python]
+def R2(self, N_B, Q):
+    """γ·(k·N + Δg) − Q·g'(Q) = 0。λ 与 D 全消,故只含 (N,Q)。"""
+    return self.ga * (self.k * N_B * 1e9 + self.dg(Q)) - Q * g_prime(Q, self.form)
+\end{lstlisting}
+
+\subsubsection*{内点分支 Q < 1（\texttt{branch\_interior}）}
+
+\begin{lstlisting}[language=Python]
+def branch_interior(self, C, n_grid=400):
+    """分支 I:Q0 < Q < 1。R2 给 N(Q),预算给 D(Q),R1 成为 Q 的单变量方程。"""
+    def F(Q):
+        N_B = self.N_from_R2(Q)
+        if N_B is None:
+            return np.nan
+        D_B = self.D_from_budget(N_B, Q, C)
+        if D_B is None or D_B <= 0:
+            return np.nan
+        return self.R1(N_B, D_B, Q)
+
+    lo, hi = self.Q0 + 1e-9, 1.0 - 1e-12
+    qs = np.linspace(lo, hi, n_grid)
+    vals = np.array([F(q) for q in qs])
+    out = []
+    for i in range(len(qs) - 1):
+        a, b = vals[i], vals[i + 1]
+        if np.isnan(a) or np.isnan(b) or a == 0.0 or a * b > 0:
+            continue
+        try:
+            q = brentq(F, qs[i], qs[i + 1], xtol=1e-14, rtol=1e-15, maxiter=300)
+        except Exception:
+            continue
+        N_B = self.N_from_R2(q)
+        r = self._pack(N_B, self.D_from_budget(N_B, q, C), q, "interior", C)
+        if r:
+            out.append(r)
+    return out
+\end{lstlisting}
+
+\subsubsection*{边界分支 Q = 1（\texttt{branch\_upper}）}
+
+\begin{lstlisting}[language=Python]
+def branch_upper(self, C):
+    return self._solve_fixed_Q(C, 1.0, "upper_Q_eq_1")
+\end{lstlisting}
+
+\subsubsection*{KKT 五项硬判据（\texttt{kkt\_audit}）}
+
+\begin{lstlisting}[language=Python]
+def kkt_audit(self, r, C):
+    """五项硬判据。返回 (全过?, 逐项结果)。"""
+    b, m = r["branch"], r["multipliers"]
+    checks = {
+        "budget_feasible": r["budget_violation_rel"] <= self.TOL_FEAS,
+        "stationarity_R1": r["R1_residual_rel"] < self.TOL_STAT,
+        "stationarity_R2": (r["R2_residual_rel"] < self.TOL_STAT
+                            if b == "interior" else None),
+        "complementary_slackness": None,
+        "lambda_positive": m["lambda"] > 0.0,
+        "bounds_ok": (self.Q0 - 1e-12 <= r["Q"] <= 1.0 + 1e-12
+                      and r["N_B"] > 0 and r["D_B"] > 0),
+    }
+    # 互补松弛:预算紧(已由构造保证等式),Q 侧按分支判乘子符号
+    if b == "interior":
+        # 内点 ⇒ Q 的两个界都非活跃 ⇒ mu 与 nu 均须为 0。
+        # 该项同时交叉验证 lambda(由 ∂N 得)与 R2(由 ∂Q÷∂D 得)的一致性。
+        denom = max(abs(m["mu_upper"]), abs(m["nu_lower"]),
+                    self.be * self.ga * self.B, 1e-300)
+        checks["complementary_slackness"] = abs(m["mu_upper"]) / denom < 1e-6
+    elif b == "upper_Q_eq_1":
+        checks["complementary_slackness"] = m["mu_upper"] >= -self.TOL_MULT
+    else:
+        checks["complementary_slackness"] = m["nu_lower"] >= -self.TOL_MULT
+    passed = all(v for v in checks.values() if v is not None)
+    return passed, checks
+\end{lstlisting}
+
+\subsubsection*{活跃约束集（\texttt{active\_set}）}
+
+\begin{lstlisting}[language=Python]
+def active_set(self, r):
+    """活跃约束集(裁定2=A 的主定义所依赖的对象)。预算恒活跃。"""
+    s = ["budget"]
+    if r["branch"] == "upper_Q_eq_1":
+        s.append("Q_le_1")
+    elif r["branch"] == "lower_Q_eq_Q0":
+        s.append("Q_ge_Q0")
+    return s
+\end{lstlisting}
+
+\subsubsection*{分支枚举与最优分支选择（\texttt{solve\_kkt}）}
+
+\begin{lstlisting}[language=Python]
+def solve_kkt(self, C):
+    """三分支全枚举 → 丢弃不可行/乘子符号错 → 取 Loss 最小。"""
+    cands = self.branch_interior(C) + self.branch_upper(C) + self.branch_lower(C)
+    for r in cands:
+        ok, checks = self.kkt_audit(r, C)
+        r["kkt_passed"], r["kkt_checks"] = ok, checks
+        r["active_set"] = self.active_set(r)
+    valid = [r for r in cands if r["kkt_passed"]]
+    pool, degraded = (valid, False) if valid else (
+        [r for r in cands if r["budget_violation_rel"] <= 1e-6], True)
+    if not pool:
+        return None, cands
+    best = min(pool, key=lambda r: r["loss"])
+    best["selected_from_degraded_pool"] = degraded
+    best["n_branch_candidates"] = len(cands)
+    return best, cands
+\end{lstlisting}
+
+\subsubsection*{转移点二分定位（\texttt{locate\_active\_set\_change}）}
+
+\begin{lstlisting}[language=Python]
+def locate_active_set_change(model: Model, lo: float, hi: float, tol=1e-4) -> float:
+    """二分定位活跃约束集变化点(裁定2 主定义 A 的识别方法)。
+
+    判别函数取「Q_le_1 是否在活跃集内」,离散 ⇒ 用二分而非数值微分。
+    """
+    def has_upper(lc):
+        best, _ = model.solve_kkt(10.0 ** lc)
+        return best is not None and "Q_le_1" in best["active_set"]
+
+    a, b = lo, hi
+    if has_upper(a) == has_upper(b):
+        return float("nan")
+    while b - a > tol:
+        m = 0.5 * (a + b)
+        if has_upper(m) == has_upper(a):
+            a = m
+        else:
+            b = m
+    return float(0.5 * (a + b))
+\end{lstlisting}
+
+\subsubsection*{定义 D 的步长敏感性（\texttt{definition\_D}）}
+
+\begin{lstlisting}[language=Python]
+def definition_D(model: Model, steps=SWEEP_STEPS) -> dict:
+    """分配份额突变(一阶差分超阈)。**结论随步长翻转,故不作主定义。**"""
+    table, cache = [], {}
+    for st in steps:
+        pts = sweep(model, st, 18.0, 22.0)      # 与 AI 意见支撑算例同范围,便于核对
+        cache[st] = pts
+        q = np.array([p["Q"] for p in pts])
+        dq = np.abs(np.diff(q)) if len(q) > 1 else np.array([0.0])
+        i = int(dq.argmax())
+        table.append({"step": st, "n_points": len(pts),
+                      "max_abs_dQ": float(dq.max()),
+                      "at_log10_C": pts[i + 1]["log10_C"] if len(pts) > i + 1 else None,
+                      "n_jumps_over_threshold": int((dq > D_THRESHOLD).sum()),
+                      "verdict": ("TRANSITION_EXISTS" if dq.max() > D_THRESHOLD
+                                  else "NO_TRANSITION")})
+    return {
+        "definition": f"若相邻扫描点间 |ΔQ*| 超过阈值 delta = {D_THRESHOLD},则判发生转移",
+        "threshold": D_THRESHOLD,
+        "grid_sensitivity_table": table,
+        "verdict_at_main_step": next(
+            (t["verdict"] for t in table if t["step"] == SWEEP_MAIN_STEP), None),
+        "why_not_main_definition": (
+            "结论是扫描步长的函数:饱和前 Q* 光滑上升且斜率稳定(约 +0.149),"
+            "一阶差分 ≈ 斜率 × 步长,与固定阈值比较不是网格不变量"),
+    }, cache
+\end{lstlisting}
+
+\subsubsection*{饱和点导数符号（\texttt{derivative\_at\_saturation}）}
+
+\begin{lstlisting}[language=Python]
+def derivative_at_saturation(pts: list, sat_log10_C: float, window=0.6) -> dict:
+    """饱和点附近 dQ*/dlogC 的序列与符号(计划 §6.4:上游写成『由负转零』是符号错误)。"""
+    seq = []
+    for i in range(1, len(pts)):
+        lo_i, hi_i = pts[i - 1]["log10_C"], pts[i]["log10_C"]
+        if not np.isnan(sat_log10_C) and abs(hi_i - sat_log10_C) > window:
+            continue
+        d = (pts[i]["Q"] - pts[i - 1]["Q"]) / (hi_i - lo_i)
+        # 跨越饱和点的区间:差商既非左导数也非右导数,须单列不参与符号判定
+        straddles = (not np.isnan(sat_log10_C)) and (lo_i < sat_log10_C < hi_i)
+        seq.append({"log10_C": hi_i, "Q": pts[i]["Q"], "dQ_dlogC": float(d),
+                    "interval": [lo_i, hi_i], "straddles_saturation": bool(straddles)})
+    before = [s["dQ_dlogC"] for s in seq
+              if not s["straddles_saturation"] and s["interval"][1] <= sat_log10_C]
+    after = [s["dQ_dlogC"] for s in seq
+             if not s["straddles_saturation"] and s["interval"][0] >= sat_log10_C]
+    sign = "undetermined"
+    if before and after:
+        if min(before) > 0 and max(np.abs(np.array(after))) < 1e-12:
+            sign = "positive_to_zero"
+        elif max(before) < 0 and max(np.abs(np.array(after))) < 1e-12:
+            sign = "negative_to_zero"
+    return {"sequence": seq, "sign_at_saturation": sign,
+            "left_derivative_range": [float(min(before)), float(max(before))] if before else None,
+            "right_derivative_max_abs": float(max(np.abs(np.array(after)))) if after else None,
+            "straddling_interval_excluded": next(
+                (s for s in seq if s["straddles_saturation"]), None),
+            "upstream_card_said": "negative_to_zero",
+            "upstream_card_is_wrong": sign == "positive_to_zero",
+            "note": ("方法卡与选择卡称『由负转零』;实测为由正转零。论文不得沿用错误表述。"
+                     "跨越饱和点的那个区间(部分步长差商)已单列排除,不参与符号判定")}
+\end{lstlisting}
+
+\subsubsection*{baseline 差距三数分解（\texttt{gap\_decomposition}）}
+
+\begin{lstlisting}[language=Python]
+def gap_decomposition(loss_M1o: float, m0o: dict, m0o_p: dict | None) -> dict:
+    """差距分解(计划 §5.3):三个数必须同时报,不得只报 gap_reported。"""
+    out = {
+        "gap_reported": float(m0o["loss"] - loss_M1o),
+        "gap_quality_only": None,
+        "gap_ratio_handicap": None,
+        "handicap_share_of_reported_pct": None,
+        "why": ("HD-2 为相对 baseline 制。M0o 的 D/N 被强制为 20,而本律自身的无质量投入最优比值不同,"
+                "故 gap_reported 含一部分与质量通道无关的虚增"),
+        "status": "M0o 定义未改动;是否改动属使用者未裁定项",
+    }
+    if m0o_p is not None:
+        out["gap_quality_only"] = float(m0o_p["loss"] - loss_M1o)
+        out["gap_ratio_handicap"] = float(m0o["loss"] - m0o_p["loss"])
+        if out["gap_reported"] != 0.0:
+            out["handicap_share_of_reported_pct"] = float(
+                out["gap_ratio_handicap"] / out["gap_reported"] * 100.0)
+    return out
+\end{lstlisting}
+
+\subsection{问题四：演进分解、桥接与前沿预测}
+
+\subsubsection*{规模通道 / 技术通道分解（\texttt{decompose}）}
+
+\begin{lstlisting}[language=Python]
+def decompose(df: pd.DataFrame, scale_cols: list[str], time_key: str,
+              fn_spec: str = "decile", n_bins: int = 10) -> dict:
+    """S = f(scale) + tau_t + eps 的加性分解。
+
+    fn_spec='decile'  主口径:第一个 scale 列取十分位 dummy,其余列线性进入
+    fn_spec='linear'  敏感性:全部 scale 列线性进入
+
+    加性结构 ⇒ 两因子 Shapley 与本分解恒等,无交互项,份额和恒为 1。
+    """
+    d = df.copy()
+    if fn_spec == "decile":
+        d["_nb"] = pd.qcut(d[scale_cols[0]], n_bins, labels=False, duplicates="drop")
+        Xs, _ = _dummies(d["_nb"])
+        extra = [d[[c]].to_numpy(float) for c in scale_cols[1:]]
+        Xs = np.hstack([Xs] + extra) if extra else Xs
+    else:
+        Xs = d[scale_cols].to_numpy(float)
+
+    Xt, t_levels = _dummies(d[time_key])
+    X = np.hstack([np.ones((len(d), 1)), Xs, Xt])
+    y = d["S"].to_numpy(float)
+    beta, *_ = np.linalg.lstsq(X, y, rcond=None)
+
+    n_s = Xs.shape[1]
+    b_s, b_t = beta[1:1 + n_s], beta[1 + n_s:]
+    periods = sorted(d[time_key].unique())
+    first, last = periods[0], periods[-1]
+    tau = dict(zip(t_levels, b_t))
+    tau_first, tau_last = 0.0, float(tau.get(last, 0.0))
+
+    d["_f"] = Xs @ b_s
+    f_first = float(d.loc[d[time_key] == first, "_f"].mean())
+    f_last = float(d.loc[d[time_key] == last, "_f"].mean())
+
+    scale_pts, tech_pts = f_last - f_first, tau_last - tau_first
+    total = scale_pts + tech_pts
+    return {
+        "fn_spec": fn_spec,
+        "scale_points": scale_pts,
+        "tech_points": tech_pts,
+        "total_points": total,
+        "scale_share": scale_pts / total if total != 0 else float("nan"),
+        "tech_share": tech_pts / total if total != 0 else float("nan"),
+        "share_interpretable": bool(total > 0),
+        "first_period": str(first),
+        "last_period": str(last),
+        "n": int(len(d)),
+        "tau_path": {str(k): round(float(v), 6) for k, v in tau.items()},
+    }
+\end{lstlisting}
+
+\subsubsection*{主口径归因（\texttt{m1a\_attribution}）}
+
+\begin{lstlisting}[language=Python]
+def m1a_attribution(c1: pd.DataFrame, rng: np.random.Generator) -> dict:
+    """主口径 A(十分位 dummy) + 规格敏感性 B(线性 log N)，裁定 C 要求两者都报。"""
+    main = decompose(c1, ["logN"], "ym", "decile")
+    boot = bootstrap_decompose(c1, ["logN"], "ym", "decile", rng, B_BOOT)
+    sens = decompose(c1, ["logN"], "ym", "linear")
+
+    cq = c1.copy()
+    cq["yq"] = cq["date"].dt.to_period("Q")
+    specs = {
+        "decile_month": main,
+        "linear_month": sens,
+        "decile_quarter": decompose(cq, ["logN"], "yq", "decile"),
+        "linear_quarter": decompose(cq, ["logN"], "yq", "linear"),
+    }
+
+    # 分组:题目硬性要求区分 pretrained 与 chat/finetuned
+    groups = {}
+    for g, sub in c1.groupby("type_group"):
+        if len(sub) < 100 or sub["ym"].nunique() < 3:
+            groups[g] = {"n": int(len(sub)), "note": "样本或月份不足，不单独分解"}
+            continue
+        r = decompose(sub, ["logN"], "ym", "decile")
+        rb = bootstrap_decompose(sub, ["logN"], "ym", "decile", rng, 400)
+        groups[g] = {**r, **rb}
+
+    m2a_triggered = bool(boot["scale_share_ci95"] and boot["scale_share_ci95"][0] < 0)
+    return {
+        "method_id": "M1a",
+        "role": "main",
+        "approved_spec": "C_main_spec_A",
+        "main_spec_decile_month": {**main, **boot},
+        "sensitivity_specs": {k: {"scale_share": round(v["scale_share"], 4),
+                                  "tech_share": round(v["tech_share"], 4),
+                                  "scale_points": round(v["scale_points"], 4),
+                                  "tech_points": round(v["tech_points"], 4),
+                                  "total_points": round(v["total_points"], 4),
+                                  "share_interpretable": v["share_interpretable"]}
+                              for k, v in specs.items()},
+        "by_type_group": groups,
+        "m2a_fallback_triggered": m2a_triggered,
+        "m2a_note": ("未触发，占比口径成立" if not m2a_triggered else
+                     "已触发：scale_share 区间下界 < 0，须改报绝对点数与方向"),
+        "wording_red_line": "tau_t 只能表述为「非规模技术/数据工程综合进步」，不得写成架构/算法进步",
+    }
+\end{lstlisting}
+
+\subsubsection*{Loss → Benchmark 桥接（\texttt{fit\_bridge}）}
+
+\begin{lstlisting}[language=Python]
+def fit_bridge(rng: np.random.Generator) -> dict:
+    """分层桥接 Score = g(Loss)。High 层作主锚,Medium 层降权,报映射误差。"""
+    br = load_bridge()
+    out: dict = {"n_total": int(len(br)), "tiers": {}}
+    for tier, sub in br.groupby("tier"):
+        r, p = spearmanr(sub["Val_Loss"], sub["LB_Average"])
+        out["tiers"][tier] = {"n": int(len(sub)), "spearman": round(float(r), 4),
+                             "p_value": float(p)}
+
+    # 主拟合:线性(单调约束由斜率符号检查代替),High 层加权
+    w = np.where(br["tier"].to_numpy() == "High", 3.0, 1.0)
+    X = np.vstack([np.ones(len(br)), br["Val_Loss"].to_numpy(float)]).T
+    y = br["LB_Average"].to_numpy(float)
+    W = np.diag(w)
+    coef = np.linalg.lstsq(W @ X, W @ y, rcond=None)[0]
+    pred = X @ coef
+    resid = y - pred
+    rmse = float(np.sqrt((resid ** 2).mean()))
+
+    boot = []
+    idx_all = np.arange(len(br))
+    for _ in range(B_BOOT):
+        idx = rng.choice(idx_all, size=len(idx_all), replace=True)
+        try:
+            c = np.linalg.lstsq(W[np.ix_(idx, idx)] @ X[idx], W[np.ix_(idx, idx)] @ y[idx],
+                                rcond=None)[0]
+            boot.append(c)
+        except Exception:
+            continue
+    boot_a = np.asarray(boot)
+    return {
+        **out,
+        "form": "LB_Average = a + b * Val_Loss（High 层权重 3:1）",
+        "intercept": round(float(coef[0]), 4),
+        "slope": round(float(coef[1]), 4),
+        "slope_ci95": [round(float(np.quantile(boot_a[:, 1], 0.025)), 4),
+                       round(float(np.quantile(boot_a[:, 1], 0.975)), 4)] if len(boot_a) else None,
+        "monotone_decreasing": bool(coef[1] < 0),
+        "rmse": round(rmse, 4),
+        "mapping_error_sigma": round(float(resid.std(ddof=2)), 4),
+        "high_tier_caveat": (
+            "High 层 n=7，方向正确但 p 不显著（样本量所致）。"
+            "按 F10 纪律：不得据此认为 High 层质量更差。映射误差作独立随机项传播。"
+        ),
+        "no_circularity": "Loss_Source 全为技术报告/训练日志，无标度律估算行（B4 PASS）",
+    }
+\end{lstlisting}
+
+\subsubsection*{前沿预测蒙特卡洛（\texttt{frontier\_mc}）}
+
+\begin{lstlisting}[language=Python]
+def frontier_mc(c1: pd.DataFrame, bridge: dict, attribution: dict, q2: dict,
+                rng: np.random.Generator, n_mc: int = 4000) -> dict:
+    """三情景 × 蒙特卡洛,同时抽:技术趋势斜率、桥接映射误差、标度律参数。
+
+    技术通道:用 M1a 的 tau 路径月度斜率 × 情景衰减。
+    规模通道:算力年增速经 Q2 标度律折成 Loss 下降,再经桥接折成 Score 增益。
+    """
+    # 对象一致性:前沿是 q90 水平,故须用 q90 自身的斜率,再按归因份额拆成两通道。
+    # 直接把 tau(全样本均值层面,≈0.545/月)加到 q90 水平上是对象不一致,会系统性低估
+    # (q90 实际 ≈1.53/月)。该缺陷在首轮实现中出现过,已修。
+    tau = attribution["main_spec_decile_month"]["tau_path"]
+    ks = sorted(tau.keys())
+    tv = np.array([tau[k] for k in ks], float)
+    x_t = np.arange(len(tv), dtype=float)
+    tau_slope_mean_level, _ = np.polyfit(x_t, tv, 1)
+
+    q = c1.groupby("ym")["S"].quantile(FRONTIER_Q)
+    cur = float(q.to_numpy()[-1])
+    xq = np.arange(len(q), dtype=float)
+    yq = q.to_numpy(float)
+    q_slope, q_int = np.polyfit(xq, yq, 1)
+    q_resid = yq - (q_slope * xq + q_int)
+    q_slope_se = float(q_resid.std(ddof=2) / np.sqrt(((xq - xq.mean()) ** 2).sum()))
+
+    # 按主口径归因份额把前沿斜率拆为两通道
+    sh_tech = attribution["main_spec_decile_month"]["tech_share"]
+    sh_scale = attribution["main_spec_decile_month"]["scale_share"]
+    slope_tech = float(q_slope * sh_tech)
+    slope_scale = float(q_slope * sh_scale)
+
+    b_slope = bridge["slope"]
+    b_sig = bridge["mapping_error_sigma"]
+    E, A, al, B, be = q2["E"], q2["A"], q2["alpha"], q2["B"], q2["beta"]
+
+    def loss_at(mult: float) -> float:
+        """算力放大 mult 倍时的 Loss(按 Chinchilla 比例同步放大 N,D)。"""
+        n0, d0 = 10.0, 300.0
+        s = np.sqrt(mult)
+        return E + A * (n0 * s) ** -al + B * (d0 * s) ** -be
+
+    out: dict = {"current_frontier": round(cur, 3), "n_mc": n_mc,
+                 "frontier_slope_per_month": round(float(q_slope), 4),
+                 "frontier_slope_se": round(q_slope_se, 4),
+                 "slope_tech_channel": round(slope_tech, 4),
+                 "slope_scale_channel": round(slope_scale, 4),
+                 "tau_slope_mean_level_for_reference": round(float(tau_slope_mean_level), 4),
+                 "object_consistency_note": (
+                     "前沿为 q90 水平，故用 q90 自身斜率按归因份额拆通道；"
+                     "tau 的均值层面斜率仅作参照，不直接加到 q90 上"
+                 ),
+                 "scenarios": {}}
+
+    # 规模通道的情景弹性:以中性情景的算力增速为基准做相对缩放
+    g_ref = SCENARIOS["neutral"]["compute_growth_per_year"]
+    dloss_ref = loss_at(g_ref) - loss_at(1.0)
+
+    for name, cfg in SCENARIOS.items():
+        g, decay = cfg["compute_growth_per_year"], cfg["tech_decay"]
+        per_h = {}
+        for h in (12, 24):
+            draws = np.empty(n_mc)
+            mult = g ** (h / 12.0)
+            dloss = loss_at(mult) - loss_at(1.0)
+            # 规模通道:相对中性情景的 Loss 降幅比,缩放该通道的历史斜率贡献
+            scale_factor = (dloss / dloss_ref) if dloss_ref != 0 else 1.0
+            for i in range(n_mc):
+                st = (slope_tech + rng.normal(0, q_slope_se * abs(sh_tech))) * decay
+                ss = (slope_scale + rng.normal(0, q_slope_se * abs(sh_scale))) * scale_factor
+                b_i = b_slope + rng.normal(0, abs(b_slope) * 0.15)
+                bridge_noise = rng.normal(0, b_sig) * (b_i / b_slope if b_slope else 1.0)
+                draws[i] = cur + (st + ss) * h + bridge_noise
+            draws = np.clip(draws, 0, 100)
+            per_h[f"h{h}"] = {
+                "median": round(float(np.median(draws)), 3),
+                "lo80": round(float(np.quantile(draws, 0.10)), 3),
+                "hi80": round(float(np.quantile(draws, 0.90)), 3),
+                "lo95": round(float(np.quantile(draws, 0.025)), 3),
+                "hi95": round(float(np.quantile(draws, 0.975)), 3),
+                "width95": round(float(np.quantile(draws, 0.975) - np.quantile(draws, 0.025)), 3),
+            }
+        out["scenarios"][name] = {"config": cfg, **per_h}
+
+    neu12 = out["scenarios"]["neutral"]["h12"]
+    out["user_criterion"] = {
+        "statement": "中性情景下 12 个月的 80% 区间下界 > 当前前沿值",
+        "lo80": neu12["lo80"],
+        "current_frontier": round(cur, 3),
+        "passed": bool(neu12["lo80"] > cur),
+        "width95_reported_not_gated": neu12["width95"],
+    }
+    out["uncertainty_sources"] = ["技术趋势斜率", "桥接映射误差", "桥接斜率不确定性"]
+    out["horizon_note"] = (
+        f"被判定视界为 {HORIZON_MONTHS} 个月。24 个月一并列出但未经裁定作主报；"
+        "饱和形态(得分 0-100 上界)在 9.1 个月窗口内不可检验，该假设不可验证。"
+    )
+    return out
+\end{lstlisting}
+
+\subsubsection*{趋势法月斜率与份额（\texttt{trend}）}
+
+\begin{lstlisting}[language=Python]
+def trend(d, spec):
+    d, bt, tl = fit(d, spec, "ym")
+    ms = sorted(d["ym"].unique())
+    x = np.arange(len(ms), dtype=float)
+    tau = np.array([0.0] + [dict(zip(tl, bt))[m] for m in ms[1:]])
+    fb = np.array([d.loc[d["ym"] == m, "_f"].mean() for m in ms])
+    sf = float(np.polyfit(x, fb, 1)[0])
+    st = float(np.polyfit(x, tau, 1)[0])
+    span = len(ms) - 1
+    sc, tc = sf * span, st * span
+    tot = sc + tc
+    return dict(slope_f=sf, slope_tau=st, slope_ratio=st / sf if sf else float("nan"),
+                scale_points=sc, tech_points=tc, total_points=tot,
+                scale_share=sc / tot, tech_share=tc / tot, n_months=len(ms))
+\end{lstlisting}

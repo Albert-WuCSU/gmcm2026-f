@@ -1,0 +1,4 @@
+source,n,spearman,spearman_p,rmse_after_deoffset,data_provenance,metric_note
+B4,57,0.982982,3.660e-42,0.192657,real (cross-family convergence points),禁报跨源未去偏 R²（P1）
+B5,44,0.958808,1.406e-24,0.199662,"literature values (published, not own observation)",禁报跨源未去偏 R²（P1）
+B2,1029,0.788102,1.171e-218,0.418526,SEMI-SYNTHETIC (Cerebras trajectory) — GC5: 不得表述为直接观测,禁报跨源未去偏 R²（P1）

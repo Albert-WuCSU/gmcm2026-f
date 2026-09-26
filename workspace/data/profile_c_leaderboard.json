@@ -1,0 +1,295 @@
+{
+ "C1": {
+  "rows": 4576,
+  "columns": [
+   "Model",
+   "#Params (B)",
+   "Submission Date",
+   "Hub License",
+   "Type",
+   "Average ⬆️",
+   "IFEval",
+   "BBH",
+   "MATH Lvl 5",
+   "GPQA",
+   "MUSR",
+   "MMLU-PRO"
+  ],
+  "date_min": "2024-06-08",
+  "date_max": "2025-03-13",
+  "date_missing": 12,
+  "year_counts": {
+   "2024": 2662,
+   "2025": 1902
+  },
+  "license_top": {
+   "(blank)": 1753,
+   "apache-2.0": 1482,
+   "other": 296,
+   "mit": 284,
+   "llama3.1": 178,
+   "cc-by-nc-4.0": 125,
+   "gemma": 123,
+   "llama3.2": 121,
+   "llama3": 118,
+   "llama2": 25,
+   "creativeml-openrail-m": 15,
+   "llama3.3": 10
+  },
+  "license_n_unique": 27,
+  "type_counts": {
+   "💬 chat models (RLHF, DPO, IFT, ...)": 718,
+   "🟢 pretrained": 275,
+   "🔶 fine-tuned on domain-specific datasets": 1785,
+   "🤝 base merges and moerges": 1724,
+   "🟩 continuously pretrained": 58,
+   "🌸 multimodal": 9,
+   "❓ other": 7
+  },
+  "params_B": {
+   "n": 4573,
+   "min": 0.0,
+   "p50": 8.03,
+   "max": 140.63,
+   "mean": 11.24512858080035
+  },
+  "six_dims": {
+   "IFEval": {
+    "n": 4576,
+    "min": 0.0,
+    "p50": 45.127927233074914,
+    "max": 89.97581971391463,
+    "mean": 45.58448623430687
+   },
+   "BBH": {
+    "n": 4576,
+    "min": 0.25152703505644675,
+    "p50": 29.491580809437377,
+    "max": 76.69996850001888,
+    "mean": 27.647478672721277
+   },
+   "MATH Lvl 5": {
+    "n": 4576,
+    "min": 0.0,
+    "p50": 10.80060422960725,
+    "max": 71.45015105740181,
+    "mean": 15.550498709880689
+   },
+   "GPQA": {
+    "n": 4576,
+    "min": 0.0,
+    "p50": 5.92841163310962,
+    "max": 29.418344519015662,
+    "mean": 6.717595091336702
+   },
+   "MUSR": {
+    "n": 4576,
+    "min": 0.0,
+    "p50": 10.0171875,
+    "max": 38.688020833333326,
+    "mean": 9.983966733136654
+   },
+   "MMLU-PRO": {
+    "n": 4576,
+    "min": 0.0,
+    "p50": 27.19414893617021,
+    "max": 70.03361406619385,
+    "mean": 25.40515259618484
+   }
+  }
+ },
+ "C3": {
+  "rows": 4599,
+  "columns": [
+   "Model",
+   "Year",
+   "Params_B",
+   "Average",
+   "IFEval",
+   "BBH",
+   "MATH_Lvl5",
+   "GPQA",
+   "MUSR",
+   "MMLU_PRO",
+   "Source"
+  ],
+  "date_min": null,
+  "date_max": null,
+  "year_counts": {}
+ },
+ "C4": {
+  "rows": 3523,
+  "n_columns": 57,
+  "open_weight_columns": [
+   "Open model weights?"
+  ],
+  "compute_columns": [
+   "Training compute (FLOP)",
+   "Training compute notes",
+   "Finetune compute (FLOP)",
+   "Finetune compute notes",
+   "Training cloud compute vendor",
+   "Training compute lower bound",
+   "Training compute upper bound",
+   "Training compute cost (2023 USD)",
+   "Training compute estimation method",
+   "Post-training compute (FLOP)",
+   "Post-training compute notes"
+  ],
+  "open_weight_counts": {
+   "Open model weights?": {
+    "No": 1328,
+    "Yes": 1325,
+    "(blank)": 870
+   }
+  }
+ },
+ "C5": {
+  "rows": 43,
+  "columns": [
+   "Model",
+   "N_params_B",
+   "D_tokens_B",
+   "Val_Loss",
+   "LB_Average",
+   "LB_IFEval",
+   "LB_BBH",
+   "LB_MATH",
+   "LB_GPQA",
+   "LB_MUSR",
+   "LB_MMLU_PRO",
+   "Loss_Source",
+   "Loss_Comparability"
+  ],
+  "comparability_counts": {
+   "High (same model, same validation set)": 7,
+   "Medium (different validation set, approximate)": 36
+  },
+  "loss_source_counts": {
+   "Pythia training log (Attachment B, final checkpoint D=299.9B tokens)": 7,
+   "Qwen2.5 Technical Report (Alibaba, 2024), validation loss": 6,
+   "Qwen2 Technical Report (Alibaba, 2024), validation loss": 4,
+   "Gemma 2 Technical Report (Google, 2024), final loss": 3,
+   "Gemma Technical Report (Google, 2024), final loss": 3,
+   "Phi-3 Technical Report (Microsoft, 2024), training loss": 3,
+   "LLaMA 3 Technical Report (Meta, 2024), training loss at convergence": 2,
+   "LLaMA 2 paper (Touvron et al., 2023), training loss": 2
+  },
+  "val_loss": {
+   "n": 43,
+   "min": 1.65,
+   "p50": 2.125,
+   "max": 2.84,
+   "mean": 2.157541860465116
+  },
+  "lb_average": {
+   "n": 43,
+   "min": 5.07026822083096,
+   "p50": 13.852701161320264,
+   "max": 38.441143572535815,
+   "mean": 15.936398151104994
+  },
+  "pearson_loss_vs_avg_all": -0.5015263577478097,
+  "pearson_by_tier": {
+   "High (same model, same validation set)": {
+    "n": 7,
+    "pearson_loss_vs_avg": -0.39746631474238425
+   },
+   "Medium (different validation set, approximate)": {
+    "n": 36,
+    "pearson_loss_vs_avg": -0.48968366781840694
+   }
+  }
+ },
+ "C6": {
+  "rows": 75,
+  "columns": [
+   "Model",
+   "N_params_B",
+   "D_tokens_B",
+   "Val_Loss",
+   "LB_Average",
+   "LB_IFEval",
+   "LB_BBH",
+   "LB_MATH",
+   "LB_GPQA",
+   "LB_MUSR",
+   "LB_MMLU_PRO",
+   "Loss_Source",
+   "Loss_Comparability"
+  ],
+  "comparability_counts": {
+   "High (same model, same validation set)": 7,
+   "Medium (different validation set, approximate)": 68
+  },
+  "loss_source_counts": {
+   "Qwen2.5 report": 8,
+   "Pythia training log (Attachment B, final checkpoint D=299.9B tokens)": 7,
+   "Qwen2.5 Technical Report (Alibaba, 2024), validation loss": 6,
+   "Qwen2 Technical Report (Alibaba, 2024), validation loss": 4,
+   "Yi-1.5 report": 4,
+   "Yi technical report": 4,
+   "Gemma2 report": 4,
+   "Gemma 2 Technical Report (Google, 2024), final loss": 3
+  },
+  "val_loss": {
+   "n": 75,
+   "min": 1.65,
+   "p50": 2.1,
+   "max": 2.84,
+   "mean": 2.147790666666667
+  },
+  "lb_average": {
+   "n": 75,
+   "min": 3.795510241848182,
+   "p50": 17.046939294966545,
+   "max": 47.98045991216864,
+   "mean": 19.109724016216422
+  },
+  "pearson_loss_vs_avg_all": -0.5100149555875958,
+  "pearson_by_tier": {
+   "High (same model, same validation set)": {
+    "n": 7,
+    "pearson_loss_vs_avg": -0.39746631474238425
+   },
+   "Medium (different validation set, approximate)": {
+    "n": 68,
+    "pearson_loss_vs_avg": -0.5024927784967311
+   }
+  }
+ },
+ "C7": {
+  "rows": 45,
+  "columns": [
+   "model_name",
+   "n_layers",
+   "n_heads",
+   "d_model",
+   "vocab_size",
+   "max_position_embeddings",
+   "training_data_TB"
+  ],
+  "max_position_embeddings_counts": {
+   "2048": 18,
+   "4096": 8,
+   "8192": 7,
+   "32768": 11,
+   "131072": 1
+  },
+  "match_to_C1": {
+   "c7_models": 44,
+   "c1_models": 4456,
+   "exact_normalised_matches": 37,
+   "match_rate_of_c7": 0.8409,
+   "unmatched_c7_examples": [
+    "cerebrasgpt111m",
+    "cerebrasgpt13b",
+    "cerebrasgpt256m",
+    "cerebrasgpt27b",
+    "cerebrasgpt590m",
+    "cerebrasgpt67b",
+    "pythia70m"
+   ]
+  }
+ }
+}

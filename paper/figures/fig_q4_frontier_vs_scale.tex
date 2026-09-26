@@ -1,0 +1,106 @@
+% ============================================================================
+% 图:前沿在升、前沿上的模型在缩(Q4 归因结论的可视化锚点)
+% 数据来源(全部落盘核验):
+%   results/Q4/experiments/round2/tables/q4_N_and_frontier_by_month.csv
+%   results/Q4/experiments/round2/n_frontier_meta.json
+% 需要:\usepackage{pgfplots} \pgfplotsset{compat=1.18} \usetikzlibrary{patterns}
+% ============================================================================
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}
+\begin{axis}[
+    width=0.86\textwidth, height=0.52\textwidth,
+    scale only axis,
+    axis y line*=left,
+    ymode=log, log basis y=10,
+    ylabel={参数量 $N$ / B（对数轴）},
+    xlabel={提交月份（2024-06 $\rightarrow$ 2025-03）},
+    xmin=-0.4, xmax=9.4, ymin=0.35, ymax=170,
+    xtick={0,1,2,3,4,5,6,7,8,9},
+    xticklabels={06,07,08,09,10,11,12,01,02,03},
+    ytick={0.5,1,2,5,10,20,50,100},
+    yticklabels={0.5,1,2,5,10,20,50,100},
+    grid=major, grid style={gray!18, line width=0.3pt},
+    tick align=outside, tick pos=left,
+    label style={font=\small}, tick label style={font=\footnotesize},
+    legend style={font=\scriptsize, at={(0.02,0.03)}, anchor=south west,
+                  draw=gray!40, fill=white, fill opacity=0.9, text opacity=1,
+                  row sep=1pt, inner sep=3pt},
+    legend cell align=left,
+]
+
+% ---- N 的 0.9 分位:本图主角,显著下降
+\addplot[color=red!72!black, line width=1.5pt, mark=*, mark size=2.3pt,
+         mark options={fill=red!72!black}]
+    coordinates {
+    (0,46.7030) (1,24.1540) (2,70.5540) (3,27.2270) (4,22.0541)
+    (5,14.7700) (6,14.7700) (7,14.7660) (8,14.7660) (9,14.7700)};
+\addlegendentry{$N$ 的 0.9 分位（高分段规模）}
+
+% ---- N 的中位:几乎不动
+\addplot[color=black!62, line width=1.1pt, mark=square*, mark size=1.9pt,
+         dashed, mark options={solid, fill=black!62}]
+    coordinates {
+    (0,8.030) (1,8.030) (2,8.030) (3,8.030) (4,8.030)
+    (5,7.616) (6,8.030) (7,7.616) (8,8.030) (9,7.616)};
+\addlegendentry{$N$ 的中位数}
+
+% ---- N 的 0.1 分位
+\addplot[color=black!38, line width=0.9pt, mark=triangle*, mark size=1.9pt,
+         densely dotted, mark options={solid, fill=black!38}]
+    coordinates {
+    (0,2.690) (1,2.614) (2,2.850) (3,2.956) (4,1.777)
+    (5,1.100) (6,0.630) (7,0.508) (8,1.777) (9,1.498)};
+\addlegendentry{$N$ 的 0.1 分位}
+
+% ---- 0.9 分位的下降标注
+\draw[<->, red!72!black, line width=0.7pt, dash pattern=on 2pt off 1.5pt]
+    (axis cs:0.28,46.703) -- (axis cs:0.28,14.77);
+\node[anchor=west, font=\scriptsize, color=red!72!black, align=left]
+    at (axis cs:0.42,26.2) {$46.70\to 14.77$\,B\\[-1pt]\textbf{缩至 $1/3.162$}};
+\end{axis}
+
+% ============ 右轴:能力前沿 ============
+\begin{axis}[
+    width=0.86\textwidth, height=0.52\textwidth,
+    scale only axis,
+    axis y line*=right, axis x line=none,
+    ylabel={能力前沿 $S_{q90}$（Average 的 0.9 分位）},
+    xmin=-0.4, xmax=9.4, ymin=18, ymax=52,
+    ytick={20,25,30,35,40,45},
+    label style={font=\small}, tick label style={font=\footnotesize},
+    y label style={color=blue!62!black},
+    tick label style={color=blue!62!black},
+    legend style={font=\scriptsize, at={(0.98,0.03)}, anchor=south east,
+                  draw=gray!40, fill=white, fill opacity=0.9, text opacity=1,
+                  inner sep=3pt},
+    legend cell align=left,
+]
+% 前沿实测
+\addplot[color=blue!62!black, line width=1.7pt, mark=diamond*, mark size=2.7pt,
+         mark options={fill=blue!62!black}]
+    coordinates {
+    (0,25.9201) (1,28.0937) (2,35.8514) (3,32.3817) (4,34.4500)
+    (5,35.0920) (6,38.6965) (7,38.0236) (8,40.0005) (9,41.3875)};
+\addlegendentry{能力前沿（右轴）}
+
+% 线性趋势 1.5333/月
+\addplot[color=blue!62!black, line width=0.8pt, densely dashed, forget plot,
+         domain=0:9, samples=2]
+    {28.0897 + 1.5333*x};   % 截距为 OLS 拟合值(results/Q4/.../q4_N_and_frontier_by_month.csv)
+
+\node[anchor=south east, font=\scriptsize, color=blue!62!black, align=right]
+    at (axis cs:9.15,42.6) {斜率 $+1.5333$/月\\[-1pt]$25.92\to 41.39$};
+\end{axis}
+\end{tikzpicture}
+
+\caption{\textbf{能力前沿上升的同期，前沿上的模型规模在收缩。}
+左轴（对数）为参数量 $N$ 的三个分位，右轴为能力前沿 $S_{q90}$（榜单 Average 的 $0.9$ 分位）。
+$2024\text{-}06\to2025\text{-}03$ 共 $10$ 个月、$4561$ 个投榜模型：前沿由 $25.92$ 升至 $41.39$
+（$+1.5333$/月），而同期 $N$ 的 $0.9$ 分位由 $46.70$\,B 降至 $14.77$\,B
+（$\log_{10}N$ 月斜率 $-0.06281$，十个月累计 $-0.5653$ dex，即缩至 $1/3.162$），
+$N$ 的中位数几乎不动（月斜率 $-0.00209$）。
+这是本问归因结论的直接证据：规模通道在本窗口内没有扩张，
+能力提升主要来自非规模技术/数据工程综合进步。}
+\label{fig:q4-frontier-vs-scale}
+\end{figure}

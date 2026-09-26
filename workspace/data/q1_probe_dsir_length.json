@@ -1,0 +1,186 @@
+{
+ "schema_version": 1,
+ "n_rows": 272486,
+ "domains": [
+  "arxiv",
+  "book",
+  "c4",
+  "commoncrawl",
+  "github",
+  "stackexchange",
+  "wikipedia"
+ ],
+ "raw": {
+  "pearson_dsir_vs_word_count": {
+   "dsir_books": -0.6239,
+   "dsir_wiki": -0.6451,
+   "dsir_math": -0.6363
+  },
+  "spearman_dsir_vs_word_count": {
+   "dsir_books": -0.9268,
+   "dsir_wiki": -0.9284,
+   "dsir_math": -0.9346
+  },
+  "pearson_log_neg_dsir_vs_log_wc": {
+   "dsir_books": 0.9374,
+   "dsir_wiki": 0.9385,
+   "dsir_math": 0.9391
+  },
+  "mutual_corr": {
+   "dsir_books~dsir_wiki": 0.99889,
+   "dsir_books~dsir_math": 0.96949,
+   "dsir_wiki~dsir_math": 0.97472
+  },
+  "spearman_vs_fineweb_edu": {
+   "dsir_books": -0.4991,
+   "dsir_wiki": -0.4991,
+   "dsir_math": -0.4952
+  },
+  "magnitude": {
+   "dsir_books": {
+    "min": -2026325.8,
+    "p50": -2395.2,
+    "max": -16.82
+   },
+   "dsir_wiki": {
+    "min": -1966147.7,
+    "p50": -2409.9,
+    "max": -17.66
+   },
+   "dsir_math": {
+    "min": -1754034.3,
+    "p50": -2301.9,
+    "max": -15.06
+   }
+  },
+  "ratio_dsir_over_wordcount_stability": {
+   "dsir_books": {
+    "p05": -37.7158,
+    "p50": -17.3432,
+    "p95": -4.8124
+   },
+   "dsir_wiki": {
+    "p05": -37.7749,
+    "p50": -17.3802,
+    "p95": -4.8395
+   },
+   "dsir_math": {
+    "p05": -36.1357,
+    "p50": -16.2342,
+    "p95": -4.2722
+   }
+  }
+ },
+ "per_token": {
+  "pearson_dsir_pt_vs_word_count": {
+   "dsir_books": 0.1925,
+   "dsir_wiki": 0.1933,
+   "dsir_math": 0.2126
+  },
+  "spearman_dsir_pt_vs_word_count": {
+   "dsir_books": 0.6238,
+   "dsir_wiki": 0.6239,
+   "dsir_math": 0.6585
+  },
+  "mutual_corr": {
+   "dsir_books~dsir_wiki": 0.99966,
+   "dsir_books~dsir_math": 0.99623,
+   "dsir_wiki~dsir_math": 0.99608
+  },
+  "spearman_vs_fineweb_edu": {
+   "dsir_books": 0.3741,
+   "dsir_wiki": 0.3741,
+   "dsir_math": 0.4015
+  }
+ },
+ "domain_order": {
+  "raw": {
+   "dsir_books": {
+    "order": [
+     "c4",
+     "wikipedia",
+     "stackexchange",
+     "github",
+     "commoncrawl",
+     "arxiv",
+     "book"
+    ],
+    "range": 0.62468,
+    "auc_arxiv_vs_github": 0.0338
+   },
+   "dsir_wiki": {
+    "order": [
+     "c4",
+     "wikipedia",
+     "stackexchange",
+     "github",
+     "commoncrawl",
+     "arxiv",
+     "book"
+    ],
+    "range": 0.63774,
+    "auc_arxiv_vs_github": 0.0347
+   },
+   "dsir_math": {
+    "order": [
+     "c4",
+     "wikipedia",
+     "stackexchange",
+     "github",
+     "commoncrawl",
+     "arxiv",
+     "book"
+    ],
+    "range": 0.63363,
+    "auc_arxiv_vs_github": 0.0449
+   }
+  },
+  "per_token": {
+   "dsir_books": {
+    "order": [
+     "book",
+     "commoncrawl",
+     "c4",
+     "arxiv",
+     "wikipedia",
+     "stackexchange",
+     "github"
+    ],
+    "range": 0.59978,
+    "auc_arxiv_vs_github": 0.9461
+   },
+   "dsir_wiki": {
+    "order": [
+     "book",
+     "commoncrawl",
+     "c4",
+     "arxiv",
+     "wikipedia",
+     "stackexchange",
+     "github"
+    ],
+    "range": 0.59967,
+    "auc_arxiv_vs_github": 0.9481
+   },
+   "dsir_math": {
+    "order": [
+     "book",
+     "arxiv",
+     "commoncrawl",
+     "c4",
+     "wikipedia",
+     "stackexchange",
+     "github"
+    ],
+    "range": 0.60104,
+    "auc_arxiv_vs_github": 0.9815
+   }
+  }
+ },
+ "verdict": {
+  "raw_mutual_corr_min": 0.96949,
+  "per_token_mutual_corr_min": 0.99608,
+  "length_domination_confirmed": true,
+  "per_token_decouples_the_three": false
+ }
+}

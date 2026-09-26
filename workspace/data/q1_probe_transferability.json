@@ -1,0 +1,208 @@
+{
+ "schema_version": 1,
+ "seed": 20260924,
+ "n_rows": 272486,
+ "domains": [
+  "arxiv",
+  "book",
+  "c4",
+  "commoncrawl",
+  "github",
+  "stackexchange",
+  "wikipedia"
+ ],
+ "per_domain_cap_for_auc": 4000,
+ "normalization": "pooled ecdf + direction unified",
+ "per_indicator": {
+  "fineweb_edu": {
+   "tier": "A",
+   "group": "value",
+   "eta2_domain_explained": 0.14449,
+   "max_pair_separation": 0.4125,
+   "median_pair_separation": 0.1566
+  },
+  "ad_en_margin": {
+   "tier": "A",
+   "group": "pollution",
+   "eta2_domain_explained": 0.0748,
+   "max_pair_separation": 0.3001,
+   "median_pair_separation": 0.1933
+  },
+  "fluency_en_margin": {
+   "tier": "A",
+   "group": "value",
+   "eta2_domain_explained": 0.26037,
+   "max_pair_separation": 0.4698,
+   "median_pair_separation": 0.1909
+  },
+  "modernbert_cleanliness": {
+   "tier": "A",
+   "group": "value",
+   "eta2_domain_explained": 0.40766,
+   "max_pair_separation": 0.4962,
+   "median_pair_separation": 0.2218
+  },
+  "modernbert_readability": {
+   "tier": "A",
+   "group": "value",
+   "eta2_domain_explained": 0.27816,
+   "max_pair_separation": 0.4605,
+   "median_pair_separation": 0.2241
+  },
+  "modernbert_reasoning": {
+   "tier": "A",
+   "group": "value",
+   "eta2_domain_explained": 0.26505,
+   "max_pair_separation": 0.496,
+   "median_pair_separation": 0.3692
+  },
+  "modernbert_professionalism": {
+   "tier": "A",
+   "group": "value",
+   "eta2_domain_explained": 0.38098,
+   "max_pair_separation": 0.499,
+   "median_pair_separation": 0.412
+  },
+  "qurater": {
+   "tier": "A",
+   "group": "value",
+   "eta2_domain_explained": 0.21085,
+   "max_pair_separation": 0.4882,
+   "median_pair_separation": 0.1445
+  },
+  "dsir_books": {
+   "tier": "C",
+   "group": "value",
+   "eta2_domain_explained": 0.19005,
+   "max_pair_separation": 0.4958,
+   "median_pair_separation": 0.3249
+  },
+  "dsir_wiki": {
+   "tier": "C",
+   "group": "value",
+   "eta2_domain_explained": 0.18918,
+   "max_pair_separation": 0.4957,
+   "median_pair_separation": 0.3154
+  },
+  "dsir_math": {
+   "tier": "C",
+   "group": "value",
+   "eta2_domain_explained": 0.18244,
+   "max_pair_separation": 0.4958,
+   "median_pair_separation": 0.3569
+  },
+  "rps_doc_word_count": {
+   "tier": "C",
+   "group": "value",
+   "eta2_domain_explained": 0.2483,
+   "max_pair_separation": 0.4959,
+   "median_pair_separation": 0.4488
+  },
+  "rps_doc_num_sentences": {
+   "tier": "C",
+   "group": "value",
+   "eta2_domain_explained": 0.17628,
+   "max_pair_separation": 0.4965,
+   "median_pair_separation": 0.441
+  },
+  "rps_doc_unigram_entropy": {
+   "tier": "B",
+   "group": "value",
+   "eta2_domain_explained": 0.27435,
+   "max_pair_separation": 0.4966,
+   "median_pair_separation": 0.4031
+  },
+  "rps_doc_frac_unique_words": {
+   "tier": "B",
+   "group": "value",
+   "eta2_domain_explained": 0.17979,
+   "max_pair_separation": 0.4897,
+   "median_pair_separation": 0.4147
+  },
+  "rps_doc_frac_no_alph_words": {
+   "tier": "B",
+   "group": "pollution",
+   "eta2_domain_explained": 0.21719,
+   "max_pair_separation": 0.4537,
+   "median_pair_separation": 0.2792
+  },
+  "rps_doc_frac_chars_top_2gram": {
+   "tier": "B",
+   "group": "pollution",
+   "eta2_domain_explained": 0.03274,
+   "max_pair_separation": 0.4227,
+   "median_pair_separation": 0.1505
+  },
+  "rps_doc_frac_chars_top_3gram": {
+   "tier": "B",
+   "group": "pollution",
+   "eta2_domain_explained": 0.01537,
+   "max_pair_separation": 0.4447,
+   "median_pair_separation": 0.1098
+  },
+  "rps_lines_uppercase_letter_fraction": {
+   "tier": "B",
+   "group": "pollution",
+   "eta2_domain_explained": 0.20804,
+   "max_pair_separation": 0.4982,
+   "median_pair_separation": 0.3963
+  },
+  "rps_lines_ending_with_terminal_punctution_mark": {
+   "tier": "B",
+   "group": "value",
+   "eta2_domain_explained": 0.25212,
+   "max_pair_separation": 0.5,
+   "median_pair_separation": 0.3112
+  },
+  "rps_lines_numerical_chars_fraction": {
+   "tier": "B",
+   "group": "pollution",
+   "eta2_domain_explained": 0.11629,
+   "max_pair_separation": 0.3668,
+   "median_pair_separation": 0.1667
+  },
+  "rps_doc_mean_word_length": {
+   "tier": "C",
+   "group": "value",
+   "eta2_domain_explained": 0.14925,
+   "max_pair_separation": 0.4657,
+   "median_pair_separation": 0.2615
+  }
+ },
+ "ranked_by_eta2_ascending": [
+  "rps_doc_frac_chars_top_3gram",
+  "rps_doc_frac_chars_top_2gram",
+  "ad_en_margin",
+  "rps_lines_numerical_chars_fraction",
+  "fineweb_edu",
+  "rps_doc_mean_word_length",
+  "rps_doc_num_sentences",
+  "rps_doc_frac_unique_words",
+  "dsir_math",
+  "dsir_wiki",
+  "dsir_books",
+  "rps_lines_uppercase_letter_fraction",
+  "qurater",
+  "rps_doc_frac_no_alph_words",
+  "rps_doc_word_count",
+  "rps_lines_ending_with_terminal_punctution_mark",
+  "fluency_en_margin",
+  "modernbert_reasoning",
+  "rps_doc_unigram_entropy",
+  "modernbert_readability",
+  "modernbert_professionalism",
+  "modernbert_cleanliness"
+ ],
+ "group_means": {
+  "pollution": {
+   "eta2": 0.11074,
+   "max_pair_sep": 0.4144,
+   "n": 6
+  },
+  "value": {
+   "eta2": 0.23683,
+   "max_pair_sep": 0.4846,
+   "n": 16
+  }
+ }
+}

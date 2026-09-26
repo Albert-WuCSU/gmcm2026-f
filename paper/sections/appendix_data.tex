@@ -1,0 +1,278 @@
+\clearpage
+\section{结果数据}
+\label{app:data}
+
+本附录给出各问的完整数值结果，与正文中的摘要表互为补充。
+全部数值由建模代码在附件数据上算出并落盘，此处直接读取，未经人工转录；
+为便于排版，数值统一四舍五入到六位有效数字，完整精度见随附的程序与结果文件。
+
+\subsection{问题一：领域级质量评分与冲突率}
+
+\begin{table}[htbp]
+  \centering
+  \caption{领域级质量评分（pooled 口径，Huber $M$ 估计与自助 95\% 区间）}
+  \label{tab:app-q1-domain}
+  \small
+  \begin{tabular}{@{}lrlrrl@{}}
+    \toprule
+    领域 & $n$ & $Q$（等权平均） & 95\% 区间 & $Q$（门控合成） & 95\% 区间 \\
+    \midrule
+    arxiv & 18942 & 0.64939 & [0.6490, 0.6498] & 0.38150 & [0.3807, 0.3823] \\
+    c4 & 10000 & 0.60188 & [0.6000, 0.6036] & 0.36380 & [0.3619, 0.3658] \\
+    commoncrawl & 9636 & 0.60130 & [0.5999, 0.6027] & 0.34794 & [0.3464, 0.3498] \\
+    stackexchange & 10000 & 0.58302 & [0.5819, 0.5842] & 0.29429 & [0.2929, 0.2958] \\
+    wikipedia & 9986 & 0.53256 & [0.5310, 0.5343] & 0.25564 & [0.2542, 0.2572] \\
+    book & 171 & 0.52638 & [0.5170, 0.5356] & 0.26677 & [0.2584, 0.2753] \\
+    github & 213751 & 0.47365 & [0.4733, 0.4740] & 0.22331 & [0.2230, 0.2236] \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\begin{table}[htbp]
+  \centering
+  \caption{冲突率：五种判据 $\times$ 三个锚点 $\times$ 两种归一化总体}
+  \label{tab:app-q1-conflict}
+  \small
+  \begin{tabular}{@{}llll@{}}
+    \toprule
+    冲突判据 & 锚点 & 归一化总体 & 冲突率 \\
+    \midrule
+    高价值 $\wedge$ 高污染 & p70 & pooled & 0.06872 \\
+    指标离差（分位数锚定） & p70 & pooled & 0.3000 \\
+    指标离差（固定阈 0.25） & p70 & pooled & 0.3031 \\
+    $\ge 5$ 项高且 $\ge 5$ 项低 & p70 & pooled & 0.3951 \\
+    $\ge 3$ 项高且 $\ge 3$ 项低 & p70 & pooled & 0.8357 \\
+    高价值 $\wedge$ 高污染 & p75 & pooled & 0.04082 \\
+    指标离差（分位数锚定） & p75 & pooled & 0.2500 \\
+    指标离差（固定阈 0.25） & p75 & pooled & 0.3031 \\
+    $\ge 5$ 项高且 $\ge 5$ 项低 & p75 & pooled & 0.2181 \\
+    $\ge 3$ 项高且 $\ge 3$ 项低 & p75 & pooled & 0.6561 \\
+    高价值 $\wedge$ 高污染 & p80 & pooled & 0.02083 \\
+    指标离差（分位数锚定） & p80 & pooled & 0.2000 \\
+    指标离差（固定阈 0.25） & p80 & pooled & 0.3031 \\
+    $\ge 5$ 项高且 $\ge 5$ 项低 & p80 & pooled & 0.1152 \\
+    $\ge 3$ 项高且 $\ge 3$ 项低 & p80 & pooled & 0.4688 \\
+    高价值 $\wedge$ 高污染 & p70 & per\_domain & 0.08457 \\
+    指标离差（分位数锚定） & p70 & per\_domain & 0.3000 \\
+    指标离差（固定阈 0.25） & p70 & per\_domain & 0.3050 \\
+    $\ge 5$ 项高且 $\ge 5$ 项低 & p70 & per\_domain & 0.4314 \\
+    $\ge 3$ 项高且 $\ge 3$ 项低 & p70 & per\_domain & 0.8225 \\
+    高价值 $\wedge$ 高污染 & p75 & per\_domain & 0.05503 \\
+    指标离差（分位数锚定） & p75 & per\_domain & 0.2500 \\
+    指标离差（固定阈 0.25） & p75 & per\_domain & 0.3050 \\
+    $\ge 5$ 项高且 $\ge 5$ 项低 & p75 & per\_domain & 0.2558 \\
+    $\ge 3$ 项高且 $\ge 3$ 项低 & p75 & per\_domain & 0.6677 \\
+    高价值 $\wedge$ 高污染 & p80 & per\_domain & 0.03170 \\
+    指标离差（分位数锚定） & p80 & per\_domain & 0.2000 \\
+    指标离差（固定阈 0.25） & p80 & per\_domain & 0.3050 \\
+    $\ge 5$ 项高且 $\ge 5$ 项低 & p80 & per\_domain & 0.1411 \\
+    $\ge 3$ 项高且 $\ge 3$ 项低 & p80 & per\_domain & 0.4810 \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\begin{table}[htbp]
+  \centering
+  \caption{配比模型的跨尺度验证（原始 $R^2$、去尺度偏移后 $R^2$、秩相关与误差分解）}
+  \label{tab:app-q1-scale}
+  \small
+  \begin{tabular}{@{}llrrrrr@{}}
+    \toprule
+    方法 & 尺度 & 原始 $R^2$ & 去偏 $R^2$ & Spearman & RMSE & 偏移占比 \\
+    \midrule
+    M0c & 1m & 0.9130 & 0.9131 & 0.9531 & 0.09594 & 0.03461 \\
+    M0c & 60m & $-$8.412 & 0.7706 & 0.9221 & 1.358 & 0.9877 \\
+    M0c & 1B & $-$173.1 & 0.7047 & 0.8872 & 2.410 & 0.9991 \\
+    M0c & 外推 10b & $-$180.6 & $-$0.6561 & 0.5470 & 2.939 & 0.9954 \\
+    M0c & 外推 70b & $-$282.3 & $-$1.224 & 0.4762 & 3.255 & 0.9961 \\
+    M1c & 1m & 0.9812 & 0.9834 & 0.9903 & 0.04457 & 0.3396 \\
+    M1c & 60m & $-$8.579 & 0.7656 & 0.9018 & 1.370 & 0.9877 \\
+    M1c & 1B & $-$197.8 & 0.6583 & 0.8488 & 2.575 & 0.9991 \\
+    M1c & 外推 10b & $-$180.5 & $-$0.2590 & 0.6636 & 2.938 & 0.9965 \\
+    M1c & 外推 70b & $-$282.3 & $-$0.7763 & 0.5987 & 3.255 & 0.9969 \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\clearpage
+\subsection{问题二：领域比值与跨源验证}
+
+\begin{table}[htbp]
+  \centering
+  \caption{各领域相对参照领域的配比系数比值 $b_i/b_{\text{ref}}$（按比值降序，参照领域为 philpapers）}
+  \label{tab:app-q2-ratio}
+  \small
+  \begin{tabular}{@{}rlrr@{}}
+    \toprule
+    序 & 领域 & $b_i/b_{\text{ref}}$ & $|b_i/b_{\text{ref}}|>1$ \\
+    \midrule
+    1 & philpapers & 1.000 & 否 \\
+    2 & hackernews & 0.5909 & 否 \\
+    3 & ubuntu\_irc & 0.4615 & 否 \\
+    4 & pile\_cc & 0.4179 & 否 \\
+    5 & gutenberg\_pg\_19 & 0.3106 & 否 \\
+    6 & europarl & 0.2674 & 否 \\
+    7 & wikipedia\_en & 0.2577 & 否 \\
+    8 & nih\_exporter & 0.1193 & 否 \\
+    9 & enron\_emails & 0.1156 & 否 \\
+    10 & pubmed\_abstracts & 0.06546 & 否 \\
+    11 & uspto\_backgrounds & $-$0.1347 & 否 \\
+    12 & stackexchange & $-$0.2781 & 否 \\
+    13 & freelaw & $-$0.3331 & 否 \\
+    14 & pubmed\_central & $-$0.3404 & 否 \\
+    15 & github & $-$0.4242 & 否 \\
+    16 & arxiv & $-$0.4769 & 否 \\
+    17 & dm\_mathematics & $-$1.619 & 是 \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\begin{table}[htbp]
+  \centering
+  \caption{跨源迁移验证（只报秩相关与去源偏后的均方根误差）}
+  \label{tab:app-q2-validation}
+  \small
+  \begin{tabular}{@{}rlrrll@{}}
+    \toprule
+    来源 & $n$ & Spearman & $p$ 值 & 去源偏 RMSE & 数据性质 \\
+    \midrule
+    B4 & 57 & 0.9830 & 3.660e-42 & 0.1927 & 真实（跨族收敛点） \\
+    B5 & 44 & 0.9588 & 1.406e-24 & 0.1997 & 文献值（他人发表） \\
+    B2 & 1029 & 0.7881 & 1.171e-218 & 0.4185 & 半合成（对标轨迹） \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\clearpage
+\subsection{问题三：成本函数对照与配比边际方向}
+
+\begin{table}[htbp]
+  \centering
+  \caption{三类质量成本函数在三个预算档位下的最优解}
+  \label{tab:app-q3-costform}
+  \small
+  \begin{tabular}{@{}llrrrrl@{}}
+    \toprule
+    预算 & 成本函数 & $Q^{*}$ & $N^{*}$/B & $D^{*}$/B & 损失 & 分支 \\
+    \midrule
+    $C=10^{19}$ & 指数型 & 0.6460 & 0.2395 & 5.166 & 3.1468 & 内点 \\
+    $C=10^{19}$ & 幂函数型 & 0.5390 & 0.2186 & 5.720 & 3.1831 & 内点 \\
+    $C=10^{19}$ & 对数渐进型 & 1.000 & 0.4062 & 2.277 & 3.1558 & $Q=1$ \\
+    $C=10^{22}$ & 指数型 & 1.000 & 5.647 & 249.1 & 2.1511 & $Q=1$ \\
+    $C=10^{22}$ & 幂函数型 & 1.000 & 5.787 & 238.0 & 2.1528 & $Q=1$ \\
+    $C=10^{22}$ & 对数渐进型 & 1.000 & 5.313 & 279.0 & 2.1469 & $Q=1$ \\
+    $C=10^{24}$ & 指数型 & 1.000 & 40.76 & 3771 & 1.9139 & $Q=1$ \\
+    $C=10^{24}$ & 幂函数型 & 1.000 & 40.93 & 3742 & 1.9140 & $Q=1$ \\
+    $C=10^{24}$ & 对数渐进型 & 1.000 & 40.37 & 3838 & 1.9136 & $Q=1$ \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\begin{table}[htbp]
+  \centering
+  \caption{领域配比的边际损失排序（1 为边际损失最大）}
+  \label{tab:app-q3-dldp}
+  \small
+  \begin{tabular}{@{}rl@{}}
+    \toprule
+    序 & 领域 \\
+    \midrule
+    1 & philpapers \\
+    2 & hackernews \\
+    3 & ubuntu\_irc \\
+    4 & pile\_cc \\
+    5 & gutenberg\_pg\_19 \\
+    6 & europarl \\
+    7 & wikipedia\_en \\
+    8 & nih\_exporter \\
+    9 & enron\_emails \\
+    10 & pubmed\_abstracts \\
+    11 & uspto\_backgrounds \\
+    12 & stackexchange \\
+    13 & freelaw \\
+    14 & pubmed\_central \\
+    15 & github \\
+    16 & arxiv \\
+    17 & dm\_mathematics \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\begin{table}[htbp]
+  \centering
+  \caption{上下文长度敏感性（附件 C7 的五档可行取值，后两档跨越临界值 30000）}
+  \label{tab:app-q3-lctx}
+  \small
+  \begin{tabular}{@{}rlrrrrrr@{}}
+    \toprule
+    $L_{\text{ctx}}$ & 跨临界 & $Q^{*}$ & $N^{*}$/B & $D^{*}$/B & $N{:}D$ & 损失 & $C_{\text{attn}}/C_{\text{train}}$ \\
+    \midrule
+    2048 & 否 & 1.000 & 5.647 & 249.1 & 0.0226749 & 2.1511 & 0.06827 \\
+    4096 & 否 & 1.000 & 5.473 & 242.3 & 0.0225878 & 2.1552 & 0.1365 \\
+    8192 & 否 & 1.000 & 5.168 & 230.3 & 0.0224432 & 2.1630 & 0.2731 \\
+    32768 & 是 & 1.000 & 4.033 & 183.2 & 0.0220170 & 2.1987 & 1.092 \\
+    131072 & 是 & 1.000 & 2.551 & 116.1 & 0.0219666 & 2.2751 & 4.369 \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\clearpage
+\subsection{问题四：逐月轨迹、情景与子组分解}
+
+\begin{table}[htbp]
+  \centering
+  \caption{逐月样本量与规模分位、能力前沿（$N$ 单位为十亿参数，$S$ 为六维等权得分）}
+  \label{tab:app-q4-monthly}
+  \small
+  \begin{tabular}{@{}lrrrrrrr@{}}
+    \toprule
+    月份 & $n$ & $N_{q10}$ & $N_{q50}$ & $N_{q90}$ & $N_{\max}$ & $S_{q90}$ & $\bar{S}$ \\
+    \midrule
+    2024-06 & 443 & 2.690 & 8.030 & 46.70 & 140.6 & 25.920 & 17.297 \\
+    2024-07 & 173 & 2.614 & 8.030 & 24.15 & 72.71 & 28.094 & 19.200 \\
+    2024-08 & 207 & 2.850 & 8.030 & 70.55 & 99.65 & 35.851 & 21.639 \\
+    2024-09 & 459 & 2.956 & 8.030 & 27.23 & 103.8 & 32.382 & 20.955 \\
+    2024-10 & 432 & 1.777 & 8.030 & 22.05 & 77.97 & 34.450 & 20.629 \\
+    2024-11 & 374 & 1.100 & 7.616 & 14.77 & 122.6 & 35.092 & 21.673 \\
+    2024-12 & 571 & 0.6300 & 8.030 & 14.77 & 72.71 & 38.697 & 24.754 \\
+    2025-01 & 868 & 0.5080 & 7.616 & 14.77 & 72.71 & 38.024 & 21.400 \\
+    2025-02 & 692 & 1.777 & 8.030 & 14.77 & 72.71 & 40.001 & 23.956 \\
+    2025-03 & 342 & 1.498 & 7.616 & 14.77 & 70.55 & 41.388 & 23.921 \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\begin{table}[htbp]
+  \centering
+  \caption{三种算力情景下 12 个月与 24 个月的前沿预测（中位数与 80\%/95\% 区间）}
+  \label{tab:app-q4-scenario}
+  \small
+  \begin{tabular}{@{}rlrllr@{}}
+    \toprule
+    情景 & 视界/月 & 中位数 & 80\% 区间 & 95\% 区间 & 95\% 宽度 \\
+    \midrule
+    保守 & 12 & 50.249 & [37.25, 63.70] & [30.24, 71.12] & 40.883 \\
+    保守 & 24 & 63.455 & [50.05, 76.90] & [42.02, 84.67] & 42.642 \\
+    中性 & 12 & 56.330 & [43.27, 69.70] & [35.51, 77.45] & 41.935 \\
+    中性 & 24 & 79.836 & [65.79, 93.67] & [58.46, 100.0] & 41.536 \\
+    较高 & 12 & 62.035 & [49.19, 75.67] & [41.68, 82.87] & 41.184 \\
+    较高 & 24 & 94.118 & [78.50, 100.0] & [70.76, 100.0] & 29.236 \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\begin{table}[htbp]
+  \centering
+  \caption{按模型类型的子组分解（份额可读性取决于总点数是否为正）}
+  \label{tab:app-q4-group}
+  \small
+  \begin{tabular}{@{}lrrrrll@{}}
+    \toprule
+    组 & $n$ & 规模点数 & 技术点数 & 总点数 & 规模份额 95\% 区间 & 份额可读 \\
+    \midrule
+    对话微调 & 4231 & 1.092 & 5.936 & 7.028 & [-0.0328, 0.3567] & 是 \\
+    预训练基础 & 330 & $-$5.974 & 2.396 & $-$3.579 & [0.7253, 4.1625] & 否 \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+

@@ -1,0 +1,83 @@
+{
+ "schema_version": 1,
+ "question": "Q2",
+ "scope": "G3 开工前可辨识性核查",
+ "seed": 20260924,
+ "criteria_predeclared_before_execution": true,
+ "check1_M1s_vs_M0s_on_B1": {
+  "predeclared_criterion": "两式在 B1 上最优拟合 RMSE 相对差 < 1e-6 即判定同构、不可比较",
+  "M0s_params": {
+   "E": 1.6897975629660549,
+   "A": 0.35398032061826196,
+   "alpha": 0.33997658192784663,
+   "B": 1.2403055835452184,
+   "beta": 0.2798781285460146
+  },
+  "M0s_rmse": 0.00014649608992588973,
+  "M1s_params_on_B1": {
+   "E": 1.689797561953419,
+   "A": 0.3539803214949079,
+   "alpha": 0.33997658127745045,
+   "B": 1.2403055838393953,
+   "beta": 0.27987812844697585,
+   "gamma": 1.4158863190754898
+  },
+  "M1s_rmse": 0.000146496089925948,
+  "rmse_relative_difference": 3.977981036939401e-13,
+  "isomorphic_on_B1": true,
+  "consequence": "若同构：预声明指标 1『B1 留出集 RMSE』无法区分 M1s 与 M0s；fallback 触发条件 2『M1s 不优于 M0s』平凡成立。须由使用者裁定如何修改比较口径 —— AI 不得自行放宽或改写判据"
+ },
+ "check2_kappa_identifiability_on_B": {
+  "predeclared_criterion": "kappa 从 0 扫到 10，B1 上预测最大变化 < 1e-12 即判定严格不可辨识",
+  "zp_on_B_side": 0.0,
+  "zp_reason": "B 侧 11 个文件零配比列（P2 实测）⇒ 全部 B 行取基准配比 ⇒ z_p = 0",
+  "sweep": [
+   {
+    "kappa": 0.0,
+    "rmse": 0.000146496089925948
+   },
+   {
+    "kappa": 0.5,
+    "rmse": 0.000146496089925948
+   },
+   {
+    "kappa": 1.0,
+    "rmse": 0.000146496089925948
+   },
+   {
+    "kappa": 2.0,
+    "rmse": 0.000146496089925948
+   },
+   {
+    "kappa": 5.0,
+    "rmse": 0.000146496089925948
+   },
+   {
+    "kappa": 10.0,
+    "rmse": 0.000146496089925948
+   }
+  ],
+  "rmse_spread_over_kappa": 0.0,
+  "kappa_identifiable_from_B": false,
+  "w_centered_range": [
+   -2.462818882352941,
+   1.5213701176470593
+  ],
+  "w_centered_abs_max": 2.462818882352941,
+  "ratio_b_i_over_b_j_invariant_to_kappa": true,
+  "consequence": "b 的方向（域间替代比 b_i/b_j）与 kappa 无关、可报且可继承 Q1c；但 ∂L/∂p_i 的绝对量级随 kappa 线性缩放，B 侧无信息。Q2c 的域间替代/互补判定不受影响；p 的绝对边际效用须另设假设或只报相对量。如何处置属使用者裁定"
+ },
+ "scale_gap_A_vs_B1": {
+  "A_side_implied_loss_range": [
+   3.900436599,
+   5.0165656279999995
+  ],
+  "A_side_implied_loss_mean": 4.4450783886875,
+  "B1_val_loss_range": [
+   2.0933,
+   4.7388
+  ],
+  "B1_val_loss_mean": 2.4768346938775507,
+  "note": "同为交叉熵但口径不同（A 侧为 pweighted13 域级 Loss，B1 为单一 val_loss）；P1 已证 E 跨源不可共享"
+ }
+}

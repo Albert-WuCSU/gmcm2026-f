@@ -1,0 +1,3 @@
+﻿group,fn_spec,scale_points,tech_points,total_points,scale_share,tech_share,share_interpretable,first_period,last_period,n,scale_share_ci95,tech_share_ci95,scale_points_ci95,tech_points_ci95,n_boot_effective
+chat_finetuned,decile,1.0921499007511706,5.93561821656219,7.027768117313361,0.15540494258206794,0.8445950574179321,True,2024-06,2025-03,4231,"[-0.0328, 0.3567]","[0.6433, 1.0328]","[-0.1703, 2.8464]","[4.2665, 7.3471]",400
+pretrained,decile,-5.974465736569386,2.3955310703589454,-3.578934666210441,1.6693419393697555,-0.6693419393697556,False,2024-06,2025-03,330,"[0.7253, 4.1625]","[-3.1625, 0.2747]","[-7.6798, -2.9817]","[-1.3339, 4.5576]",400

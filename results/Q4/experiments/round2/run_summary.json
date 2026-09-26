@@ -1,0 +1,84 @@
+{
+  "schema_version": 1,
+  "question_id": "Q4",
+  "round": 2,
+  "gate_target": "G4",
+  "purpose": "兑现人工裁定 q4_result_verdict 的 supplementary_run_required：把端点敏感性与趋势法数字落盘，使论文只能引落盘值",
+  "approved_methods": {
+    "main": "M1a",
+    "usable_baseline": "M0a",
+    "conditional_fallback": "M2a"
+  },
+  "status": "SUCCESS",
+  "seed": 20260925,
+  "bootstrap_b": 1000,
+  "inputs": {
+    "C1": "workspace/data_raw/.../leaderboard_cleaned.csv",
+    "round1_metrics": "results/Q4/experiments/round1/metrics/q4_M1a.json",
+    "scripts": [
+      "code/Q4/q4_round2_trend.py",
+      "code/Q4/q4_round2_persist.py"
+    ]
+  },
+  "outputs": {
+    "metrics": [
+      "metrics/q4_trend_method.json"
+    ],
+    "tables": [
+      "tables/q4_endpoint_sensitivity.csv",
+      "tables/q4_N_and_frontier_by_month.csv",
+      "tables/q4_scenario_spread_scaling.csv"
+    ],
+    "aux": [
+      "n_frontier_meta.json"
+    ],
+    "figures": []
+  },
+  "metric_summary": {
+    "endpoint_share_spread": 0.28745778768598096,
+    "endpoint_sign_flips": true,
+    "total_points_range": [
+      5.486528214456833,
+      6.659240619563332
+    ],
+    "endpoint_scale_share": {
+      "single_last_month": 0.2593,
+      "first_vs_last2_merged": 0.1811,
+      "first_vs_last3_merged": -0.0282,
+      "drop_last_month": 0.2205
+    },
+    "trend_decile_scale_share": 0.0911,
+    "trend_decile_slope_f": 0.0575,
+    "trend_decile_slope_tau": 0.57377,
+    "trend_decile_slope_ratio": 9.98,
+    "trend_scale_share_ci95": [
+      -0.19424361172079332,
+      0.22575049179717038
+    ],
+    "trend_ci_contains_zero": true,
+    "logN_q90_slope_per_month": -0.06281,
+    "N_q90_ratio_first_over_last": 3.162,
+    "scenario_spread_h12": [
+      11.786,
+      4.1408,
+      0.0
+    ],
+    "round1_scale_share_for_reference": 0.2592679747872242
+  },
+  "fallback_trigger_state": {
+    "M2a": false,
+    "note": "主口径 A 下未触发(区间下界 0.0223 >= 0)；规格 B 下会触发但不作主口径"
+  },
+  "warnings": [
+    "端点敏感性测的是自助区间未覆盖的第三种不确定性来源(末端定义),其极差 0.2875 已大于主口径点值",
+    "总提升区间 5.4865-6.6592 是四端点/规格算法的极差;趋势法 drop-last 变体给 5.3581,略低于下界",
+    "N_q90 端点比值为 3.162,斜率隐含值为 3.676,两者非同一量,引用须写明",
+    "本脚本只落盘,不改变任何 round1 结论;主 claim 已由 q4_claim_scope 收窄为方向与量级"
+  ],
+  "environment": {
+    "python": "3.14.6",
+    "numpy": "2.5.1",
+    "pandas": "3.0.5"
+  },
+  "generated_at": "2026-09-25T20:27:15.510409+08:00"
+}

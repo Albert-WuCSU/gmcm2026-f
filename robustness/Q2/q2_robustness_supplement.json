@@ -1,0 +1,118 @@
+{
+ "schema_version": 1,
+ "question_id": "Q2",
+ "gate": "G4",
+ "purpose": "兑现裁定 q2_result_verdict=1B 与 q2_stability_verdict=2B 的补算要求",
+ "seed": 20260924,
+ "inputs": {
+  "B1": "workspace/data_raw/real_attachments/B_scaling_laws/pythia_training_log_existing.csv",
+  "B7": "workspace/data_raw/real_attachments/B_scaling_laws/supplementary_NQ_experiment_expanded.csv",
+  "metrics": "results/Q2/experiments/round1/metrics/q2_M0s.json"
+ },
+ "P9_beta_sharing": {
+  "gamma_shift": 0.2138681455576793,
+  "threshold": 0.08584312637409258,
+  "shift_as_fraction_of_ci_width": 1.2456917320652514,
+  "beta_b1_point": 0.27987812854324545,
+  "beta_b1_ci95_grouped": [
+   0.27982067286066603,
+   0.2799369419980568
+  ],
+  "p9a_b1_beta_inside_b7_beta_ci": false,
+  "beta_shift": 0.1968143133363357,
+  "rmse_B7_penalty": -0.006839554415294519,
+  "verdict": "FAIL"
+ },
+ "P9b_bootstrap_B_stability": {
+  "b_small": 400,
+  "b_big": 1000,
+  "ci95_at_400": [
+   0.8838599505464407,
+   1.055546203294626
+  ],
+  "ci95_at_1000": [
+   0.882127238427756,
+   1.065889074958825
+  ],
+  "relative_endpoint_change": [
+   0.0019603921612394767,
+   0.009798596813589406
+  ],
+  "max_relative_endpoint_change": 0.009798596813589406,
+  "criterion": "端点相对变化 < 10% 判稳",
+  "verdict": "PASS",
+  "n_boot_ok_big": 1000
+ },
+ "P9c_B1_leave_one_N_group_out": {
+  "n_groups": 8,
+  "n_ok": 8,
+  "beta_min": 0.2798608372862817,
+  "beta_max": 0.27989618348189726,
+  "beta_range": 3.534619561557095e-05,
+  "beta_ci_width_grouped": 0.00011626913739076761,
+  "gamma_min": 0.9658903757537133,
+  "gamma_max": 0.9659343600008737,
+  "gamma_range": 4.398424716045568e-05,
+  "criterion": "beta 极差 < B1 beta 自助区间宽度判稳",
+  "verdict": "PASS"
+ },
+ "P9d_B1_weight_perturbation": {
+  "lambda_values": [
+   0.5,
+   1.0,
+   2.0
+  ],
+  "results": {
+   "0.5": {
+    "beta": 0.2476426676572051,
+    "gamma": 1.0057252856849768,
+    "gamma_shift_vs_routeA": 0.039812449299797215
+   },
+   "1.0": {
+    "beta": 0.26257260765979495,
+    "gamma": 0.9873727364653542,
+    "gamma_shift_vs_routeA": 0.02145990008017462
+   },
+   "2.0": {
+    "beta": 0.2708998350846394,
+    "gamma": 0.9770663269237697,
+    "gamma_shift_vs_routeA": 0.01115349053859016
+   }
+  },
+  "gamma_ci_width_routeA": 0.17168625274818516,
+  "criterion": "gamma 位移 < gamma 自助区间宽度判稳",
+  "max_gamma_shift": 0.039812449299797215,
+  "verdict": "PASS",
+  "note": "直接服务于使用者挂起的约束「但B1的处理要谨慎」：量化结论对 B1 权重的依赖程度"
+ },
+ "P9e_sigma_s_ablation": {
+  "gamma_residual_mode": 0.9659128363851796,
+  "gamma_p5_anchor_mode": 0.9662543210666569,
+  "gamma_shift": 0.00034148468147732203,
+  "gamma_ci_width_routeA": 0.17168625274818516,
+  "criterion": "gamma 位移 < gamma 自助区间宽度判稳",
+  "verdict": "PASS",
+  "note": "sigma_s 取值方式为 AI_PROPOSAL_UNCONFIRMED（可否决）；本项量化其影响"
+ },
+ "P9f_M0s_same_caliber_perturbation": {
+  "n_groups": 8,
+  "n_ok": 8,
+  "beta_min": 0.2798608372862817,
+  "beta_max": 0.27989618348189726,
+  "beta_range": 3.534619561557095e-05,
+  "beta_ci_width_grouped": 0.00011626913739076761,
+  "criterion": "beta 极差 < 其自助区间宽度判稳",
+  "verdict": "PASS"
+ },
+ "P9g_ablation": {
+  "disable_Q_channel": {
+   "note": "关闭 Q 通道即 M0s；预声明指标 1（B1 退化）已实测相对差 1.0122362405611505e-08 < 1e-6，本项不重复计算",
+   "status": "covered_by_predeclared_metric_1"
+  },
+  "drop_B7": {
+   "note": "移除 B7 后 gamma 无任何数据约束（B1 上 Q=1）⇒ 不可辨识；这正是『gamma 完全由半合成 B7 决定』的机械含义",
+   "status": "structurally_unidentifiable"
+  }
+ },
+ "elapsed_seconds": 292.1
+}

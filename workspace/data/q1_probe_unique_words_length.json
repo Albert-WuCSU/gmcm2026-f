@@ -1,0 +1,303 @@
+{
+ "schema_version": 1,
+ "n_rows": 272486,
+ "domains": [
+  "arxiv",
+  "book",
+  "c4",
+  "commoncrawl",
+  "github",
+  "stackexchange",
+  "wikipedia"
+ ],
+ "seed": 20260924,
+ "field_semantics": {
+  "hypothesis": "frac_unique_words = 100·V/N（类型数/例符数，TTR，百分数刻度）",
+  "detected_scale": 100.0,
+  "frac_unique_range": {
+   "min": 1.21743,
+   "p50": 56.89655,
+   "max": 100.0
+  },
+  "V_integer_deviation_after_descaling": {
+   "p50": 0.0,
+   "p95": 0.308767,
+   "max": 0.5,
+   "frac_within_1e-3": 0.8926
+  },
+  "is_already_intensive_ratio": true,
+  "intensive_note": "TTR 已是比率（值域上界 100 即 N 个词全不重复），与 dsir 的按 token 求和（外延量、无上界）本质不同"
+ },
+ "heaps_law": {
+  "beta": 0.7848,
+  "r2": 0.9737,
+  "implied_ttr_exponent_beta_minus_1": -0.2152,
+  "in_canonical_range_0.4_0.8": true,
+  "note": "β<1 => TTR=V/N ~ N^(β-1) 随 N 机械下降，属估计量偏倚而非量纲错误"
+ },
+ "length_dependence": {
+  "frac_unique": {
+   "pearson_vs_word_count": -0.3529,
+   "spearman_vs_word_count": -0.8546,
+   "spearman_vs_log_word_count": -0.8546
+  },
+  "unigram_entropy": {
+   "pearson_vs_word_count": 0.3628,
+   "spearman_vs_word_count": 0.9523,
+   "spearman_vs_log_word_count": 0.9523
+  },
+  "dsir_style_per_token_applied_to_frac_unique": {
+   "spearman_vs_word_count": -0.9939,
+   "worsened": true,
+   "note": "dsir 式处置施加于已是比率的 TTR 属过度校正，此项用于证伪同类处置"
+  }
+ },
+ "residualization": {
+  "frac_unique_heaps_residual": {
+   "spearman_vs_word_count": 0.0791,
+   "spearman_vs_original_frac_unique": 0.3955,
+   "decoupled_from_length": true
+  },
+  "unigram_entropy_residual": {
+   "slope_vs_log_n": 0.6,
+   "r2": 0.8984,
+   "spearman_vs_word_count": 0.1184
+  }
+ },
+ "contradiction_attribution": {
+  "spearman_frac_unique_vs_entropy_raw": -0.6838,
+  "spearman_after_both_residualized": 0.9213,
+  "length_only_implied_corr": -0.8138,
+  "sign_flipped_to_agreement": true,
+  "spurious_contradiction": true,
+  "note": "entropy 与 frac_unique 对长度的依赖方向相反（+0.95 / -0.85），长度单独即可生成约 -0.81 的负相关；观测 -0.68 弱于该值，去长度后为 +0.92 强一致 => 原负相关是长度诱导的伪矛盾，二者在同一长度下测的是同一构念（词汇多样性）"
+ },
+ "redundancy_tradeoff": {
+  "corr_fu_res_vs_ue_res": 0.9213,
+  "raw_pair_partially_cancels_in_equal_weight_mean": true,
+  "note": "修掉矛盾会同时制造冗余：残差化后 fu 与 ue 相关 +0.92，在 20 列等权均值中近似双计一个构念；现状下 -0.68 反而部分互抵。这是处置与否的实质权衡，非纯技术优劣"
+ },
+ "direction_vs_fineweb_edu": {
+  "spearman_before": -0.471,
+  "spearman_after_residualization": 0.0581,
+  "sign_flipped": true,
+  "dsir_comparison": {
+   "before": -0.4991,
+   "after": 0.3741,
+   "sign_flipped": true
+  }
+ },
+ "impact_on_canonical_Q": {
+  "canonical": {
+   "n_cols": 20,
+   "n_contra_lt_08": 0,
+   "n_contra_lt_05": 3,
+   "domain_range": 0.1757,
+   "auc_arxiv_vs_github": 0.9741,
+   "domain_order": [
+    "arxiv",
+    "c4",
+    "commoncrawl",
+    "stackexchange",
+    "wikipedia",
+    "book",
+    "github"
+   ],
+   "domain_huber": {
+    "arxiv": 0.64939,
+    "book": 0.52638,
+    "c4": 0.60188,
+    "commoncrawl": 0.6013,
+    "github": 0.47365,
+    "stackexchange": 0.58302,
+    "wikipedia": 0.53256
+   }
+  },
+  "with_heaps_residual_for_frac_unique": {
+   "n_cols": 20,
+   "n_contra_lt_08": 0,
+   "n_contra_lt_05": 0,
+   "domain_range": 0.195,
+   "auc_arxiv_vs_github": 0.9777,
+   "domain_order": [
+    "arxiv",
+    "commoncrawl",
+    "c4",
+    "stackexchange",
+    "wikipedia",
+    "book",
+    "github"
+   ],
+   "domain_huber": {
+    "arxiv": 0.66534,
+    "book": 0.53459,
+    "c4": 0.61214,
+    "commoncrawl": 0.62303,
+    "github": 0.4703,
+    "stackexchange": 0.5907,
+    "wikipedia": 0.53849
+   }
+  },
+  "spearman_row_level_Q": 0.99199,
+  "spearman_domain_level_Q": 0.96429,
+  "max_abs_domain_shift": 0.02173,
+  "domain_order_unchanged": false
+ },
+ "c4_vs_commoncrawl_tie_test": {
+  "B_bootstrap": 400,
+  "results": {
+   "canonical": {
+    "c4": {
+     "huber": 0.60188,
+     "ci95": [
+      0.60002,
+      0.6035
+     ],
+     "half_width": 0.00174,
+     "n": 10000
+    },
+    "commoncrawl": {
+     "huber": 0.6013,
+     "ci95": [
+      0.59979,
+      0.60266
+     ],
+     "half_width": 0.00143,
+     "n": 9636
+    },
+    "gap_abs": 0.00058,
+    "diff_ci95": [
+     -0.00179,
+     0.0032
+    ],
+    "statistically_tied": true
+   },
+   "with_heaps_residual": {
+    "c4": {
+     "huber": 0.61214,
+     "ci95": [
+      0.61018,
+      0.61394
+     ],
+     "half_width": 0.00188,
+     "n": 10000
+    },
+    "commoncrawl": {
+     "huber": 0.62303,
+     "ci95": [
+      0.62154,
+      0.62451
+     ],
+     "half_width": 0.00149,
+     "n": 9636
+    },
+    "gap_abs": 0.01089,
+    "diff_ci95": [
+     -0.01324,
+     -0.00858
+    ],
+    "statistically_tied": false
+   }
+  },
+  "note": "若两配置下差值区间均含 0，则 c4/commoncrawl 的换位是并列上的噪声，不构成实质域序改变"
+ },
+ "composite_length_exposure": {
+  "canonical": {
+   "spearman_Q_vs_log_word_count": 0.4994,
+   "pearson_Q_vs_log_word_count": 0.5128
+  },
+  "fu_residualized_only": {
+   "spearman_Q_vs_log_word_count": 0.5788,
+   "pearson_Q_vs_log_word_count": 0.5884
+  },
+  "fu_and_ue_residualized": {
+   "spearman_Q_vs_log_word_count": 0.4884,
+   "pearson_Q_vs_log_word_count": 0.4848
+  },
+  "note": "canonical 下 fu(-0.85) 与 ue(+0.95) 的长度分量在等权均值中部分互抵；只残差化 fu 会移除互抵的一方，故须检验复合 Q 的长度暴露是否反而恶化"
+ },
+ "variant_fu_and_ue_residualized": {
+  "n_cols": 20,
+  "n_contra_lt_08": 0,
+  "n_contra_lt_05": 0,
+  "domain_range": 0.1571,
+  "auc_arxiv_vs_github": 0.9415,
+  "domain_order": [
+   "arxiv",
+   "commoncrawl",
+   "c4",
+   "stackexchange",
+   "wikipedia",
+   "book",
+   "github"
+  ],
+  "domain_huber": {
+   "arxiv": 0.62992,
+   "book": 0.48749,
+   "c4": 0.61889,
+   "commoncrawl": 0.61989,
+   "github": 0.47286,
+   "stackexchange": 0.59501,
+   "wikipedia": 0.54574
+  }
+ },
+ "variant_comparison": {
+  "n_contra_lt_05": {
+   "canonical": 3,
+   "fu_only": 0,
+   "fu_and_ue": 0
+  },
+  "domain_range": {
+   "canonical": 0.1757,
+   "fu_only": 0.195,
+   "fu_and_ue": 0.1571
+  },
+  "auc_arxiv_vs_github": {
+   "canonical": 0.9741,
+   "fu_only": 0.9777,
+   "fu_and_ue": 0.9415
+  },
+  "spearman_row_Q_vs_canonical": {
+   "fu_only": 0.99199,
+   "fu_and_ue": 0.9856
+  },
+  "domain_order": {
+   "canonical": [
+    "arxiv",
+    "c4",
+    "commoncrawl",
+    "stackexchange",
+    "wikipedia",
+    "book",
+    "github"
+   ],
+   "fu_only": [
+    "arxiv",
+    "commoncrawl",
+    "c4",
+    "stackexchange",
+    "wikipedia",
+    "book",
+    "github"
+   ],
+   "fu_and_ue": [
+    "arxiv",
+    "commoncrawl",
+    "c4",
+    "stackexchange",
+    "wikipedia",
+    "book",
+    "github"
+   ]
+  }
+ },
+ "verdict": {
+  "same_family_as_dsir_length_confounded": true,
+  "same_mechanism_as_dsir": false,
+  "dsir_mechanism": "extensive quantity / 量纲错误（按 token 求和），除以 N 为精确还原",
+  "frac_unique_mechanism": "intensive ratio / Heaps 定律下的有限样本估计量偏倚",
+  "dsir_style_fix_applicable": false,
+  "correct_same_family_fix": "Heaps 残差化（log V - β̂ log N），非除以 N",
+  "entropy_is_at_least_as_length_dependent": true
+ }
+}

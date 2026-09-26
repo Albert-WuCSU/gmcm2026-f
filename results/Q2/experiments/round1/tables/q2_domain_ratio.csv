@@ -1,0 +1,18 @@
+domain,b_ratio_vs_reference_domain,sign_meaning,abs_gt_1,kappa_free,note
+train_the_pile_philpapers,1.000000,above_mean_loss (raises L when upweighted),no,yes,b_i/b_ref，ref=train_the_pile_philpapers；值为中心化 w 之比，非有界比例
+train_the_pile_hackernews,0.590877,above_mean_loss (raises L when upweighted),no,yes,b_i/b_ref，ref=train_the_pile_philpapers；值为中心化 w 之比，非有界比例
+train_the_pile_ubuntu_irc,0.461471,above_mean_loss (raises L when upweighted),no,yes,b_i/b_ref，ref=train_the_pile_philpapers；值为中心化 w 之比，非有界比例
+train_the_pile_pile_cc,0.417923,above_mean_loss (raises L when upweighted),no,yes,b_i/b_ref，ref=train_the_pile_philpapers；值为中心化 w 之比，非有界比例
+train_the_pile_gutenberg_pg_19,0.310590,above_mean_loss (raises L when upweighted),no,yes,b_i/b_ref，ref=train_the_pile_philpapers；值为中心化 w 之比，非有界比例
+train_the_pile_europarl,0.267402,above_mean_loss (raises L when upweighted),no,yes,b_i/b_ref，ref=train_the_pile_philpapers；值为中心化 w 之比，非有界比例
+train_the_pile_wikipedia_en,0.257734,above_mean_loss (raises L when upweighted),no,yes,b_i/b_ref，ref=train_the_pile_philpapers；值为中心化 w 之比，非有界比例
+train_the_pile_nih_exporter,0.119281,above_mean_loss (raises L when upweighted),no,yes,b_i/b_ref，ref=train_the_pile_philpapers；值为中心化 w 之比，非有界比例
+train_the_pile_enron_emails,0.115587,above_mean_loss (raises L when upweighted),no,yes,b_i/b_ref，ref=train_the_pile_philpapers；值为中心化 w 之比，非有界比例
+train_the_pile_pubmed_abstracts,0.065457,above_mean_loss (raises L when upweighted),no,yes,b_i/b_ref，ref=train_the_pile_philpapers；值为中心化 w 之比，非有界比例
+train_the_pile_uspto_backgrounds,-0.134719,below_mean_loss (lowers L when upweighted),no,yes,b_i/b_ref，ref=train_the_pile_philpapers；值为中心化 w 之比，非有界比例
+train_the_pile_stackexchange,-0.278137,below_mean_loss (lowers L when upweighted),no,yes,b_i/b_ref，ref=train_the_pile_philpapers；值为中心化 w 之比，非有界比例
+train_the_pile_freelaw,-0.333121,below_mean_loss (lowers L when upweighted),no,yes,b_i/b_ref，ref=train_the_pile_philpapers；值为中心化 w 之比，非有界比例
+train_the_pile_pubmed_central,-0.340371,below_mean_loss (lowers L when upweighted),no,yes,b_i/b_ref，ref=train_the_pile_philpapers；值为中心化 w 之比，非有界比例
+train_the_pile_github,-0.424219,below_mean_loss (lowers L when upweighted),no,yes,b_i/b_ref，ref=train_the_pile_philpapers；值为中心化 w 之比，非有界比例
+train_the_pile_arxiv,-0.476939,below_mean_loss (lowers L when upweighted),no,yes,b_i/b_ref，ref=train_the_pile_philpapers；值为中心化 w 之比，非有界比例
+train_the_pile_dm_mathematics,-1.618816,below_mean_loss (lowers L when upweighted),yes,yes,b_i/b_ref，ref=train_the_pile_philpapers；值为中心化 w 之比，非有界比例

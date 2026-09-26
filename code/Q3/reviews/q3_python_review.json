@@ -1,0 +1,123 @@
+{
+ "schema_version": 1,
+ "question_id": "Q3",
+ "language": "python",
+ "reviewed_files": [
+  "code/Q3/q3_common.py",
+  "code/Q3/q3_optimize_baseline.py",
+  "code/Q3/q3_optimize_main.py",
+  "code/Q3/run_all.py"
+ ],
+ "decision_id": [
+  "q3_p_joint_optimization",
+  "q3_structural_transition_definition",
+  "q3_optimum_acceptability_criterion"
+ ],
+ "independent_verification_script": "scratch/q3_review_checks.py",
+ "independent_verification_note": "未复用被审代码的 R1/R2/multipliers 去验证它们自己;改对拉格朗日函数做中心差分独立重建 KKT 条件,并用差分进化独立求解比对",
+ "checks": {
+  "syntax": {
+   "status": "PASS",
+   "evidence": [
+    "四个文件均成功导入并执行;run_all.py 端到端跑通 3.2s,退出码 0",
+    "零 warning、零 error(run_summary.warnings = [])",
+    "无裸 except 吞异常:唯一的宽 except 在诊断图生成处,已记入 warnings 而非静默",
+    "brentq/differential_evolution 的异常均被捕获后跳过该候选,不中断枚举"
+   ]
+  },
+  "input_contract": {
+   "status": "PASS",
+   "evidence": [
+    "law 参数取自 results/Q2/experiments/round1/metrics/q2_M1s.json 的 stage3_joint_wls.M1s_params,逐参数核对等于 B1 侧(E/A/alpha/B 相对差 < 1e-15),并显式核对未误取 B7 侧 E(差 > 1e-3)——C5 六项全过",
+    "w 取自 results/Q1/experiments/round1/tables/q1c_coefficients.csv 的 method=M0c 17 行,行数核实为 17",
+    "未读取任何 workspace/data_raw 下的原始数据,raw-data protection 成立",
+    "单位契约核验(C4):C_attn/C_train 恰为 eta*L_ctx/6(L=2048 与 131072 两档,误差 < 1e-12);C_Q 不随 N 变(5.667212e19 vs 5.667212e19);Q=Q0 时 C_Q 恰为 0",
+    "三类 g 的 dg 在 [Q0,1] 上单调非降且非负,三形式全过"
+   ]
+  },
+  "method_alignment": {
+   "status": "PASS",
+   "evidence": [
+    "裁定1 = B_main_plus_C_supplement:z_p 在 metrics 记为 0,decision_variables = [N,D,Q],kkt_dimension = 3;dldp_direction 只输出 sign_and_ranking_only 与排序,p_star_not_reported = true、absolute_magnitude_not_reported = true;符号自洽检查 sign_coherence_ok = true",
+    "裁定2 = A_main_plus_D_reported_as_contrast:主定义为活跃约束集变化,识别用互补松弛乘子 + 二分(depends_on_threshold = false、depends_on_grid_step = false、needs_numerical_differentiation = false);D 定义一并报且含三步长对比表,复现了 verdict 翻转(0.5 判 TRANSITION_EXISTS 7 处超阈、0.25 与 0.125 判 NO_TRANSITION);导数符号记为 positive_to_zero,并把跨越饱和点的部分步长差商单列排除",
+    "裁定3 = C:KKT 五项为硬判据,预声明容差 feasibility 1e-9 / stationarity_rel 1e-8 / multiplier 1e-8,三档锚点与 57 点扫描全过(sweep_all_passed = true);chinchilla_reference 标 reference_only = true、not_a_pass_fail_criterion = true,且 constants_verified_against_paper = false 已如实记录",
+    "KKT 条件独立核验(C1):对拉格朗日函数中心差分,9 个『预算×成本函数』组合的 dL/dN 与 dL/dD 相对残差均 < 3.3e-8;内点段 dL/dQ = 0;六个边界段 dL/dQ 全部 <= 0(即 mu >= 0 的等价陈述)",
+    "最优性(C2):三档锚点邻域各 4000 次可行采样,更优者 0",
+    "分支枚举完备性(C3):差分进化独立求解与分段 KKT 的 Loss 相对差 -1.35e-14 / -2.85e-14 / -6.53e-14,远低于 M2o 触发阈 1e-6",
+    "M0o 未改动:仍为 D/N = 20 固定 + Q = Q0,r_chinchilla = 20.0 且来源已落字;spec 明示 implemented as carded, unmodified",
+    "M0o_prime 未当 baseline:role 字段为 diagnostic_reference_NOT_baseline,且带 must_not 说明;run_summary.methods 只含 M1o(main)与 M0o(usable_baseline)两项",
+    "M2o 未实现:fallback_trigger.implemented = false,observed = false;代码中无 M2o 实现,solve_numeric 仅用于触发判定且带 purpose 注明不作结果报出",
+    "成本函数参数未复用符号 gamma:G_SPECS 用 g_coef / g_rate,全局搜索确认标度律的 gamma 仅用于 Q 的指数"
+   ]
+  },
+  "reproducibility": {
+   "status": "PASS",
+   "evidence": [
+    "SEED = 20260924 固定,solve_numeric 用 np.random.default_rng(SEED)",
+    "连续两次完整运行,run_summary 去时间字段后逐键完全一致(实测 True)",
+    "分段 KKT 本身为确定性求解(brentq + 网格扫描),不依赖随机起点",
+    "environment 记录 python 3.13.7 / numpy 2.5.1 / scipy 1.18.0 / platform",
+    "重跑命令在代码计划 §13 给出,且 run_all.py docstring 内含"
+   ]
+  },
+  "output_contract": {
+   "status": "PASS",
+   "evidence": [
+    "7 张表落盘:q3_optimal_by_budget / q3_cost_form_comparison / q3_transition_definitions / q3_lctx_sensitivity / q3_chinchilla_reference / q3_dldp_direction / q3_baseline_gap_decomposition",
+    "2 份 metrics:q3_M1o.json、q3_M0o.json",
+    "run_summary 契约 20 个必需字段全在(含计划 §14 要求的 Q0_spec、baseline_gap_decomposition、structural_transition、kkt_audit、chinchilla_reference、lctx_sensitivity、writing_red_lines、extrapolation_disclosure、not_done_this_round)",
+    "main 与 baseline 输出直接可比:同目标函数、同预算、同 L_ctx、同 g、同 Q0,均输出 (N,D,Q,Loss);预声明指标 1 三档均 M1o_better = true",
+    "退化证据齐备:Q* 边界化按分支记录(1e19 interior、1e22/1e24 upper_Q_eq_1);p 角点退化经裁定1 规避且 why_p_is_fixed 已落字",
+    "fallback_trigger 四字段齐备且 observed = false,证据为 max_numeric_advantage_rel = 2.55e-13、active_set_agreement = true",
+    "差距分解三数同报,三档 handicap 占比 32.1% / 27.7% / 34.0%",
+    "figures 仅含 2 张 Type 1 诊断图,文件名带 diag_ 前缀、标题内含 not a paper figure,未冒充论文图",
+    "无 logs/ 目录(成功路径不留日志),符合契约"
+   ]
+  }
+ },
+ "findings": [
+  {
+   "id": "F1",
+   "severity": "info",
+   "category": "self_correction_during_generation",
+   "summary": "首轮饱和点导数符号判 undetermined,系跨越饱和点的部分步长差商被错误计入右导数",
+   "detail": "饱和点位于 21.405,而扫描网格点在 21.375 与 21.5;区间 [21.375, 21.5] 的差商 +0.036286 既非左导数也非右导数。已修为显式排除跨越区间(straddles_saturation 字段单列),修后判定 positive_to_zero。该缺陷由代码自带的 warning 捕获,未静默通过",
+   "status": "fixed_and_rerun"
+  },
+  {
+   "id": "F2",
+   "severity": "info",
+   "category": "upstream_number_refinement",
+   "summary": "转移位置比方法卡/选择卡/探针摘要更精:A 21.5 → 21.405182,C 22.75 → 22.625",
+   "detail": "上游值是 0.25 步长下的网格点;本轮 A 用二分定位到 1e-4、C 用 0.125 步长扫描。属 refinement 而非矛盾,已写入 run_summary.supersedes_upstream_numbers 并注明论文须用本轮值。决策账本的 rationale 为使用者原话,未因此改动",
+   "status": "recorded"
+  },
+  {
+   "id": "F3",
+   "severity": "low",
+   "category": "scope_consistency",
+   "summary": "D 定义的三步长对比用 18-22 范围,与主扫描 18-25 不同",
+   "detail": "为与 AI 意见支撑算例同范围便于核对。已核验截断不影响 verdict(C6):三个步长下 18-25 与 18-22 的 max|dQ| 与 verdict 完全一致(0.081404/0.042042/0.021473),因 Q* 在 21.4 后饱和、其后一阶差分恒为 0。不改动",
+   "status": "verified_no_impact"
+  },
+  {
+   "id": "F4",
+   "severity": "medium",
+   "category": "open_item_for_human",
+   "summary": "M0o 的 D/N = 20 使 baseline 被不必要削弱,虚增 M1o 优势 27.7%-34.0%",
+   "detail": "三档实测 handicap 占报告差距 32.1%(1e19)/27.7%(1e22)/34.0%(1e24),非单档偶然。HD-2 为相对 baseline 制 ⇒ 预声明指标 1 的差距含与质量通道无关的成分。代码按卡上定义原样实现未改动,仅把 M0o_prime 作诊断项使分解可见。**是否改 M0o 定义属使用者未裁定项,评审不代为决定**",
+   "status": "awaiting_human_decision"
+  },
+  {
+   "id": "F5",
+   "severity": "low",
+   "category": "disclosure_completeness",
+   "summary": "Chinchilla 常数未经原文核验",
+   "detail": "chinchilla_reference.constants_verified_against_paper = false 已如实记录,caveat 注明由 AI 凭记忆复现、引用前须核 Hoffmann et al. 2022 原文。该值仅作参考不作判据,故不阻塞 G3,但论文引用前必须核对",
+   "status": "disclosed"
+  }
+ ],
+ "blocking_findings": [],
+ "verdict": "PASSED",
+ "reviewed_at": "2026-09-25T17:35:00+08:00"
+}

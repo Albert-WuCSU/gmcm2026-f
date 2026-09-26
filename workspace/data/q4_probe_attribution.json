@@ -1,0 +1,187 @@
+{
+  "schema_version": 1,
+  "seed": 20260925,
+  "b_bootstrap": 2000,
+  "generated_at": "2026-09-25T16:54:05.372795+08:00",
+  "probes": {
+    "P1_data_coverage": {
+      "verdict": "PASS",
+      "c1_rows_usable": 4561,
+      "c1_date_span_days": 278,
+      "c1_date_range": [
+        "2024-06-08",
+        "2025-03-13"
+      ],
+      "c1_type_counts": {
+        "🔶 fine-tuned on domain-specific datasets": 1783,
+        "🤝 base merges and moerges": 1724,
+        "💬 chat models (RLHF, DPO, IFT, ...)": 715,
+        "🟢 pretrained": 272,
+        "🟩 continuously pretrained": 58,
+        "🌸 multimodal": 9
+      },
+      "c4_rows": 3523,
+      "c4_trio_complete": 1234,
+      "join_unique_models": 66,
+      "join_with_D": 46,
+      "join_type_counts": {
+        "🟢 pretrained": 56,
+        "🔶 fine-tuned on domain-specific datasets": 6,
+        "💬 chat models (RLHF, DPO, IFT, ...)": 3,
+        "🌸 multimodal": 1
+      },
+      "bridge_c5_rows": 43,
+      "bridge_c6_rows": 75,
+      "c8_dirs": 1863,
+      "c8_parseable": 1860,
+      "c8_unparseable_files": 4,
+      "c8_task_count_mode": 44,
+      "c8_full_parse_seconds": 3.2,
+      "c8_budget_note": "全量 1860 个目录解析实测 3.2s —— 裁定(g)全量成立，AI 此前『分钟级』的估算得到实测确认"
+    },
+    "P2_identifiability": {
+      "verdict": "PASS",
+      "criterion": "|spearman(t,log10 N)| < 0.30 且 4-10B/10-30B 档内 spearman(t,S) 显著为正",
+      "spearman_t_logN": -0.0615,
+      "spearman_t_logN_p": 3.193010471455571e-05,
+      "spearman_t_S": 0.1604,
+      "spearman_S_logN": 0.6352,
+      "spearman_S_logN_p": 0.0,
+      "within_bin": {
+        "<4B": {
+          "n": 1087,
+          "spearman_t_S": 0.0686,
+          "p_value": 0.02377964241442503,
+          "q90_first_month": 17.382,
+          "q90_last_month": 23.25,
+          "q90_delta": 5.868
+        },
+        "4-10B": {
+          "n": 2052,
+          "spearman_t_S": 0.3125,
+          "p_value": 9.778036437322541e-48,
+          "q90_first_month": 23.058,
+          "q90_last_month": 35.351,
+          "q90_delta": 12.293
+        },
+        "10-30B": {
+          "n": 1137,
+          "spearman_t_S": 0.4827,
+          "p_value": 2.057223872156525e-67,
+          "q90_first_month": 23.074,
+          "q90_last_month": 42.679,
+          "q90_delta": 19.605
+        },
+        ">30B": {
+          "n": 285,
+          "spearman_t_S": 0.4933,
+          "p_value": 6.982107143974038e-19,
+          "q90_first_month": 35.808,
+          "q90_last_month": 43.044,
+          "q90_delta": 7.236
+        }
+      },
+      "collinearity_ok": true,
+      "tau_present_within_bins": true,
+      "interpretation": "时间与规模不共线 ⇒ f(N) 由横截面变异钉住、tau_t 由档内月际位移钉住；两者可分，归因识别成立"
+    },
+    "P3_share_degeneracy": {
+      "verdict": "PASS",
+      "criterion": "两份额同时落在 [0,1] 且规模份额自助 95% 区间下界 >= 0 ⇒ 「占比」表述形式成立",
+      "share_form_valid": true,
+      "scale_points": 1.7175,
+      "tech_points": 4.9069,
+      "total_points": 6.6244,
+      "scale_share": 0.2593,
+      "tech_share": 0.7407,
+      "scale_share_ci95": [
+        0.0223,
+        0.4019
+      ],
+      "tech_share_ci95": [
+        0.5981,
+        0.9777
+      ],
+      "n_boot_effective": 2000,
+      "period": [
+        "2024-06",
+        "2025-03"
+      ],
+      "consequence_if_fail": "份额为负或区间跨零 ⇒ 不得报「规模 X% / 技术 Y%」。须改口径为报绝对贡献点数与方向，并把「前沿变强而前沿上的模型变小」作为正面结论写出。不得取绝对值、不得截断到 0 掩盖 —— 这是承重发现。",
+      "shapley_note": "加性模型下两因子 Shapley 与本分解恒等，无交互项，份额和恒为 1"
+    },
+    "P4_jia_yi_bias": {
+      "verdict": "PASS",
+      "criterion": "甲(仅 N)的技术份额 > 乙(N+compute)的技术份额 ⇒ 甲系统性高估技术，方向断言成立",
+      "subset_n": 66,
+      "subset_quarters": 4,
+      "jia_tech_share": 0.3096,
+      "yi_tech_share": 0.2557,
+      "bias_tech_share": 0.0539,
+      "jia_scale_points": -3.1404,
+      "yi_scale_points": -3.3855,
+      "generalization_limit": "本子集 pretrained 占比远高于 C1 全样本的 6.0% —— 不是同一总体。本条只给偏误的符号与量级，不得作为对全样本数字的修正系数，不得表述为『已校正』。",
+      "correction_if_sign_flips": "若符号与预期相反，则账本 q4_scale_channel_definition 中『甲单独使用时对技术进步占比为系统性高估』的方向断言是错的，须如实更正而非保留。"
+    },
+    "P5_bridge": {
+      "verdict": "FAIL",
+      "reason": "列名未识别: ['Model', 'N_params_B', 'D_tokens_B', 'Val_Loss', 'LB_Average', 'LB_IFEval', 'LB_BBH', 'LB_MATH', 'LB_GPQA', 'LB_MUSR', 'LB_MMLU_PRO', 'Loss_Source']"
+    },
+    "P6_perturbation": {
+      "verdict": "CONDITIONAL",
+      "criterion": "四种规格下技术份额极差 < 其自助 95% 区间宽度的 50% ⇒ 结论不依赖规格",
+      "specs": {
+        "decile_month": {
+          "scale_share": 0.2593,
+          "tech_share": 0.7407,
+          "total_points": 6.6244
+        },
+        "linear_month": {
+          "scale_share": -0.2827,
+          "tech_share": 1.2827,
+          "total_points": 6.6244
+        },
+        "decile_quarter": {
+          "scale_share": 0.0832,
+          "tech_share": 0.9168,
+          "total_points": 5.4865
+        },
+        "linear_quarter": {
+          "scale_share": -0.4972,
+          "tech_share": 1.4972,
+          "total_points": 5.4865
+        }
+      },
+      "tech_share_spread": 0.7565,
+      "bootstrap_ci_width": 0.3796,
+      "spread_over_ci_width": 1.9929,
+      "note_if_conditional": "极差超过区间宽度一半 ⇒ 规格选择本身是结论的一部分，须像 Q3 的三定义那样把规格差异摆在正文，不得只报一种规格。"
+    },
+    "P7_prediction_criterion": {
+      "verdict": "PASS",
+      "criterion": "使用者自定判据:中性情景下 12 个月 80% 区间下界 > 当前前沿值",
+      "frontier_definition": "每月 Average 的 0.90 分位",
+      "q90_by_month": {
+        "2024-06": 25.92,
+        "2024-07": 28.094,
+        "2024-08": 35.851,
+        "2024-09": 32.382,
+        "2024-10": 34.45,
+        "2024-11": 35.092,
+        "2024-12": 38.696,
+        "2025-01": 38.024,
+        "2025-02": 40.001,
+        "2025-03": 41.387
+      },
+      "slope_per_month": 1.5333,
+      "current_frontier": 41.387,
+      "pred_12m_point": 60.29,
+      "resid_sigma": 2.021,
+      "lo80_time_trend_only": 56.448,
+      "criterion_reachable": true,
+      "caveat": "本条只含时间趋势残差,未含桥接误差与标度律参数不确定性。三源叠加后区间会更宽 ⇒ 本值是判据可达性的乐观上界。若此处已 FAIL，则该判据在完整不确定性下必然 FAIL，须回报使用者。",
+      "saturation_note": "得分有 0-100 上界,饱和形态在 9.1 个月窗口内不可检验。24 个月视界若报告须显式声明该假设不可验证(账本已登记为待办)。"
+    }
+  },
+  "elapsed_seconds": 52.4
+}

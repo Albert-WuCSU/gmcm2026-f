@@ -1,0 +1,4 @@
+﻿scale,p_only_r2_deoffset,p_plus_Q_r2_deoffset,increment,ci95_lo,ci95_hi,significant,p_only_spearman,p_plus_Q_spearman
+test_1m,0.9129,0.91318,0.00028,-0.00022,0.0008,False,0.95232,0.9526
+test_60m,0.77165,0.77143,-0.00022,-0.00066,0.00013,False,0.92344,0.9227
+test_1B,0.70753,0.70671,-0.00082,-0.00206,2e-05,False,0.887,0.88599

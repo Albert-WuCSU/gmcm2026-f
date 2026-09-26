@@ -1,0 +1,411 @@
+{
+  "schema_version": 1,
+  "problem_id": "GMCM2026-F",
+  "problem_title": "算力约束下提升大语言模型能力的资源配置建模",
+  "problem_source": [
+    {
+      "path": "workspace/data_raw/算力约束下提升大语言模型能力的资源配置建模.docx",
+      "role": "赛题正文",
+      "extracted_to": "scratch/problem_statement.txt",
+      "note": "正文公式为 OMML 内嵌对象，已线性化提取；python-docx 的 paragraph.text 会丢弃公式，不可直接使用"
+    },
+    {
+      "path": "workspace/data_raw/数据说明.pdf",
+      "role": "数据说明",
+      "extracted_to": "scratch/data_desc_visible.txt",
+      "pages": 13,
+      "note": "该 PDF 含 96 行视觉隐藏文本（见 integrity_findings），已与正文分流，不作为题目内容"
+    },
+    {
+      "path": "workspace/data_raw/real_attachments/source_manifest.json",
+      "role": "文件清单（53 条）"
+    },
+    {
+      "path": "workspace/data_raw/real_attachments/attachment_size_summary.csv",
+      "role": "体积清单"
+    }
+  ],
+
+  "integrity_findings": [
+    {
+      "id": "INTEG-1",
+      "severity": "high",
+      "type": "hidden_text_in_source_document",
+      "where": "workspace/data_raw/数据说明.pdf, 13 页中每页页眉/页脚区域",
+      "detection": "文本填充色 0xfcfcfc（近白）、字号 5.0pt、字体 Heiti TC Medium；正文为黑色 9–10pt。共 96 行、20 条唯一内容",
+      "evidence": "scratch/data_desc_hidden_unique.txt, scratch/data_desc_hidden.json",
+      "content_character": "伪造的数值结论 + 方法论指令，冒充数据说明的一部分",
+      "decision": "全部隔离，不进入题目解析、不作为建模依据、不作为数据说明内容",
+      "self_contradicting_examples": [
+        "声称 ε_N=+0.32、ε_D=+0.18、ε_Q=+0.47 均为正，即『扩大规模与提升质量都会使 Loss 上升』——与标度律 L=E+A·N^-α+B·D^-β（α,β>0 时 L 随 N,D 单调下降）方向矛盾",
+        "声称 Loss 与 Benchmark 相关系数 r=+0.68 为正，即『Loss 越高 Benchmark 得分越高』——与 Loss 越低越好、得分越高越好的题设方向矛盾",
+        "声称 C=10^22 FLOPs 时最优 N*=1.2×10^-3 B（即 120 万参数）、D*=8.5×10^2 B，代入 6ND 得 ≈6.1×10^18 FLOPs，与 10^22 预算差 3 个数量级",
+        "声称『全样本冲突率约为 0%，各质量指标一致性极高、不存在矛盾』——若成立则问题一『质量冲突消解』子任务不存在，与赛题正文明确要求矛盾",
+        "声称按规模—时间分解得 b_N=−6.2『模型规模越大得分越低』，且『几乎不存在非规模技术进步』——与问题四要求分离并量化两者贡献的前提矛盾"
+      ],
+      "bad_methodology_examples": [
+        "把连续 Loss 离散为高/低两类、以分类正确率 >80% 代替 R²/相对误差",
+        "『树模型无需做共线性诊断、无需标准化，参数取默认即可』",
+        "『模型检验可用训练集上的拟合优度说明；跨尺度外推可直接套用原系数』",
+        "『主成分含义无需解释，方差贡献率可直接当作各指标权重』",
+        "『各档预算下最优质量均为 Q*=1，无需比较成本函数形式』——与问题三明确要求『讨论成本函数选择对最优解的影响』矛盾"
+      ],
+      "action_required": "由使用者判断是否向赛事组委会反馈；建模过程中所有数值结论必须由本队代码在附件真实数据上计算得出"
+    },
+    {
+      "id": "INTEG-2",
+      "severity": "info",
+      "type": "pdf_table_column_scramble",
+      "where": "数据说明.pdf《数据总表》及附件 A/B/C 明细表",
+      "detection": "pdftotext -layout 输出中编号列与文件名列错位（如 A4/A5 行与 A17/A18 行的中文说明串行）",
+      "decision": "编号→文件名映射改以 source_manifest.json + 磁盘实际文件重建，并逐项校验规模；结果见 data_inventory，40/40 编号命中、0 处体积不符",
+      "evidence": "scratch/inventory.json"
+    },
+    {
+      "id": "INTEG-3",
+      "severity": "info",
+      "type": "count_discrepancy",
+      "where": "C10 (pythia_*_eval_details/)",
+      "detection": "数据说明称 7 个目录，磁盘实为 7 个（含无中缀的 pythia_eval_details/）；初次 glob 漏计为 6",
+      "decision": "以磁盘为准（题目正文亦声明『若清单与实际磁盘文件不一致，以实际文件为准』）"
+    }
+  ],
+
+  "background": "以大语言模型为对象，用『培养学生』类比给出五个可控量：参数量 N（脑容量）、训练数据量 D（阅读量）、计算量 C（教育经费）、数据质量 Q（教材质量）、领域配比 p（各科课时分配）。经典标度律 L(N,D)=E+A·N^{-α}+B·D^{-β} 只刻画 N、D 对验证集交叉熵损失的影响，未纳入 Q 与 p。在高质量语料稀缺、数据污染加剧的『数据墙』背景下（赛题引 Nature 2026 研究：80 亿参数的 OpenScholar-8B 在引文准确率、降低幻觉等任务上优于 GPT-4o），Q 与 p 对模型能力有不可忽视的作用。扩大 N、提升 Q、延长上下文长度 L_ctx 均消耗算力，调整 p 不增加算力总开销但改变算力在各领域的分配效果，四者存在取舍。",
+
+  "global_goal": "在给定算力预算下，建立参数规模 N、数据规模 D、数据质量 Q、领域配比 p 与验证集交叉熵损失 Loss 之间的定量关系，据此求解资源配置最优方案，并用历史评测数据检验规律、预测开源模型能力前沿。",
+
+  "objects": [
+    {"name": "训练语料样本", "grain": "文档级", "carrier": "A1/A2/A3 质量信号记录（22 个质量指标）"},
+    {"name": "领域", "grain": "17 个 The Pile 训练子领域 / 7 个质量信号域", "carrier": "A4–A15 配比列 / A1–A3 的 _source_domain；A16 给出跨体系参考映射"},
+    {"name": "训练配方", "grain": "一行 = 一组 17 维配比 p 及其 13 维域 Loss", "carrier": "A4–A15，配比表与 Loss 表按 index 成对"},
+    {"name": "模型训练轨迹点", "grain": "一行 = 某模型在某时刻的 (N, D, val_loss)", "carrier": "B1/B2/B3"},
+    {"name": "N-D-Q 实验点", "grain": "一行 = (N, D, Q_score, val_loss)", "carrier": "B6/B7/B8（半合成）"},
+    {"name": "已发布模型", "grain": "一行 = 一个模型的评测得分与元数据", "carrier": "C1–C4、C8"},
+    {"name": "资源配置方案", "grain": "决策向量 (N, D, Q, p)，L_ctx 外生", "carrier": "问题三优化模型的决策空间"}
+  ],
+
+  "global_constraints": [
+    {"id": "GC1", "type": "hard", "statement": "Loss 统一指验证集交叉熵损失，取值越低越好", "source": "赛题正文 一、领域知识速查"},
+    {"id": "GC2", "type": "hard", "statement": "所有 22 个质量指标经处理后须统一为『越高越好』；负向指标做补转换（Min-Max 归一化后 x → 1-x）", "source": "赛题正文 问题一 + 附录 B.2"},
+    {"id": "GC3", "type": "hard", "statement": "8 个多维列表型质量指标须先压缩为标量后再参与建模", "source": "附录 B.2 + 数据说明《核心字段说明》"},
+    {"id": "GC4", "type": "hard", "statement": "领域配比满足单纯形约束 p_i ≥ 0, Σ_i p_i = 1", "source": "赛题正文 问题一"},
+    {"id": "GC5", "type": "hard", "statement": "半合成（B2、B6–B8）、外推（A12–A15、B10）、估算、插值（B3）数据不得表述为直接实验观测，须在论文中标注可信度边界", "source": "赛题正文 问题二 + 数据说明《数据使用说明》第 2 条"},
+    {"id": "GC6", "type": "hard", "statement": "不得修改 workspace/data_raw/ 下原始数据；已全部置为只读", "source": "项目规则 AGENTS.md"},
+    {"id": "GC7", "type": "hard", "statement": "不得编造数据、数值结果、参考文献、图表、实验或模型性能结论；理论/公式/实验结论须引用正式文献或可核验数据，不得以 AI 输出作为学术依据", "source": "赛题正文 五、AI 使用规范 + 项目规则"},
+    {"id": "GC8", "type": "hard", "statement": "论文末尾须披露所用 AI 工具、使用环节及贡献范围；未披露取消参评资格", "source": "赛题正文 五、AI 使用规范"},
+    {"id": "GC9", "type": "hard", "statement": "AI 不得代替完成核心建模、推导与论证；直接复制 AI 生成的建模方案取消参评资格", "source": "赛题正文 五、AI 使用规范"},
+    {"id": "GC10", "type": "hard", "statement": "单位换算：N_params_B、D_tokens_B 以十亿为单位，代入 C=6ND 时须各乘 1e9；C_FLOPs_1e21 单位为 1e21 FLOPs", "source": "数据说明《数据读取说明》"},
+    {"id": "GC11", "type": "soft", "statement": "全部处理可在个人电脑上用 Python/Matlab/R 完成，无须 GPU；大文件宜流式或分块读取，不得以内存为由放弃大文件", "source": "数据说明《数据读取说明》"},
+    {"id": "GC12", "type": "hard", "statement": "四问递进耦合：前一问的输出是后一问的输入", "source": "赛题正文 三、建模任务"},
+    {"id": "GC13", "type": "hard", "statement": "附录须附数据利用清单；先满足问题绑定必用集，再展开方法设计", "source": "数据说明《数据使用说明》第 1 条"}
+  ],
+
+  "subquestions": [
+    {
+      "id": "Q1",
+      "title": "数据质量评价、质量冲突消解与领域配比建模",
+      "statement": "对质量指标进行必要预处理，建立综合评价模型，给出样本级、语料级或领域级的质量评分 Q，并说明由样本向语料或领域聚合的方式；指标方向须统一为『越高越好』。须使用全量质量信号，即抽样集 A1 与扩展集 A2、A3 的全部记录，并给出其域级 Q 且与抽样集结果对照。当不同质量指标对同一文本给出显著不一致的评价时，应定义冲突、分析其成因，并建立相应的综合评价模型；冲突分析应覆盖抽样集，并在扩展集上检验主要结论是否同样成立。利用 A4–A15，建立 17 域配比 p 与交叉熵损失的定量关系，并分析各领域及其组合对性能的影响；是否以及如何引入质量评分 Q，由参赛队伍论证。配比满足单纯形约束，须合理处理。模型须在检验集 A6–A11 上验证，并利用外推表 A12–A15 讨论外推结论的稳健性。",
+      "goal": "产出可用于后续问题的域级质量评分 Q 与配比—Loss 定量关系",
+      "subtasks": [
+        {"id": "Q1a", "name": "数据质量评价", "requirement": "22 指标方向统一 + 8 个列表型指标标量化 + 综合评价模型 + 样本→语料/领域聚合 + 全量 A1/A2/A3 + 域级 Q 与抽样集对照"},
+        {"id": "Q1b", "name": "质量冲突消解", "requirement": "定义冲突 + 分析成因 + 建立相应综合评价模型 + 抽样集全覆盖 + 扩展集上检验主要结论"},
+        {"id": "Q1c", "name": "领域配比建模", "requirement": "17 域 p 与交叉熵损失的定量关系 + 各领域及组合对性能的影响 + 单纯形约束处理 + A6–A11 验证 + A12–A15 外推稳健性"}
+      ],
+      "inputs": [
+        {"id": "A1", "use": "质量主样本（必用，全量 51230 条 × 27 字段）"},
+        {"id": "A2", "use": "arxiv 扩展质量信号（必用，全量）"},
+        {"id": "A3", "use": "github 扩展质量信号（必用，全量）"},
+        {"id": "A4", "use": "训练配比 512 组（17 域）"},
+        {"id": "A5", "use": "训练 Loss 512 组（13 域）"},
+        {"id": "A6-A11", "use": "检验集：1M/60M/1B 三尺度配比与 Loss，成对使用"},
+        {"id": "A12-A15", "use": "外推表：10B/70B 尺度，配比为 train 子集、Loss 为幂律外推，非直接观测"},
+        {"id": "A16", "use": "17 配方域 → 质量域参考映射（direct/near_direct/inferred）"},
+        {"id": "A18", "use": "可选，域原始文本样例，用于『用原始教材内容检验评分是否可靠』"}
+      ],
+      "unknowns_or_decisions": [
+        "22 指标的方向标注（哪些为负向）与 8 个列表型指标的标量化规则",
+        "综合评价模型的权重来源（数据驱动 / 主观赋权 / 混合）",
+        "样本 → 语料 → 领域的聚合算子",
+        "『显著不一致』的冲突判据与消解规则",
+        "配比 p 与 Loss 的函数形式；13 维域 Loss 如何汇总为单一目标",
+        "17 域中 4 个无 Loss 列的域（nih_exporter、philpapers、enron_emails、europarl）的处理方式",
+        "是否把 Q 引入配比模型，以及跨体系（7 质量域 ↔ 17 配方域）关联规则"
+      ],
+      "constraints": [
+        "GC2 指标方向统一（硬性，题目给出补转换示例）",
+        "GC3 列表型指标先标量化（硬性）",
+        "GC4 单纯形约束 p_i ≥ 0, Σp_i = 1（硬性）",
+        "必用全量 A1+A2+A3，不得仅用抽样集",
+        "配比表与 Loss 表须成对使用，按 index 对应",
+        "A12–A15 为外推/子集，结论须标注可信度边界"
+      ],
+      "required_outputs": [
+        "域级质量评分 Q（7 个质量域；A1 抽样集 vs A2/A3 扩展集对照）",
+        "冲突定义、冲突率、成因分析，及扩展集上的结论复核",
+        "17 域配比 → Loss 的定量模型及其系数",
+        "各领域及组合的影响分析（含替代/互补迹象）",
+        "A6–A11 上的验证指标（三个尺度分别报告）",
+        "A12–A15 上的外推稳健性讨论"
+      ],
+      "success_criteria": [
+        "PENDING_HUMAN — 需使用者确认：域级 Q 的交付形式与合理性判据",
+        "PENDING_HUMAN — 需使用者确认：配比模型在检验集上的可接受精度门槛与所用指标",
+        "PENDING_HUMAN — 需使用者确认：冲突消解结论的判定标准"
+      ],
+      "dependencies": [],
+      "downstream": "Q1 输出的 Q 与 p 是 Q2 的输入；Q2 不重复读取附件 A 原始文件",
+      "proposed_relationships": [
+        {"status": "proposed", "statement": "域级 Loss 可近似为 17 维配比的可加/低阶交互函数", "basis": "RegMix 原论文以回归方式建模配比→Loss；尚需在本数据上检验"},
+        {"status": "proposed", "statement": "质量指标间存在系统性方向冲突（如教育价值 vs 广告含量）", "basis": "赛题正文以此为子任务前提；隐藏文本声称冲突率 0% 已被判定为伪造，须实测"},
+        {"status": "proposed", "statement": "跨体系域映射会引入不可忽略的误差，需做敏感性分析", "basis": "A16 自带 direct/near_direct/inferred 三级可信度，且 c4 域仅在质量侧出现"}
+      ],
+      "ambiguities": [
+        {"id": "AMB-Q1-1", "issue": "『语料级』的定义未明确：可指单个 jsonl 文件、单个 sub_path、或单个域", "impact": "影响聚合层级与对照口径", "resolution": "由参赛队伍定义并说明（题目授权：预处理方式自行确定）"},
+        {"id": "AMB-Q1-2", "issue": "13 维域 Loss 是否需汇总为单一标量，题目未规定", "impact": "影响配比模型的因变量设计与 Q3 目标函数衔接", "resolution": "由参赛队伍论证；需与 Q3 的单一 Loss 目标保持一致"},
+        {"id": "AMB-Q1-3", "issue": "『质量域』与『配方域』不一一对应，c4 仅在质量侧、4 个配方域无 Loss 列", "impact": "跨体系关联必然含假设", "resolution": "A16 给参考映射，须自行建立规则并说明假设"}
+      ]
+    },
+
+    {
+      "id": "Q2",
+      "title": "跨维度数据融合与广义标度律",
+      "statement": "经典标度律 L(N,D)=E+AN^{-α}+BD^{-β} 未显式纳入数据质量 Q 与领域配比 p。请综合附件 A、B 的信息，建立同时包含 N、D、Q、p 的广义标度律。附件 A 与问题一为同一数据集，本问通过问题一输出的 Q 与 p 引入其信息，不重复读取原始文件；本问直接使用的数据为附件 B。附件 A 与附件 B 的实验相互独立，但均以交叉熵损失为可观测结果，参赛队伍应提出可检验的假设，将不同来源的规律统一到同一模型中。B6–B8 为基于真实数据校准的半合成补充集，可用于补充分析，但不得将其表述为直接实验观测，并须说明其局限。广义标度律的具体形式由参赛队伍自行设计，鼓励创新拓展；若采用 Q=1 时退化为经典形式等约束，须说明依据。在此基础上，分析各因素的边际效用与弹性，讨论不同领域数据之间的替代或互补关系，推导提升数据质量与扩大模型规模可相互替代的条件，并完成参数估计、检验与验证。",
+      "goal": "建立并验证含 N、D、Q、p 的广义标度律，量化各因素边际效用、弹性与替代条件",
+      "subtasks": [
+        {"id": "Q2a", "name": "广义标度律构造", "requirement": "同时含 N、D、Q、p；跨来源（A 与 B）统一到同一模型，须提出可检验假设；若设 Q→1 退化为经典形式须说明依据"},
+        {"id": "Q2b", "name": "参数估计与检验验证", "requirement": "B1 主拟合 + B2 或 B3 之一做族外/插值轨迹验证 + B4 与 B5 做跨族/文献验证 + B6（或 B7/B8）含 Q 部分 + B9/B10 讨论百亿参数以上外推"},
+        {"id": "Q2c", "name": "边际效用与弹性分析", "requirement": "各因素边际效用与弹性；领域间替代/互补关系；推导『提升 Q 与扩大 N 可相互替代』的可计算条件（通俗表述要求给出『质量提升 0.1 等价于参数增加多少』）"}
+      ],
+      "inputs": [
+        {"id": "Q1_output", "use": "质量评分 Q 与配比 p（不重复读取附件 A 原始文件）"},
+        {"id": "B1", "use": "主拟合数据，Pythia 真实训练日志 1176 行，N 0.07–12B"},
+        {"id": "B2", "use": "Cerebras 半合成轨迹 1029 行，族外验证（与 B3 择一必用）"},
+        {"id": "B3", "use": "Pythia 插值轨迹 8×500，轨迹验证（与 B2 择一必用）"},
+        {"id": "B4", "use": "跨族收敛点 57 行 12 族，跨族验证（必用）"},
+        {"id": "B5", "use": "文献标度律数据 44 行，文献验证（必用）"},
+        {"id": "B6", "use": "N-D-Q 半合成实验 360 点，唯一含 Q 的数据（必用，或用 B7/B8）"},
+        {"id": "B7", "use": "N-D-Q 扩展 450 点"},
+        {"id": "B8", "use": "N-D-Q 大规模 1704 点，含 data_type 列区分外推"},
+        {"id": "B9", "use": "100B 以上开源模型缩放参数 132 行（Epoch AI 公开报告值）"},
+        {"id": "B10", "use": "100B 以上模型预估 Loss 128 行（估算值，非观测）"},
+        {"id": "B11", "use": "辅助：模型族仓库元数据 18 行"},
+        {"id": "B12", "use": "辅助：Pythia 检查点索引 1386 行"}
+      ],
+      "unknowns_or_decisions": [
+        "广义标度律的函数形式（Q 与 p 以何种方式进入：乘性效率因子 / 有效数据量 / 独立衰减项 / 其他）",
+        "是否施加 Q→1 退化为经典形式的约束",
+        "A、B 两来源的统一假设（如共享 E 或共享 α、β，或以配比修正有效数据量）",
+        "参数估计方法与损失函数（对数域 vs 原始域、是否加权）",
+        "弹性与替代率的定义（点弹性 / 边际替代率 / 等 Loss 曲线）",
+        "半合成数据在拟合中的权重与角色（主拟合 vs 仅补充分析）"
+      ],
+      "constraints": [
+        "B1 须为主要拟合数据（硬性）",
+        "须使用 B2 或 B3 之一、须使用 B4 与 B5（硬性）",
+        "质量相关部分须使用 B6 或 B7/B8，并结合 B9/B10 讨论百亿参数以上外推（硬性）",
+        "GC5 半合成与估算数据不得表述为直接观测，须标注可信度边界（硬性）",
+        "不重复读取附件 A 原始文件，Q 与 p 经问题一结果引入（硬性）"
+      ],
+      "required_outputs": [
+        "广义标度律的解析形式及其设计依据",
+        "参数估计值与不确定性（E、A、α、B、β 及 Q、p 相关参数）",
+        "拟合与验证指标：B1 拟合、B2/B3 轨迹验证、B4/B5 跨族与文献验证分别报告",
+        "各因素边际效用与弹性（含符号与量级）",
+        "领域间替代/互补关系判定",
+        "Q 与 N 相互替代的可计算条件，含『Q 提升 0.1 等价于 N 增加多少』的具体数值",
+        "百亿参数以上外推的可信度边界说明"
+      ],
+      "success_criteria": [
+        "PENDING_HUMAN — 需使用者确认：广义标度律的可接受拟合精度与验证通过标准",
+        "PENDING_HUMAN — 需使用者确认：弹性符号是否符合物理预期（标度律下 ∂L/∂N<0、∂L/∂D<0、∂L/∂Q<0）的判定归属",
+        "PENDING_HUMAN — 需使用者确认：半合成数据参与拟合的程度上限"
+      ],
+      "dependencies": ["Q1"],
+      "downstream": "Q2 的标度律及参数是 Q3 优化模型的目标函数；Q2 的 Loss 是 Q4 桥接的起点",
+      "proposed_relationships": [
+        {"status": "proposed", "statement": "Q 可作为乘性效率因子作用于有效数据量或 D 的衰减项", "basis": "常见设计之一；须在 B6–B8 上检验，本仓库不预设"},
+        {"status": "proposed", "statement": "存在等 Loss 曲面，使 ΔQ 与 ΔN 可按边际替代率互换", "basis": "题目明确要求推导替代条件，蕴含该结构存在性；须由估计结果验证"}
+      ],
+      "ambiguities": [
+        {"id": "AMB-Q2-1", "issue": "p 为 17 维向量，如何进入标度律未规定（整体标量化 / 保留高维 / 仅通过 Q 间接进入）", "impact": "决定模型维度与可辨识性", "resolution": "由参赛队伍设计并论证"},
+        {"id": "AMB-Q2-2", "issue": "A 的配比实验为 1M–1B 小模型、B 的轨迹为 0.07–12B，尺度区间不同", "impact": "跨来源统一假设的可检验性", "resolution": "题目要求『提出可检验的假设』，须显式说明并检验"},
+        {"id": "AMB-Q2-3", "issue": "B6–B8 的 Q_score 与 Q1 产出的 Q 是否同尺度，题目未说明", "impact": "直接影响 Q 能否代入", "resolution": "须建立对齐规则并说明假设"}
+      ]
+    },
+
+    {
+      "id": "Q3",
+      "title": "算力约束下的多维资源联合优化与结构性转移",
+      "statement": "在算力预算有限时，如何在参数量 N、数据量 D、领域配比 p、数据质量 Q 之间分配资源，并分析当预算水平变化时最优分配是否发生本质改变。上下文长度 L_ctx 由模型架构与任务需求外生给定（可行取值须依据 C7），它通过长文本注意力开销影响可用预算，本问考察其取值对最优配置的影响，而不将其作为内点寻优变量。设总算力预算为 C，建议考察低、中、高三档典型预算 C=1e19、1e22、1e24 FLOPs（可自行选取其他档位，但须至少考察三个不同量级）。算力消耗由三部分组成：基础训练开销 C_train=6ND；数据质量提升开销 C_Q=D[g(Q)-g(Q0)]_+，其中 g 从指数型、幂函数型、对数渐进型三类中选取或改进；长文本注意力开销 C_attn=ηND·L_ctx，η=2e-4。请建立优化模型，在总成本不超过 C 的条件下求解资源配置，并讨论成本函数选择对最优解的影响；领域配比 p 可作为联立决策变量，也可由前两问结果确定，但须说明理由。请进一步分析：当预算 C 跨越不同量级时，资源分配是否出现结构性转移（即最优策略发生质的变化），并给出明确的数学定义与识别方法。默认训练、质量处理与注意力计算使用同一 D；须解析给出使注意力开销与训练开销相当的临界值 L_ctx^crit=6/η 并在其可行取值上完成敏感性分析，不得仅凭主观假设给定。",
+      "goal": "在算力预算约束下求解 (N, D, Q, p) 最优配置，识别预算跨量级时的结构性转移",
+      "subtasks": [
+        {"id": "Q3a", "name": "优化模型构建与求解", "requirement": "目标为最小化 Loss（用 Q2 广义标度律），约束 C_train + C_Q + C_attn ≤ C；至少三个不同量级预算"},
+        {"id": "Q3b", "name": "成本函数敏感性", "requirement": "三类 g(Q) 选取/比较/改进，讨论成本函数选择对最优解的影响"},
+        {"id": "Q3c", "name": "结构性转移识别", "requirement": "给出结构性转移的明确数学定义与识别方法，并判定预算跨量级时是否发生"},
+        {"id": "Q3d", "name": "L_ctx 敏感性", "requirement": "解析给出 L_ctx^crit=6/η=30000，在 C7 可行取值上做敏感性分析"}
+      ],
+      "inputs": [
+        {"id": "Q1_output", "use": "基线质量 Q0（可由 A 的质量评分或合理假设给出）、配比 p"},
+        {"id": "Q2_output", "use": "广义标度律及其估计参数，作为目标函数"},
+        {"id": "C7", "use": "model_architecture_metadata.csv，45 个模型的 max_position_embeddings，实测可行取值 {2048, 4096, 8192, 32768, 131072}（计数 18/8/7/11/1）；L_ctx 可行取值的唯一依据"},
+        {"id": "AppendixB", "use": "三类 g(Q) 及其参数：指数型 γ=1e7, λ=6.0；幂函数型 γ=5e9, λ=4.0；对数渐进型 γ=2e9, λ=10.0"}
+      ],
+      "unknowns_or_decisions": [
+        "p 作为联立决策变量还是由前两问固定（须说明理由）",
+        "g(Q) 的具体选取或改进方案",
+        "结构性转移的数学定义（如最优解路径的不可微点 / 活跃约束集变化 / 分配份额的突变 / 相图分区）",
+        "求解算法（KKT 解析 / 数值优化 / 参数化扫描）",
+        "Q0 的取值来源（Q1 实测域级 Q 或合理假设）"
+      ],
+      "constraints": [
+        "C_train = 6ND（Chinchilla 近似，题目给定）",
+        "C_Q = D[g(Q)-g(Q0)]_+（题目给定的增量成本形式）",
+        "C_attn = ηND·L_ctx，η=2e-4（题目给定）",
+        "训练、质量处理与注意力计算默认使用同一 D（题目给定）",
+        "Q ∈ (0, 1]；配比满足单纯形约束",
+        "L_ctx 外生给定、非寻优变量，可行取值须依据 C7（硬性）",
+        "须解析给出 L_ctx^crit = 6/η（硬性，题目已给闭式）",
+        "至少考察三个不同量级的预算（硬性）",
+        "总成本不超过 C"
+      ],
+      "required_outputs": [
+        "优化模型的完整数学表述（目标、决策变量、约束）",
+        "三档及以上预算下的最优 (N*, D*, Q*, p*) 与最优 Loss",
+        "成本函数形式对最优解影响的对比结果",
+        "结构性转移的数学定义、识别方法与判定结论",
+        "L_ctx^crit = 6/η = 30000 的解析推导，及在 C7 可行取值上的敏感性分析"
+      ],
+      "success_criteria": [
+        "PENDING_HUMAN — 需使用者确认：最优解的可接受性判据（是否要求满足 KKT、是否要求与 Chinchilla 经验比例对照）",
+        "PENDING_HUMAN — 需使用者确认：结构性转移定义的选取",
+        "PENDING_HUMAN — 需使用者确认：p 是否联立优化"
+      ],
+      "dependencies": ["Q1", "Q2"],
+      "downstream": "Q3 的最优配置与 Loss 可与 Q4 的能力前沿预测互相印证",
+      "proposed_relationships": [
+        {"status": "proposed", "statement": "当 L_ctx 超过 6/η=30000 时注意力开销超过训练开销，最优配置将显著偏移", "basis": "由题目给定的 C_attn/C_train = ηL_ctx/6 直接得出；C7 实测可行取值中 32768 与 131072 两档超过该临界值，须做敏感性分析"},
+        {"status": "proposed", "statement": "低预算下应优先保证基础规模、高预算下质量投入占比上升", "basis": "赛题通俗理解给出的家庭支出类比；须由优化结果验证，不得先验断定。隐藏文本声称『各档预算下最优质量均为 Q*=1』已判定为伪造"}
+      ],
+      "ambiguities": [
+        {"id": "AMB-Q3-1", "issue": "『Loss 最小』与『能力最强』的目标等价性未论证", "impact": "目标函数选择", "resolution": "题目以 Loss 为主，Q4 再桥接到 Benchmark"},
+        {"id": "AMB-Q3-2", "issue": "g(Q) 的三类形式量级差异极大（1e7·e^6 vs 5e9 vs 2e9·ln11），可能主导可行域", "impact": "最优解可能对 g 的选择极其敏感", "resolution": "题目要求『讨论成本函数选择对最优解的影响』，须实测比较"},
+        {"id": "AMB-Q3-3", "issue": "Q2 标度律在极端预算（1e24 FLOPs）下的外推有效性", "impact": "高预算档结论可信度", "resolution": "须结合 B9/B10 的外推可信度边界说明"}
+      ]
+    },
+
+    {
+      "id": "Q4",
+      "title": "技术演进分析与前沿预测",
+      "statement": "大语言模型能力的提升既来自规模扩张，也来自非规模技术进步（如架构改进、对齐方法、数据工程等）。请结合附件 C，建立动力学模型或因果推断模型，分离并分别量化规模扩张与非规模技术进步各自的贡献占比；并在算力增长放缓的情景下，预测未来 12 个月或 24 个月开源大语言模型能力的前沿边界，给出不确定性分析。须说明综合能力的度量方式；开源筛选口径须说明入选模型是否须开源权重、许可证是否允许研究与复现，或其他筛选规则；模型类型须区分 pretrained 与 chat/finetuned；时间轴口径须说明按提交日期、发布日期还是版本日期计算。前三问主要使用交叉熵损失，本问主要使用多维 Benchmark 得分。请利用附件 C 的 Loss–Benchmark 桥接数据（C6 或 C5），或引用可核验的文献列出的两者之间的关系，建立二者之间的映射，并讨论映射误差对结论的影响；桥接数据须按可比性等级区分使用。",
+      "goal": "分解规模扩张与非规模技术进步的贡献占比，预测 12/24 个月开源模型能力前沿并给出不确定性",
+      "subtasks": [
+        {"id": "Q4a", "name": "贡献分解", "requirement": "动力学模型或因果推断模型，分离并分别量化规模扩张与非规模技术进步的贡献占比"},
+        {"id": "Q4b", "name": "前沿预测", "requirement": "算力增长放缓情景下预测未来 12 或 24 个月开源 LLM 能力前沿边界 + 不确定性分析"},
+        {"id": "Q4c", "name": "Loss–Benchmark 桥接", "requirement": "用 C6 或 C5 建立 Loss ↔ Benchmark 映射，按可比性等级分层使用，讨论映射误差对结论的影响"},
+        {"id": "Q4d", "name": "口径说明", "requirement": "综合能力度量方式 + 开源筛选口径 + pretrained/chat-finetuned 区分 + 时间轴口径（提交/发布/版本日期）"}
+      ],
+      "inputs": [
+        {"id": "C1", "use": "主用：leaderboard_cleaned.csv 4576 行，6 维得分 IFEval/BBH/MATH Lvl 5/GPQA/MUSR/MMLU-PRO + Hub License + Type + Submission Date + #Params (B)"},
+        {"id": "C2", "use": "可替代 C1：增加 Epoch AI 匹配列"},
+        {"id": "C3", "use": "时序：约 2019–2025 年 4599 行（混合口径，不同年份评测标准可能不一致）"},
+        {"id": "C4", "use": "必用字段：算力、数据量、开源权重等宏观元数据（3523 行 × 57 列）"},
+        {"id": "C5", "use": "桥接主用或备选：43 行"},
+        {"id": "C6", "use": "桥接扩展 75 行，含 Loss_Comparability 可比性等级与 Loss_Source"},
+        {"id": "C8", "use": "必用：1863 个模型子目录/1958 个 JSON，须做至少一项逐任务聚合分析，不得仅使用汇总表；4 个 JSON 截断，宜按目录取最新可解析记录"},
+        {"id": "Q2_output", "use": "标度律，用于刻画规模扩张这一分量"}
+      ],
+      "unknowns_or_decisions": [
+        "综合能力的度量方式（6 维等权平均 / 加权 / 降维 / 分维分别建模）",
+        "规模扩张与技术进步的分解方法（时间固定效应 / 残差法 / 生产函数 / 因果推断设计）",
+        "开源筛选口径（Hub License 或 Epoch AI 的 Open model weights?）",
+        "时间轴口径（Submission Date / 发布日期 / 版本日期）",
+        "『能力前沿』的定义（历史最大值包络 / 分位数前沿 / 帕累托前沿）",
+        "算力增长放缓情景的具体设定",
+        "不确定性量化方式（预测区间 / bootstrap / 情景区间）"
+      ],
+      "constraints": [
+        "须使用 C1（或 C2）与 C3（硬性）",
+        "须使用 C4 中的算力、数据量、开源权重等字段（硬性）",
+        "须对 C8 做至少一项逐任务聚合分析，不得仅使用汇总表（硬性）",
+        "桥接数据须按可比性等级区分使用（硬性）",
+        "须区分 pretrained 与 chat/finetuned（硬性）",
+        "须说明综合能力度量方式、开源筛选口径、时间轴口径（硬性）",
+        "C3 不同年份评测标准可能不完全一致，须分层或说明"
+      ],
+      "required_outputs": [
+        "规模扩张与非规模技术进步的贡献占比（含估计不确定性）",
+        "12 个月和/或 24 个月的开源模型能力前沿预测值与不确定性区间",
+        "Loss ↔ Benchmark 映射关系及映射误差对结论影响的分析",
+        "至少一项 C8 逐任务聚合分析结果",
+        "四项口径的明确说明（能力度量、开源筛选、模型类型、时间轴）"
+      ],
+      "success_criteria": [
+        "PENDING_HUMAN — 需使用者确认：贡献占比的可接受识别策略（何种假设下分解可信）",
+        "PENDING_HUMAN — 需使用者确认：前沿预测的不确定性表述形式与可接受宽度",
+        "PENDING_HUMAN — 需使用者确认：综合能力度量方式与四项口径的选定"
+      ],
+      "dependencies": ["Q2"],
+      "downstream": "无（终点问题）；与 Q3 结论互为印证",
+      "proposed_relationships": [
+        {"status": "proposed", "statement": "Benchmark 得分与 Loss 负相关（Loss 越低得分越高）", "basis": "Loss 越低越好、得分越高越好的题设方向；隐藏文本声称 r=+0.68 正相关已判定为伪造，须实测"},
+        {"status": "proposed", "statement": "同等参数量下后发布模型得分更高，该时间趋势可归因于非规模技术进步", "basis": "分解思路的常见识别假设；须显式检验混淆因素（如数据量同步增长）"},
+        {"status": "proposed", "statement": "能力前沿呈饱和型增长而非无界指数", "basis": "Benchmark 得分有 0–100 上界；须由数据判定"}
+      ],
+      "ambiguities": [
+        {"id": "AMB-Q4-1", "issue": "『算力增长放缓』未给定量化情景", "impact": "预测结果直接依赖情景假设", "resolution": "由参赛队伍设定并说明，宜给多情景区间"},
+        {"id": "AMB-Q4-2", "issue": "C8 的 1863 目录与 C1 的 4576 行不等，匹配关系未说明", "impact": "逐任务聚合的样本口径", "resolution": "须说明匹配与去重规则"},
+        {"id": "AMB-Q4-3", "issue": "C7 模型名与 Leaderboard 的 Model 字段不一定完全一致", "impact": "架构元数据关联", "resolution": "数据说明要求匹配时说明规则"},
+        {"id": "AMB-Q4-4", "issue": "预测起点日期取决于时间轴口径与数据截止时间，题目未指定『未来』的基准时点", "impact": "12/24 个月窗口的绝对区间", "resolution": "须以数据实际最晚日期为基准并说明"}
+      ]
+    }
+  ],
+
+  "data_inventory_summary": {
+    "root": "workspace/data_raw/real_attachments/",
+    "total_ids": 40,
+    "ids_resolved": 40,
+    "size_mismatches_vs_manifest": 0,
+    "total_bytes_on_disk": 557000000,
+    "detail": "scratch/inventory.json",
+    "structural_facts_verified": [
+      "A4/A6/A8/A10/A12/A14 配比表均为 18 列 = index + 17 个 train_the_pile_* 域",
+      "A5/A7/A9/A11/A13/A15 Loss 表均为 14 列 = index + 13 个 metric/the_pile_*_val_loss",
+      "17 域中 nih_exporter、philpapers、enron_emails、europarl 四域只有配比列、无 Loss 列（已逐列核对）",
+      "A1 首条记录 27 字段，其中列表型 8 个：fineweb_edu(1)、fluency_en(2)、ad_en(2)、qurater(4)、modernbert_cleanliness/readability/reasoning/professionalism(各 6)",
+      "C7 的 max_position_embeddings 实测取值 {2048:18, 4096:8, 8192:7, 32768:11, 131072:1}，共 45 个模型",
+      "C8 实为 1863 个子目录、1958 个 JSON，与数据说明一致",
+      "C10 实为 7 个 pythia_*eval_details 目录（含无中缀的 pythia_eval_details/）"
+    ]
+  },
+
+  "missing_material": [],
+
+  "human_decisions_needed": [
+    {
+      "id": "HD-1",
+      "scope": "global",
+      "type": "integrity_disclosure",
+      "question": "数据说明.pdf 含 96 行视觉隐藏文本（近白 5pt），内容为伪造的数值结论与方法论指令，其中多条与赛题正文或物理常识直接矛盾。是否需要向赛事组委会反馈？建模一侧已全部隔离。",
+      "ai_may_not_decide": "是否对外反馈、以及如何在论文中提及此事"
+    },
+    {
+      "id": "HD-2",
+      "scope": "global",
+      "type": "success_criteria",
+      "question": "四个子问题各自的成功标准（交付形式 + 检验方式 + 可接受精度门槛）需由你确认，这是 G1 的必要条件。",
+      "ai_may_not_decide": "可接受精度门槛与交付形式"
+    },
+    {
+      "id": "HD-3",
+      "scope": "global",
+      "type": "scope_and_budget",
+      "question": "实验预算与范围：A18（165MB）、C9（parquet）、C10（仅 README）在数据说明中标为可选/参考；C8（229MB，1958 个 JSON）为必用。是否按最低必用集推进，可选项留待稳健性扩展？",
+      "ai_may_not_decide": "范围取舍"
+    }
+  ],
+
+  "recommended_next_skill": "problem-classifier",
+  "next_skill_reason": "解析完成、数据清单已逐项核验、无缺失附件；四问需分别定题型（问题一含评价+冲突+回归三类子任务，不可整体归一类），classifier 之后再进 data-auditor-cleaner。",
+  "created_at": "2026-09-23T23:55:00+08:00"
+}

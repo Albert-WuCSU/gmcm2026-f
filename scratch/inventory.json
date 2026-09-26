@@ -1,0 +1,549 @@
+{
+ "ids": {
+  "A1": {
+   "path": "A_data_value/slimpajama_quality_signal_sample.jsonl.xz",
+   "kind": "file",
+   "bytes": 103349792,
+   "source": "https://huggingface.co/datasets/opendatalab/SlimPajama-Meta-rater"
+  },
+  "A2": {
+   "path": "A_data_value/slimpajama_quality_extended/arxiv_part-6777d8857c6e-000486.jsonl.xz",
+   "kind": "file",
+   "bytes": 3652724
+  },
+  "A3": {
+   "path": "A_data_value/slimpajama_quality_extended/github_part-6777d8857c6e-000275.jsonl.xz",
+   "kind": "file",
+   "bytes": 37618172
+  },
+  "A4": {
+   "path": "A_data_value/regmix_tables/train_mixture_1m.csv",
+   "kind": "file",
+   "bytes": 46412,
+   "rows_excl_header": 512,
+   "cols": 18,
+   "header": [
+    "index",
+    "train_the_pile_arxiv",
+    "train_the_pile_freelaw",
+    "train_the_pile_nih_exporter",
+    "train_the_pile_pubmed_central",
+    "train_the_pile_wikipedia_en"
+   ],
+   "source": "https://raw.githubusercontent.com/sail-sg/regmix/main/data/train_mixture_1m.csv"
+  },
+  "A5": {
+   "path": "A_data_value/regmix_tables/train_pile_loss_1m.csv",
+   "kind": "file",
+   "bytes": 121898,
+   "rows_excl_header": 512,
+   "cols": 14,
+   "header": [
+    "index",
+    "metric/the_pile_arxiv_val_loss",
+    "metric/the_pile_freelaw_val_loss",
+    "metric/the_pile_pubmed_central_val_loss",
+    "metric/the_pile_wikipedia_en_val_loss",
+    "metric/the_pile_dm_mathematics_val_loss"
+   ],
+   "source": "https://raw.githubusercontent.com/sail-sg/regmix/main/data/train_pile_loss_1m.csv"
+  },
+  "A6": {
+   "path": "A_data_value/regmix_tables/test_mixture_1m.csv",
+   "kind": "file",
+   "bytes": 23537,
+   "rows_excl_header": 256,
+   "cols": 18,
+   "header": [
+    "index",
+    "train_the_pile_arxiv",
+    "train_the_pile_freelaw",
+    "train_the_pile_nih_exporter",
+    "train_the_pile_pubmed_central",
+    "train_the_pile_wikipedia_en"
+   ],
+   "source": "https://raw.githubusercontent.com/sail-sg/regmix/main/data/test_mixture_1m.csv"
+  },
+  "A7": {
+   "path": "A_data_value/regmix_tables/test_pile_loss_1m.csv",
+   "kind": "file",
+   "bytes": 61175,
+   "rows_excl_header": 256,
+   "cols": 14,
+   "header": [
+    "index",
+    "metric/the_pile_arxiv_val_loss",
+    "metric/the_pile_freelaw_val_loss",
+    "metric/the_pile_pubmed_central_val_loss",
+    "metric/the_pile_wikipedia_en_val_loss",
+    "metric/the_pile_dm_mathematics_val_loss"
+   ],
+   "source": "https://raw.githubusercontent.com/sail-sg/regmix/main/data/test_pile_loss_1m.csv"
+  },
+  "A8": {
+   "path": "A_data_value/regmix_tables/test_mixture_60m.csv",
+   "kind": "file",
+   "bytes": 23537,
+   "rows_excl_header": 256,
+   "cols": 18,
+   "header": [
+    "index",
+    "train_the_pile_arxiv",
+    "train_the_pile_freelaw",
+    "train_the_pile_nih_exporter",
+    "train_the_pile_pubmed_central",
+    "train_the_pile_wikipedia_en"
+   ],
+   "source": "https://raw.githubusercontent.com/sail-sg/regmix/main/data/test_mixture_60m.csv"
+  },
+  "A9": {
+   "path": "A_data_value/regmix_tables/test_pile_loss_60m.csv",
+   "kind": "file",
+   "bytes": 61827,
+   "rows_excl_header": 256,
+   "cols": 14,
+   "header": [
+    "index",
+    "metric/the_pile_arxiv_val_loss",
+    "metric/the_pile_freelaw_val_loss",
+    "metric/the_pile_pubmed_central_val_loss",
+    "metric/the_pile_wikipedia_en_val_loss",
+    "metric/the_pile_dm_mathematics_val_loss"
+   ],
+   "source": "https://raw.githubusercontent.com/sail-sg/regmix/main/data/test_pile_loss_60m.csv"
+  },
+  "A10": {
+   "path": "A_data_value/regmix_tables/test_mixture_1B.csv",
+   "kind": "file",
+   "bytes": 6393,
+   "rows_excl_header": 64,
+   "cols": 18,
+   "header": [
+    "index",
+    "train_the_pile_arxiv",
+    "train_the_pile_freelaw",
+    "train_the_pile_nih_exporter",
+    "train_the_pile_pubmed_central",
+    "train_the_pile_wikipedia_en"
+   ],
+   "source": "https://raw.githubusercontent.com/sail-sg/regmix/main/data/test_mixture_1B.csv"
+  },
+  "A11": {
+   "path": "A_data_value/regmix_tables/test_pile_loss_1B.csv",
+   "kind": "file",
+   "bytes": 10639,
+   "rows_excl_header": 64,
+   "cols": 14,
+   "header": [
+    "index",
+    "metric/the_pile_arxiv_val_loss",
+    "metric/the_pile_freelaw_val_loss",
+    "metric/the_pile_pubmed_central_val_loss",
+    "metric/the_pile_wikipedia_en_val_loss",
+    "metric/the_pile_dm_mathematics_val_loss"
+   ],
+   "source": "https://raw.githubusercontent.com/sail-sg/regmix/main/data/test_pile_loss_1B.csv"
+  },
+  "A12": {
+   "path": "A_data_value/regmix_tables/est_mixture_10b.csv",
+   "kind": "file",
+   "bytes": 6113,
+   "rows_excl_header": 63,
+   "cols": 18,
+   "header": [
+    "index",
+    "train_the_pile_arxiv",
+    "train_the_pile_freelaw",
+    "train_the_pile_nih_exporter",
+    "train_the_pile_pubmed_central",
+    "train_the_pile_wikipedia_en"
+   ]
+  },
+  "A13": {
+   "path": "A_data_value/regmix_tables/est_pile_loss_10b.csv",
+   "kind": "file",
+   "bytes": 6467,
+   "rows_excl_header": 63,
+   "cols": 14,
+   "header": [
+    "index",
+    "metric/the_pile_arxiv_val_loss",
+    "metric/the_pile_freelaw_val_loss",
+    "metric/the_pile_pubmed_central_val_loss",
+    "metric/the_pile_wikipedia_en_val_loss",
+    "metric/the_pile_dm_mathematics_val_loss"
+   ]
+  },
+  "A14": {
+   "path": "A_data_value/regmix_tables/est_mixture_70b.csv",
+   "kind": "file",
+   "bytes": 6113,
+   "rows_excl_header": 63,
+   "cols": 18,
+   "header": [
+    "index",
+    "train_the_pile_arxiv",
+    "train_the_pile_freelaw",
+    "train_the_pile_nih_exporter",
+    "train_the_pile_pubmed_central",
+    "train_the_pile_wikipedia_en"
+   ]
+  },
+  "A15": {
+   "path": "A_data_value/regmix_tables/est_pile_loss_70b.csv",
+   "kind": "file",
+   "bytes": 6467,
+   "rows_excl_header": 63,
+   "cols": 14,
+   "header": [
+    "index",
+    "metric/the_pile_arxiv_val_loss",
+    "metric/the_pile_freelaw_val_loss",
+    "metric/the_pile_pubmed_central_val_loss",
+    "metric/the_pile_wikipedia_en_val_loss",
+    "metric/the_pile_dm_mathematics_val_loss"
+   ]
+  },
+  "A16": {
+   "path": "A_data_value/domain_mapping_guide.csv",
+   "kind": "file",
+   "bytes": 1296,
+   "rows_excl_header": 17,
+   "cols": 4,
+   "header": [
+    "mixture_domain",
+    "quality_domain",
+    "mapping_type",
+    "note"
+   ]
+  },
+  "A17": {
+   "path": "A_data_value/regmix_domain_summary.csv",
+   "kind": "file",
+   "bytes": 1265,
+   "rows_excl_header": 17,
+   "cols": 5,
+   "header": [
+    "domain",
+    "source_path",
+    "sample_rows",
+    "sample_bytes_requested",
+    "avg_text_chars"
+   ],
+   "source": "https://huggingface.co/datasets/sail/regmix-data"
+  },
+  "A18": {
+   "path": "A_data_value/regmix_domain_sample.jsonl.xz",
+   "kind": "file",
+   "bytes": 165293312
+  },
+  "B1": {
+   "path": "B_scaling_laws/pythia_training_log_existing.csv",
+   "kind": "file",
+   "bytes": 111459,
+   "rows_excl_header": 1176,
+   "cols": 15,
+   "header": [
+    "run_id",
+    "N_params_B",
+    "D_tokens_B",
+    "C_FLOPs_1e21",
+    "steps",
+    "batch_tokens_M"
+   ],
+   "source": "EleutherAI Pythia Scaling Suite; retained from current contest data"
+  },
+  "B2": {
+   "path": "B_scaling_laws/cerebras_training_log.csv",
+   "kind": "file",
+   "bytes": 89643,
+   "rows_excl_header": 1029,
+   "cols": 15,
+   "header": [
+    "run_id",
+    "N_params_B",
+    "D_tokens_B",
+    "C_FLOPs_1e21",
+    "steps",
+    "batch_tokens_M"
+   ],
+   "source": "Semi-synthetic, calibrated from Pythia scaling law; Cerebras-GPT trained on Pile 2.05T tokens"
+  },
+  "B3": {
+   "path": "B_scaling_laws/training_trajectories/",
+   "kind": "dir",
+   "dirs": 0,
+   "files": 8,
+   "bytes": 112320
+  },
+  "B4": {
+   "path": "B_scaling_laws/scaling_baseline.csv",
+   "kind": "file",
+   "bytes": 1421,
+   "rows_excl_header": 57,
+   "cols": 5,
+   "header": [
+    "family",
+    "N_params_B",
+    "D_tokens_B",
+    "val_loss",
+    "is_converged"
+   ],
+   "source": "Curated convergence snapshots from open model family documentation and papers"
+  },
+  "B5": {
+   "path": "B_scaling_laws/published_scaling_data.csv",
+   "kind": "file",
+   "bytes": 1967,
+   "rows_excl_header": 44,
+   "cols": 6,
+   "header": [
+    "family",
+    "N_params_B",
+    "D_tokens_B",
+    "val_loss",
+    "source",
+    "is_converged"
+   ]
+  },
+  "B6": {
+   "path": "B_scaling_laws/supplementary_NQ_experiment.csv",
+   "kind": "file",
+   "bytes": 13670,
+   "rows_excl_header": 360,
+   "cols": 5,
+   "header": [
+    "experiment_id",
+    "N_params_B",
+    "D_tokens_B",
+    "Q_score",
+    "val_loss"
+   ],
+   "source": "Semi-synthetic, calibrated from Pythia training log + RegMix quality signals"
+  },
+  "B7": {
+   "path": "B_scaling_laws/supplementary_NQ_experiment_expanded.csv",
+   "kind": "file",
+   "bytes": 17154,
+   "rows_excl_header": 450,
+   "cols": 5,
+   "header": [
+    "experiment_id",
+    "N_params_B",
+    "D_tokens_B",
+    "Q_score",
+    "val_loss"
+   ]
+  },
+  "B8": {
+   "path": "B_scaling_laws/supplementary_NQ_experiment_large.csv",
+   "kind": "file",
+   "bytes": 81268,
+   "rows_excl_header": 1704,
+   "cols": 6,
+   "header": [
+    "experiment_id",
+    "N_params_B",
+    "D_tokens_B",
+    "Q_score",
+    "val_loss",
+    "data_type"
+   ]
+  },
+  "B9": {
+   "path": "B_scaling_laws/supplementary_large_models.csv",
+   "kind": "file",
+   "bytes": 13400,
+   "rows_excl_header": 132,
+   "cols": 8,
+   "header": [
+    "model_name",
+    "N_params_B",
+    "D_tokens_B",
+    "FLOPs",
+    "publication_date",
+    "organization"
+   ]
+  },
+  "B10": {
+   "path": "B_scaling_laws/supplementary_large_baseline.csv",
+   "kind": "file",
+   "bytes": 4744,
+   "rows_excl_header": 128,
+   "cols": 5,
+   "header": [
+    "family",
+    "N_params_B",
+    "D_tokens_B",
+    "val_loss",
+    "is_converged"
+   ]
+  },
+  "B11": {
+   "path": "B_scaling_laws/open_model_family_metadata.csv",
+   "kind": "file",
+   "bytes": 1975,
+   "rows_excl_header": 18,
+   "cols": 8,
+   "header": [
+    "family",
+    "model_repo",
+    "config_bytes",
+    "readme_bytes",
+    "weight_file_count",
+    "weight_total_bytes"
+   ],
+   "source": "Hugging Face model repository APIs for Pythia, Cerebras-GPT, and OLMo"
+  },
+  "B12": {
+   "path": "B_scaling_laws/pythia_checkpoint_index.csv",
+   "kind": "file",
+   "bytes": 117698,
+   "rows_excl_header": 1386,
+   "cols": 5,
+   "header": [
+    "model_repo",
+    "model_size",
+    "step",
+    "branch",
+    "commit"
+   ],
+   "source": "https://huggingface.co/collections/EleutherAI/pythia-scaling-suite-64fb5dfa8c21ebb3db7ad2e1"
+  },
+  "C1": {
+   "path": "C_efficiency_evolution/leaderboard_cleaned.csv",
+   "kind": "file",
+   "bytes": 1011558,
+   "rows_excl_header": 4576,
+   "cols": 12,
+   "header": [
+    "Model",
+    "#Params (B)",
+    "Submission Date",
+    "Hub License",
+    "Type",
+    "Average ⬆️"
+   ],
+   "source": "https://huggingface.co/datasets/open-llm-leaderboard-old/results"
+  },
+  "C2": {
+   "path": "C_efficiency_evolution/leaderboard_enhanced.csv",
+   "kind": "file",
+   "bytes": 1036749,
+   "rows_excl_header": 4576,
+   "cols": 15,
+   "header": [
+    "Model",
+    "#Params (B)",
+    "Submission Date",
+    "Hub License",
+    "Type",
+    "Average ⬆️"
+   ],
+   "source": "https://huggingface.co/datasets/open-llm-leaderboard-old/results and https://epoch.ai/data/all_ai_models.csv"
+  },
+  "C3": {
+   "path": "C_efficiency_evolution/leaderboard_extended_timeseries.csv",
+   "kind": "file",
+   "bytes": 826723,
+   "rows_excl_header": 4599,
+   "cols": 11,
+   "header": [
+    "Model",
+    "Year",
+    "Params_B",
+    "Average",
+    "IFEval",
+    "BBH"
+   ]
+  },
+  "C4": {
+   "path": "C_efficiency_evolution/epoch_all_ai_models.csv",
+   "kind": "file",
+   "bytes": 6671403,
+   "rows_excl_header": 3523,
+   "cols": 57,
+   "header": [
+    "Model",
+    "Domain",
+    "Task",
+    "Organization",
+    "Authors",
+    "Publication date"
+   ],
+   "source": "https://epoch.ai/data/all_ai_models.csv"
+  },
+  "C5": {
+   "path": "C_efficiency_evolution/loss_benchmark_bridge.csv",
+   "kind": "file",
+   "bytes": 11807,
+   "rows_excl_header": 43,
+   "cols": 13,
+   "header": [
+    "Model",
+    "N_params_B",
+    "D_tokens_B",
+    "Val_Loss",
+    "LB_Average",
+    "LB_IFEval"
+   ],
+   "source": "Pythia training log (Attachment B) + published model technical reports + Open LLM Leaderboard v2"
+  },
+  "C6": {
+   "path": "C_efficiency_evolution/loss_benchmark_bridge_expanded.csv",
+   "kind": "file",
+   "bytes": 19124,
+   "rows_excl_header": 75,
+   "cols": 13,
+   "header": [
+    "Model",
+    "N_params_B",
+    "D_tokens_B",
+    "Val_Loss",
+    "LB_Average",
+    "LB_IFEval"
+   ]
+  },
+  "C7": {
+   "path": "C_efficiency_evolution/model_architecture_metadata.csv",
+   "kind": "file",
+   "bytes": 2357,
+   "rows_excl_header": 45,
+   "cols": 7,
+   "header": [
+    "model_name",
+    "n_layers",
+    "n_heads",
+    "d_model",
+    "vocab_size",
+    "max_position_embeddings"
+   ],
+   "source": "Model config files from HuggingFace + technical reports"
+  },
+  "C8": {
+   "path": "C_efficiency_evolution/detailed_results/",
+   "kind": "dir",
+   "dirs": 1863,
+   "files": 1958,
+   "bytes": 228862701
+  },
+  "C9": {
+   "path": "C_efficiency_evolution/data/",
+   "kind": "dir",
+   "dirs": 0,
+   "files": 1,
+   "bytes": 1109997
+  },
+  "C10": {
+   "path": "C_efficiency_evolution/pythia_*_eval_details/",
+   "kind": "dir_glob",
+   "n_dirs": 6,
+   "bytes": 424485
+  }
+ },
+ "problems": [],
+ "unclaimed_files": [
+  "attachment_size_summary.csv",
+  "source_manifest.json"
+ ]
+}

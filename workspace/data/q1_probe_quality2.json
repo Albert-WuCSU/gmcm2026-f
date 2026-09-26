@@ -1,0 +1,750 @@
+{
+ "schema_version": 1,
+ "seed": 20260924,
+ "n_rows": 272486,
+ "domains": [
+  "arxiv",
+  "book",
+  "c4",
+  "commoncrawl",
+  "github",
+  "stackexchange",
+  "wikipedia"
+ ],
+ "pooled": {
+  "direction_consistency": {
+   "n_pairs_r_lt_minus_0.5": 20,
+   "n_pairs_r_lt_minus_0.8": 10,
+   "pairs": [
+    {
+     "a": "dsir_math",
+     "b": "rps_doc_word_count",
+     "r": -0.9346,
+     "tier_a": "C",
+     "tier_b": "C"
+    },
+    {
+     "a": "dsir_wiki",
+     "b": "rps_doc_word_count",
+     "r": -0.9284,
+     "tier_a": "C",
+     "tier_b": "C"
+    },
+    {
+     "a": "dsir_books",
+     "b": "rps_doc_word_count",
+     "r": -0.9268,
+     "tier_a": "C",
+     "tier_b": "C"
+    },
+    {
+     "a": "dsir_math",
+     "b": "rps_doc_num_sentences",
+     "r": -0.8721,
+     "tier_a": "C",
+     "tier_b": "C"
+    },
+    {
+     "a": "dsir_wiki",
+     "b": "rps_doc_num_sentences",
+     "r": -0.8707,
+     "tier_a": "C",
+     "tier_b": "C"
+    },
+    {
+     "a": "dsir_books",
+     "b": "rps_doc_num_sentences",
+     "r": -0.8704,
+     "tier_a": "C",
+     "tier_b": "C"
+    },
+    {
+     "a": "dsir_math",
+     "b": "rps_doc_unigram_entropy",
+     "r": -0.8583,
+     "tier_a": "C",
+     "tier_b": "B"
+    },
+    {
+     "a": "rps_doc_word_count",
+     "b": "rps_doc_frac_unique_words",
+     "r": -0.8546,
+     "tier_a": "C",
+     "tier_b": "B"
+    },
+    {
+     "a": "dsir_wiki",
+     "b": "rps_doc_unigram_entropy",
+     "r": -0.8512,
+     "tier_a": "C",
+     "tier_b": "B"
+    },
+    {
+     "a": "dsir_books",
+     "b": "rps_doc_unigram_entropy",
+     "r": -0.8493,
+     "tier_a": "C",
+     "tier_b": "B"
+    },
+    {
+     "a": "modernbert_professionalism",
+     "b": "dsir_books",
+     "r": -0.7237,
+     "tier_a": "A",
+     "tier_b": "C"
+    },
+    {
+     "a": "modernbert_professionalism",
+     "b": "dsir_wiki",
+     "r": -0.721,
+     "tier_a": "A",
+     "tier_b": "C"
+    },
+    {
+     "a": "modernbert_professionalism",
+     "b": "dsir_math",
+     "r": -0.7042,
+     "tier_a": "A",
+     "tier_b": "C"
+    },
+    {
+     "a": "rps_doc_num_sentences",
+     "b": "rps_doc_frac_unique_words",
+     "r": -0.7016,
+     "tier_a": "C",
+     "tier_b": "B"
+    },
+    {
+     "a": "rps_doc_unigram_entropy",
+     "b": "rps_doc_frac_unique_words",
+     "r": -0.6839,
+     "tier_a": "B",
+     "tier_b": "B"
+    }
+   ],
+   "involves_tier_C": 17,
+   "note": "两指标都已统一为『越高越好』却强负相关，说明至少一方方向赋值与数据不相容"
+  },
+  "conflict": {
+   "CD1_global_MAD_gt_0.25": 0.374753,
+   "CD1_global_MAD_gt_0.20": 0.663748,
+   "CD1_MAD_distribution": {
+    "p50": 0.22714,
+    "p90": 0.31336,
+    "p99": 0.37117
+   },
+   "CD2_local_highV_and_highP": 0.0,
+   "CD2_thresholds_p75": {
+    "V_p75": 0.56736,
+    "P_p75": 0.58716
+   },
+   "CD2_local_quantile_based": 0.036277,
+   "CD3_ge3_high_and_ge3_low": 0.673583,
+   "CD3_ge5_high_and_ge5_low": 0.391106,
+   "M2_IQR_distribution": {
+    "p50": 0.44936,
+    "p90": 0.70468
+   },
+   "corr_V_vs_P": -0.1089,
+   "all_rates_in_open_interval": false
+  },
+  "degeneracy": {
+   "M0_equal_weight": {
+    "std": 0.080818,
+    "coefficient_of_variation": 0.161637,
+    "unique_output_count": 174593,
+    "unique_ratio": 0.640741,
+    "top1pct_mass_share": 0.01362,
+    "gini": 0.091513,
+    "p05_p95_spread": 0.272834,
+    "domain_huber_range": 0.153244,
+    "domain_huber": {
+     "arxiv": 0.63353,
+     "book": 0.52672,
+     "c4": 0.58348,
+     "commoncrawl": 0.57383,
+     "github": 0.48029,
+     "stackexchange": 0.55278,
+     "wikipedia": 0.52182
+    }
+   },
+   "M1_gated": {
+    "std": 0.081857,
+    "coefficient_of_variation": 0.325734,
+    "unique_output_count": 175744,
+    "unique_ratio": 0.644965,
+    "top1pct_mass_share": 0.018929,
+    "gini": 0.184652,
+    "p05_p95_spread": 0.270741,
+    "domain_huber_range": 0.135074,
+    "domain_huber": {
+     "arxiv": 0.36673,
+     "book": 0.26672,
+     "c4": 0.34891,
+     "commoncrawl": 0.32596,
+     "github": 0.23165,
+     "stackexchange": 0.27279,
+     "wikipedia": 0.24919
+    }
+   },
+   "M1_difference": {
+    "std": 0.1651,
+    "coefficient_of_variation": 1439602.489558,
+    "unique_output_count": 212335,
+    "unique_ratio": 0.779251,
+    "top1pct_mass_share": 33610.884068,
+    "gini": 816926.00337,
+    "p05_p95_spread": 0.543003,
+    "domain_huber_range": 0.248754,
+    "domain_huber": {
+     "arxiv": 0.21684,
+     "book": 0.03514,
+     "c4": 0.18356,
+     "commoncrawl": 0.14249,
+     "github": -0.03191,
+     "stackexchange": 0.05143,
+     "wikipedia": 0.00306
+    }
+   },
+   "M2_median": {
+    "std": 0.146216,
+    "coefficient_of_variation": 0.289553,
+    "unique_output_count": 196656,
+    "unique_ratio": 0.72171,
+    "top1pct_mass_share": 0.017404,
+    "gini": 0.162274,
+    "p05_p95_spread": 0.517262,
+    "domain_huber_range": 0.32704,
+    "domain_huber": {
+     "arxiv": 0.79447,
+     "book": 0.63854,
+     "c4": 0.63554,
+     "commoncrawl": 0.60082,
+     "github": 0.46743,
+     "stackexchange": 0.578,
+     "wikipedia": 0.53586
+    }
+   }
+  },
+  "perturbation_sensitivity": {
+   "perturbation": "weights uniform +/-10%, reps=40",
+   "domain_rank_kendall_tau_mean": 0.9833,
+   "domain_rank_kendall_tau_min": 0.9048,
+   "domain_rank_max_position_change_max": 1,
+   "frac_reps_domain_order_unchanged": 0.825,
+   "sample_top1pct_overlap_mean": 0.9278,
+   "sample_top1pct_overlap_min": 0.8491
+  },
+  "runtime_seconds": 7.69,
+  "domain_aggregation_bootstrap": {
+   "arxiv": {
+    "n": 18942,
+    "trimmed10": 0.633555,
+    "huber": 0.633533,
+    "boot_ci95_trimmed": [
+     0.633215,
+     0.633914
+    ],
+    "boot_B": 300,
+    "ci_width": 0.000699
+   },
+   "book": {
+    "n": 171,
+    "trimmed10": 0.526553,
+    "huber": 0.52672,
+    "boot_ci95_trimmed": [
+     0.518375,
+     0.533744
+    ],
+    "boot_B": 300,
+    "ci_width": 0.015369
+   },
+   "c4": {
+    "n": 10000,
+    "trimmed10": 0.58368,
+    "huber": 0.583482,
+    "boot_ci95_trimmed": [
+     0.582089,
+     0.58509
+    ],
+    "boot_B": 300,
+    "ci_width": 0.003001
+   },
+   "commoncrawl": {
+    "n": 9636,
+    "trimmed10": 0.57401,
+    "huber": 0.573827,
+    "boot_ci95_trimmed": [
+     0.572728,
+     0.575496
+    ],
+    "boot_B": 300,
+    "ci_width": 0.002768
+   },
+   "github": {
+    "n": 213751,
+    "trimmed10": 0.480359,
+    "huber": 0.48029,
+    "boot_ci95_trimmed": [
+     0.480068,
+     0.480583
+    ],
+    "boot_B": 100,
+    "ci_width": 0.000515
+   },
+   "stackexchange": {
+    "n": 10000,
+    "trimmed10": 0.552991,
+    "huber": 0.552784,
+    "boot_ci95_trimmed": [
+     0.551868,
+     0.554292
+    ],
+    "boot_B": 300,
+    "ci_width": 0.002424
+   },
+   "wikipedia": {
+    "n": 9986,
+    "trimmed10": 0.522052,
+    "huber": 0.521824,
+    "boot_ci95_trimmed": [
+     0.520664,
+     0.523337
+    ],
+    "boot_B": 300,
+    "ci_width": 0.002673
+   }
+  }
+ },
+ "per_domain": {
+  "direction_consistency": {
+   "n_pairs_r_lt_minus_0.5": 21,
+   "n_pairs_r_lt_minus_0.8": 10,
+   "pairs": [
+    {
+     "a": "dsir_math",
+     "b": "rps_doc_word_count",
+     "r": -0.9456,
+     "tier_a": "C",
+     "tier_b": "C"
+    },
+    {
+     "a": "dsir_wiki",
+     "b": "rps_doc_word_count",
+     "r": -0.9432,
+     "tier_a": "C",
+     "tier_b": "C"
+    },
+    {
+     "a": "dsir_books",
+     "b": "rps_doc_word_count",
+     "r": -0.9424,
+     "tier_a": "C",
+     "tier_b": "C"
+    },
+    {
+     "a": "dsir_math",
+     "b": "rps_doc_unigram_entropy",
+     "r": -0.864,
+     "tier_a": "C",
+     "tier_b": "B"
+    },
+    {
+     "a": "dsir_wiki",
+     "b": "rps_doc_unigram_entropy",
+     "r": -0.863,
+     "tier_a": "C",
+     "tier_b": "B"
+    },
+    {
+     "a": "dsir_books",
+     "b": "rps_doc_unigram_entropy",
+     "r": -0.8619,
+     "tier_a": "C",
+     "tier_b": "B"
+    },
+    {
+     "a": "dsir_math",
+     "b": "rps_doc_num_sentences",
+     "r": -0.8397,
+     "tier_a": "C",
+     "tier_b": "C"
+    },
+    {
+     "a": "dsir_wiki",
+     "b": "rps_doc_num_sentences",
+     "r": -0.8355,
+     "tier_a": "C",
+     "tier_b": "C"
+    },
+    {
+     "a": "dsir_books",
+     "b": "rps_doc_num_sentences",
+     "r": -0.8354,
+     "tier_a": "C",
+     "tier_b": "C"
+    },
+    {
+     "a": "rps_doc_word_count",
+     "b": "rps_doc_frac_unique_words",
+     "r": -0.8338,
+     "tier_a": "C",
+     "tier_b": "B"
+    },
+    {
+     "a": "modernbert_professionalism",
+     "b": "dsir_books",
+     "r": -0.7204,
+     "tier_a": "A",
+     "tier_b": "C"
+    },
+    {
+     "a": "modernbert_professionalism",
+     "b": "dsir_wiki",
+     "r": -0.7187,
+     "tier_a": "A",
+     "tier_b": "C"
+    },
+    {
+     "a": "modernbert_professionalism",
+     "b": "dsir_math",
+     "r": -0.7109,
+     "tier_a": "A",
+     "tier_b": "C"
+    },
+    {
+     "a": "rps_lines_uppercase_letter_fraction",
+     "b": "rps_lines_ending_with_terminal_punctution_mark",
+     "r": -0.6811,
+     "tier_a": "B",
+     "tier_b": "B"
+    },
+    {
+     "a": "rps_doc_num_sentences",
+     "b": "rps_doc_frac_unique_words",
+     "r": -0.6472,
+     "tier_a": "C",
+     "tier_b": "B"
+    }
+   ],
+   "involves_tier_C": 17,
+   "note": "两指标都已统一为『越高越好』却强负相关，说明至少一方方向赋值与数据不相容"
+  },
+  "conflict": {
+   "CD1_global_MAD_gt_0.25": 0.375627,
+   "CD1_global_MAD_gt_0.20": 0.679954,
+   "CD1_MAD_distribution": {
+    "p50": 0.22862,
+    "p90": 0.31576,
+    "p99": 0.37534
+   },
+   "CD2_local_highV_and_highP": 0.0,
+   "CD2_thresholds_p75": {
+    "V_p75": 0.56371,
+    "P_p75": 0.58753
+   },
+   "CD2_local_quantile_based": 0.049048,
+   "CD3_ge3_high_and_ge3_low": 0.68158,
+   "CD3_ge5_high_and_ge5_low": 0.400681,
+   "M2_IQR_distribution": {
+    "p50": 0.45012,
+    "p90": 0.70572
+   },
+   "corr_V_vs_P": -0.073,
+   "all_rates_in_open_interval": false
+  },
+  "degeneracy": {
+   "M0_equal_weight": {
+    "std": 0.076506,
+    "coefficient_of_variation": 0.153011,
+    "unique_output_count": 169766,
+    "unique_ratio": 0.623027,
+    "top1pct_mass_share": 0.01354,
+    "gini": 0.086051,
+    "p05_p95_spread": 0.253859,
+    "domain_huber_range": 0.002771,
+    "domain_huber": {
+     "arxiv": 0.50223,
+     "book": 0.50194,
+     "c4": 0.50337,
+     "commoncrawl": 0.5028,
+     "github": 0.50265,
+     "stackexchange": 0.5006,
+     "wikipedia": 0.50123
+    }
+   },
+   "M1_gated": {
+    "std": 0.079047,
+    "coefficient_of_variation": 0.315134,
+    "unique_output_count": 173574,
+    "unique_ratio": 0.637002,
+    "top1pct_mass_share": 0.018827,
+    "gini": 0.178303,
+    "p05_p95_spread": 0.259929,
+    "domain_huber_range": 0.006168,
+    "domain_huber": {
+     "arxiv": 0.25023,
+     "book": 0.24875,
+     "c4": 0.25454,
+     "commoncrawl": 0.25491,
+     "github": 0.2492,
+     "stackexchange": 0.25034,
+     "wikipedia": 0.25128
+    }
+   },
+   "M1_difference": {
+    "std": 0.160814,
+    "coefficient_of_variation": 200319.861613,
+    "unique_output_count": 209922,
+    "unique_ratio": 0.770396,
+    "top1pct_mass_share": 4762.456835,
+    "gini": 112828.203692,
+    "p05_p95_spread": 0.528943,
+    "domain_huber_range": 0.006726,
+    "domain_huber": {
+     "arxiv": 0.00487,
+     "book": 0.00171,
+     "c4": 0.00843,
+     "commoncrawl": 0.0065,
+     "github": 0.00409,
+     "stackexchange": 0.00174,
+     "wikipedia": 0.00374
+    }
+   },
+   "M2_median": {
+    "std": 0.132141,
+    "coefficient_of_variation": 0.266542,
+    "unique_output_count": 180673,
+    "unique_ratio": 0.663054,
+    "top1pct_mass_share": 0.016587,
+    "gini": 0.149589,
+    "p05_p95_spread": 0.445072,
+    "domain_huber_range": 0.013466,
+    "domain_huber": {
+     "arxiv": 0.49933,
+     "book": 0.48639,
+     "c4": 0.49986,
+     "commoncrawl": 0.49736,
+     "github": 0.49932,
+     "stackexchange": 0.49413,
+     "wikipedia": 0.49811
+    }
+   }
+  },
+  "perturbation_sensitivity": {
+   "perturbation": "weights uniform +/-10%, reps=40",
+   "domain_rank_kendall_tau_mean": 0.9881,
+   "domain_rank_kendall_tau_min": 0.9048,
+   "domain_rank_max_position_change_max": 1,
+   "frac_reps_domain_order_unchanged": 0.875,
+   "sample_top1pct_overlap_mean": 0.9473,
+   "sample_top1pct_overlap_min": 0.909
+  },
+  "runtime_seconds": 7.34,
+  "domain_aggregation_bootstrap": {
+   "arxiv": {
+    "n": 18942,
+    "trimmed10": 0.502354,
+    "huber": 0.502229,
+    "boot_ci95_trimmed": [
+     0.501201,
+     0.503402
+    ],
+    "boot_B": 300,
+    "ci_width": 0.002201
+   },
+   "book": {
+    "n": 171,
+    "trimmed10": 0.502405,
+    "huber": 0.501944,
+    "boot_ci95_trimmed": [
+     0.488367,
+     0.516837
+    ],
+    "boot_B": 300,
+    "ci_width": 0.02847
+   },
+   "c4": {
+    "n": 10000,
+    "trimmed10": 0.503647,
+    "huber": 0.503373,
+    "boot_ci95_trimmed": [
+     0.50186,
+     0.505678
+    ],
+    "boot_B": 300,
+    "ci_width": 0.003818
+   },
+   "commoncrawl": {
+    "n": 9636,
+    "trimmed10": 0.502985,
+    "huber": 0.502801,
+    "boot_ci95_trimmed": [
+     0.500832,
+     0.504922
+    ],
+    "boot_B": 300,
+    "ci_width": 0.00409
+   },
+   "github": {
+    "n": 213751,
+    "trimmed10": 0.502734,
+    "huber": 0.502645,
+    "boot_ci95_trimmed": [
+     0.502441,
+     0.503049
+    ],
+    "boot_B": 100,
+    "ci_width": 0.000608
+   },
+   "stackexchange": {
+    "n": 10000,
+    "trimmed10": 0.500604,
+    "huber": 0.500602,
+    "boot_ci95_trimmed": [
+     0.499046,
+     0.502324
+    ],
+    "boot_B": 300,
+    "ci_width": 0.003278
+   },
+   "wikipedia": {
+    "n": 9986,
+    "trimmed10": 0.501377,
+    "huber": 0.501231,
+    "boot_ci95_trimmed": [
+     0.499747,
+     0.503132
+    ],
+    "boot_B": 300,
+    "ci_width": 0.003385
+   }
+  }
+ },
+ "tierC_direction_sensitivity": {
+  "baseline_all_plus": {
+   "domain_order_best_to_worst": [
+    "arxiv",
+    "c4",
+    "commoncrawl",
+    "stackexchange",
+    "book",
+    "wikipedia",
+    "github"
+   ],
+   "domain_huber": {
+    "arxiv": 0.63353,
+    "book": 0.52672,
+    "c4": 0.58348,
+    "commoncrawl": 0.57383,
+    "github": 0.48029,
+    "stackexchange": 0.55278,
+    "wikipedia": 0.52182
+   },
+   "domain_range": 0.153244,
+   "auc_arxiv_vs_github_of_Q": 0.9838
+  },
+  "dsir_negative": {
+   "domain_order_best_to_worst": [
+    "arxiv",
+    "book",
+    "commoncrawl",
+    "stackexchange",
+    "c4",
+    "wikipedia",
+    "github"
+   ],
+   "domain_huber": {
+    "arxiv": 0.75267,
+    "book": 0.6534,
+    "c4": 0.54032,
+    "commoncrawl": 0.59583,
+    "github": 0.46996,
+    "stackexchange": 0.54299,
+    "wikipedia": 0.48344
+   },
+   "domain_range": 0.282706,
+   "auc_arxiv_vs_github_of_Q": 0.9961,
+   "max_rank_shift_vs_baseline": 3,
+   "spearman_vs_baseline": 0.7438
+  },
+  "length_negative": {
+   "domain_order_best_to_worst": [
+    "c4",
+    "arxiv",
+    "stackexchange",
+    "commoncrawl",
+    "wikipedia",
+    "github",
+    "book"
+   ],
+   "domain_huber": {
+    "arxiv": 0.55347,
+    "book": 0.43772,
+    "c4": 0.58673,
+    "commoncrawl": 0.5394,
+    "github": 0.48875,
+    "stackexchange": 0.54783,
+    "wikipedia": 0.53426
+   },
+   "domain_range": 0.149011,
+   "auc_arxiv_vs_github_of_Q": 0.7625,
+   "max_rank_shift_vs_baseline": 2,
+   "spearman_vs_baseline": 0.6252
+  },
+  "dsir_and_length_negative": {
+   "domain_order_best_to_worst": [
+    "arxiv",
+    "book",
+    "commoncrawl",
+    "c4",
+    "stackexchange",
+    "wikipedia",
+    "github"
+   ],
+   "domain_huber": {
+    "arxiv": 0.67263,
+    "book": 0.56403,
+    "c4": 0.5462,
+    "commoncrawl": 0.56239,
+    "github": 0.47875,
+    "stackexchange": 0.53738,
+    "wikipedia": 0.49786
+   },
+   "domain_range": 0.193881,
+   "auc_arxiv_vs_github_of_Q": 0.9952,
+   "max_rank_shift_vs_baseline": 3,
+   "spearman_vs_baseline": 0.8854
+  },
+  "mwl_as_plus": {
+   "domain_order_best_to_worst": [
+    "arxiv",
+    "c4",
+    "commoncrawl",
+    "stackexchange",
+    "book",
+    "wikipedia",
+    "github"
+   ],
+   "domain_huber": {
+    "arxiv": 0.62429,
+    "book": 0.52479,
+    "c4": 0.58023,
+    "commoncrawl": 0.5698,
+    "github": 0.48223,
+    "stackexchange": 0.54667,
+    "wikipedia": 0.51268
+   },
+   "domain_range": 0.142058,
+   "auc_arxiv_vs_github_of_Q": 0.9817,
+   "max_rank_shift_vs_baseline": 0,
+   "spearman_vs_baseline": 0.9977
+  }
+ },
+ "scale_check": {
+  "representative_n": 272486,
+  "load_seconds": 65.2,
+  "total_seconds": 87.2,
+  "peak_memory_mb": 355.3
+ }
+}

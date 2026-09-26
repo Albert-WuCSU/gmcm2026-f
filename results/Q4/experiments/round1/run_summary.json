@@ -1,0 +1,83 @@
+{
+  "schema_version": 1,
+  "question_id": "Q4",
+  "round": 1,
+  "gate_target": "G3",
+  "approved_methods": {
+    "main": "M1a",
+    "usable_baseline": "M0a",
+    "conditional_fallback": "M2a"
+  },
+  "approved_decision_ids": [
+    "q4_primary_defense_target",
+    "q4_scale_channel_definition",
+    "q4_acceptance_criteria_and_budget",
+    "q4_fn_spec_and_method_choice"
+  ],
+  "status": "SUCCESS",
+  "seed": 20260925,
+  "bootstrap_b": 2000,
+  "judged_horizon_months": 12,
+  "inputs": {
+    "C1": "workspace/data_raw/.../leaderboard_cleaned.csv",
+    "C4": "workspace/data_raw/.../epoch_all_ai_models.csv",
+    "C6": "workspace/data_raw/.../loss_benchmark_bridge_expanded.csv",
+    "C8": "workspace/data_raw/.../detailed_results/ (全量)",
+    "Q2_params": "results/Q2/experiments/round1/metrics/q2_M1s.json"
+  },
+  "outputs": {
+    "metrics": [
+      "metrics/q4_M1a.json",
+      "metrics/q4_M0a.json"
+    ],
+    "tables": [
+      "tables/q4_spec_sensitivity.csv",
+      "tables/q4_frontier_path.csv",
+      "tables/q4_frontier_scenarios.csv",
+      "tables/q4_bridge_tiers.csv",
+      "tables/q4_by_type_group.csv"
+    ],
+    "figures": []
+  },
+  "metric_summary": {
+    "scale_share": 0.2593,
+    "scale_share_ci95": [
+      0.0223,
+      0.4019
+    ],
+    "tech_share": 0.7407,
+    "tech_share_ci95": [
+      0.5981,
+      0.9777
+    ],
+    "scale_points": 1.7175,
+    "tech_points": 4.9069,
+    "total_points": 6.6244,
+    "baseline_slope_per_month": 1.5333,
+    "baseline_h12_point": 60.29,
+    "frontier_neutral_h12_median": 56.33,
+    "frontier_neutral_h12_lo80": 43.268,
+    "user_criterion_passed": true,
+    "bridge_slope": -22.393,
+    "c8_dirs_used": 1860
+  },
+  "fallback_trigger_state": {
+    "M2a": false,
+    "note": "未触发，占比口径成立"
+  },
+  "warnings": [
+    "P6 CONDITIONAL:技术份额对 f(N) 规格敏感(极差/区间宽 = 1.99)。裁定 C 要求主口径 A + 规格 B 一并报告。",
+    "规格 B(线性 log N)下 scale_share 为负、占比口径破 —— 须在正文如实报告，不得只报主口径。",
+    "乙侧偏误子集 total 可能为负(B5) ⇒ 只报绝对点数差与符号，不得当占比读。",
+    "桥接 High 层 n=7，方向对但 p 不显著；不得解读为 High 层质量更差(F10)。",
+    "24 个月视界未经裁定作主报；饱和形态在 9.1 个月窗口内不可检验。",
+    "figures 本轮为空，如实记录。"
+  ],
+  "environment": {
+    "python": "3.14.6",
+    "numpy": "2.5.1",
+    "pandas": "3.0.5"
+  },
+  "elapsed_seconds": 63.6,
+  "generated_at": "2026-09-25T17:58:06.399417+08:00"
+}

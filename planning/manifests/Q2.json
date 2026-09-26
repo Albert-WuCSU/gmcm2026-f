@@ -1,0 +1,233 @@
+{
+  "schema_version": 1,
+  "question_id": "Q2",
+  "title": "跨维度数据融合与广义标度律",
+  "rigor_profile": "lean",
+  "current_gate": "G4",
+  "status": "g4_passed_round1_final_paper_figures_pending",
+  "depends_on": [
+    "Q1"
+  ],
+  "artifacts": {
+    "parse": "planning/parse/problem_parse.json",
+    "classification": "planning/classification/problem_classification.json",
+    "data_profile": "workspace/data/data_profile.json",
+    "method_card": "methods/Q2/q2_method_card.md",
+    "decision_ledger": "methods/Q2/q2_decisions.jsonl",
+    "risk_probe": "methods/Q2/probes/risk_probe_summary.json",
+    "latest_run": "results/Q2/experiments/round1/run_summary.json",
+    "framing_decisions": "planning/framing_decisions.jsonl",
+    "choice_card": "planning/choice_cards/q2_method_card.md",
+    "idea_review": "planning/review_of_user_ideas.md",
+    "data_report": "workspace/data/data_report.md",
+    "probe_evidence": [
+      "workspace/data/q2_probe_g3_identifiability.json",
+      "workspace/data/q2_probe_scaling.json",
+      "workspace/data/q2_probe_shape_sharing.json"
+    ],
+    "probe_script": "workspace/code/scripts/probe_q2_scaling.py",
+    "q1_upstream_domain_quality": "results/Q1/experiments/round1/tables/q1a_domain_quality.csv",
+    "code_plan": "code/Q2/q2_code_plan.md",
+    "robustness_report": "robustness/Q2/q2_robustness_report.md",
+    "robustness_supplement": "robustness/Q2/q2_robustness_supplement.json",
+    "final_result_analysis": "results/Q2/reports/q2_final_result_analysis.md",
+    "choice_card_round1_verdict": "planning/choice_cards/q2_round1_verdict_card.md",
+    "probe_beta_sharing": "workspace/data/q2_probe_beta_sharing.json",
+    "supplement_script": "workspace/code/scripts/probe_q2_beta_sharing_and_perturbation.py",
+    "number_provenance_check": "scratch/verify_q2q3_report_numbers.py",
+    "figure_plan": [
+      "methods/Q2/q2_figure_table_plan.md"
+    ],
+    "paper_figures": [
+      "paper/figures/fig_q2_gamma_routes.pdf",
+      "paper/figures/fig_q2_domain_ratio.pdf",
+      "paper/figures/fig_q2_cross_source_validation.pdf"
+    ],
+    "paper_figures_png": [
+      "paper/figures/fig_q2_gamma_routes.png",
+      "paper/figures/fig_q2_domain_ratio.png",
+      "paper/figures/fig_q2_cross_source_validation.png"
+    ],
+    "figure_scripts": [
+      "code/Q2/q2_paper_figures.py",
+      "code/figstyle.py"
+    ],
+    "method_flow_figure": [
+      "paper/figures/fig_framework_q2.pdf",
+      "paper/figures/fig_framework_q2.png"
+    ],
+    "shared_paper_figures": [
+      "paper/figures/fig_framework_overall.pdf",
+      "paper/figures/fig_framework_overall.png",
+      "paper/figures/fig_data_pipeline.pdf",
+      "paper/figures/fig_data_pipeline.png"
+    ],
+    "framework_script": [
+      "code/paper_framework_figures.py"
+    ]
+  },
+  "allowed": {
+    "code_generation": true,
+    "freeze": false,
+    "paper_writing": false,
+    "final_assembly": false
+  },
+  "blockers": [],
+  "next_action": {
+    "owner": "human",
+    "skill": "paper-section-writer",
+    "target": "paper",
+    "reason": "论文图已出（3 张，Type 3，均通过渲染核验）。下一步：写作时头条结论必须同报两条路线、FAIL 进正文、beta 跨源共享表述为承重假设（见 methods/Q2/q2_figure_table_plan.md）。"
+  },
+  "updated_at": "2026-09-26T00:32:34+08:00",
+  "success_criteria_mode": "relative_to_baseline",
+  "declared_baseline": "经典标度律 L=E+A·N^-alpha+B·D^-beta（不含 Q、p）",
+  "scope_profile": "mandatory_plus_A18_sampling",
+  "gate_history": [
+    {
+      "gate": "G1",
+      "result": "PASSED",
+      "at": "2026-09-24T00:35:00+08:00",
+      "basis": [
+        "planning/parse/problem_parse.json",
+        "planning/classification/problem_classification.json",
+        "planning/framing_decisions.jsonl"
+      ]
+    },
+    {
+      "gate": "G2",
+      "result": "PASSED",
+      "at": "2026-09-25T10:20:00+08:00",
+      "basis": [
+        "methods/Q2/q2_method_card.md",
+        "methods/Q2/probes/risk_probe_summary.json"
+      ],
+      "note": "角色化清单成立：main=M1s（D_eff 乘性含 Q 与配比偏移，来源专属截距）、usable_baseline=M0s（HD-2 声明的经典式，仅用 B1）、conditional_fallback=M2s（Q 作加性独立项，有显式触发条件）。7 项风险探针实跑，main 与 baseline 七字段齐备、均为 CONDITIONAL 并附解除条件。P1/P2 两项 FAIL 改变了模型结构（须来源专属截距；跨源统一假设为承重）；P3 显示 Q 的两种进入方式在 B6 上不可区分（相对差 3.5%）；P4 确认 D_eff 形式下 Q↔D 弹性比恒定并修正了评审 3.2 的表述边界；P5/P6/P7 确认半合成与设计因子的使用限制。高自由度神经网络据证据排除（无法解析求导，与 Q3 的 KKT 需求冲突）。两条预声明判据自身的问题已照实记录，不事后放宽。"
+    },
+    {
+      "gate": "G2.5",
+      "result": "PASSED",
+      "at": "2026-09-25T11:20:00+08:00",
+      "basis": [
+        "methods/Q2/q2_decisions.jsonl",
+        "planning/choice_cards/q2_method_card.md",
+        "methods/Q2/probes/risk_probe_summary.json"
+      ],
+      "note": "三条人工 method_choice 均为 DECIDED、decided_by=human、rationale 为原话照录（「1A,2A,3B，但B1的处理要谨慎。请继续推进吧」）、evidence_refs 全部存在。裁定1=A（p 经 exp(b^T z_p)）、裁定2=A（乘性 D_eff）、裁定3=B（增大噪声方差参与）。使用者附加「B1 的处理要谨慎」，已原样记录且未由 AI 解释；该项核查经使用者指示暂缓。AI 曾就三条给出技术意见并被采纳为相同选项，该意见已标注为 AI 意见且未写入账本 rationale。AI 的两条实现提案（b 的标定途径、sigma_s 取值方式）存于 ai_proposals_unconfirmed，decided_by=null，不计为使用者裁定、不作待实现约束。"
+    },
+    {
+      "gate": "G3",
+      "result": "PASSED",
+      "at": "2026-09-25T14:30:00+08:00",
+      "basis": [
+        "code/Q2/q2_code_plan.md",
+        "results/Q2/experiments/round1/run_summary.json",
+        "workspace/data/q2_probe_shape_sharing.json"
+      ],
+      "note": "M1s(main) 与 M0s(usable_baseline) 均实跑成功，M2s 未实现（fallback 未触发）。三项预声明判据：B1 退化 PASS（相对差 1.01e-8 < 1e-6）、B7 超越性 PASS（RMSE 0.11825→0.07638，降幅区间 [0.0362,0.0478] 不含 0）、弹性符号 PASS。gamma=0.9659 区间 [0.8839,1.0555] 含 1.0。G3 期间新增 P8 探针并判 FAIL，改变了参数结构（形状参数来源专属），该修正发生在结果解读之前、方向为收紧。两处 AI 自述错误已更正：① 曾声称半合成残差小于 B1（实为大 477 倍）；② 曾凭空报告两个不存在的表格 bug（B2 与 B4 同值、domain_ratio 错乱），实际核验表格正确（B2 n=1029 spearman=0.788102、域比值表 17 域齐全）。"
+    },
+    {
+      "gate": "G4",
+      "result": "PASSED",
+      "at": "2026-09-25T22:25:00+08:00",
+      "basis": [
+        "methods/Q2/q2_decisions.jsonl",
+        "robustness/Q2/q2_robustness_report.md",
+        "results/Q2/reports/q2_final_result_analysis.md",
+        "results/Q2/experiments/round1/run_summary.json",
+        "code/Q2/reviews/q2_python_review.json"
+      ],
+      "verdicts": {
+        "result": "supplement_two_gaps_then_finalize",
+        "stability": "supplement_beta_probe_then_restate",
+        "claim_scope": "keep_3A_but_condition_on_beta_report_both_routes",
+        "domain_ratio_reporting": "full_table_with_semantic_disclaimer"
+      },
+      "decision_count": 11,
+      "note": "补做 P9（beta 跨源共享）判 FAIL ⇒ 人工裁定 q2_claim_scope_conditioned_v2 把 gamma≈1 的结论条件化于「beta 取自 B1」并同报两条路线；原 q2_claim_scope 保留（append-only），其 binding_commitments 被 v2 替换。扰动/消融套件 P9b–P9g 全部 PASS"
+    }
+  ],
+  "task_type": {
+    "primary": "mechanism",
+    "secondary": "prediction",
+    "confidence": "high"
+  },
+  "carried_forward_todos": [
+    "beta 跨源共享已检验并判 FAIL ⇒ gamma≈1 条件化；正文须同报两条路线且披露该 FAIL",
+    "P9d 已量化「B1 处理要谨慎」的影响（gamma 位移 0.039812 = 区间宽的 23%），但不构成对该约束的裁定；该约束仍挂起",
+    "B7 的生成机制是否有循环性未检查（Q4 的桥接有对应检查，Q2 无）—— 建议论文声明该不确定性",
+    "AMB-Q2-3 尺度对齐未解决：gamma 的解释绑定在 B7 设计刻度上，不得移植到 Q1 的经验 Q",
+    "kappa 严格不可辨识且随参照点变（1B run 内 -14.215132486372847 到 -1.6413），绝对量级须带参照点",
+    "sigma_s 取值方式为 AI_PROPOSAL_UNCONFIRMED（可否决）；P9e 显示其影响可忽略（gamma 位移 0.000341）",
+    "禁止报跨源未去偏的 R²；不得表述为「联合拟合提升了估计」；不得同时声称 Q↔D 替代率随位置变化",
+    "不得把 2.0000 当作本轮弹性比估计；gamma 的两个值（0.9659128363851796 / 0.9659129389937917）引用须说明来源",
+    "方法卡 Fallback 节仍用 B1 口径且「全部成立/或」自相矛盾 —— 引用以 run_summary 为准",
+    "缺失 benchmark 用可比样本子集或层次模型，不得填 0",
+    "figures 为空；论文图另在 paper/figures/ 制作",
+    "G5 前必须按模板目录内的修改说明把届数由第二十二届改为第二十三届",
+    "Q2 侧 G4 已过，无阻塞项"
+  ],
+  "data_readiness": {
+    "status": "ready_with_warnings",
+    "warnings": [
+      "F8 Q 尺度对齐为首要风险：经验 Q 与设计网格 Q 非同类对象",
+      "B6-B8 半合成且为唯一含 Q 数据",
+      "D_eff 形式的 beta/gamma 乘积退化（见思路评审 3.2）"
+    ]
+  },
+  "human_decisions": {
+    "count": 3,
+    "ledger": "methods/Q2/q2_decisions.jsonl",
+    "verbatim_reply": "1A,2A,3B，但B1的处理要谨慎。请继续推进吧",
+    "decided": {
+      "q2_p_entry_form": "A — 低维投影 exp(b^T z_p)",
+      "q2_Q_entry_form": "A — 乘性 D_eff = D·Q^gamma",
+      "q2_semisynthetic_fit_participation": "B — 增大噪声方差参与（WLS 更大 sigma）"
+    },
+    "additional_constraint_recorded_not_interpreted": "但B1的处理要谨慎（核查经使用者指示暂缓）",
+    "ai_must_not": "把 AI 推荐或 AI 实现提案表述为使用者裁定；rationale 只录原话"
+  },
+  "ai_proposals_unconfirmed": {
+    "warning_to_downstream_skills": "本键内容是 AI 意见，decided_by 为 null，**不是**待实现约束，也**不是**使用者裁定。读取待实现约束请只用 carried_forward_todos。采用任一提案前须回到使用者确认。",
+    "items": [
+      {
+        "id": "sigma_semi_value_choice",
+        "status": "AI_PROPOSAL_UNCONFIRMED",
+        "decided_by": null,
+        "relates_to_decision": "q2_semisynthetic_fit_participation (裁定3=B)",
+        "proposal": "sigma_s 取值有两个候选，均未经使用者裁定",
+        "candidates": [
+          {
+            "id": "residual_based",
+            "how": "由各来源的拟合残差分层估计 sigma_s",
+            "note": "B6 上残差约 0.0699、B1 约 1.465e-4（相差约 477 倍），故残差法本身即给半合成更大 sigma、更小权重，方向与裁定3=B 一致"
+          },
+          {
+            "id": "p5_out_of_sample_anchor",
+            "how": "用 P5 的样本外转移 RMSE 0.6293 锚定半合成 sigma",
+            "note": "更保守；但 0.6293 是 calibrated→extrapolated 的转移误差，用它代表 calibrated 自身的噪声会高估"
+          }
+        ],
+        "ai_correction_recorded": "AI 曾声称『半合成残差小于 B1，自由估计 sigma 会反向加权半合成点』——该断言与已有数字相反（0.0699 vs 1.465e-4），已更正；故 p5_out_of_sample_anchor 并非必需修正，降为可选之一",
+        "action": "实现时参数化、可切换，默认值须在 run_summary 标注并可被使用者否决",
+        "g3_status": "实现为 --sigma-mode {residual,p5_anchor}，本轮用 residual 并已写入 run_summary.warnings；仍未经使用者裁定，可否决。注：P8 后该选择对结果影响极小（联合 WLS 已退化为两段式）"
+      }
+    ]
+  },
+  "g4_summary": {
+    "main_claim": "L = E_s + A·N^-alpha + B·(D·Q^gamma·exp(b^T z_p))^-beta；三项预声明判据全 PASS（B1 退化 1.0122362405611505e-08 < 1e-6；B7 超越性降幅区间 [0.03623599521238617, 0.04778072085097522] 不含 0；弹性符号两侧成立）",
+    "conditioned_claim": "在 B7 设计刻度上、且 beta 取自 B1（0.279878）这一承重假设下，gamma=0.9659128363851796，CI95 [0.8838599505464407, 1.055546203294626] 含 1.0 ⇒ D_eff ≈ D·Q（质量按比例放大有效 token 数）",
+    "conditionality": "若 beta 在 B7 上自由，gamma=1.1797809819428589，CI95 [1.0884410240653102, 1.2833591244752791] 不含 1.0；B7 rmse 0.07638383467565217 -> 0.06954428026035765（放开 beta 反而更好 9%）",
+    "p9_verdict": "FAIL（预声明判据：gamma 位移 0.2138681455576793 = 其区间宽的 1.2456917320652514 倍，阈 0.5）",
+    "must_write_limits": [
+      "P9 的预声明判据判 FAIL 必须进正文，不得只进附录",
+      "必须同报 gamma 两条路线（含 1.0 与不含 1.0）",
+      "不得改为只报 beta*gamma（实测该量同样路线依赖：0.270396 vs 0.097985，差 2.76 倍）",
+      "beta 跨源共享须表述为承重假设，取 B1 值的理由不构成 P9 未发生",
+      "超越性证据完全建立在半合成 B7 上（GC5）",
+      "AMB-Q2-3 尺度对齐未解决，gamma 的解释绑定在 B7 设计刻度上",
+      "kappa 不可辨识且随参照点变，绝对量级须带参照点",
+      "B2 不得表述为直接观测的迁移验证；B5 须注明是他人发表值"
+    ]
+  }
+}

@@ -1,0 +1,281 @@
+{
+  "schema_version": 1,
+  "question_id": "Q1",
+  "title": "数据质量评价、质量冲突消解与领域配比建模",
+  "rigor_profile": "lean",
+  "current_gate": "G4",
+  "status": "g4_passed_round1_final_ready_for_Q2",
+  "depends_on": [],
+  "artifacts": {
+    "parse": "planning/parse/problem_parse.json",
+    "classification": "planning/classification/problem_classification.json",
+    "data_profile": "workspace/data/data_profile.json",
+    "method_card": "methods/Q1/q1_method_card.md",
+    "decision_ledger": "methods/Q1/q1_decisions.jsonl",
+    "risk_probe": "methods/Q1/probes/risk_probe_summary.json",
+    "latest_run": "results/Q1/experiments/round1/run_summary.json",
+    "framing_decisions": "planning/framing_decisions.jsonl",
+    "choice_card": "planning/choice_cards/hd2_hd3_framing_card.md",
+    "idea_review": "planning/review_of_user_ideas.md",
+    "data_report": "workspace/data/data_report.md",
+    "probe_evidence": [
+      "workspace/data/q1_polarity_evidence.json",
+      "workspace/data/q1_probe_quality.json",
+      "workspace/data/q1_probe_corr.json",
+      "workspace/data/q1_probe_quality2.json",
+      "workspace/data/q1_probe_mixture.json",
+      "workspace/data/q1_probe_unique_words_length.json",
+      "workspace/data/q1_probe_conflict_by_domain.json"
+    ],
+    "canonical_spec": "workspace/code/scripts/q1_features.py#CANONICAL",
+    "canonical_verification": "workspace/data/q1_canonical_verification.json",
+    "code_plan": "code/Q1/q1_code_plan.md",
+    "code_review": "code/Q1/reviews/q1_python_review.json",
+    "code_dir": "code/Q1/",
+    "robustness_report": "robustness/Q1/q1_robustness_summary.json",
+    "robustness_parts": [
+      "robustness/Q1/q1_robustness_quality.json",
+      "robustness/Q1/q1_robustness_mixture.json"
+    ],
+    "final_result_analysis": "results/Q1/reports/q1_final_result_analysis.md",
+    "choice_card_round1_verdict": "planning/choice_cards/q1_round1_verdict_card.md",
+    "supplementary_b1_b2": "robustness/Q1/q1_supplementary_b1_b2.json",
+    "figure_plan": [
+      "methods/Q1/q1_figure_table_plan.md"
+    ],
+    "paper_figures": [
+      "paper/figures/fig_q1_gating_stability.pdf",
+      "paper/figures/fig_q1_conflict_matrix.pdf",
+      "paper/figures/fig_q1_q_increment.pdf"
+    ],
+    "paper_figures_png": [
+      "paper/figures/fig_q1_gating_stability.png",
+      "paper/figures/fig_q1_conflict_matrix.png",
+      "paper/figures/fig_q1_q_increment.png"
+    ],
+    "figure_scripts": [
+      "code/Q1/q1_paper_figures.py",
+      "code/figstyle.py"
+    ],
+    "method_flow_figure": [
+      "paper/figures/fig_framework_q1.pdf",
+      "paper/figures/fig_framework_q1.png"
+    ],
+    "shared_paper_figures": [
+      "paper/figures/fig_framework_overall.pdf",
+      "paper/figures/fig_framework_overall.png",
+      "paper/figures/fig_data_pipeline.pdf",
+      "paper/figures/fig_data_pipeline.png"
+    ],
+    "framework_script": [
+      "code/paper_framework_figures.py"
+    ]
+  },
+  "allowed": {
+    "code_generation": true,
+    "freeze": false,
+    "paper_writing": false,
+    "final_assembly": false
+  },
+  "blockers": [],
+  "next_action": {
+    "owner": "human",
+    "skill": "paper-section-writer",
+    "target": "paper",
+    "reason": "论文图已出（3 张，Type 3，均通过渲染核验）。下一步：paper-section-writer 按 methods/Q1/q1_figure_table_plan.md 的章节映射写作；引用须遵守本 manifest 的 must_write_limits 与三条非正面结果。"
+  },
+  "updated_at": "2026-09-26T00:32:34+08:00",
+  "success_criteria_mode": "relative_to_baseline",
+  "declared_baseline": "等权平均（Q1a）/ 无消解等权（Q1b）/ 带单纯形约束的线性回归（Q1c）",
+  "scope_profile": "mandatory_plus_A18_sampling",
+  "gate_history": [
+    {
+      "gate": "G1",
+      "result": "PASSED",
+      "at": "2026-09-24T00:35:00+08:00",
+      "basis": [
+        "planning/parse/problem_parse.json",
+        "planning/classification/problem_classification.json",
+        "planning/framing_decisions.jsonl"
+      ]
+    },
+    {
+      "gate": "G2",
+      "result": "PASSED",
+      "at": "2026-09-24T18:20:00+08:00",
+      "basis": [
+        "methods/Q1/q1_method_card.md",
+        "methods/Q1/probes/risk_probe_summary.json"
+      ],
+      "note": "角色化清单成立，主方法与 baseline 均有证据判定，fallback 有具体触发条件；5 个候选据证据排除。CONDITIONAL 项的解除条件已登记为 blockers。"
+    },
+    {
+      "gate": "G2.5",
+      "result": "PASSED",
+      "at": "2026-09-24T19:25:00+08:00",
+      "basis": [
+        "methods/Q1/q1_decisions.jsonl"
+      ],
+      "note": "三条 DECIDED 人工 method_choice 记录均为使用者原话、附证据引用、无占位符。决策引起的 CANONICAL 预处理变更已落入 q1_features.py 并通过范围内一致性核验。"
+    },
+    {
+      "gate": "G3",
+      "result": "PASSED",
+      "at": "2026-09-24T21:15:00+08:00",
+      "basis": [
+        "results/Q1/experiments/round1/run_summary.json",
+        "code/Q1/reviews/q1_python_review.json"
+      ],
+      "note": "M0/M1/M0c/M1c 四法实跑成功，per_domain 消融臂与五类扰动齐备；评审五项命名检查全 PASS，3 条 findings 均为 minor/info 不阻塞。质量侧 M1 在两项预声明指标上超过 M0（可分辨域对 19->21/21；扰动 τ 0.9595->0.9976，差值区间 [0.019,0.057] 不含 0）。配比侧增益为尺度局部（1m +0.070、60m -0.005、1B -0.046），与决策 C 一致。Q 增量检验三尺度区间均含 0，零结果如实记录。fallback M2 未触发，保持休眠。"
+    },
+    {
+      "gate": "G4",
+      "result": "PASSED",
+      "at": "2026-09-24T23:40:00+08:00",
+      "basis": [
+        "methods/Q1/q1_decisions.jsonl",
+        "results/Q1/reports/q1_final_result_analysis.md",
+        "robustness/Q1/q1_robustness_summary.json",
+        "robustness/Q1/q1_supplementary_b1_b2.json"
+      ],
+      "note": "账本含 result / stability / claim-scope 三类人工裁定（共 10 条，第 10 条为 claim_scope 的 supersedes 更正）。最终结果分析与稳健性报告齐备。裁定 1=B 授权的两项补算已执行：B-1 查明 R6 的 1B 格在 B=400 下不可判定（上界蒙特卡洛极差 1.40e-4 > 离零距离约 5e-5），B>=4000 时 8 种子一致含 0，故『三尺度区间均含 0』成立、无需软化，R6 的 FAIL 按预声明口径不变；B-2 查明 3 个破 claim 的分组变体中 2 个为决定性反超（c4 高出 9.38x/3.92x 半宽和）、1 个并列，排除『反超只是噪声』的读法，支持收窄 claim；top-3 集合在 9 个配置下不变（{arxiv,c4,commoncrawl}）。域序 claim 已收窄为报最高一档、不对 arxiv 在档内位次作断言，口径已回填结果分析。rigor_profile=lean 且 allowed.freeze=false，故 frozen_numbers.json 不适用。"
+    }
+  ],
+  "task_type": {
+    "primary": "evaluation",
+    "secondary": "prediction",
+    "confidence": "high"
+  },
+  "carried_forward_todos": [
+    "[已完成·round1] 实验四件套 + 消融臂 + 五类扰动，见 run_summary.json",
+    "[G3 硬性] Q1c 须显式检验『加入域级 Q 是否优于仅用 17 维 p』——决策 q1_normalization_population=A 的附带要求，无增量则如实写入",
+    "[G3 硬性] 交互项仅报符号稳定率 >=0.95 者（已测：136 项中 69 项达标、53 项 >=0.99）",
+    "[G3 硬性] A6–A11 验证须含按尺度截距或改用秩相关，禁止报未去偏原始 R²",
+    "[已解决] 域级聚合改用 Huber/截尾均值 + bootstrap 区间 —— 探针已实现，book 区间宽度为 github 的 29.6 倍",
+    "[已解决] ILR 不采纳的理由已写入方法卡『考察过但排除』",
+    "[已解决] 不可行候选记录违反的约束及违反程度 —— 见 eliminated_with_evidence，均附可核验指标值",
+    "[已升级为人工决策] 分位数标准化的总体口径 —— 已量化两难，见 blocker q1_normalization_population",
+    "[已推进] 冲突定义候选已实测：绝对阈版退化为 0.0 已排除，分位数锚定版 0.0363 / MAD 版 0.3748 / CD3 版 0.3911-0.6736 均落在开区间；最终判据留到首轮实验后的第二张决策卡",
+    "[待 G3] 实验设计四件套：baseline + 主方法 + 消融 + 参数扰动（消融含合并口径归一化对照）",
+    "[待论证] 4 个无 Loss 列域（nih_exporter/philpapers/enron_emails/europarl）在配比侧仅作自变量、不在目标中出现，该处理方式须在论文中论证",
+    "[新增·待论证] A6–A11 的验证口径须含按尺度截距或改用秩相关 —— 原始 R² 在 60m/1B 为 −8.4/−173，但 bias 占 RMSE 98.8%/99.9%",
+    "[新增·待论证] A12/A14 配比行与训练集完全重复，A12–A15 只能检验 Loss 外推，不能检验配比泛化",
+    "[新增·须披露] 《数据说明》并未给出 22 指标方向标注（赛题附录 B.2 指向该处），方向表由本队按三层可信度推得",
+    "[已决·不处置] rps_doc_frac_unique_words 的长度混淆：使用者决定不处置，CANONICAL 规格不变。探针判定其与 dsir 同属长度混淆族但机制不同（Heaps 估计量偏倚 β=0.785 vs dsir 的量纲错误），dsir 式除以 N 会把长度相关由 −0.85 恶化到 −0.99。见 q1_frac_unique_words_treatment",
+    "[新增·须披露] 论文局限须写成 rps_doc_frac_unique_words 与 rps_doc_unigram_entropy『这一对』受长度反向混淆（对 log N 的 Spearman 为 −0.85 与 +0.95），不得只点 frac_unique_words；canonical 保留的 3 对 r<−0.5 已判定为长度诱导的伪矛盾（双方去长度后相关 +0.92），非语义冲突",
+    "[新增·零结果须如实写入] Q 增量检验：17 维 p 加入域级 Q_corpus 后三尺度增量为 +0.0003/-0.0002/-0.0008，95% 区间均含 0 => 无显著增量。成因：Q_corpus 由 6/17 映射域的 p 加权构成，与 p 构造性相关（映射域配比质量中位仅 0.5995，5 行为 0 已剔除）。这是对题目『是否引入 Q 由参赛队伍论证』的有证据回答，不是失败。",
+    "[新增·G4 须落实] CD1 锚定版的全局冲突率是恒等式（= 1 − 锚点），不含信息；作敏感性臂时只报域级分布与与 CD2 的 Jaccard(0.030)，不报全局率。见评审 F4",
+    "[新增·Q2 须处理] book 域级 Q 不可靠（n=171、M0/M1 方向相反、裕度 1.12 倍），供 Q2 使用时须设敏感性臂",
+    "[新增·待裁定·R4] arxiv 居首依赖 V/P 分组的单列归属：8 变体中 3 个破该断言（ad_en_margin / top_2gram / top_3gram 移入价值组，τ 分别 0.714/0.810/0.905）。github 居末与 c4>commoncrawl 在全部 8 变体下成立。机理：Q=V·(1−P) 使一列在 V 中加性、在 P 中乘性门控，分组变更即改变函数角色，而分组无相关内聚性（组内 0.051/0.026 vs 组间 0.016）。须由使用者裁定 claim 口径",
+    "[新增·表述须软化·R6] Q 增量零结果在 1B 尺度对自助种子敏感：点估计与 round1 逐位一致（−0.00081873），但区间上界 round1 为 +1.5e−5、重跑为 −3.8e−6（n=64，差异来自自助 RNG 状态）。12 格中 11 格含 0。结论方向不变，但不得写成『三尺度区间均含 0』的硬结论",
+    "[新增·须加强声明·R7] 域效应的量级排序依赖目标口径：pweighted13 与 mean13 的系数向量 Spearman 为 −0.58（philpapers 6.14→1.24、enron_emails 4.79→0.99）。AMB-Q1-2 的循环性声明须由『须声明』加强为『量级排序依赖目标口径』。符号一致率 1.0 是平凡结果（去截距 + Σp=1 使 17 系数必然全正），不得作为证据引用",
+    "[新增·不得宣称为设计] Q 的长度稳健性部分来自 frac_unique_words 与 unigram_entropy 在等权均值中的长度互抵（只残差化前者会把复合 Q 的长度暴露由 0.499 恶化到 0.579）。该对冲依赖等权，不可表述为有意设计",
+    "[新增·证据缺口] R4 只记录了域序、域间极差、τ 与 CD2，未记录各变体的域级点估计与自助区间，故『3 个破 claim 的变体中 c4 反超 arxiv 是否统计可分』目前无证据。若 claim_scope 裁定需要该量级，须补算（约 2–3 min，不改 R4 的 FAIL 判定）"
+  ],
+  "data_readiness": {
+    "status": "ready_with_warnings",
+    "warnings": [
+      "F2 域混淆：Q 有退化为域标签的风险，分位数须按域计算",
+      "F4 A16 仅 6/17 域有质量域对应",
+      "F5 配方稀疏，ILR 已排除",
+      "F3 book 域仅 171 条"
+    ]
+  },
+  "shortlist": {
+    "quality_side": {
+      "main_candidate": "M1",
+      "usable_baseline": "M0",
+      "conditional_fallback": "M2"
+    },
+    "mixture_side": {
+      "main_candidate": "M1c",
+      "usable_baseline": "M0c",
+      "conditional_fallback": null
+    },
+    "verdicts": {
+      "M0": "CONDITIONAL",
+      "M1": "CONDITIONAL",
+      "M2": "PASS",
+      "M0c": "PASS",
+      "M1c": "CONDITIONAL"
+    }
+  },
+  "eliminated_with_evidence": [
+    "熵权法/熵权-TOPSIS 族：权重离散度完全由归一化方案决定（分位数下 max/equal=1.002 退化为等权）",
+    "Q=V−P 差值式：跨零使 CV=1.44e6，负 Q 与 Q3 成本函数不相容",
+    "绝对阈冲突判据 V>0.75∧P>0.75：冲突率恰为 0.0",
+    "平方根变换主效应回归：训练 R²=−2.78",
+    "ILR 对数比变换：511/512 行含精确零（数据阶段结论，方法卡已记录）"
+  ],
+  "approved_methods": {
+    "quality_side": {
+      "main": "M1",
+      "baseline": "M0",
+      "fallback_dormant": "M2"
+    },
+    "mixture_side": {
+      "main": "M1c",
+      "baseline": "M0c"
+    },
+    "implement_only": [
+      "M0",
+      "M1",
+      "M0c",
+      "M1c"
+    ],
+    "note": "M2 保持休眠，仅在其记录的触发条件成立时激活"
+  },
+  "decisions": {
+    "q1_tierC_direction": "D",
+    "q1_normalization_population": "A",
+    "q1c_interaction_tradeoff": "C",
+    "decided_at": "2026-09-24T19:05:00+08:00",
+    "ledger": "methods/Q1/q1_decisions.jsonl",
+    "q1_frac_unique_words_treatment": "no_treatment",
+    "frac_unique_decided_at": "2026-09-24T20:10:00+08:00",
+    "q1b_conflict_criterion": "CD2@p75",
+    "q1a_book_wikipedia_claim_scope": "report_indistinguishable",
+    "card2_decided_at": "2026-09-24T21:40:00+08:00",
+    "q1_result_verdict": "B",
+    "q1_stability_verdict": "B",
+    "q1a_domain_order_claim_scope": "A",
+    "q1a_domain_order_claim_scope_superseded_by": "q1a_domain_order_claim_scope_v2",
+    "card3_decided_at": "2026-09-24T22:55:00+08:00",
+    "card3_correction_at": "2026-09-24T23:10:00+08:00"
+  },
+  "canonical_spec_summary": {
+    "indicator_columns": 20,
+    "dsir": "逐 token 归一化（除以 word_count）后三列合一为 dsir_prose_likeness，方向 +1",
+    "length_indicators": "word_count / num_sentences / mean_word_length 非单调（1−2|z−0.5|）",
+    "normalization_primary": "pooled + ecdf",
+    "normalization_ablation": "per_domain + ecdf（必跑消融臂）",
+    "verified": "canonical 复现探针 PT 配置：强矛盾对 0 / 域间极差 0.1757 / AUC 0.9741"
+  },
+  "robustness_summary": {
+    "report": "robustness/Q1/q1_robustness_summary.json",
+    "n_checks": 7,
+    "criteria_predeclared_before_execution": true,
+    "PASS": [
+      "R1_domain_aggregator_swap",
+      "R2_seed_stability",
+      "R3_perturbation_amplitude",
+      "R5_equal_n_interval_width"
+    ],
+    "FAIL": [
+      "R4_vp_regrouping",
+      "R6_q_source_swap",
+      "R7_target_definition_swap"
+    ],
+    "fail_natures_differ": {
+      "R4": "真发现 —— claim 须收窄，待人工裁定",
+      "R6": "判据过严 —— 结论方向不变，但表述须软化",
+      "R7": "判据设计失效 —— 预声明的符号一致率是平凡命题，真信息是系数量级排序反转"
+    },
+    "prohibited_statement": "不得把三条 FAIL 笼统表述为『稳健性检查通过/未通过』",
+    "fallback_M2": "在全部检查下均未触发（强矛盾对 r<−0.8 计数 0；CD2@p75 在 8 个分组变体下为 0.0236–0.0568，全部留在 (0.01,0.50) 内）",
+    "execution_time_seconds": {
+      "quality_R1_R5": 580.8,
+      "mixture_R6_R7": 2.0
+    }
+  }
+}

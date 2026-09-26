@@ -1,0 +1,1437 @@
+{
+ "schema_version": 1,
+ "question": "Q1",
+ "round_under_test": "round1",
+ "seed": 20260924,
+ "rigor_profile": "lean",
+ "criteria_predeclared_before_execution": true,
+ "source_parts": {
+  "quality": "q1_robustness_quality.json",
+  "mixture": "q1_robustness_mixture.json"
+ },
+ "execution_time_seconds": {
+  "quality": 580.8,
+  "mixture": 2.0
+ },
+ "n_checks": 7,
+ "status_rollup": {
+  "FAIL": [
+   "R4_vp_regrouping",
+   "R6_q_source_swap",
+   "R7_target_definition_swap"
+  ],
+  "PASS": [
+   "R1_domain_aggregator_swap",
+   "R2_seed_stability",
+   "R3_perturbation_amplitude",
+   "R5_equal_n_interval_width"
+  ]
+ },
+ "checks": {
+  "R1_domain_aggregator_swap": {
+   "check_id": "R1_domain_aggregator_swap",
+   "tested_claim": "Q1a 报告的域序（arxiv 最高、github 最低、c4>commoncrawl）不依赖域级聚合估计量的选择",
+   "why_load_bearing": "方法卡只声明 Huber 主报 + 10% 截尾对照，估计量是未被检验的自由参数；域序是 Q1a 的必交产出，也是 Q2 的输入",
+   "sources": [
+    "results/Q1/experiments/round1/metrics/q1_quality_M0.json",
+    "results/Q1/experiments/round1/metrics/q1_quality_M1.json",
+    "code/Q1/q1_common.py#huber_mean,trimmed_mean,boot_ci"
+   ],
+   "perturbation": "域级聚合估计量 ∈ {Huber(k=1.345), 10% 截尾均值, 中位数, 算术均值}",
+   "predeclared_criterion": "M1 在全部 4 个估计量下 arxiv 居首 ∧ github 居末 ∧ c4 优于 commoncrawl；book~wikipedia 互换不计为失败（决策 q1a_book_wikipedia_claim_scope 已裁定其不可区分）",
+   "observed": {
+    "M0": {
+     "huber": {
+      "claim": {
+       "arxiv_rank1": true,
+       "github_rank_last": true,
+       "c4_above_commoncrawl": true,
+       "all_hold": true,
+       "order": [
+        "arxiv",
+        "c4",
+        "commoncrawl",
+        "stackexchange",
+        "wikipedia",
+        "book",
+        "github"
+       ],
+       "book_wikipedia_swapped_vs_reported": false
+      },
+      "domain_range": 0.17574444522607074,
+      "tau_vs_reported_order": 1.0,
+      "n_pairs_distinguishable": 19,
+      "tied_pairs": [
+       "book~wikipedia",
+       "c4~commoncrawl"
+      ],
+      "point_by_domain": {
+       "arxiv": 0.6493909156015422,
+       "book": 0.5263847797610973,
+       "c4": 0.6018769294789214,
+       "commoncrawl": 0.6012953484268058,
+       "github": 0.4736464703754714,
+       "stackexchange": 0.5830207436707928,
+       "wikipedia": 0.5325573825100731
+      },
+      "half_width_by_domain": {
+       "arxiv": 0.0004302009500762316,
+       "book": 0.009311236981694615,
+       "c4": 0.0017887682789620718,
+       "commoncrawl": 0.0013771334064095475,
+       "github": 0.00036572410048404946,
+       "stackexchange": 0.0011682377463949623,
+       "wikipedia": 0.001669846920339113
+      }
+     },
+     "trimmed10": {
+      "claim": {
+       "arxiv_rank1": true,
+       "github_rank_last": true,
+       "c4_above_commoncrawl": true,
+       "all_hold": true,
+       "order": [
+        "arxiv",
+        "c4",
+        "commoncrawl",
+        "stackexchange",
+        "wikipedia",
+        "book",
+        "github"
+       ],
+       "book_wikipedia_swapped_vs_reported": false
+      },
+      "domain_range": 0.1757619606420634,
+      "tau_vs_reported_order": 1.0,
+      "n_pairs_distinguishable": 19,
+      "tied_pairs": [
+       "book~wikipedia",
+       "c4~commoncrawl"
+      ],
+      "point_by_domain": {
+       "arxiv": 0.6494386368125947,
+       "book": 0.5265138095786477,
+       "c4": 0.6023464424640746,
+       "commoncrawl": 0.6013987087197424,
+       "github": 0.47367667617053133,
+       "stackexchange": 0.5832667283133385,
+       "wikipedia": 0.5329510846265263
+      },
+      "half_width_by_domain": {
+       "arxiv": 0.0004353745611029858,
+       "book": 0.008933911070471479,
+       "c4": 0.001780895708674457,
+       "commoncrawl": 0.0014060372884091565,
+       "github": 0.00036360126684914507,
+       "stackexchange": 0.0012086457534497552,
+       "wikipedia": 0.001690951667212448
+      }
+     },
+     "median": {
+      "claim": {
+       "arxiv_rank1": true,
+       "github_rank_last": true,
+       "c4_above_commoncrawl": true,
+       "all_hold": true,
+       "order": [
+        "arxiv",
+        "c4",
+        "commoncrawl",
+        "stackexchange",
+        "book",
+        "wikipedia",
+        "github"
+       ],
+       "book_wikipedia_swapped_vs_reported": true
+      },
+      "domain_range": 0.17636347483243853,
+      "tau_vs_reported_order": 0.9047619047619048,
+      "n_pairs_distinguishable": 19,
+      "tied_pairs": [
+       "book~wikipedia",
+       "c4~commoncrawl"
+      ],
+      "point_by_domain": {
+       "arxiv": 0.6505511425009879,
+       "book": 0.5327020799769041,
+       "c4": 0.6075801781369388,
+       "commoncrawl": 0.6057810709012418,
+       "github": 0.47418766766854936,
+       "stackexchange": 0.5856223721987961,
+       "wikipedia": 0.5322316752725818
+      },
+      "half_width_by_domain": {
+       "arxiv": 0.0004721190445170498,
+       "book": 0.008073412676568026,
+       "c4": 0.002110432294323561,
+       "commoncrawl": 0.001837388113928362,
+       "github": 0.00043752125483659254,
+       "stackexchange": 0.001406424893664604,
+       "wikipedia": 0.002148797465567176
+      }
+     },
+     "mean": {
+      "claim": {
+       "arxiv_rank1": true,
+       "github_rank_last": true,
+       "c4_above_commoncrawl": true,
+       "all_hold": true,
+       "order": [
+        "arxiv",
+        "c4",
+        "commoncrawl",
+        "stackexchange",
+        "wikipedia",
+        "book",
+        "github"
+       ],
+       "book_wikipedia_swapped_vs_reported": false
+      },
+      "domain_range": 0.1741690799897433,
+      "tau_vs_reported_order": 1.0,
+      "n_pairs_distinguishable": 19,
+      "tied_pairs": [
+       "book~wikipedia",
+       "c4~commoncrawl"
+      ],
+      "point_by_domain": {
+       "arxiv": 0.6471709947140292,
+       "book": 0.5254657809345498,
+       "c4": 0.5961779839619261,
+       "commoncrawl": 0.5955265416806585,
+       "github": 0.4730019147242859,
+       "stackexchange": 0.5799947101941256,
+       "wikipedia": 0.5297260639004074
+      },
+      "half_width_by_domain": {
+       "arxiv": 0.00043675530158865383,
+       "book": 0.007903219311709009,
+       "c4": 0.0017154092206692617,
+       "commoncrawl": 0.0014030838306184346,
+       "github": 0.000349413111873087,
+       "stackexchange": 0.0011241720388647791,
+       "wikipedia": 0.0016228908200926484
+      }
+     }
+    },
+    "M1": {
+     "huber": {
+      "claim": {
+       "arxiv_rank1": true,
+       "github_rank_last": true,
+       "c4_above_commoncrawl": true,
+       "all_hold": true,
+       "order": [
+        "arxiv",
+        "c4",
+        "commoncrawl",
+        "stackexchange",
+        "book",
+        "wikipedia",
+        "github"
+       ],
+       "book_wikipedia_swapped_vs_reported": false
+      },
+      "domain_range": 0.1581895484411342,
+      "tau_vs_reported_order": 1.0,
+      "n_pairs_distinguishable": 21,
+      "tied_pairs": [],
+      "point_by_domain": {
+       "arxiv": 0.3814958169252389,
+       "book": 0.2667677487138408,
+       "c4": 0.36380540835066516,
+       "commoncrawl": 0.3479423814342351,
+       "github": 0.22330626848410468,
+       "stackexchange": 0.29429286232728874,
+       "wikipedia": 0.25563849117989446
+      },
+      "half_width_by_domain": {
+       "arxiv": 0.0008053530568465639,
+       "book": 0.008413611913386937,
+       "c4": 0.0019334739641993226,
+       "commoncrawl": 0.0016935132192354985,
+       "github": 0.00031642369155450434,
+       "stackexchange": 0.0014722110347298312,
+       "wikipedia": 0.0015409465650207121
+      }
+     },
+     "trimmed10": {
+      "claim": {
+       "arxiv_rank1": true,
+       "github_rank_last": true,
+       "c4_above_commoncrawl": true,
+       "all_hold": true,
+       "order": [
+        "arxiv",
+        "c4",
+        "commoncrawl",
+        "stackexchange",
+        "book",
+        "wikipedia",
+        "github"
+       ],
+       "book_wikipedia_swapped_vs_reported": false
+      },
+      "domain_range": 0.15847099805377124,
+      "tau_vs_reported_order": 1.0,
+      "n_pairs_distinguishable": 21,
+      "tied_pairs": [],
+      "point_by_domain": {
+       "arxiv": 0.38164702848579185,
+       "book": 0.2667429993602853,
+       "c4": 0.3639953422662312,
+       "commoncrawl": 0.34804742171863895,
+       "github": 0.2231760304320206,
+       "stackexchange": 0.2942984085107128,
+       "wikipedia": 0.2557108675645053
+      },
+      "half_width_by_domain": {
+       "arxiv": 0.0007920804805345294,
+       "book": 0.008819405807693498,
+       "c4": 0.001919178825588147,
+       "commoncrawl": 0.0016521819247324043,
+       "github": 0.0003196776786486971,
+       "stackexchange": 0.0014799618428661676,
+       "wikipedia": 0.0015531267619666167
+      }
+     },
+     "median": {
+      "claim": {
+       "arxiv_rank1": true,
+       "github_rank_last": true,
+       "c4_above_commoncrawl": true,
+       "all_hold": true,
+       "order": [
+        "arxiv",
+        "c4",
+        "commoncrawl",
+        "stackexchange",
+        "book",
+        "wikipedia",
+        "github"
+       ],
+       "book_wikipedia_swapped_vs_reported": false
+      },
+      "domain_range": 0.16121527921582715,
+      "tau_vs_reported_order": 1.0,
+      "n_pairs_distinguishable": 20,
+      "tied_pairs": [
+       "book~wikipedia"
+      ],
+      "point_by_domain": {
+       "arxiv": 0.3833724283685098,
+       "book": 0.2631941408478812,
+       "c4": 0.36650273521782917,
+       "commoncrawl": 0.35084592536045844,
+       "github": 0.22215714915268267,
+       "stackexchange": 0.29406331146980014,
+       "wikipedia": 0.25768530748067175
+      },
+      "half_width_by_domain": {
+       "arxiv": 0.0011858389147983428,
+       "book": 0.009517799697327411,
+       "c4": 0.002026606911148726,
+       "commoncrawl": 0.0021115884295192233,
+       "github": 0.000379606283718123,
+       "stackexchange": 0.0017561083998174354,
+       "wikipedia": 0.001991240458940391
+      }
+     },
+     "mean": {
+      "claim": {
+       "arxiv_rank1": true,
+       "github_rank_last": true,
+       "c4_above_commoncrawl": true,
+       "all_hold": true,
+       "order": [
+        "arxiv",
+        "c4",
+        "commoncrawl",
+        "stackexchange",
+        "book",
+        "wikipedia",
+        "github"
+       ],
+       "book_wikipedia_swapped_vs_reported": false
+      },
+      "domain_range": 0.15428983391175824,
+      "tau_vs_reported_order": 1.0,
+      "n_pairs_distinguishable": 21,
+      "tied_pairs": [],
+      "point_by_domain": {
+       "arxiv": 0.37955107209354944,
+       "book": 0.2697158754835801,
+       "c4": 0.3616598152266725,
+       "commoncrawl": 0.34578228934419636,
+       "github": 0.2252612381817912,
+       "stackexchange": 0.29416411254201064,
+       "wikipedia": 0.25546537624166954
+      },
+      "half_width_by_domain": {
+       "arxiv": 0.0007417413876071588,
+       "book": 0.007439951831107461,
+       "c4": 0.001851157783262336,
+       "commoncrawl": 0.0016513377181221756,
+       "github": 0.00029453360619527413,
+       "stackexchange": 0.001394762573892705,
+       "wikipedia": 0.0015510340233865494
+      }
+     }
+    }
+   },
+   "status": "PASS",
+   "limitation": "可分辨对数随估计量变化属预期（区间宽度依估计量而变），本检查只以 claim 判据判定，不把可分辨对数的变化计为失败",
+   "fallback_relevance": "不涉及 M2 触发条件"
+  },
+  "R2_seed_stability": {
+   "check_id": "R2_seed_stability",
+   "tested_claim": "M1 可分辨 21/21 与扰动 τ=0.9976 不是单一种子的产物",
+   "why_load_bearing": "round1 的 bootstrap 区间、权重扰动、自助显著性全部只用了种子 20260924；HD-2 的显著性判定依赖重抽样，种子敏感则判定本身不可靠",
+   "sources": [
+    "results/Q1/experiments/round1/run_summary.json",
+    "code/Q1/q1_common.py#boot_ci,perturb_weights"
+   ],
+   "perturbation": "bootstrap 与扰动的随机种子 ∈ [20260924, 1, 7, 42, 2026]（B=400、reps=40 不变）",
+   "predeclared_criterion": "每个种子下 M1 的可分辨域对数 >= M0 的，且 M1 的三项 claim 判据保持",
+   "observed": {
+    "seed_20260924": {
+     "M0": {
+      "n_pairs_distinguishable": 19,
+      "tied_pairs": [
+       "book~wikipedia",
+       "c4~commoncrawl"
+      ],
+      "domain_range": 0.17574444522607074,
+      "claim": {
+       "arxiv_rank1": true,
+       "github_rank_last": true,
+       "c4_above_commoncrawl": true,
+       "all_hold": true,
+       "order": [
+        "arxiv",
+        "c4",
+        "commoncrawl",
+        "stackexchange",
+        "wikipedia",
+        "book",
+        "github"
+       ],
+       "book_wikipedia_swapped_vs_reported": null
+      },
+      "kendall_tau_mean": 0.9642857142857142,
+      "kendall_tau_min": 0.9047619047619048,
+      "frac_order_unchanged": 0.625
+     },
+     "M1": {
+      "n_pairs_distinguishable": 21,
+      "tied_pairs": [],
+      "domain_range": 0.1581895484411342,
+      "claim": {
+       "arxiv_rank1": true,
+       "github_rank_last": true,
+       "c4_above_commoncrawl": true,
+       "all_hold": true,
+       "order": [
+        "arxiv",
+        "c4",
+        "commoncrawl",
+        "stackexchange",
+        "book",
+        "wikipedia",
+        "github"
+       ],
+       "book_wikipedia_swapped_vs_reported": null
+      },
+      "kendall_tau_mean": 1.0,
+      "kendall_tau_min": 1.0,
+      "frac_order_unchanged": 1.0
+     },
+     "M1_ge_M0_distinguishable": true
+    },
+    "seed_1": {
+     "M0": {
+      "n_pairs_distinguishable": 19,
+      "tied_pairs": [
+       "book~wikipedia",
+       "c4~commoncrawl"
+      ],
+      "domain_range": 0.17574444522607074,
+      "claim": {
+       "arxiv_rank1": true,
+       "github_rank_last": true,
+       "c4_above_commoncrawl": true,
+       "all_hold": true,
+       "order": [
+        "arxiv",
+        "c4",
+        "commoncrawl",
+        "stackexchange",
+        "wikipedia",
+        "book",
+        "github"
+       ],
+       "book_wikipedia_swapped_vs_reported": null
+      },
+      "kendall_tau_mean": 0.9714285714285715,
+      "kendall_tau_min": 0.9047619047619048,
+      "frac_order_unchanged": 0.7
+     },
+     "M1": {
+      "n_pairs_distinguishable": 21,
+      "tied_pairs": [],
+      "domain_range": 0.1581895484411342,
+      "claim": {
+       "arxiv_rank1": true,
+       "github_rank_last": true,
+       "c4_above_commoncrawl": true,
+       "all_hold": true,
+       "order": [
+        "arxiv",
+        "c4",
+        "commoncrawl",
+        "stackexchange",
+        "book",
+        "wikipedia",
+        "github"
+       ],
+       "book_wikipedia_swapped_vs_reported": null
+      },
+      "kendall_tau_mean": 1.0,
+      "kendall_tau_min": 1.0,
+      "frac_order_unchanged": 1.0
+     },
+     "M1_ge_M0_distinguishable": true
+    },
+    "seed_7": {
+     "M0": {
+      "n_pairs_distinguishable": 19,
+      "tied_pairs": [
+       "book~wikipedia",
+       "c4~commoncrawl"
+      ],
+      "domain_range": 0.17574444522607074,
+      "claim": {
+       "arxiv_rank1": true,
+       "github_rank_last": true,
+       "c4_above_commoncrawl": true,
+       "all_hold": true,
+       "order": [
+        "arxiv",
+        "c4",
+        "commoncrawl",
+        "stackexchange",
+        "wikipedia",
+        "book",
+        "github"
+       ],
+       "book_wikipedia_swapped_vs_reported": null
+      },
+      "kendall_tau_mean": 0.9642857142857142,
+      "kendall_tau_min": 0.8095238095238095,
+      "frac_order_unchanged": 0.675
+     },
+     "M1": {
+      "n_pairs_distinguishable": 21,
+      "tied_pairs": [],
+      "domain_range": 0.1581895484411342,
+      "claim": {
+       "arxiv_rank1": true,
+       "github_rank_last": true,
+       "c4_above_commoncrawl": true,
+       "all_hold": true,
+       "order": [
+        "arxiv",
+        "c4",
+        "commoncrawl",
+        "stackexchange",
+        "book",
+        "wikipedia",
+        "github"
+       ],
+       "book_wikipedia_swapped_vs_reported": null
+      },
+      "kendall_tau_mean": 1.0,
+      "kendall_tau_min": 1.0,
+      "frac_order_unchanged": 1.0
+     },
+     "M1_ge_M0_distinguishable": true
+    },
+    "seed_42": {
+     "M0": {
+      "n_pairs_distinguishable": 19,
+      "tied_pairs": [
+       "book~wikipedia",
+       "c4~commoncrawl"
+      ],
+      "domain_range": 0.17574444522607074,
+      "claim": {
+       "arxiv_rank1": true,
+       "github_rank_last": true,
+       "c4_above_commoncrawl": true,
+       "all_hold": true,
+       "order": [
+        "arxiv",
+        "c4",
+        "commoncrawl",
+        "stackexchange",
+        "wikipedia",
+        "book",
+        "github"
+       ],
+       "book_wikipedia_swapped_vs_reported": null
+      },
+      "kendall_tau_mean": 0.9452380952380951,
+      "kendall_tau_min": 0.8095238095238095,
+      "frac_order_unchanged": 0.45
+     },
+     "M1": {
+      "n_pairs_distinguishable": 21,
+      "tied_pairs": [],
+      "domain_range": 0.1581895484411342,
+      "claim": {
+       "arxiv_rank1": true,
+       "github_rank_last": true,
+       "c4_above_commoncrawl": true,
+       "all_hold": true,
+       "order": [
+        "arxiv",
+        "c4",
+        "commoncrawl",
+        "stackexchange",
+        "book",
+        "wikipedia",
+        "github"
+       ],
+       "book_wikipedia_swapped_vs_reported": null
+      },
+      "kendall_tau_mean": 1.0,
+      "kendall_tau_min": 1.0,
+      "frac_order_unchanged": 1.0
+     },
+     "M1_ge_M0_distinguishable": true
+    },
+    "seed_2026": {
+     "M0": {
+      "n_pairs_distinguishable": 19,
+      "tied_pairs": [
+       "book~wikipedia",
+       "c4~commoncrawl"
+      ],
+      "domain_range": 0.17574444522607074,
+      "claim": {
+       "arxiv_rank1": true,
+       "github_rank_last": true,
+       "c4_above_commoncrawl": true,
+       "all_hold": true,
+       "order": [
+        "arxiv",
+        "c4",
+        "commoncrawl",
+        "stackexchange",
+        "wikipedia",
+        "book",
+        "github"
+       ],
+       "book_wikipedia_swapped_vs_reported": null
+      },
+      "kendall_tau_mean": 0.9714285714285715,
+      "kendall_tau_min": 0.8095238095238095,
+      "frac_order_unchanged": 0.725
+     },
+     "M1": {
+      "n_pairs_distinguishable": 21,
+      "tied_pairs": [],
+      "domain_range": 0.1581895484411342,
+      "claim": {
+       "arxiv_rank1": true,
+       "github_rank_last": true,
+       "c4_above_commoncrawl": true,
+       "all_hold": true,
+       "order": [
+        "arxiv",
+        "c4",
+        "commoncrawl",
+        "stackexchange",
+        "book",
+        "wikipedia",
+        "github"
+       ],
+       "book_wikipedia_swapped_vs_reported": null
+      },
+      "kendall_tau_mean": 1.0,
+      "kendall_tau_min": 1.0,
+      "frac_order_unchanged": 1.0
+     },
+     "M1_ge_M0_distinguishable": true
+    }
+   },
+   "status": "PASS",
+   "limitation": "只换种子，未换 B 与 reps；区间宽度本身的蒙特卡洛误差未单独量化",
+   "fallback_relevance": "不涉及 M2 触发条件"
+  },
+  "R3_perturbation_amplitude": {
+   "check_id": "R3_perturbation_amplitude",
+   "tested_claim": "M1 在排序稳定性上超过 M0，不只在 ±10% 这一个扰动幅度上成立",
+   "why_load_bearing": "HD-2 要求超出幅度大于重抽样噪声；±10% 是唯一测过的幅度，若优势随幅度消失则该结论的适用范围须收窄",
+   "sources": [
+    "results/Q1/experiments/round1/run_summary.json#comparison.quality_side.significance_tests"
+   ],
+   "perturbation": "列权重 uniform ±20%（确认性）与 ±30%（探索性），reps=40",
+   "predeclared_criterion": "±20% 下 τ(M1)−τ(M0) 的自助 95% 区间不含 0 且方向为 M1>M0；±30% 仅作探索性报告，不参与判定",
+   "observed": {
+    "pm20pct": {
+     "M0": {
+      "perturbation": "weights uniform +/-20%, reps=40",
+      "domain_rank_kendall_tau_mean": 0.938095238095238,
+      "domain_rank_kendall_tau_min": 0.8095238095238095,
+      "domain_rank_max_position_change_max": 1,
+      "frac_reps_domain_order_unchanged": 0.475,
+      "sample_top1pct_overlap_mean": 0.8823421439060205,
+      "sample_top1pct_overlap_min": 0.7338472834067548
+     },
+     "M1": {
+      "perturbation": "weights uniform +/-20%, reps=40",
+      "domain_rank_kendall_tau_mean": 0.9880952380952381,
+      "domain_rank_kendall_tau_min": 0.8095238095238095,
+      "domain_rank_max_position_change_max": 1,
+      "frac_reps_domain_order_unchanged": 0.9,
+      "sample_top1pct_overlap_mean": 0.8946861233480178,
+      "sample_top1pct_overlap_min": 0.8248898678414097
+     },
+     "tau_diff_M1_minus_M0": {
+      "mean_diff": 0.050000000000000155,
+      "ci95": [
+       0.02619047619047632,
+       0.07619047619047625
+      ],
+      "significant": true,
+      "direction": "a>b"
+     },
+     "role": "confirmatory"
+    },
+    "pm30pct": {
+     "M0": {
+      "perturbation": "weights uniform +/-30%, reps=40",
+      "domain_rank_kendall_tau_mean": 0.9238095238095237,
+      "domain_rank_kendall_tau_min": 0.7142857142857143,
+      "domain_rank_max_position_change_max": 2,
+      "frac_reps_domain_order_unchanged": 0.475,
+      "sample_top1pct_overlap_mean": 0.8255965491923642,
+      "sample_top1pct_overlap_min": 0.6255506607929515
+     },
+     "M1": {
+      "perturbation": "weights uniform +/-30%, reps=40",
+      "domain_rank_kendall_tau_mean": 0.9595238095238094,
+      "domain_rank_kendall_tau_min": 0.7142857142857143,
+      "domain_rank_max_position_change_max": 2,
+      "frac_reps_domain_order_unchanged": 0.675,
+      "sample_top1pct_overlap_mean": 0.8448880323054333,
+      "sample_top1pct_overlap_min": 0.7386196769456681
+     },
+     "tau_diff_M1_minus_M0": {
+      "mean_diff": 0.0357142857142857,
+      "ci95": [
+       0.0023214285714286804,
+       0.07142857142857129
+      ],
+      "significant": true,
+      "direction": "a>b"
+     },
+     "role": "exploratory"
+    }
+   },
+   "status": "PASS",
+   "limitation": "±30% 已超出「小扰动」的合理范围，故预先标为探索性；均匀分布扰动不覆盖结构化的权重误指定",
+   "fallback_relevance": "不涉及 M2 触发条件"
+  },
+  "R4_vp_regrouping": {
+   "check_id": "R4_vp_regrouping",
+   "tested_claim": "域序与 CD2 冲突率不依赖 V/P 语义分组的单列归属",
+   "why_load_bearing": "M1 的分组是纯语义划分，代码注释明确『不得声称由相关结构导出』（组内 0.051/0.026 与组间 0.016 同量级）；ad_en_margin 归入污染组尤其可争（其 margin 已是『不像广告』）",
+   "sources": [
+    "code/Q1/q1_common.py#vp_split",
+    "workspace/code/scripts/q1_features.py#POLLUTION_COLS",
+    "results/Q1/experiments/round1/metrics/q1_quality_M1.json#group_cohesion"
+   ],
+   "perturbation": "污染组 6 列逐列移入价值组（留一）；另将 ['rps_lines_ending_with_terminal_punctution_mark', 'modernbert_cleanliness'] 由价值组移入污染组",
+   "predeclared_criterion": "全部 8 个变体下三项 claim 判据保持，且 CD2@p75 仍落在 M2 触发区间 (0.01, 0.5) 内",
+   "observed": {
+    "base": {
+     "claim": {
+      "arxiv_rank1": true,
+      "github_rank_last": true,
+      "c4_above_commoncrawl": true,
+      "all_hold": true,
+      "order": [
+       "arxiv",
+       "c4",
+       "commoncrawl",
+       "stackexchange",
+       "book",
+       "wikipedia",
+       "github"
+      ],
+      "book_wikipedia_swapped_vs_reported": null
+     },
+     "cd2_p75": 0.04082411573438635,
+     "n_value": 14,
+     "n_pollution": 6
+    },
+    "variants": {
+     "P_to_V:ad_en_margin": {
+      "claim": {
+       "arxiv_rank1": false,
+       "github_rank_last": true,
+       "c4_above_commoncrawl": true,
+       "all_hold": false,
+       "order": [
+        "c4",
+        "commoncrawl",
+        "arxiv",
+        "book",
+        "stackexchange",
+        "wikipedia",
+        "github"
+       ],
+       "book_wikipedia_swapped_vs_reported": null
+      },
+      "domain_range": 0.1639324544773334,
+      "cd2_p75": 0.046923511666654434,
+      "cd2_in_fallback_band": true,
+      "tau_vs_reported_order": 0.7142857142857143,
+      "n_value": 15,
+      "n_pollution": 5
+     },
+     "P_to_V:rps_doc_frac_no_alph_words": {
+      "claim": {
+       "arxiv_rank1": true,
+       "github_rank_last": true,
+       "c4_above_commoncrawl": true,
+       "all_hold": true,
+       "order": [
+        "arxiv",
+        "c4",
+        "commoncrawl",
+        "stackexchange",
+        "book",
+        "wikipedia",
+        "github"
+       ],
+       "book_wikipedia_swapped_vs_reported": null
+      },
+      "domain_range": 0.1436998286014517,
+      "cd2_p75": 0.056839617448235874,
+      "cd2_in_fallback_band": true,
+      "tau_vs_reported_order": 1.0,
+      "n_value": 15,
+      "n_pollution": 5
+     },
+     "P_to_V:rps_doc_frac_chars_top_2gram": {
+      "claim": {
+       "arxiv_rank1": false,
+       "github_rank_last": true,
+       "c4_above_commoncrawl": true,
+       "all_hold": false,
+       "order": [
+        "c4",
+        "arxiv",
+        "commoncrawl",
+        "stackexchange",
+        "wikipedia",
+        "book",
+        "github"
+       ],
+       "book_wikipedia_swapped_vs_reported": null
+      },
+      "domain_range": 0.15101333928284097,
+      "cd2_p75": 0.048160272454364626,
+      "cd2_in_fallback_band": true,
+      "tau_vs_reported_order": 0.8095238095238095,
+      "n_value": 15,
+      "n_pollution": 5
+     },
+     "P_to_V:rps_doc_frac_chars_top_3gram": {
+      "claim": {
+       "arxiv_rank1": false,
+       "github_rank_last": true,
+       "c4_above_commoncrawl": true,
+       "all_hold": false,
+       "order": [
+        "c4",
+        "arxiv",
+        "commoncrawl",
+        "stackexchange",
+        "book",
+        "wikipedia",
+        "github"
+       ],
+       "book_wikipedia_swapped_vs_reported": null
+      },
+      "domain_range": 0.14992798700500778,
+      "cd2_p75": 0.04233245010752846,
+      "cd2_in_fallback_band": true,
+      "tau_vs_reported_order": 0.9047619047619048,
+      "n_value": 15,
+      "n_pollution": 5
+     },
+     "P_to_V:rps_lines_uppercase_letter_fraction": {
+      "claim": {
+       "arxiv_rank1": true,
+       "github_rank_last": true,
+       "c4_above_commoncrawl": true,
+       "all_hold": true,
+       "order": [
+        "arxiv",
+        "c4",
+        "commoncrawl",
+        "stackexchange",
+        "book",
+        "wikipedia",
+        "github"
+       ],
+       "book_wikipedia_swapped_vs_reported": null
+      },
+      "domain_range": 0.1504415666236975,
+      "cd2_p75": 0.033080598636260214,
+      "cd2_in_fallback_band": true,
+      "tau_vs_reported_order": 1.0,
+      "n_value": 15,
+      "n_pollution": 5
+     },
+     "P_to_V:rps_lines_numerical_chars_fraction": {
+      "claim": {
+       "arxiv_rank1": true,
+       "github_rank_last": true,
+       "c4_above_commoncrawl": true,
+       "all_hold": true,
+       "order": [
+        "arxiv",
+        "c4",
+        "commoncrawl",
+        "stackexchange",
+        "book",
+        "wikipedia",
+        "github"
+       ],
+       "book_wikipedia_swapped_vs_reported": null
+      },
+      "domain_range": 0.18818262779623238,
+      "cd2_p75": 0.03573394596419632,
+      "cd2_in_fallback_band": true,
+      "tau_vs_reported_order": 1.0,
+      "n_value": 15,
+      "n_pollution": 5
+     },
+     "V_to_P:rps_lines_ending_with_terminal_punctution_mark": {
+      "claim": {
+       "arxiv_rank1": true,
+       "github_rank_last": true,
+       "c4_above_commoncrawl": true,
+       "all_hold": true,
+       "order": [
+        "arxiv",
+        "c4",
+        "commoncrawl",
+        "stackexchange",
+        "book",
+        "wikipedia",
+        "github"
+       ],
+       "book_wikipedia_swapped_vs_reported": null
+      },
+      "domain_range": 0.17064620429144026,
+      "cd2_p75": 0.030207056509325248,
+      "cd2_in_fallback_band": true,
+      "tau_vs_reported_order": 1.0,
+      "n_value": 13,
+      "n_pollution": 7
+     },
+     "V_to_P:modernbert_cleanliness": {
+      "claim": {
+       "arxiv_rank1": true,
+       "github_rank_last": true,
+       "c4_above_commoncrawl": true,
+       "all_hold": true,
+       "order": [
+        "arxiv",
+        "c4",
+        "commoncrawl",
+        "stackexchange",
+        "book",
+        "wikipedia",
+        "github"
+       ],
+       "book_wikipedia_swapped_vs_reported": null
+      },
+      "domain_range": 0.18659719767425337,
+      "cd2_p75": 0.023608552365993116,
+      "cd2_in_fallback_band": true,
+      "tau_vs_reported_order": 1.0,
+      "n_value": 13,
+      "n_pollution": 7
+     }
+    }
+   },
+   "status": "FAIL",
+   "limitation": "只做单列移动，未穷举分组划分；CD1/CD3 不随分组变化故不列入",
+   "fallback_relevance": "直接对应 M2 的触发条件 2（冲突率落到 (0.01,0.50) 之外）；任一变体越界即须提交使用者决定是否激活 M2"
+  },
+  "R5_equal_n_interval_width": {
+   "check_id": "R5_equal_n_interval_width",
+   "tested_claim": "book 的 bootstrap 区间宽（github 的 29.6 倍）由 n=171 解释，而非 book 域本身异常",
+   "why_load_bearing": "该归因是『book~wikipedia 不可区分』与『book 域级 Q 供 Q2 时须标注不可靠』两条结论的理由；若区间宽并非 n 所致，则须改归因为域内异质",
+   "sources": [
+    "results/Q1/experiments/round1/tables/q1a_domain_quality.csv",
+    "workspace/data/data_report.md#F3"
+   ],
+   "perturbation": "其余 6 域各无放回降采样至 n=171，重复 40 次后重算半宽",
+   "predeclared_criterion": "book 的实测半宽落在等 n 降采样半宽的 [min, max] 包络内",
+   "observed": {
+    "M0": {
+     "book_half_width_observed": 0.009130467932966901,
+     "book_n": 171,
+     "equal_n_subsample_half_width": {
+      "arxiv": {
+       "n_full": 18942,
+       "hw_mean": 0.0044060558099323285,
+       "hw_min": 0.003864071955008652,
+       "hw_max": 0.004989272879435902
+      },
+      "c4": {
+       "n_full": 10000,
+       "hw_mean": 0.013026502667692846,
+       "hw_min": 0.011188207975721065,
+       "hw_max": 0.016686356881268183
+      },
+      "commoncrawl": {
+       "n_full": 9636,
+       "hw_mean": 0.010619620415311278,
+       "hw_min": 0.007850328102957937,
+       "hw_max": 0.013206422486407465
+      },
+      "github": {
+       "n_full": 213751,
+       "hw_mean": 0.013215784740520287,
+       "hw_min": 0.011243170207766384,
+       "hw_max": 0.015032368209081132
+      },
+      "stackexchange": {
+       "n_full": 10000,
+       "hw_mean": 0.00950219164646034,
+       "hw_min": 0.008131194553485044,
+       "hw_max": 0.011391019596106666
+      },
+      "wikipedia": {
+       "n_full": 9986,
+       "hw_mean": 0.013034060996024954,
+       "hw_min": 0.011397239082850397,
+       "hw_max": 0.017272773566396338
+      }
+     },
+     "envelope": [
+      0.003864071955008652,
+      0.017272773566396338
+     ],
+     "book_inside_envelope": true
+    },
+    "M1": {
+     "book_half_width_observed": 0.00879743958239243,
+     "book_n": 171,
+     "equal_n_subsample_half_width": {
+      "arxiv": {
+       "n_full": 18942,
+       "hw_mean": 0.008150689709666467,
+       "hw_min": 0.007148722166892885,
+       "hw_max": 0.009416331237936976
+      },
+      "c4": {
+       "n_full": 10000,
+       "hw_mean": 0.01454756154306533,
+       "hw_min": 0.01223778298768427,
+       "hw_max": 0.016911614827355648
+      },
+      "commoncrawl": {
+       "n_full": 9636,
+       "hw_mean": 0.012417588295066524,
+       "hw_min": 0.009327884850324458,
+       "hw_max": 0.0159065521606786
+      },
+      "github": {
+       "n_full": 213751,
+       "hw_mean": 0.011414056387358915,
+       "hw_min": 0.009698042977109606,
+       "hw_max": 0.01382202232349046
+      },
+      "stackexchange": {
+       "n_full": 10000,
+       "hw_mean": 0.011710611761032122,
+       "hw_min": 0.010093225632544917,
+       "hw_max": 0.013289002166168573
+      },
+      "wikipedia": {
+       "n_full": 9986,
+       "hw_mean": 0.013125196306887577,
+       "hw_min": 0.010943714027036866,
+       "hw_max": 0.014662054868645177
+      }
+     },
+     "envelope": [
+      0.007148722166892885,
+      0.016911614827355648
+     ],
+     "book_inside_envelope": true
+    }
+   },
+   "status": "PASS",
+   "limitation": "包络是 6 域 × 40 次的经验极值，非正式检验；落在包络内只说明 n 足以解释宽度，不排除同时存在域内异质",
+   "fallback_relevance": "不涉及 M2 触发条件"
+  },
+  "R6_q_source_swap": {
+   "check_id": "R6_q_source_swap",
+   "tested_claim": "『17 维 p 加入域级 Q_corpus 后三尺度增量的 95% 区间均含 0』不依赖 Q 的来源方法与归一化臂",
+   "why_load_bearing": "该零结果要作为对题目『是否以及如何引入质量评分 Q 由参赛队伍论证』的有证据回答写入论文，但 round1 只用了 M1 pooled Huber 一个 Q 源；若换源后出现显著增量，则论文结论须改写",
+   "sources": [
+    "results/Q1/experiments/round1/metrics/q1_mixture_M0c.json#q_increment_test",
+    "results/Q1/experiments/round1/metrics/q1_quality_M0.json",
+    "results/Q1/experiments/round1/metrics/q1_quality_M1.json"
+   ],
+   "perturbation": "域级 Q 的来源 ∈ {M1,M0} × {pooled, per_domain}，其余口径（目标 pweighted13、同子集拟合、B=400）不变",
+   "predeclared_criterion": "全部 4 个 Q 源下，三个尺度的增量 95% 区间均含 0",
+   "observed": {
+    "M1_pooled": {
+     "domain_Q_used": {
+      "arxiv": 0.3814958169252389,
+      "book": 0.2667677487138408,
+      "c4": 0.36380540835066516,
+      "commoncrawl": 0.3479423814342351,
+      "github": 0.22330626848410468,
+      "stackexchange": 0.29429286232728874,
+      "wikipedia": 0.25563849117989446
+     },
+     "mapped_mass_median": 0.5995,
+     "n_train_used": 507,
+     "train_r2_A": 0.897237939073899,
+     "train_r2_B": 0.8972644252254816,
+     "by_scale": {
+      "test_1m": {
+       "n_used": 256,
+       "p_only_r2_deoffset": 0.9128971788613184,
+       "p_plus_Q_r2_deoffset": 0.9131786615918864,
+       "increment": 0.00028148273056805007,
+       "increment_ci95": [
+        -0.0002211129683945656,
+        0.0007929466183384996
+       ],
+       "ci_contains_zero": true,
+       "significant": false
+      },
+      "test_60m": {
+       "n_used": 256,
+       "p_only_r2_deoffset": 0.7716475445317985,
+       "p_plus_Q_r2_deoffset": 0.7714320496715983,
+       "increment": -0.00021549486020022712,
+       "increment_ci95": [
+        -0.0006024336402166375,
+        0.00014302922207171662
+       ],
+       "ci_contains_zero": true,
+       "significant": false
+      },
+      "test_1B": {
+       "n_used": 64,
+       "p_only_r2_deoffset": 0.7075329982575805,
+       "p_plus_Q_r2_deoffset": 0.706714270418627,
+       "increment": -0.0008187278389535368,
+       "increment_ci95": [
+        -0.0020975292713832777,
+        -3.831432666817703e-06
+       ],
+       "ci_contains_zero": false,
+       "significant": true
+      }
+     },
+     "q_range_across_domains": 0.1581895484411342
+    },
+    "M0_pooled": {
+     "domain_Q_used": {
+      "arxiv": 0.6493909156015422,
+      "book": 0.5263847797610973,
+      "c4": 0.6018769294789214,
+      "commoncrawl": 0.6012953484268058,
+      "github": 0.4736464703754714,
+      "stackexchange": 0.5830207436707928,
+      "wikipedia": 0.5325573825100731
+     },
+     "mapped_mass_median": 0.5995,
+     "n_train_used": 507,
+     "train_r2_A": 0.897237939073899,
+     "train_r2_B": 0.8972738928568497,
+     "by_scale": {
+      "test_1m": {
+       "n_used": 256,
+       "p_only_r2_deoffset": 0.9128971788613184,
+       "p_plus_Q_r2_deoffset": 0.9131750627970648,
+       "increment": 0.0002778839357464591,
+       "increment_ci95": [
+        -0.0003253231773668652,
+        0.0008870919814852879
+       ],
+       "ci_contains_zero": true,
+       "significant": false
+      },
+      "test_60m": {
+       "n_used": 256,
+       "p_only_r2_deoffset": 0.7716475445317985,
+       "p_plus_Q_r2_deoffset": 0.771369715579078,
+       "increment": -0.0002778289527205491,
+       "increment_ci95": [
+        -0.0007763432300749024,
+        0.0001729743047288869
+       ],
+       "ci_contains_zero": true,
+       "significant": false
+      },
+      "test_1B": {
+       "n_used": 64,
+       "p_only_r2_deoffset": 0.7075329982575805,
+       "p_plus_Q_r2_deoffset": 0.7066959221352036,
+       "increment": -0.0008370761223769341,
+       "increment_ci95": [
+        -0.002260682394705751,
+        5.1224318163861206e-05
+       ],
+       "ci_contains_zero": true,
+       "significant": false
+      }
+     },
+     "q_range_across_domains": 0.17574444522607074
+    },
+    "M1_per_domain": {
+     "domain_Q_used": {
+      "arxiv": 0.25017875648662075,
+      "book": 0.2507822467009479,
+      "c4": 0.25410393595943714,
+      "commoncrawl": 0.2568455539440042,
+      "github": 0.24533698375597812,
+      "stackexchange": 0.2498534511551785,
+      "wikipedia": 0.25010344035312887
+     },
+     "mapped_mass_median": 0.5995,
+     "n_train_used": 507,
+     "train_r2_A": 0.897237939073899,
+     "train_r2_B": 0.8987922566371418,
+     "by_scale": {
+      "test_1m": {
+       "n_used": 256,
+       "p_only_r2_deoffset": 0.9128971788613184,
+       "p_plus_Q_r2_deoffset": 0.9154204302441641,
+       "increment": 0.0025232513828457037,
+       "increment_ci95": [
+        -0.0016772775772182778,
+        0.006357188954461579
+       ],
+       "ci_contains_zero": true,
+       "significant": false
+      },
+      "test_60m": {
+       "n_used": 256,
+       "p_only_r2_deoffset": 0.7716475445317985,
+       "p_plus_Q_r2_deoffset": 0.7692529265716275,
+       "increment": -0.0023946179601710416,
+       "increment_ci95": [
+        -0.006377488490923438,
+        0.0008644098045456536
+       ],
+       "ci_contains_zero": true,
+       "significant": false
+      },
+      "test_1B": {
+       "n_used": 64,
+       "p_only_r2_deoffset": 0.7075329982575805,
+       "p_plus_Q_r2_deoffset": 0.7016629109408035,
+       "increment": -0.005870087316777073,
+       "increment_ci95": [
+        -0.015205905294240967,
+        0.00289566429877636
+       ],
+       "ci_contains_zero": true,
+       "significant": false
+      }
+     },
+     "q_range_across_domains": 0.01150857018802609
+    },
+    "M0_per_domain": {
+     "domain_Q_used": {
+      "arxiv": 0.502493754319274,
+      "book": 0.5028429527541137,
+      "c4": 0.5040502746517829,
+      "commoncrawl": 0.5032864920307475,
+      "github": 0.5018361244459492,
+      "stackexchange": 0.5007837758836282,
+      "wikipedia": 0.5035757029650002
+     },
+     "mapped_mass_median": 0.5995,
+     "n_train_used": 507,
+     "train_r2_A": 0.897237939073899,
+     "train_r2_B": 0.8979086264550137,
+     "by_scale": {
+      "test_1m": {
+       "n_used": 256,
+       "p_only_r2_deoffset": 0.9128971788613184,
+       "p_plus_Q_r2_deoffset": 0.9126509807766379,
+       "increment": -0.00024619808468051563,
+       "increment_ci95": [
+        -0.0024512818328579684,
+        0.0017590277191216848
+       ],
+       "ci_contains_zero": true,
+       "significant": false
+      },
+      "test_60m": {
+       "n_used": 256,
+       "p_only_r2_deoffset": 0.7716475445317985,
+       "p_plus_Q_r2_deoffset": 0.7706034626568479,
+       "increment": -0.001044081874950642,
+       "increment_ci95": [
+        -0.003036147035563788,
+        0.0008409433987794662
+       ],
+       "ci_contains_zero": true,
+       "significant": false
+      },
+      "test_1B": {
+       "n_used": 64,
+       "p_only_r2_deoffset": 0.7075329982575805,
+       "p_plus_Q_r2_deoffset": 0.7002902730161225,
+       "increment": -0.007242725241458081,
+       "increment_ci95": [
+        -0.020538835086280613,
+        0.0042069295427584995
+       ],
+       "ci_contains_zero": true,
+       "significant": false
+      }
+     },
+     "q_range_across_domains": 0.0032664987681546576
+    }
+   },
+   "status": "FAIL",
+   "limitation": "per_domain 臂的域级 Q 近乎恒等（极差约 0.003/0.012），其零增量部分是恒等输入的必然结果，不构成独立证据；构造性相关（Q_corpus 由 6/17 映射域的 p 加权而成）在所有源下同样存在",
+   "fallback_relevance": "不涉及 M2 触发条件"
+  },
+  "R7_target_definition_swap": {
+   "check_id": "R7_target_definition_swap",
+   "tested_claim": "M0c 的 17 个系数所表达的域效应方向，不是目标口径 pweighted13 的部分循环所造出来的",
+   "why_load_bearing": "AMB-Q1-2：pweighted13 把 p 同时置于等式两侧，须在论文声明；round1 只比了训练 R²（0.896 vs 0.296），未检验系数方向与跨尺度表现",
+   "sources": [
+    "results/Q1/experiments/round1/metrics/q1_mixture_M0c.json#target_comparison_mean13",
+    "code/Q1/q1_common.py#make_target"
+   ],
+   "perturbation": "目标变量由 pweighted13 换为 mean13（13 域简单均值），其余不变",
+   "predeclared_criterion": "两口径的系数符号一致率 >= 0.8，且 mean13 下三尺度去偏 R² 仍全为正",
+   "observed": {
+    "pweighted13": {
+     "train_r2": 0.8958076500288483,
+     "coef": {
+      "train_the_pile_arxiv": 3.8925625053467723,
+      "train_the_pile_freelaw": 4.111363742719915,
+      "train_the_pile_nih_exporter": 4.799634721859708,
+      "train_the_pile_pubmed_central": 4.100334138095452,
+      "train_the_pile_wikipedia_en": 5.010271966509738,
+      "train_the_pile_dm_mathematics": 2.1553453424691584,
+      "train_the_pile_github": 3.9727701515069302,
+      "train_the_pile_philpapers": 6.139533610345552,
+      "train_the_pile_stackexchange": 4.19501444291037,
+      "train_the_pile_enron_emails": 4.794013622270205,
+      "train_the_pile_gutenberg_pg_19": 5.090685826493679,
+      "train_the_pile_pile_cc": 5.253979854536466,
+      "train_the_pile_ubuntu_irc": 5.320232395430037,
+      "train_the_pile_europarl": 5.024980774429764,
+      "train_the_pile_hackernews": 5.51710719528703,
+      "train_the_pile_pubmed_abstracts": 4.717748493371401,
+      "train_the_pile_uspto_backgrounds": 4.413206577756675
+     },
+     "frac_coefs_sign_stable_ge_0.95": 1.0,
+     "mean_relative_se": 0.03373710988737639,
+     "validation_by_scale": {
+      "test_1m": {
+       "r2_after_offset_removal": 0.9131428810282568,
+       "spearman": 0.9530699244678414,
+       "bias_share_of_rmse": 0.03460960510855714
+      },
+      "test_60m": {
+       "r2_after_offset_removal": 0.7706036133327078,
+       "spearman": 0.9220917257953762,
+       "bias_share_of_rmse": 0.9877383673600968
+      },
+      "test_1B": {
+       "r2_after_offset_removal": 0.7046683378917764,
+       "spearman": 0.8871794871794871,
+       "bias_share_of_rmse": 0.9991515476347557
+      }
+     }
+    },
+    "mean13": {
+     "train_r2": 0.29623578938386796,
+     "coef": {
+      "train_the_pile_arxiv": 5.624926650455599,
+      "train_the_pile_freelaw": 5.717112661906338,
+      "train_the_pile_nih_exporter": 3.352876747577795,
+      "train_the_pile_pubmed_central": 5.559598208279448,
+      "train_the_pile_wikipedia_en": 5.432805458043371,
+      "train_the_pile_dm_mathematics": 4.21258266085589,
+      "train_the_pile_github": 5.6868832051253815,
+      "train_the_pile_philpapers": 1.2372322696848514,
+      "train_the_pile_stackexchange": 5.3040430742615445,
+      "train_the_pile_enron_emails": 0.9858240174332323,
+      "train_the_pile_gutenberg_pg_19": 5.1942086185394025,
+      "train_the_pile_pile_cc": 5.497629448494911,
+      "train_the_pile_ubuntu_irc": 3.287264163014526,
+      "train_the_pile_europarl": 4.288242533812512,
+      "train_the_pile_hackernews": 3.596065241687863,
+      "train_the_pile_pubmed_abstracts": 5.2793501650293,
+      "train_the_pile_uspto_backgrounds": 5.450215808625606
+     },
+     "frac_coefs_sign_stable_ge_0.95": 0.8823529411764706,
+     "mean_relative_se": 0.21980755123160253,
+     "validation_by_scale": {
+      "test_1m": {
+       "r2_after_offset_removal": 0.35920499515255966,
+       "spearman": 0.6260764763103683,
+       "bias_share_of_rmse": 0.21569113714909394
+      },
+      "test_60m": {
+       "r2_after_offset_removal": 0.2119486037577385,
+       "spearman": 0.5595480945296406,
+       "bias_share_of_rmse": 0.9918059860501353
+      },
+      "test_1B": {
+       "r2_after_offset_removal": -8.666829471910368,
+       "spearman": 0.34780219780219773,
+       "bias_share_of_rmse": 0.998720613555745
+      }
+     }
+    },
+    "comparison": {
+     "coef_sign_agreement": 1.0,
+     "n_coefs": 17,
+     "n_sign_flipped": 0,
+     "flipped_domains": [],
+     "spearman_between_coef_vectors": -0.5808823529411765,
+     "mean13_all_scales_r2_positive": false
+    }
+   },
+   "status": "FAIL",
+   "limitation": "mean13 不含配比权重，故其自身不是可主报的目标（训练 R² 仅 0.296）；本检查只用它作方向一致性的独立对照，不作为替代主报口径",
+   "fallback_relevance": "不涉及 M2 触发条件"
+  }
+ },
+ "human_verdict_required": {
+  "reason": "G4 要求账本含 result / stability / claim-scope 三类人工裁定。稳健性检查只产出证据与机械判定，不得由 AI 转换为置信度裁定或 claim 收窄决定",
+  "existing_ledger_records": "methods/Q1/q1_decisions.jsonl",
+  "missing_decision_types": [
+   "result_verdict",
+   "stability_verdict"
+  ]
+ }
+}

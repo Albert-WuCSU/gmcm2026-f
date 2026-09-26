@@ -1,0 +1,183 @@
+{
+ "schema_version": 1,
+ "method_id": "M0o",
+ "role": "usable_baseline",
+ "approved_decision_ids": [
+  "q3_p_joint_optimization",
+  "q3_structural_transition_definition",
+  "q3_optimum_acceptability_criterion"
+ ],
+ "spec": "fixed D/N = 20 (Chinchilla empirical), Q = Q0; implemented as carded, unmodified",
+ "by_budget": [
+  {
+   "method_id": "M0o",
+   "role": "usable_baseline",
+   "spec": "fixed D/N = 20 (Chinchilla Approach 1/2 empirical ratio), Q = Q0",
+   "r_chinchilla": 20.0,
+   "r_chinchilla_source": "Hoffmann et al. 2022 Approach 1/2 的 ~20 tokens/param 经验比例;与本律自身最优比值不同,见 chinchilla_reference",
+   "N_B": 0.27929910135546987,
+   "D_B": 5.585982027109397,
+   "Q": 0.35,
+   "loss": 3.253794624717184,
+   "cost_total": 9.999999999999998e+18,
+   "cost_parts": {
+    "C_train": 9.360958562156763e+18,
+    "C_Q": 0.0,
+    "C_attn": 6.390414378432351e+17
+   },
+   "cost_shares": {
+    "C_train": 0.9360958562156765,
+    "C_Q": 0.0,
+    "C_attn": 0.06390414378432352
+   },
+   "budget_violation_rel": -2.048e-16,
+   "D_over_N": 20.0,
+   "has_quality_channel": false,
+   "degeneracy_note": "无 Q 与 p 通道,退化是设计使然而非缺陷(方法卡 Baseline validity)",
+   "C": 1e+19
+  },
+  {
+   "method_id": "M0o",
+   "role": "usable_baseline",
+   "spec": "fixed D/N = 20 (Chinchilla Approach 1/2 empirical ratio), Q = Q0",
+   "r_chinchilla": 20.0,
+   "r_chinchilla_source": "Hoffmann et al. 2022 Approach 1/2 的 ~20 tokens/param 经验比例;与本律自身最优比值不同,见 chinchilla_reference",
+   "N_B": 8.832213087215063,
+   "D_B": 176.64426174430128,
+   "Q": 0.35,
+   "loss": 2.245726124436224,
+   "cost_total": 1e+22,
+   "cost_parts": {
+    "C_train": 9.360958562156764e+21,
+    "C_Q": 0.0,
+    "C_attn": 6.390414378432351e+20
+   },
+   "cost_shares": {
+    "C_train": 0.9360958562156764,
+    "C_Q": 0.0,
+    "C_attn": 0.06390414378432352
+   },
+   "budget_violation_rel": 0.0,
+   "D_over_N": 20.0,
+   "has_quality_channel": false,
+   "degeneracy_note": "无 Q 与 p 通道,退化是设计使然而非缺陷(方法卡 Baseline validity)",
+   "C": 1e+22
+  },
+  {
+   "method_id": "M0o",
+   "role": "usable_baseline",
+   "spec": "fixed D/N = 20 (Chinchilla Approach 1/2 empirical ratio), Q = Q0",
+   "r_chinchilla": 20.0,
+   "r_chinchilla_source": "Hoffmann et al. 2022 Approach 1/2 的 ~20 tokens/param 经验比例;与本律自身最优比值不同,见 chinchilla_reference",
+   "N_B": 88.32213087215064,
+   "D_B": 1766.4426174430128,
+   "Q": 0.35,
+   "loss": 1.9701840642911292,
+   "cost_total": 1e+24,
+   "cost_parts": {
+    "C_train": 9.360958562156765e+23,
+    "C_Q": 0.0,
+    "C_attn": 6.390414378432352e+22
+   },
+   "cost_shares": {
+    "C_train": 0.9360958562156765,
+    "C_Q": 0.0,
+    "C_attn": 0.06390414378432352
+   },
+   "budget_violation_rel": 0.0,
+   "D_over_N": 20.0,
+   "has_quality_channel": false,
+   "degeneracy_note": "无 Q 与 p 通道,退化是设计使然而非缺陷(方法卡 Baseline validity)",
+   "C": 1e+24
+  }
+ ],
+ "diagnostic_M0o_prime": [
+  {
+   "method_id": "M0o_prime",
+   "role": "diagnostic_reference_NOT_baseline",
+   "spec": "Q = Q0 fixed, D/N free (law's own no-quality optimum)",
+   "N_B": 0.14000786803753837,
+   "D_B": 11.143372027786015,
+   "Q": 0.35,
+   "loss": 3.2194341096592742,
+   "cost_total": 9.999999999999998e+18,
+   "cost_shares": {
+    "C_train": 0.9360958562156765,
+    "C_Q": 0.0,
+    "C_attn": 0.06390414378432353
+   },
+   "budget_violation_rel": -2.048e-16,
+   "D_over_N": 79.5910414463157,
+   "must_not": "不得作为官方 baseline 报出(计划 §5.3);M0o 的定义是否改动属未裁定项",
+   "C": 1e+19
+  },
+  {
+   "method_id": "M0o_prime",
+   "role": "diagnostic_reference_NOT_baseline",
+   "spec": "Q = Q0 fixed, D/N free (law's own no-quality optimum)",
+   "N_B": 3.167515113975836,
+   "D_B": 492.5500602903714,
+   "Q": 0.35,
+   "loss": 2.2195431694762546,
+   "cost_total": 1e+22,
+   "cost_shares": {
+    "C_train": 0.9360958562156765,
+    "C_Q": 0.0,
+    "C_attn": 0.06390414378432352
+   },
+   "budget_violation_rel": 0.0,
+   "D_over_N": 155.5004609503274,
+   "must_not": "不得作为官方 baseline 报出(计划 §5.3);M0o 的定义是否改动属未裁定项",
+   "C": 1e+22
+  },
+  {
+   "method_id": "M0o_prime",
+   "role": "diagnostic_reference_NOT_baseline",
+   "spec": "Q = Q0 fixed, D/N free (law's own no-quality optimum)",
+   "N_B": 25.337447669132246,
+   "D_B": 6157.525338513676,
+   "Q": 0.35,
+   "loss": 1.9510457967874608,
+   "cost_total": 9.999999999999998e+23,
+   "cost_shares": {
+    "C_train": 0.9360958562156765,
+    "C_Q": 0.0,
+    "C_attn": 0.06390414378432352
+   },
+   "budget_violation_rel": -1.3421772800000001e-16,
+   "D_over_N": 243.02074222002955,
+   "must_not": "不得作为官方 baseline 报出(计划 §5.3);M0o 的定义是否改动属未裁定项",
+   "C": 1e+24
+  }
+ ],
+ "baseline_gap_decomposition": [
+  {
+   "gap_reported": 0.10703134038570239,
+   "gap_quality_only": 0.07267082532779279,
+   "gap_ratio_handicap": 0.0343605150579096,
+   "handicap_share_of_reported_pct": 32.10322783409671,
+   "why": "HD-2 为相对 baseline 制。M0o 的 D/N 被强制为 20,而本律自身的无质量投入最优比值不同,故 gap_reported 含一部分与质量通道无关的虚增",
+   "status": "M0o 定义未改动;是否改动属使用者未裁定项",
+   "C": 1e+19
+  },
+  {
+   "gap_reported": 0.0946654457445315,
+   "gap_quality_only": 0.06848249078456226,
+   "gap_ratio_handicap": 0.02618295495996925,
+   "handicap_share_of_reported_pct": 27.65840772632896,
+   "why": "HD-2 为相对 baseline 制。M0o 的 D/N 被强制为 20,而本律自身的无质量投入最优比值不同,故 gap_reported 含一部分与质量通道无关的虚增",
+   "status": "M0o 定义未改动;是否改动属使用者未裁定项",
+   "C": 1e+22
+  },
+  {
+   "gap_reported": 0.05627526883604417,
+   "gap_quality_only": 0.03713700133237574,
+   "gap_ratio_handicap": 0.019138267503668427,
+   "handicap_share_of_reported_pct": 34.00830933287415,
+   "why": "HD-2 为相对 baseline 制。M0o 的 D/N 被强制为 20,而本律自身的无质量投入最优比值不同,故 gap_reported 含一部分与质量通道无关的虚增",
+   "status": "M0o 定义未改动;是否改动属使用者未裁定项",
+   "C": 1e+24
+  }
+ ],
+ "runtime_seconds": 0.013100624084472656
+}

@@ -1,0 +1,4 @@
+definition,verdict,location_log10_C,depends_on_threshold,depends_on_grid_step
+A 活跃约束集变化,TRANSITION_EXISTS,21.405181884765625,False,False
+C 成本分项占比排序变化,TRANSITION_EXISTS,22.625,False,True
+D 分配份额突变(delta=0.05),NO_TRANSITION,,True,True

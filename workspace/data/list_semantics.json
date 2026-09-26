@@ -1,0 +1,143 @@
+{
+ "rows": 51230,
+ "tests": {
+  "H1_binary_pairs": {
+   "ad_en": {
+    "corr_pos0_pos1": -0.984810386916529,
+    "sum_mean": 0.3066802227110828,
+    "sum_std": 0.37761160501104374
+   },
+   "fluency_en": {
+    "corr_pos0_pos1": -0.9803944673502936,
+    "sum_mean": 0.17812434795101523,
+    "sum_std": 0.35585761346813916
+   }
+  },
+  "vs_fineweb_edu": {
+   "ad_en|margin": {
+    "pearson_vs_fineweb_edu": 0.20754083714113325,
+    "spearman_vs_fineweb_edu": 0.18144429203269202
+   },
+   "ad_en|mean": {
+    "pearson_vs_fineweb_edu": 0.13055209902952425,
+    "spearman_vs_fineweb_edu": 0.13930802345333865
+   },
+   "ad_en|pos0": {
+    "pearson_vs_fineweb_edu": -0.21261203029924808,
+    "spearman_vs_fineweb_edu": -0.1822015716327415
+   },
+   "ad_en|pos1": {
+    "pearson_vs_fineweb_edu": 0.20213525465452248,
+    "spearman_vs_fineweb_edu": 0.18062433901210861
+   },
+   "ad_en|sigmoid_p1": {
+    "pearson_vs_fineweb_edu": 0.19063272193906464,
+    "spearman_vs_fineweb_edu": 0.18144429203269202
+   },
+   "fluency_en|margin": {
+    "pearson_vs_fineweb_edu": 0.27909479407153914,
+    "spearman_vs_fineweb_edu": 0.25464524839853475
+   },
+   "fluency_en|mean": {
+    "pearson_vs_fineweb_edu": -0.21147058932605553,
+    "spearman_vs_fineweb_edu": -0.19553847897418214
+   },
+   "fluency_en|pos0": {
+    "pearson_vs_fineweb_edu": -0.2823445133233595,
+    "spearman_vs_fineweb_edu": -0.2593167326112466
+   },
+   "fluency_en|pos1": {
+    "pearson_vs_fineweb_edu": 0.2723408430698028,
+    "spearman_vs_fineweb_edu": 0.24556913733835992
+   },
+   "fluency_en|sigmoid_p1": {
+    "pearson_vs_fineweb_edu": 0.2681100406725178,
+    "spearman_vs_fineweb_edu": 0.25464524839853475
+   },
+   "modernbert_cleanliness|argmax": {
+    "pearson_vs_fineweb_edu": 0.28771430187299973,
+    "spearman_vs_fineweb_edu": 0.28511592279443243
+   },
+   "modernbert_cleanliness|expected_class": {
+    "pearson_vs_fineweb_edu": 0.3018064616108301,
+    "spearman_vs_fineweb_edu": 0.30363179865900386
+   },
+   "modernbert_cleanliness|mean": {
+    "pearson_vs_fineweb_edu": -0.09233877730506902,
+    "spearman_vs_fineweb_edu": -0.0858013330098867
+   },
+   "modernbert_cleanliness|top_prob": {
+    "pearson_vs_fineweb_edu": 0.05681622823408573,
+    "spearman_vs_fineweb_edu": 0.06611537605852869
+   },
+   "modernbert_professionalism|argmax": {
+    "pearson_vs_fineweb_edu": 0.3279134625372081,
+    "spearman_vs_fineweb_edu": 0.3683259963890456
+   },
+   "modernbert_professionalism|expected_class": {
+    "pearson_vs_fineweb_edu": null,
+    "spearman_vs_fineweb_edu": 0.21192797772578786
+   },
+   "modernbert_professionalism|mean": {
+    "pearson_vs_fineweb_edu": null,
+    "spearman_vs_fineweb_edu": -0.1219333558499555
+   },
+   "modernbert_professionalism|top_prob": {
+    "pearson_vs_fineweb_edu": null,
+    "spearman_vs_fineweb_edu": -0.06445887451812157
+   },
+   "modernbert_readability|argmax": {
+    "pearson_vs_fineweb_edu": 0.30259186829746787,
+    "spearman_vs_fineweb_edu": 0.30644323849643973
+   },
+   "modernbert_readability|expected_class": {
+    "pearson_vs_fineweb_edu": 0.3309389140721718,
+    "spearman_vs_fineweb_edu": 0.326776899951657
+   },
+   "modernbert_readability|mean": {
+    "pearson_vs_fineweb_edu": -0.23803163709191993,
+    "spearman_vs_fineweb_edu": -0.22140164799657475
+   },
+   "modernbert_readability|top_prob": {
+    "pearson_vs_fineweb_edu": 0.15206899715591035,
+    "spearman_vs_fineweb_edu": 0.1398495815106246
+   },
+   "modernbert_reasoning|argmax": {
+    "pearson_vs_fineweb_edu": 0.4558946776697433,
+    "spearman_vs_fineweb_edu": 0.48481745235854434
+   },
+   "modernbert_reasoning|expected_class": {
+    "pearson_vs_fineweb_edu": null,
+    "spearman_vs_fineweb_edu": 0.33471623631515107
+   },
+   "modernbert_reasoning|mean": {
+    "pearson_vs_fineweb_edu": null,
+    "spearman_vs_fineweb_edu": -0.21147830568665457
+   },
+   "modernbert_reasoning|top_prob": {
+    "pearson_vs_fineweb_edu": null,
+    "spearman_vs_fineweb_edu": -0.09720762846776357
+   },
+   "qurater|mean": {
+    "pearson_vs_fineweb_edu": 0.5760621840727397,
+    "spearman_vs_fineweb_edu": 0.544657379935285
+   },
+   "qurater|pos0": {
+    "pearson_vs_fineweb_edu": 0.2395433944880736,
+    "spearman_vs_fineweb_edu": 0.2117771190745387
+   },
+   "qurater|pos1": {
+    "pearson_vs_fineweb_edu": 0.4786015046806003,
+    "spearman_vs_fineweb_edu": 0.4789478953309544
+   },
+   "qurater|pos2": {
+    "pearson_vs_fineweb_edu": 0.4180921868965316,
+    "spearman_vs_fineweb_edu": 0.3397234543737535
+   },
+   "qurater|pos3": {
+    "pearson_vs_fineweb_edu": 0.611980270941181,
+    "spearman_vs_fineweb_edu": 0.5962710300167893
+   }
+  }
+ }
+}

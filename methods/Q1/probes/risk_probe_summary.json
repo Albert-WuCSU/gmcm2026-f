@@ -1,0 +1,1263 @@
+{
+ "schema_version": 1,
+ "question_id": "Q1",
+ "generated_at": "2026-09-24T13:48:45+08:00",
+ "rigor_profile": "lean",
+ "seed": 20260924,
+ "data_refs": [
+  "workspace/data/data_profile.json",
+  "workspace/data/data_report.md",
+  "workspace/data/q1_probe_quality.json",
+  "workspace/data/q1_probe_quality2.json",
+  "workspace/data/q1_probe_corr.json",
+  "workspace/data/q1_probe_mixture.json",
+  "workspace/data/q1_polarity_evidence.json"
+ ],
+ "probe_scripts": [
+  "workspace/code/scripts/q1_features.py",
+  "workspace/code/scripts/probe_q1_polarity.py",
+  "workspace/code/scripts/probe_q1_quality.py",
+  "workspace/code/scripts/probe_q1_corr.py",
+  "workspace/code/scripts/probe_q1_quality2.py",
+  "workspace/code/scripts/probe_q1_mixture.py"
+ ],
+ "shortlist_structure_rationale": {
+  "counts": {
+   "main_candidate": 2,
+   "usable_baseline": 2,
+   "conditional_fallback": 1
+  },
+  "why_not_one_each": "Q1 含两个数学上不可合并的估计问题：(i) 22 指标 → 质量评分 Q 的多指标合成（Q1a/Q1b，无监督、无目标变量）；(ii) 17 维配比 → Loss 的有监督回归（Q1c，有目标变量与独立检验集）。二者的输入、目标、检验口径均不同，任何单一方法无法同时完成。HD-2 亦分别为 Q1a/Q1b/Q1c 声明了 baseline。故按『每个估计问题恰一主一 baseline』计：质量侧 M1/M0，配比侧 M1c/M0c，共享一个 fallback M2。非为凑候选数量。",
+  "per_problem": {
+   "quality_side": {
+    "main": "M1",
+    "baseline": "M0",
+    "fallback": "M2"
+   },
+   "mixture_side": {
+    "main": "M1c",
+    "baseline": "M0c",
+    "fallback": null
+   }
+  }
+ },
+ "direction_table": {
+  "fineweb_edu": {
+   "sign": 1,
+   "tier": "A",
+   "basis": "赛题正文明示：教育价值越高越好"
+  },
+  "ad_en_margin": {
+   "sign": 1,
+   "tier": "A",
+   "basis": "原文核验：margin 最低 6/6 条为广告文案，最高端为论坛/新闻 → margin 度量非广告性"
+  },
+  "fluency_en_margin": {
+   "sign": 1,
+   "tier": "A",
+   "basis": "原文核验：margin 最低端为 SEO 垃圾/机翻乱码，最高端为通顺散文 → margin 度量流畅度"
+  },
+  "modernbert_cleanliness": {
+   "sign": 1,
+   "tier": "A",
+   "basis": "6 类有序 logits 的 softmax 期望类别，与 fineweb_edu pearson +0.302"
+  },
+  "modernbert_readability": {
+   "sign": 1,
+   "tier": "A",
+   "basis": "期望类别与 fineweb_edu pearson +0.331"
+  },
+  "modernbert_reasoning": {
+   "sign": 1,
+   "tier": "A",
+   "basis": "期望类别与 fineweb_edu spearman +0.485"
+  },
+  "modernbert_professionalism": {
+   "sign": 1,
+   "tier": "A",
+   "basis": "期望类别与 fineweb_edu spearman +0.368"
+  },
+  "qurater": {
+   "sign": 1,
+   "tier": "A",
+   "basis": "4 个准则与 fineweb_edu 全为正相关 +0.24~+0.61"
+  },
+  "dsir_books": {
+   "sign": 1,
+   "tier": "C",
+   "basis": "DSIR 对数似然比，越大越接近 books 参照分布；AUC(arxiv:github)=0.034 强域指示，'更像书=质量更高'属建模判断"
+  },
+  "dsir_wiki": {
+   "sign": 1,
+   "tier": "C",
+   "basis": "同上，AUC=0.035"
+  },
+  "dsir_math": {
+   "sign": 1,
+   "tier": "C",
+   "basis": "同上，AUC=0.045"
+  },
+  "rps_doc_word_count": {
+   "sign": 1,
+   "tier": "C",
+   "basis": "文档长度对质量非单调；AUC=0.987 近乎纯域标签"
+  },
+  "rps_doc_num_sentences": {
+   "sign": 1,
+   "tier": "C",
+   "basis": "句数对质量非单调；AUC=0.947"
+  },
+  "rps_doc_unigram_entropy": {
+   "sign": 1,
+   "tier": "B",
+   "basis": "一元词熵 = 词汇多样性，低熵对应重复/模板文本"
+  },
+  "rps_doc_frac_unique_words": {
+   "sign": 1,
+   "tier": "B",
+   "basis": "唯一词占比高 = 重复度低"
+  },
+  "rps_doc_frac_no_alph_words": {
+   "sign": -1,
+   "tier": "B",
+   "basis": "非字母词占比高 = 符号/数字噪声，Gopher 过滤视为劣质"
+  },
+  "rps_doc_frac_chars_top_2gram": {
+   "sign": -1,
+   "tier": "B",
+   "basis": "最高频 2-gram 字符占比高 = 模板化重复"
+  },
+  "rps_doc_frac_chars_top_3gram": {
+   "sign": -1,
+   "tier": "B",
+   "basis": "最高频 3-gram 字符占比高 = 模板化重复"
+  },
+  "rps_lines_uppercase_letter_fraction": {
+   "sign": -1,
+   "tier": "B",
+   "basis": "大写字母占比高 = 标题堆砌/全大写喊话"
+  },
+  "rps_lines_ending_with_terminal_punctution_mark": {
+   "sign": 1,
+   "tier": "B",
+   "basis": "C4 规则保留以终止标点结尾的行，句子完整性"
+  },
+  "rps_lines_numerical_chars_fraction": {
+   "sign": -1,
+   "tier": "B",
+   "basis": "数字字符占比高 = 表格/清单残渣"
+  },
+  "rps_doc_mean_word_length": {
+   "sign": 0,
+   "tier": "C",
+   "basis": "非单调：Gopher 过滤保留区间约 [3,10]，过短为乱码、过长为连写/编码残渣（本库 max=83）"
+  }
+ },
+ "direction_tier_counts": {
+  "A": 8,
+  "B": 8,
+  "C": 6
+ },
+ "tierC_direction_sensitivity": {
+  "baseline_all_plus": {
+   "domain_order_best_to_worst": [
+    "arxiv",
+    "c4",
+    "commoncrawl",
+    "stackexchange",
+    "book",
+    "wikipedia",
+    "github"
+   ],
+   "domain_huber": {
+    "arxiv": 0.63353,
+    "book": 0.52672,
+    "c4": 0.58348,
+    "commoncrawl": 0.57383,
+    "github": 0.48029,
+    "stackexchange": 0.55278,
+    "wikipedia": 0.52182
+   },
+   "domain_range": 0.153244,
+   "auc_arxiv_vs_github_of_Q": 0.9838
+  },
+  "dsir_negative": {
+   "domain_order_best_to_worst": [
+    "arxiv",
+    "book",
+    "commoncrawl",
+    "stackexchange",
+    "c4",
+    "wikipedia",
+    "github"
+   ],
+   "domain_huber": {
+    "arxiv": 0.75267,
+    "book": 0.6534,
+    "c4": 0.54032,
+    "commoncrawl": 0.59583,
+    "github": 0.46996,
+    "stackexchange": 0.54299,
+    "wikipedia": 0.48344
+   },
+   "domain_range": 0.282706,
+   "auc_arxiv_vs_github_of_Q": 0.9961,
+   "max_rank_shift_vs_baseline": 3,
+   "spearman_vs_baseline": 0.7438
+  },
+  "length_negative": {
+   "domain_order_best_to_worst": [
+    "c4",
+    "arxiv",
+    "stackexchange",
+    "commoncrawl",
+    "wikipedia",
+    "github",
+    "book"
+   ],
+   "domain_huber": {
+    "arxiv": 0.55347,
+    "book": 0.43772,
+    "c4": 0.58673,
+    "commoncrawl": 0.5394,
+    "github": 0.48875,
+    "stackexchange": 0.54783,
+    "wikipedia": 0.53426
+   },
+   "domain_range": 0.149011,
+   "auc_arxiv_vs_github_of_Q": 0.7625,
+   "max_rank_shift_vs_baseline": 2,
+   "spearman_vs_baseline": 0.6252
+  },
+  "dsir_and_length_negative": {
+   "domain_order_best_to_worst": [
+    "arxiv",
+    "book",
+    "commoncrawl",
+    "c4",
+    "stackexchange",
+    "wikipedia",
+    "github"
+   ],
+   "domain_huber": {
+    "arxiv": 0.67263,
+    "book": 0.56403,
+    "c4": 0.5462,
+    "commoncrawl": 0.56239,
+    "github": 0.47875,
+    "stackexchange": 0.53738,
+    "wikipedia": 0.49786
+   },
+   "domain_range": 0.193881,
+   "auc_arxiv_vs_github_of_Q": 0.9952,
+   "max_rank_shift_vs_baseline": 3,
+   "spearman_vs_baseline": 0.8854
+  },
+  "mwl_as_plus": {
+   "domain_order_best_to_worst": [
+    "arxiv",
+    "c4",
+    "commoncrawl",
+    "stackexchange",
+    "book",
+    "wikipedia",
+    "github"
+   ],
+   "domain_huber": {
+    "arxiv": 0.62429,
+    "book": 0.52479,
+    "c4": 0.58023,
+    "commoncrawl": 0.5698,
+    "github": 0.48223,
+    "stackexchange": 0.54667,
+    "wikipedia": 0.51268
+   },
+   "domain_range": 0.142058,
+   "auc_arxiv_vs_github_of_Q": 0.9817,
+   "max_rank_shift_vs_baseline": 0,
+   "spearman_vs_baseline": 0.9977
+  }
+ },
+ "eliminated_with_evidence": [
+  {
+   "candidate": "熵权法 / 熵权-TOPSIS 族",
+   "reason": "权重离散度完全由归一化方案决定：分位数下退化为等权（max/equal=1.002），Min-Max 下 58% 权重压在 3 列且其中 2 列方向未定",
+   "evidence": "workspace/data/q1_probe_corr.json"
+  },
+  {
+   "candidate": "Q = V − P 差值式合成",
+   "reason": "跨零导致 CV=1.44e6，且负 Q 与 Q3 的g(Q)=γQ^4、γe^{6Q} 不相容",
+   "evidence": "workspace/data/q1_probe_quality2.json"
+  },
+  {
+   "candidate": "绝对阈冲突判据（V>0.75 ∧ P>0.75）",
+   "reason": "冲突率恰为 0.0，因 16 列均值的 p75 仅 0.567",
+   "evidence": "workspace/data/q1_probe_quality2.json"
+  },
+  {
+   "candidate": "平方根变换主效应回归（M2c）",
+   "reason": "训练 R²=−2.78，不可用",
+   "evidence": "workspace/data/q1_probe_mixture.json"
+  },
+  {
+   "candidate": "ILR 等对数比变换",
+   "reason": "512 行中 511 行含精确零，每行中位 8/17 域为零",
+   "evidence": "workspace/data/profile_a_mixture.json"
+  }
+ ],
+ "methods": [
+  {
+   "id": "M0",
+   "name": "22 指标方向统一后等权平均（域级用截尾均值/Huber 聚合）",
+   "role": "usable_baseline",
+   "subtasks": [
+    "Q1a",
+    "Q1b"
+   ],
+   "baseline_source": "HD-2=B 指定",
+   "executability": {
+    "status": "PASS",
+    "evidence": {
+     "rows": 272486,
+     "runtime_seconds": 87.2,
+     "produces_legal_output": true,
+     "output_range": "[0,1]"
+    }
+   },
+   "data_coverage": {
+    "status": "PASS",
+    "evidence": {
+     "rows_used": 272486,
+     "rows_available": 272505,
+     "rows_dropped_nan": {
+      "A1": 18,
+      "A2": 0,
+      "A3": 1
+     },
+     "coverage_rate": 0.99993,
+     "selection_rule": "A1+A2+A3 全量流式读取，非抽样；仅剔除整条 NaN 向量行",
+     "domains": [
+      "arxiv",
+      "book",
+      "c4",
+      "commoncrawl",
+      "github",
+      "stackexchange",
+      "wikipedia"
+     ],
+     "smallest_domain": {
+      "book": 171
+     },
+     "largest_domain": {
+      "github": 213751
+     },
+     "imbalance_ratio_max_over_min": 1250.0,
+     "book_bootstrap_ci_width": 0.015369,
+     "github_bootstrap_ci_width": 0.000515,
+     "ci_width_ratio_book_over_github": 29.8
+    },
+    "notes": [
+     "剔除行数 A1=18 / A3=1 与 workspace/data/missingness_a.json 的独立审计精确一致",
+     "book 域 bootstrap 区间宽度为 github 的 29.6 倍，域级 Q 的可分辨性受限"
+    ]
+   },
+   "assumption_checks": [
+    {
+     "name": "direction_table_internal_consistency",
+     "status": "FAIL",
+     "metric": "n_pairs_corr_lt_-0.5_after_direction_unification",
+     "value": 20,
+     "threshold": 0,
+     "evidence": {
+      "n_pairs_lt_-0.8": 10,
+      "n_involving_tier_C": 17,
+      "worst_pairs": [
+       {
+        "a": "dsir_math",
+        "b": "rps_doc_word_count",
+        "r": -0.9346,
+        "tier_a": "C",
+        "tier_b": "C"
+       },
+       {
+        "a": "dsir_wiki",
+        "b": "rps_doc_word_count",
+        "r": -0.9284,
+        "tier_a": "C",
+        "tier_b": "C"
+       },
+       {
+        "a": "dsir_books",
+        "b": "rps_doc_word_count",
+        "r": -0.9268,
+        "tier_a": "C",
+        "tier_b": "C"
+       }
+      ]
+     },
+     "interpretation": "两指标都已统一为『越高越好』却强负相关，至少一方方向赋值与数据不相容；20 对中 17 对涉及 Tier C（dsir×3 / word_count / num_sentences）",
+     "blocks": "须由使用者裁定 Tier C 方向语义后方可解除"
+    },
+    {
+     "name": "indicator_redundancy",
+     "status": "CONDITIONAL",
+     "metric": "max_abs_offdiag_corr",
+     "value": 0.9998,
+     "threshold": 0.9,
+     "evidence": {
+      "dsir_triple_mutual_r": 0.9998,
+      "n_pairs_gt_0.9": 7,
+      "n_pairs_gt_0.7": 26,
+      "corr_condition_number": 55721.8,
+      "pc1_variance_share": 0.3818,
+      "pc1_pc2_variance_share": 0.5379
+     },
+     "interpretation": "dsir_books/wiki/math 互相关 0.999，实质是 1 个指标而非 3 个；等权会把同一信号计 3 次。无单一主因子（PC1 仅 38.2%）",
+     "mitigation": "dsir 三列合为 1 个代表量或按 1/3 降权，并在方法卡记录"
+    },
+    {
+     "name": "naive_minmax_numerical_degeneracy",
+     "status": "FAIL",
+     "metric": "median_position_in_naive_minmax_range",
+     "value": 0.000273,
+     "threshold": "应接近 0.5",
+     "evidence": {
+      "rps_doc_word_count": 0.000273,
+      "rps_doc_num_sentences": 0.000755,
+      "rps_doc_frac_chars_top_3gram": 0.003521,
+      "dsir_books": 0.998826,
+      "dsir_wiki": 0.998783,
+      "dsir_math": 0.998696
+     },
+     "interpretation": "GC2 字面示例『Min-Max 归一化后 x→1-x』在 6 个重尾指标上数值退化：word_count 中位数落在量程 0.027% 处，dsir_* 落在 99.88% 处",
+     "mitigation": "先 1%-99% 截尾或改用经验分位数归一化；GC2 的硬性要求是『统一为越高越好』，补转换公式为示例（原文『例如』）"
+    },
+    {
+     "name": "normalization_population_unresolved",
+     "status": "CONDITIONAL",
+     "metric": "tradeoff_between_deconfounding_and_cross_domain_signal",
+     "evidence": {
+      "pooled|ecdf": {
+       "cross_domain_range": 0.153244,
+       "auc_of_Q_recovering_domain": 0.9838
+      },
+      "pooled|winsor_minmax": {
+       "cross_domain_range": 0.149579,
+       "auc_of_Q_recovering_domain": 0.9876
+      },
+      "per_domain|ecdf": {
+       "cross_domain_range": 0.002771,
+       "auc_of_Q_recovering_domain": 0.4982
+      },
+      "per_domain|winsor_minmax": {
+       "cross_domain_range": 0.112299,
+       "auc_of_Q_recovering_domain": 0.9275
+      },
+      "ref_A1|ecdf": {
+       "cross_domain_range": 0.194198,
+       "auc_of_Q_recovering_domain": 0.9936
+      },
+      "ref_A1|winsor_minmax": {
+       "cross_domain_range": 0.13748,
+       "auc_of_Q_recovering_domain": 0.9851
+      }
+     },
+     "interpretation": "按域归一化(ecdf)把 Q 的域标签信息降到 AUC=0.498，但域间极差同时降到 0.0028，域级 Q 近乎恒等，与 Q1a 必交产出『域级 Q 并与抽样集对照』冲突；合并/参照 A1 口径下 AUC 0.98-0.99，Q 近乎等价于域标签",
+     "blocks": "须由使用者裁定口径"
+    },
+    {
+     "name": "entropy_weighting_is_normalization_artifact",
+     "status": "FAIL",
+     "metric": "entropy_weight_max_over_equal_weight",
+     "value": 1.002,
+     "evidence": {
+      "under_ecdf": 1.002,
+      "under_winsor_minmax": 6.276,
+      "top3_mass_under_minmax": 0.58,
+      "top3_columns_under_minmax": [
+       "rps_doc_word_count",
+       "rps_doc_num_sentences",
+       "modernbert_reasoning"
+      ],
+      "pearson_weight_vs_domain_separation": 0.5672
+     },
+     "interpretation": "分位数归一化后各列边际分布相同，熵权退化为等权（max/equal=1.002，零增量）；截尾 Min-Max 下熵权把 58% 质量压在 3 个指标上，其中 2 个恰是方向未定且域指示性最强的长度类指标（AUC 0.987/0.947）。故熵权法在本题不构成有依据的主方法，已据证据排除",
+     "eliminates": "entropy_weight_TOPSIS_family"
+    }
+   ],
+   "output_degeneracy": {
+    "status": "PASS",
+    "metrics": {
+     "std": 0.080818,
+     "coefficient_of_variation": 0.161637,
+     "unique_output_count": 174593,
+     "unique_ratio": 0.640741,
+     "gini": 0.091513,
+     "top1pct_mass_share": 0.01362,
+     "domain_huber_range": 0.153244,
+     "domain_huber": {
+      "arxiv": 0.63353,
+      "book": 0.52672,
+      "c4": 0.58348,
+      "commoncrawl": 0.57383,
+      "github": 0.48029,
+      "stackexchange": 0.55278,
+      "wikipedia": 0.52182
+     }
+    },
+    "interpretation": "无退化：评分连续、唯一值比 0.64、基尼 0.092、域间极差 0.153",
+    "caveat": "域序为 arxiv>c4>commoncrawl>stackexchange>book>wikipedia>github，wikipedia 次末、c4 第二，与『质量』的常识排序不符，说明合并口径下该合成量更接近『长篇散文性』而非质量"
+   },
+   "perturbation_sensitivity": {
+    "status": "PASS",
+    "perturbation": "weights uniform +/-10%, reps=40",
+    "metrics": {
+     "perturbation": "weights uniform +/-10%, reps=40",
+     "domain_rank_kendall_tau_mean": 0.9833,
+     "domain_rank_kendall_tau_min": 0.9048,
+     "domain_rank_max_position_change_max": 1,
+     "frac_reps_domain_order_unchanged": 0.825,
+     "sample_top1pct_overlap_mean": 0.9278,
+     "sample_top1pct_overlap_min": 0.8491
+    }
+   },
+   "scale_check": {
+    "status": "PASS",
+    "representative_n": 272486,
+    "runtime_seconds": 87.2,
+    "peak_memory_mb": 355.3,
+    "note": "个人电脑可完成，满足 GC11"
+   },
+   "verdict": "CONDITIONAL",
+   "conditions": [
+    "Tier C 方向语义须由使用者裁定（direction_table_internal_consistency = FAIL）",
+    "dsir 三列冗余须处理（r=0.999）",
+    "归一化总体口径须由使用者裁定",
+    "GC2 字面 Min-Max 须替换为截尾或分位数版本"
+   ],
+   "evidence_refs": [
+    "workspace/data/q1_probe_quality.json",
+    "workspace/data/q1_probe_quality2.json"
+   ]
+  },
+  {
+   "id": "M1",
+   "name": "语义分组 V/P + 门控合成 Q=V·(1−P)；冲突 = 高价值∧高污染（分位数锚定）",
+   "role": "main_candidate",
+   "subtasks": [
+    "Q1a",
+    "Q1b"
+   ],
+   "executability": {
+    "status": "PASS",
+    "evidence": {
+     "rows": 272486,
+     "runtime_seconds": 87.2,
+     "n_value_cols": 16,
+     "n_pollution_cols": 6
+    }
+   },
+   "data_coverage": {
+    "status": "PASS",
+    "evidence": {
+     "rows_used": 272486,
+     "rows_available": 272505,
+     "rows_dropped_nan": {
+      "A1": 18,
+      "A2": 0,
+      "A3": 1
+     },
+     "coverage_rate": 0.99993,
+     "selection_rule": "A1+A2+A3 全量流式读取，非抽样；仅剔除整条 NaN 向量行",
+     "domains": [
+      "arxiv",
+      "book",
+      "c4",
+      "commoncrawl",
+      "github",
+      "stackexchange",
+      "wikipedia"
+     ],
+     "smallest_domain": {
+      "book": 171
+     },
+     "largest_domain": {
+      "github": 213751
+     },
+     "imbalance_ratio_max_over_min": 1250.0,
+     "book_bootstrap_ci_width": 0.015369,
+     "github_bootstrap_ci_width": 0.000515,
+     "ci_width_ratio_book_over_github": 29.8
+    },
+    "notes": [
+     "剔除行数 A1=18 / A3=1 与 workspace/data/missingness_a.json 的独立审计精确一致",
+     "book 域 bootstrap 区间宽度为 github 的 29.6 倍，域级 Q 的可分辨性受限"
+    ]
+   },
+   "assumption_checks": [
+    {
+     "name": "direction_table_internal_consistency",
+     "status": "FAIL",
+     "metric": "n_pairs_corr_lt_-0.5_after_direction_unification",
+     "value": 20,
+     "threshold": 0,
+     "evidence": {
+      "n_pairs_lt_-0.8": 10,
+      "n_involving_tier_C": 17,
+      "worst_pairs": [
+       {
+        "a": "dsir_math",
+        "b": "rps_doc_word_count",
+        "r": -0.9346,
+        "tier_a": "C",
+        "tier_b": "C"
+       },
+       {
+        "a": "dsir_wiki",
+        "b": "rps_doc_word_count",
+        "r": -0.9284,
+        "tier_a": "C",
+        "tier_b": "C"
+       },
+       {
+        "a": "dsir_books",
+        "b": "rps_doc_word_count",
+        "r": -0.9268,
+        "tier_a": "C",
+        "tier_b": "C"
+       }
+      ]
+     },
+     "interpretation": "两指标都已统一为『越高越好』却强负相关，至少一方方向赋值与数据不相容；20 对中 17 对涉及 Tier C（dsir×3 / word_count / num_sentences）",
+     "blocks": "须由使用者裁定 Tier C 方向语义后方可解除"
+    },
+    {
+     "name": "indicator_redundancy",
+     "status": "CONDITIONAL",
+     "metric": "max_abs_offdiag_corr",
+     "value": 0.9998,
+     "threshold": 0.9,
+     "evidence": {
+      "dsir_triple_mutual_r": 0.9998,
+      "n_pairs_gt_0.9": 7,
+      "n_pairs_gt_0.7": 26,
+      "corr_condition_number": 55721.8,
+      "pc1_variance_share": 0.3818,
+      "pc1_pc2_variance_share": 0.5379
+     },
+     "interpretation": "dsir_books/wiki/math 互相关 0.999，实质是 1 个指标而非 3 个；等权会把同一信号计 3 次。无单一主因子（PC1 仅 38.2%）",
+     "mitigation": "dsir 三列合为 1 个代表量或按 1/3 降权，并在方法卡记录"
+    },
+    {
+     "name": "naive_minmax_numerical_degeneracy",
+     "status": "FAIL",
+     "metric": "median_position_in_naive_minmax_range",
+     "value": 0.000273,
+     "threshold": "应接近 0.5",
+     "evidence": {
+      "rps_doc_word_count": 0.000273,
+      "rps_doc_num_sentences": 0.000755,
+      "rps_doc_frac_chars_top_3gram": 0.003521,
+      "dsir_books": 0.998826,
+      "dsir_wiki": 0.998783,
+      "dsir_math": 0.998696
+     },
+     "interpretation": "GC2 字面示例『Min-Max 归一化后 x→1-x』在 6 个重尾指标上数值退化：word_count 中位数落在量程 0.027% 处，dsir_* 落在 99.88% 处",
+     "mitigation": "先 1%-99% 截尾或改用经验分位数归一化；GC2 的硬性要求是『统一为越高越好』，补转换公式为示例（原文『例如』）"
+    },
+    {
+     "name": "normalization_population_unresolved",
+     "status": "CONDITIONAL",
+     "metric": "tradeoff_between_deconfounding_and_cross_domain_signal",
+     "evidence": {
+      "pooled|ecdf": {
+       "cross_domain_range": 0.153244,
+       "auc_of_Q_recovering_domain": 0.9838
+      },
+      "pooled|winsor_minmax": {
+       "cross_domain_range": 0.149579,
+       "auc_of_Q_recovering_domain": 0.9876
+      },
+      "per_domain|ecdf": {
+       "cross_domain_range": 0.002771,
+       "auc_of_Q_recovering_domain": 0.4982
+      },
+      "per_domain|winsor_minmax": {
+       "cross_domain_range": 0.112299,
+       "auc_of_Q_recovering_domain": 0.9275
+      },
+      "ref_A1|ecdf": {
+       "cross_domain_range": 0.194198,
+       "auc_of_Q_recovering_domain": 0.9936
+      },
+      "ref_A1|winsor_minmax": {
+       "cross_domain_range": 0.13748,
+       "auc_of_Q_recovering_domain": 0.9851
+      }
+     },
+     "interpretation": "按域归一化(ecdf)把 Q 的域标签信息降到 AUC=0.498，但域间极差同时降到 0.0028，域级 Q 近乎恒等，与 Q1a 必交产出『域级 Q 并与抽样集对照』冲突；合并/参照 A1 口径下 AUC 0.98-0.99，Q 近乎等价于域标签",
+     "blocks": "须由使用者裁定口径"
+    },
+    {
+     "name": "entropy_weighting_is_normalization_artifact",
+     "status": "FAIL",
+     "metric": "entropy_weight_max_over_equal_weight",
+     "value": 1.002,
+     "evidence": {
+      "under_ecdf": 1.002,
+      "under_winsor_minmax": 6.276,
+      "top3_mass_under_minmax": 0.58,
+      "top3_columns_under_minmax": [
+       "rps_doc_word_count",
+       "rps_doc_num_sentences",
+       "modernbert_reasoning"
+      ],
+      "pearson_weight_vs_domain_separation": 0.5672
+     },
+     "interpretation": "分位数归一化后各列边际分布相同，熵权退化为等权（max/equal=1.002，零增量）；截尾 Min-Max 下熵权把 58% 质量压在 3 个指标上，其中 2 个恰是方向未定且域指示性最强的长度类指标（AUC 0.987/0.947）。故熵权法在本题不构成有依据的主方法，已据证据排除",
+     "eliminates": "entropy_weight_TOPSIS_family"
+    },
+    {
+     "name": "VP_block_cohesion",
+     "status": "CONDITIONAL",
+     "metric": "mean_signed_corr_within_group",
+     "value": {
+      "within_value": 0.0511,
+      "within_pollution": 0.0261,
+      "between": 0.0156
+     },
+     "interpretation": "V/P 分组不具相关内聚性（组内均值 0.051/0.026，与组间 0.016 同量级），故分组是语义划分而非统计块；但组间近零相关恰是冲突非空的前提",
+     "mitigation": "分组依据须在论文中以指标语义论证，不得声称由相关结构导出"
+    },
+    {
+     "name": "conflict_definition_non_degeneracy",
+     "status": "CONDITIONAL",
+     "metric": "conflict_rate_must_be_in_open_interval_0_1",
+     "evidence": {
+      "CD2_absolute_threshold_0.75": 0.0,
+      "CD2_quantile_anchored_p75": 0.036277,
+      "CD1_global_MAD_gt_0.25": 0.374753,
+      "CD3_ge3_high_and_ge3_low": 0.673583,
+      "CD3_ge5_high_and_ge5_low": 0.391106,
+      "corr_V_vs_P": -0.1089,
+      "V_p75_actual": 0.56736,
+      "P_p75_actual": 0.58716
+     },
+     "interpretation": "绝对阈版冲突率恰为 0.0（退化）：V 为 16 列均值，标准差仅约 0.072，实际 p75 只有 0.567，『>0.75』几乎无样本。分位数锚定版 0.0363 可用。思路文档第 4 页的『高价值×高污染』定义须改为分位数锚定才成立",
+     "mitigation": "冲突判据一律用分位数锚定；绝对阈版已据证据排除"
+    }
+   ],
+   "output_degeneracy": {
+    "status": "PASS",
+    "metrics": {
+     "gated_form": {
+      "std": 0.081857,
+      "coefficient_of_variation": 0.325734,
+      "unique_output_count": 175744,
+      "unique_ratio": 0.644965,
+      "top1pct_mass_share": 0.018929,
+      "gini": 0.184652,
+      "p05_p95_spread": 0.270741,
+      "domain_huber_range": 0.135074,
+      "domain_huber": {
+       "arxiv": 0.36673,
+       "book": 0.26672,
+       "c4": 0.34891,
+       "commoncrawl": 0.32596,
+       "github": 0.23165,
+       "stackexchange": 0.27279,
+       "wikipedia": 0.24919
+      }
+     },
+     "difference_form": {
+      "std": 0.1651,
+      "coefficient_of_variation": 1439602.489558,
+      "unique_output_count": 212335,
+      "unique_ratio": 0.779251,
+      "top1pct_mass_share": 33610.884068,
+      "gini": 816926.00337,
+      "p05_p95_spread": 0.543003,
+      "domain_huber_range": 0.248754,
+      "domain_huber": {
+       "arxiv": 0.21684,
+       "book": 0.03514,
+       "c4": 0.18356,
+       "commoncrawl": 0.14249,
+       "github": -0.03191,
+       "stackexchange": 0.05143,
+       "wikipedia": 0.00306
+      }
+     }
+    },
+    "interpretation": "门控式 Q=V·(1−P) 无退化（sd 0.082、基尼 0.185、域间极差 0.135）且恒在 [0,1]",
+    "eliminated_variant": {
+     "form": "Q = V − P",
+     "reason": "跨零使均值近 0，CV 达 1.44e6、基尼 8.17e5 均失去意义；且负 Q 与 Q3 成本函数 g(Q)=γQ^4 与 γe^{6Q} 不相容",
+     "evidence": {
+      "coefficient_of_variation": 1439602.489558,
+      "gini": 816926.00337
+     }
+    }
+   },
+   "perturbation_sensitivity": {
+    "status": "PASS",
+    "perturbation": "weights uniform +/-10%, reps=40",
+    "metrics": {
+     "perturbation": "weights uniform +/-10%, reps=40",
+     "domain_rank_kendall_tau_mean": 0.9833,
+     "domain_rank_kendall_tau_min": 0.9048,
+     "domain_rank_max_position_change_max": 1,
+     "frac_reps_domain_order_unchanged": 0.825,
+     "sample_top1pct_overlap_mean": 0.9278,
+     "sample_top1pct_overlap_min": 0.8491
+    },
+    "note": "扰动施于等权基准；分组权重的扰动须在 G3 复测"
+   },
+   "scale_check": {
+    "status": "PASS",
+    "representative_n": 272486,
+    "runtime_seconds": 87.2,
+    "peak_memory_mb": 355.3
+   },
+   "verdict": "CONDITIONAL",
+   "conditions": [
+    "与 M0 相同的四项前置（方向 / 冗余 / 口径 / Min-Max）",
+    "只采用门控式，差值式已排除",
+    "冲突判据须分位数锚定",
+    "V/P 分组须以语义论证，不得声称由相关结构导出"
+   ],
+   "evidence_refs": [
+    "workspace/data/q1_probe_quality2.json",
+    "workspace/data/q1_probe_corr.json"
+   ]
+  },
+  {
+   "id": "M2",
+   "name": "指标间稳健序统计合成（中位数）+ 指标离散度冲突判据",
+   "role": "conditional_fallback",
+   "subtasks": [
+    "Q1a",
+    "Q1b"
+   ],
+   "probe_depth": "仅探至可信度足以确认触发条件与风险轮廓，未完整实现",
+   "executability": {
+    "status": "PASS",
+    "evidence": {
+     "rows": 272486
+    }
+   },
+   "data_coverage": {
+    "status": "PASS",
+    "evidence": {
+     "same_as": "M0"
+    }
+   },
+   "assumption_checks": [
+    {
+     "name": "robustness_to_direction_misassignment",
+     "status": "PASS",
+     "metric": "median_is_insensitive_to_minority_wrong_signs",
+     "interpretation": "22 列中位数不受少数列方向错配主导，是对direction_table_internal_consistency=FAIL 的针对性缓解"
+    }
+   ],
+   "output_degeneracy": {
+    "status": "PASS",
+    "metrics": {
+     "std": 0.146216,
+     "coefficient_of_variation": 0.289553,
+     "unique_output_count": 196656,
+     "unique_ratio": 0.72171,
+     "top1pct_mass_share": 0.017404,
+     "gini": 0.162274,
+     "p05_p95_spread": 0.517262,
+     "domain_huber_range": 0.32704,
+     "domain_huber": {
+      "arxiv": 0.79447,
+      "book": 0.63854,
+      "c4": 0.63554,
+      "commoncrawl": 0.60082,
+      "github": 0.46743,
+      "stackexchange": 0.578,
+      "wikipedia": 0.53586
+     }
+    },
+    "interpretation": "域间极差 0.327，为三法中最大；sd 0.146、基尼 0.162，无退化"
+   },
+   "perturbation_sensitivity": {
+    "status": "NOT_PROBED",
+    "reason": "按 method-selector 规则，fallback 只探到触发条件可信即止"
+   },
+   "scale_check": {
+    "status": "PASS",
+    "representative_n": 272486
+   },
+   "verdict": "PASS",
+   "activation_trigger": {
+    "trigger": "使用者裁定 Tier C 方向后，若 direction_table_internal_consistency 仍有≥3 对 r<−0.8 的矛盾对，或 M1 门控式在所选口径下冲突率落到 (0.01,0.50) 之外",
+    "evidence_to_evaluate": [
+     "methods/Q1/probes/risk_probe_summary.json#methods[?id=='M1'].assumption_checks",
+     "workspace/data/q1_probe_quality2.json"
+    ]
+   },
+   "evidence_refs": [
+    "workspace/data/q1_probe_quality2.json"
+   ]
+  },
+  {
+   "id": "M0c",
+   "name": "17 维配比线性回归（去截距/指定参照域），目标为配比加权 13 域 Loss",
+   "role": "usable_baseline",
+   "subtasks": [
+    "Q1c"
+   ],
+   "baseline_source": "HD-2=B 指定",
+   "executability": {
+    "status": "PASS",
+    "evidence": {
+     "runtime_seconds": 5.5,
+     "train_r2": 0.89581
+    }
+   },
+   "data_coverage": {
+    "status": "CONDITIONAL",
+    "evidence": {
+     "train_rows": 512,
+     "test_rows": {
+      "test_1m": 256,
+      "test_60m": 256,
+      "test_1B": 64
+     },
+     "extrapolation_rows": {
+      "est_10b": 63,
+      "est_70b": 63
+     },
+     "zero_rate_train": 0.45129,
+     "zeros_per_row_median_train": 8.0,
+     "top3_mass_median": {
+      "train_1m": 0.8785,
+      "test_1B": 0.6895
+     },
+     "mixture_shift": {
+      "test_1m": {
+       "nn_L1_to_train_median": 0.4275,
+       "nn_L1_to_train_max": 0.734,
+       "train_internal_nn_L1_median": 0.4235,
+       "ratio_median": 1.009,
+       "frac_exact_duplicate_of_train": 0.0
+      },
+      "test_60m": {
+       "nn_L1_to_train_median": 0.4275,
+       "nn_L1_to_train_max": 0.734,
+       "train_internal_nn_L1_median": 0.4235,
+       "ratio_median": 1.009,
+       "frac_exact_duplicate_of_train": 0.0
+      },
+      "test_1B": {
+       "nn_L1_to_train_median": 0.5945,
+       "nn_L1_to_train_max": 0.774,
+       "train_internal_nn_L1_median": 0.4235,
+       "ratio_median": 1.404,
+       "frac_exact_duplicate_of_train": 0.0
+      },
+      "est_10b": {
+       "nn_L1_to_train_median": 0.0,
+       "nn_L1_to_train_max": 0.0,
+       "train_internal_nn_L1_median": 0.4235,
+       "ratio_median": 0.0,
+       "frac_exact_duplicate_of_train": 1.0
+      },
+      "est_70b": {
+       "nn_L1_to_train_median": 0.0,
+       "nn_L1_to_train_max": 0.0,
+       "train_internal_nn_L1_median": 0.4235,
+       "ratio_median": 0.0,
+       "frac_exact_duplicate_of_train": 1.0
+      }
+     }
+    },
+    "interpretation": "A12/A14 的配比行与训练集完全重复（frac_exact_duplicate=1.0），故 A12–A15 只能检验 Loss 外推，不能检验配比泛化；A10（1B）配比离训练集最近邻 L1 距离为训练内部间距的 1.40 倍，属轻度外推",
+    "notes": [
+     "ILR 变换已排除：训练表 512 行中 511 行含精确零、每行中位 8/17 域为零"
+    ]
+   },
+   "assumption_checks": [
+    {
+     "name": "simplex_induced_singularity",
+     "status": "CONDITIONAL",
+     "metric": "condition_number",
+     "value": {
+      "main_only_17": 61.2,
+      "with_intercept_18": 4773.4
+     },
+     "evidence": {
+      "rowsum_max_deviation": 0.004,
+      "smallest_singular_with_intercept": 0.004951
+     },
+     "interpretation": "Σp=1 理论上使截距与 17 列之和完全共线；实测未奇异（cond 61→4773，×78）仅因行和有千分位舍入（最大偏离 0.004）。即截距只靠舍入噪声可辨识，其系数无实质解释；baseline 须显式去截距或指定参照域，不可依赖舍入。",
+     "mitigation": "显式去截距或指定参照域；不得依赖千分位舍入来辨识截距"
+    },
+    {
+     "name": "target_aggregation_choice",
+     "status": "CONDITIONAL",
+     "metric": "train_r2_and_coefficient_stability_by_target",
+     "value": {
+      "pweighted13": {
+       "train_r2": 0.89581,
+       "sign_stable_frac": 1.0,
+       "mean_relative_se": 0.035
+      },
+      "mean13": {
+       "train_r2": 0.29624,
+       "sign_stable_frac": 0.8824,
+       "mean_relative_se": 0.2215
+      }
+     },
+     "interpretation": "配比加权 13 域 Loss 作目标时条件数与系数稳定性远优于 13 域简单均值（R² 0.896 vs 0.296，符号稳定 1.000 vs 0.882，相对 SE 0.035 vs 0.222）；但该目标把 p 同时放在等式两侧，存在部分循环，须在论文中声明",
+     "open_item": "AMB-Q1-2：13 维 Loss 是否汇总为单一标量，题目授权本队论证"
+    },
+    {
+     "name": "cross_scale_transfer",
+     "status": "PASS",
+     "metric": "bias_share_of_rmse_and_r2_after_offset_removal",
+     "evidence": {
+      "test_1m": {
+       "r2_raw": 0.91304,
+       "bias_share_of_rmse": 0.0346,
+       "r2_after_offset_removal": 0.91314,
+       "spearman": 0.9531
+      },
+      "test_60m": {
+       "r2_raw": -8.41194,
+       "bias_share_of_rmse": 0.9877,
+       "r2_after_offset_removal": 0.7706,
+       "spearman": 0.9221
+      },
+      "test_1B": {
+       "r2_raw": -173.11526,
+       "bias_share_of_rmse": 0.9992,
+       "r2_after_offset_removal": 0.70467,
+       "spearman": 0.8872
+      },
+      "est_10b": {
+       "r2_raw": -180.57212,
+       "bias_share_of_rmse": 0.9954,
+       "r2_after_offset_removal": -0.65608,
+       "spearman": 0.547
+      },
+      "est_70b": {
+       "r2_raw": -282.2933,
+       "bias_share_of_rmse": 0.9961,
+       "r2_after_offset_removal": -1.22418,
+       "spearman": 0.4762
+      }
+     },
+     "interpretation": "原始 R² 在 60m/1B 为 −8.4/−173，但 bias 占 RMSE 的 98.8%/99.9%；去掉按尺度的常数偏移后 R² 回到 0.771/0.705、Spearman 0.922/0.887。即配比→Loss 的形状跨尺度可迁移，只有水平随模型规模平移。故 A6–A11 的验证口径必须含按尺度截距，或改用秩相关",
+     "caveat": "est_10b/est_70b 去偏后 R² 仍为负（−0.66/−1.22），说明 A13/A15 的幂律外推未保持配比响应形状，只能作定性讨论（符合 GC5）"
+    }
+   ],
+   "output_degeneracy": {
+    "status": "PASS",
+    "metrics": {
+     "n_coef": 17,
+     "coef_top5_share_of_l1": 0.348,
+     "coef_abs_max": 6.1395,
+     "pred_std_vs_true_std_test_1m": [
+      0.30672,
+      0.32535
+     ]
+    },
+    "interpretation": "系数无过度集中（top5 占 L1 的 34.8%），预测离散度与真实相当"
+   },
+   "perturbation_sensitivity": {
+    "status": "PASS",
+    "metrics": {
+     "B": 200,
+     "frac_coefs_sign_stable_ge_0.95": 1.0,
+     "median_sign_stability": 1.0,
+     "mean_relative_se": 0.035
+    },
+    "interpretation": "200 次自助重采样下 17 个系数 100% 符号稳定，平均相对标准误 0.035"
+   },
+   "scale_check": {
+    "status": "PASS",
+    "representative_n": 512,
+    "runtime_seconds": 5.5
+   },
+   "verdict": "PASS",
+   "conditions": [],
+   "evidence_refs": [
+    "workspace/data/q1_probe_mixture.json"
+   ]
+  },
+  {
+   "id": "M1c",
+   "name": "主效应 + 二阶交互（153 特征）+ 岭正则，CV 选 λ",
+   "role": "main_candidate",
+   "subtasks": [
+    "Q1c"
+   ],
+   "executability": {
+    "status": "PASS",
+    "evidence": {
+     "n_features": 153,
+     "n_rows": 512,
+     "features_over_rows": 0.299,
+     "selected_lambda": 0.001,
+     "runtime_seconds": 5.5
+    }
+   },
+   "data_coverage": {
+    "status": "CONDITIONAL",
+    "evidence": {
+     "train_rows": 512,
+     "test_rows": {
+      "test_1m": 256,
+      "test_60m": 256,
+      "test_1B": 64
+     },
+     "extrapolation_rows": {
+      "est_10b": 63,
+      "est_70b": 63
+     },
+     "zero_rate_train": 0.45129,
+     "zeros_per_row_median_train": 8.0,
+     "top3_mass_median": {
+      "train_1m": 0.8785,
+      "test_1B": 0.6895
+     },
+     "mixture_shift": {
+      "test_1m": {
+       "nn_L1_to_train_median": 0.4275,
+       "nn_L1_to_train_max": 0.734,
+       "train_internal_nn_L1_median": 0.4235,
+       "ratio_median": 1.009,
+       "frac_exact_duplicate_of_train": 0.0
+      },
+      "test_60m": {
+       "nn_L1_to_train_median": 0.4275,
+       "nn_L1_to_train_max": 0.734,
+       "train_internal_nn_L1_median": 0.4235,
+       "ratio_median": 1.009,
+       "frac_exact_duplicate_of_train": 0.0
+      },
+      "test_1B": {
+       "nn_L1_to_train_median": 0.5945,
+       "nn_L1_to_train_max": 0.774,
+       "train_internal_nn_L1_median": 0.4235,
+       "ratio_median": 1.404,
+       "frac_exact_duplicate_of_train": 0.0
+      },
+      "est_10b": {
+       "nn_L1_to_train_median": 0.0,
+       "nn_L1_to_train_max": 0.0,
+       "train_internal_nn_L1_median": 0.4235,
+       "ratio_median": 0.0,
+       "frac_exact_duplicate_of_train": 1.0
+      },
+      "est_70b": {
+       "nn_L1_to_train_median": 0.0,
+       "nn_L1_to_train_max": 0.0,
+       "train_internal_nn_L1_median": 0.4235,
+       "ratio_median": 0.0,
+       "frac_exact_duplicate_of_train": 1.0
+      }
+     }
+    },
+    "interpretation": "A12/A14 的配比行与训练集完全重复（frac_exact_duplicate=1.0），故 A12–A15 只能检验 Loss 外推，不能检验配比泛化；A10（1B）配比离训练集最近邻 L1 距离为训练内部间距的 1.40 倍，属轻度外推",
+    "notes": [
+     "ILR 变换已排除：训练表 512 行中 511 行含精确零、每行中位 8/17 域为零"
+    ]
+   },
+   "assumption_checks": [
+    {
+     "name": "interaction_identifiability",
+     "status": "FAIL",
+     "metric": "frac_coefs_sign_stable_ge_0.95",
+     "value": 0.549,
+     "threshold": 0.95,
+     "evidence": {
+      "baseline_M0c": 1.0,
+      "mean_relative_se_M1c": 1.5143,
+      "mean_relative_se_M0c": 0.035,
+      "cond_153_features": 46511.8,
+      "top3_mass_median_train": 0.8785
+     },
+     "interpretation": "交互项系数符号稳定率仅 0.549（baseline 1.000），平均相对标准误 1.514（baseline 0.035）。512 行、每行中位 8/17 域为零、top3 质量占 0.879，136 个二阶交互项无法逐项辨识。可用于整体预测，不可对单个交互项做『某两域互补/替代』的定量断言",
+     "blocks": "禁止把单个交互系数解释为域间替代关系；域组合影响须改用组级或方向性证据（如按 KKT/梯度的联合扰动）表述"
+    },
+    {
+     "name": "cross_scale_transfer_gain_over_baseline",
+     "status": "FAIL",
+     "metric": "r2_after_offset_removal_vs_baseline",
+     "value": {
+      "test_1m": {
+       "M1c": 0.9834,
+       "M0c": 0.91314
+      },
+      "test_60m": {
+       "M1c": 0.76564,
+       "M0c": 0.7706
+      },
+      "test_1B": {
+       "M1c": 0.65826,
+       "M0c": 0.70467
+      }
+     },
+     "interpretation": "同尺度（1m）交互项确有增益 0.913→0.983；但 60m 基本持平（0.771→0.766），1B 反而更差（0.705→0.658）。即增益是尺度局部的，不构成跨尺度优势",
+     "triggers_escalation": "HD-2 已预告：baseline 强而主方法增量小时须由使用者判断增量是否值得"
+    }
+   ],
+   "output_degeneracy": {
+    "status": "PASS",
+    "metrics": {
+     "n_coef": 153,
+     "coef_top5_share_of_l1": 0.136,
+     "train_r2": 0.98424
+    },
+    "interpretation": "预测不退化，但系数分散（top5 仅占 L1 的 13.6%）正对应不可辨识"
+   },
+   "perturbation_sensitivity": {
+    "status": "FAIL",
+    "metrics": {
+     "B": 200,
+     "frac_coefs_sign_stable_ge_0.95": 0.549,
+     "median_sign_stability": 0.985,
+     "mean_relative_se": 1.5143
+    },
+    "interpretation": "见 interaction_identifiability"
+   },
+   "scale_check": {
+    "status": "PASS",
+    "representative_n": 512,
+    "runtime_seconds": 5.5
+   },
+   "verdict": "CONDITIONAL",
+   "conditions": [
+    "只能声明整体预测精度，不得对单个二阶交互系数作域间替代/互补的定量断言",
+    "跨尺度增益不成立，须由使用者判断同尺度增量是否值得（HD-2 升级条款）",
+    "A6–A11 验证须含按尺度截距或改用秩相关"
+   ],
+   "evidence_refs": [
+    "workspace/data/q1_probe_mixture.json"
+   ]
+  }
+ ],
+ "human_decisions_required": [
+  {
+   "decision_id": "q1_tierC_direction",
+   "why_human": "指标方向语义属物理/领域解释，AI 不得代定",
+   "impact": "book 域级 Q 在五种方向假设下位列第 5/2/7/2/5 位，跨 5 个名次（7 域中），单次变更最大名次位移 3，Spearman 最低 0.625"
+  },
+  {
+   "decision_id": "q1_normalization_population",
+   "why_human": "去混淆与保留跨域信号不可兼得，取舍属建模判断",
+   "impact": "决定域级 Q 是否可用作 Q2/Q3 的输入"
+  },
+  {
+   "decision_id": "q1c_interaction_tradeoff",
+   "why_human": "HD-2 已预告的升级条款：baseline 强、主方法增量为尺度局部",
+   "impact": "决定 Q1c 是否声明域组合效应"
+  }
+ ],
+ "overall_gate_status": "G2 探针完成；M0c 为 PASS，M0/M1/M1c 为 CONDITIONAL，M2 为 PASS（fallback）。三项人工裁定未完成前不进入 G2.5"
+}

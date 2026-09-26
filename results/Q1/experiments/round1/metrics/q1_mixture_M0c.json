@@ -1,0 +1,328 @@
+{
+ "schema_version": 1,
+ "method_id": "M0c",
+ "role": "usable_baseline",
+ "subtasks": [
+  "Q1c"
+ ],
+ "seed": 20260924,
+ "definition": "17 维 p 线性回归，显式去截距；目标 pweighted13",
+ "baseline_source": "HD-2=B 指定",
+ "target_declaration": {
+  "primary": "pweighted13",
+  "circularity_warning": "该目标把 p 同时置于等式两侧，存在部分循环，须在论文声明（AMB-Q1-2）",
+  "unit": "交叉熵 nats/token"
+ },
+ "mixture_domains": [
+  "train_the_pile_arxiv",
+  "train_the_pile_freelaw",
+  "train_the_pile_nih_exporter",
+  "train_the_pile_pubmed_central",
+  "train_the_pile_wikipedia_en",
+  "train_the_pile_dm_mathematics",
+  "train_the_pile_github",
+  "train_the_pile_philpapers",
+  "train_the_pile_stackexchange",
+  "train_the_pile_enron_emails",
+  "train_the_pile_gutenberg_pg_19",
+  "train_the_pile_pile_cc",
+  "train_the_pile_ubuntu_irc",
+  "train_the_pile_europarl",
+  "train_the_pile_hackernews",
+  "train_the_pile_pubmed_abstracts",
+  "train_the_pile_uspto_backgrounds"
+ ],
+ "loss_domains": [
+  "metric/the_pile_arxiv_val_loss",
+  "metric/the_pile_freelaw_val_loss",
+  "metric/the_pile_pubmed_central_val_loss",
+  "metric/the_pile_wikipedia_en_val_loss",
+  "metric/the_pile_dm_mathematics_val_loss",
+  "metric/the_pile_github_val_loss",
+  "metric/the_pile_stackexchange_val_loss",
+  "metric/the_pile_gutenberg_pg_19_val_loss",
+  "metric/the_pile_pile_cc_val_loss",
+  "metric/the_pile_ubuntu_irc_val_loss",
+  "metric/the_pile_hackernews_val_loss",
+  "metric/the_pile_pubmed_abstracts_val_loss",
+  "metric/the_pile_uspto_backgrounds_val_loss"
+ ],
+ "n_train_rows": 512,
+ "train": {
+  "r2": 0.8958076500288483,
+  "n": 512
+ },
+ "probe_monitors": {
+  "simplex_induced_singularity": {
+   "cond_main_17_no_intercept": 61.239895330576324,
+   "cond_with_intercept_18": 4773.353496133449,
+   "rowsum_max_deviation": 0.0040000000000000036,
+   "intercept_explicitly_removed": true
+  }
+ },
+ "reference_domain_variant": {
+  "reference_domain": "train_the_pile_pile_cc",
+  "train_r2": 0.8955487332184566,
+  "note": "与去截距版在 Σp=1 下数学等价；列此以示不依赖千分位舍入"
+ },
+ "validation_by_scale": {
+  "test_1m": {
+   "n": 256,
+   "r2_raw": 0.9130387166493963,
+   "r2_after_offset_removal": 0.9131428810282568,
+   "spearman": 0.9530699244678414,
+   "bias": -0.0033205452887797964,
+   "rmse": 0.09594288286053862,
+   "bias_share_of_rmse": 0.03460960510855714
+  },
+  "test_60m": {
+   "n": 256,
+   "r2_raw": -8.411937873434578,
+   "r2_after_offset_removal": 0.7706036133327078,
+   "spearman": 0.9220917257953762,
+   "bias": -1.3415454757381717,
+   "rmse": 1.3581992155713118,
+   "bias_share_of_rmse": 0.9877383673600968
+  },
+  "test_1B": {
+   "n": 64,
+   "r2_raw": -173.11525667650517,
+   "r2_after_offset_removal": 0.7046683378917764,
+   "spearman": 0.8871794871794871,
+   "bias": -2.407698520420243,
+   "rmse": 2.4097430726298468,
+   "bias_share_of_rmse": 0.9991515476347557
+  }
+ },
+ "extrapolation_qualitative_only": {
+  "est_10b": {
+   "n": 63,
+   "r2_raw": -180.57212147393227,
+   "r2_after_offset_removal": -0.656077788771253,
+   "spearman": 0.5469950076804916,
+   "bias": -2.925271181096,
+   "rmse": 2.938703500762293,
+   "bias_share_of_rmse": 0.9954291681134866,
+   "qualitative_only": true,
+   "reason": "A12/A14 配比行与训练集重复率 1.0，只能检验 Loss 外推（GC5）"
+  },
+  "est_70b": {
+   "n": 63,
+   "r2_raw": -282.29329775069397,
+   "r2_after_offset_removal": -1.2241755956527096,
+   "spearman": 0.47623847926267276,
+   "bias": -3.242001963662468,
+   "rmse": 3.2548041038339024,
+   "bias_share_of_rmse": 0.9960666941041538,
+   "qualitative_only": true,
+   "reason": "A12/A14 配比行与训练集重复率 1.0，只能检验 Loss 外推（GC5）"
+  }
+ },
+ "target_comparison_mean13": {
+  "train_r2": 0.29623578938386796,
+  "note": "对照口径。pweighted13 的 R² 显著更高，是选它的依据；但循环性须声明"
+ },
+ "coef_stability": {
+  "B": 400,
+  "frac_coefs_sign_stable_ge_0.95": 1.0,
+  "median_sign_stability": 1.0,
+  "mean_relative_se": 0.03373710988737639
+ },
+ "coefficients": [
+  {
+   "feature": "train_the_pile_arxiv",
+   "coef": 3.89256250534677,
+   "sign_stability": 1.0,
+   "se": 0.023324493802077417,
+   "relative_se": 0.005992066606519283
+  },
+  {
+   "feature": "train_the_pile_freelaw",
+   "coef": 4.111363742719921,
+   "sign_stability": 1.0,
+   "se": 0.028261629865620436,
+   "relative_se": 0.0068740280924216215
+  },
+  {
+   "feature": "train_the_pile_nih_exporter",
+   "coef": 4.799634721860013,
+   "sign_stability": 1.0,
+   "se": 0.41237719395907996,
+   "relative_se": 0.08591845376917986
+  },
+  {
+   "feature": "train_the_pile_pubmed_central",
+   "coef": 4.100334138095453,
+   "sign_stability": 1.0,
+   "se": 0.029193625780546312,
+   "relative_se": 0.007119816287485862
+  },
+  {
+   "feature": "train_the_pile_wikipedia_en",
+   "coef": 5.0102719665097375,
+   "sign_stability": 1.0,
+   "se": 0.02894545171319357,
+   "relative_se": 0.005777221657162374
+  },
+  {
+   "feature": "train_the_pile_dm_mathematics",
+   "coef": 2.155345342469165,
+   "sign_stability": 1.0,
+   "se": 0.10185238729450817,
+   "relative_se": 0.047255715957715626
+  },
+  {
+   "feature": "train_the_pile_github",
+   "coef": 3.9727701515069294,
+   "sign_stability": 1.0,
+   "se": 0.029885502406309845,
+   "relative_se": 0.00752258531618645
+  },
+  {
+   "feature": "train_the_pile_philpapers",
+   "coef": 6.139533610345052,
+   "sign_stability": 1.0,
+   "se": 0.388260574350747,
+   "relative_se": 0.06323942484760274
+  },
+  {
+   "feature": "train_the_pile_stackexchange",
+   "coef": 4.195014442910377,
+   "sign_stability": 1.0,
+   "se": 0.034945379719348885,
+   "relative_se": 0.008330216783498082
+  },
+  {
+   "feature": "train_the_pile_enron_emails",
+   "coef": 4.794013622270317,
+   "sign_stability": 1.0,
+   "se": 1.012894179827799,
+   "relative_se": 0.21128312508801747
+  },
+  {
+   "feature": "train_the_pile_gutenberg_pg_19",
+   "coef": 5.090685826493696,
+   "sign_stability": 1.0,
+   "se": 0.05066412279534034,
+   "relative_se": 0.0099523177273417
+  },
+  {
+   "feature": "train_the_pile_pile_cc",
+   "coef": 5.253979854536473,
+   "sign_stability": 1.0,
+   "se": 0.018475479278706044,
+   "relative_se": 0.0035164731860845753
+  },
+  {
+   "feature": "train_the_pile_ubuntu_irc",
+   "coef": 5.320232395430037,
+   "sign_stability": 1.0,
+   "se": 0.13047450074499722,
+   "relative_se": 0.024524210795203602
+  },
+  {
+   "feature": "train_the_pile_europarl",
+   "coef": 5.024980774429727,
+   "sign_stability": 1.0,
+   "se": 0.19498773328133226,
+   "relative_se": 0.038803677473464755
+  },
+  {
+   "feature": "train_the_pile_hackernews",
+   "coef": 5.5171071952870845,
+   "sign_stability": 1.0,
+   "se": 0.18116856589894825,
+   "relative_se": 0.032837601207696146
+  },
+  {
+   "feature": "train_the_pile_pubmed_abstracts",
+   "coef": 4.717748493371414,
+   "sign_stability": 1.0,
+   "se": 0.0299456646929191,
+   "relative_se": 0.0063474483082329855
+  },
+  {
+   "feature": "train_the_pile_uspto_backgrounds",
+   "coef": 4.413206577756679,
+   "sign_stability": 1.0,
+   "se": 0.036349309698327004,
+   "relative_se": 0.00823648498158545
+  }
+ ],
+ "q_increment_test": {
+  "mapping_info": {
+   "n_mapped_domains": 6,
+   "mapped": [
+    "arxiv",
+    "wikipedia_en",
+    "github",
+    "stackexchange",
+    "gutenberg_pg_19",
+    "pile_cc"
+   ],
+   "mapped_mass_median": 0.5995,
+   "mapped_mass_min": 0.0,
+   "mapped_mass_max": 1.0,
+   "n_rows_with_zero_mapped_mass": 5,
+   "n_rows_total": 512,
+   "zero_mass_handling": "该类行在 6 个映射域上配比质量全为 0，无任何质量信息；不作插补，嵌套检验限定在 mass>0 的同一子集上（A/B 同行，保持可比）"
+  },
+  "domain_Q_source": "M1 pooled Huber",
+  "fit_subset": {
+   "n_train_used": 507,
+   "n_train_dropped_zero_mass": 5,
+   "note": "A（仅 p）与 B（p+Q）在同一子集上拟合与评估"
+  },
+  "cond_17": 60.98207463687169,
+  "cond_18_with_Q": 86.06952159930644,
+  "train_r2_A": 0.897237939073899,
+  "train_r2_B": 0.8972644252254816,
+  "constructive_correlation_note": "Q_corpus 由 6 个已映射域的 p 加权构成，与 p 存在构造性相关，须在论文声明",
+  "by_scale": {
+   "test_1m": {
+    "n_used": 256,
+    "n_dropped_zero_mass": 0,
+    "p_only_r2_deoffset": 0.9128971788613184,
+    "p_plus_Q_r2_deoffset": 0.9131786615918864,
+    "increment": 0.00028148273056805007,
+    "increment_ci95": [
+     -0.000220122328034944,
+     0.0008030283007274121
+    ],
+    "significant": false,
+    "p_only_spearman": 0.9523181792172121,
+    "p_plus_Q_spearman": 0.9526021400778208
+   },
+   "test_60m": {
+    "n_used": 256,
+    "n_dropped_zero_mass": 0,
+    "p_only_r2_deoffset": 0.7716475445317985,
+    "p_plus_Q_r2_deoffset": 0.7714320496715983,
+    "increment": -0.00021549486020022712,
+    "increment_ci95": [
+     -0.0006606950047855969,
+     0.00013069326612011865
+    ],
+    "significant": false,
+    "p_only_spearman": 0.9234371423666742,
+    "p_plus_Q_spearman": 0.9227039940489813
+   },
+   "test_1B": {
+    "n_used": 64,
+    "n_dropped_zero_mass": 0,
+    "p_only_r2_deoffset": 0.7075329982575805,
+    "p_plus_Q_r2_deoffset": 0.706714270418627,
+    "increment": -0.0008187278389535368,
+    "increment_ci95": [
+     -0.0020576629763016663,
+     1.5187367884833054e-05
+    ],
+    "significant": false,
+    "p_only_spearman": 0.8869963369963368,
+    "p_plus_Q_spearman": 0.8859890109890108
+   }
+  }
+ },
+ "warnings": [],
+ "execution_time_seconds": 0.4
+}

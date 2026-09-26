@@ -1,0 +1,234 @@
+{
+ "schema_version": 1,
+ "question": "Q2",
+ "round": "round1",
+ "implementation_target": "python",
+ "random_seed": 20260924,
+ "approved_decision_id": "methods/Q2/q2_decisions.jsonl (6 records)",
+ "approved_decision_ids": [
+  "q2_p_entry_form",
+  "q2_Q_entry_form",
+  "q2_semisynthetic_fit_participation",
+  "q2_baseline_comparison_venue",
+  "q2_fallback_trigger_logic",
+  "q2_kappa_treatment"
+ ],
+ "methods": [
+  {
+   "method_id": "M0s",
+   "role": "usable_baseline",
+   "script": "code/Q2/q2_scaling_baseline.py",
+   "status": "success",
+   "execution_time_seconds": 164.45,
+   "input_files": [
+    "workspace\\data_raw\\real_attachments\\B_scaling_laws\\pythia_training_log_existing.csv"
+   ],
+   "output_files": [
+    "results/Q2/experiments/round1/metrics/q2_M0s.json"
+   ],
+   "figure_files": [],
+   "metrics_summary": {
+    "rmse_B1": 0.00014649608992589044,
+    "r2_B1": 0.9999998165821044,
+    "beta": 0.27987812854324545,
+    "beta_ci95_grouped": [
+     0.27982067286066603,
+     0.2799369419980568
+    ]
+   },
+   "warnings": [
+    "B1 拟合异常干净(R2=0.9999998, RMSE=1.465e-04)，对真实训练日志不寻常。使用者已就『B1 的处理要谨慎』附加约束，该项核查经其指示暂缓"
+   ],
+   "errors": []
+  },
+  {
+   "method_id": "M1s",
+   "role": "main",
+   "script": "code/Q2/q2_scaling_main.py",
+   "status": "success",
+   "execution_time_seconds": 223.72,
+   "input_files": [
+    "workspace\\data_raw\\real_attachments\\B_scaling_laws\\pythia_training_log_existing.csv",
+    "workspace\\data_raw\\real_attachments\\B_scaling_laws\\supplementary_NQ_experiment_expanded.csv",
+    "workspace\\data_raw\\real_attachments\\B_scaling_laws\\scaling_baseline.csv",
+    "workspace\\data_raw\\real_attachments\\B_scaling_laws\\published_scaling_data.csv",
+    "workspace\\data_raw\\real_attachments\\B_scaling_laws\\cerebras_training_log.csv",
+    "results/Q1/experiments/round1/tables/q1c_coefficients.csv",
+    "results/Q1/experiments/round1/tables/q1a_domain_quality.csv"
+   ],
+   "output_files": [
+    "results/Q2/experiments/round1/metrics/q2_M1s.json",
+    "results\\Q2\\experiments\\round1\\tables\\q2_params.csv",
+    "results\\Q2\\experiments\\round1\\tables\\q2_elasticity.csv",
+    "results\\Q2\\experiments\\round1\\tables\\q2_domain_ratio.csv",
+    "results\\Q2\\experiments\\round1\\tables\\q2_validation.csv"
+   ],
+   "figure_files": [],
+   "metrics_summary": {
+    "gamma": 0.9659128363851796,
+    "gamma_ci95": [
+     0.8838599505464407,
+     1.055546203294626
+    ],
+    "gamma_ci_contains_one": true,
+    "beta": 0.2798780599420644,
+    "rmse_B1": 0.00014649609140877695,
+    "rmse_B7": 0.07638383063460082,
+    "dN_for_Q_plus_0.1_B1_side": -0.13410087180720998,
+    "elasticity_ratio_Q_over_D": 0.9659129389937916
+   },
+   "warnings": [
+    "超越性证据完全建立在半合成 B7 上 —— B 侧仅 B6/B7/B8 含 Q 变化且全部半合成。按 GC5 须披露，该结论带『补充分析』属性",
+    "B1 上 Q=1 ⇒ gamma 仅受 B7 约束；beta 因 B1 权重压倒性优势实质由 B1 决定。本式数值上等价于两段式（实测 gamma 差 1.03e-7、beta 差 6.86e-8）⇒ 裁定3=B 的 WLS 被忠实实现但在该参数结构下无实质作用，须如实说明，不得表述为『联合拟合提升了估计』",
+    "尺度不同，对齐规则须显式声明；本轮不做静默映射"
+   ],
+   "errors": []
+  }
+ ],
+ "comparison": {
+  "predeclared_metric_1_degeneracy_on_B1": {
+   "criterion": "M1s 与 M0s 在 B1 上 RMSE 相对差 < 1e-6",
+   "M0s_rmse_B1": 0.00014649608992589044,
+   "M1s_rmse_B1": 0.00014649609140877695,
+   "relative_difference": 1.0122362405611505e-08,
+   "passed": true,
+   "doubles_as": "题目要求的『Q=1 退化为经典形式』依据"
+  },
+  "predeclared_metric_2_superiority_on_B7": {
+   "criterion": "M1s 在 B7 上 RMSE 优于 M0s_joint，差值自助 95% 区间不含 0",
+   "M0s_joint_rmse_B7": 0.1182523304834322,
+   "M1s_rmse_B7": 0.07638383063460082,
+   "rmse_reduction": 0.041868499848831384,
+   "ci95_of_reduction": [
+    0.03623599521238617,
+    0.04778072085097522
+   ],
+   "n_boot_ok": 400,
+   "passed": true,
+   "nested_note": "M0s_joint 在 B7 上另设自有截距 E_B7，与 M1s 仅差 gamma 一个参数。这是 P1『E 跨源不可共享』的机械后果；若用 B1 截距预测 B7 会把截距失配算成 Q 通道的功劳",
+   "gc5_disclosure": "超越性证据完全建立在半合成 B7 上 —— B 侧仅 B6/B7/B8 含 Q 变化且全部半合成。按 GC5 须披露，该结论带『补充分析』属性"
+  },
+  "predeclared_metric_3_elasticity_signs": {
+   "B1_side": true,
+   "B7_side": true
+  },
+  "transfer_validation": {
+   "B4": {
+    "n": 57,
+    "E_s_deoffset": 1.8932643687306063,
+    "spearman": 0.9829816454561006,
+    "spearman_p": 3.659913532848552e-42,
+    "rmse_after_deoffset": 0.19265697875547588,
+    "note": "禁止报跨源未去偏 R²（P1：E 极差 1.6898）；此处仅报秩相关与去源偏后 RMSE"
+   },
+   "B5": {
+    "n": 44,
+    "E_s_deoffset": 1.7456425239035842,
+    "spearman": 0.9588075695723214,
+    "spearman_p": 1.4064680149295104e-24,
+    "rmse_after_deoffset": 0.19966229347938796,
+    "note": "禁止报跨源未去偏 R²（P1：E 极差 1.6898）；此处仅报秩相关与去源偏后 RMSE"
+   },
+   "B2": {
+    "n": 1029,
+    "E_s_deoffset": 2.731751967510421,
+    "spearman": 0.7881022686524628,
+    "spearman_p": 1.1709598108649183e-218,
+    "rmse_after_deoffset": 0.41852556207031916,
+    "note": "禁止报跨源未去偏 R²（P1：E 极差 1.6898）；此处仅报秩相关与去源偏后 RMSE"
+   }
+  },
+  "hd2_verdict": "PASS —— M1s 在 B7 上显著优于 M0s_joint（降幅区间不含 0），且在 B1 上如期退化为 M0s。但超越性证据为半合成（见 gc5_disclosure）"
+ },
+ "output_degeneracy": {
+  "gamma_at_bound": false,
+  "kappa_identifiable_from_B": false,
+  "kappa_evidence": "workspace/data/q2_probe_g3_identifiability.json",
+  "shape_params_shareable": false,
+  "shape_evidence": "workspace/data/q2_probe_shape_sharing.json",
+  "M1s_equals_M0s_on_B1": true,
+  "note": "退化是结构性的、已预期，并被用作 Q=1 退化约束的依据"
+ },
+ "fallback_trigger": {
+  "fallback_id": "M2s",
+  "condition": "gamma_ci95 包含 0  或  M1s 在 B7 上 RMSE 不优于 M0s_joint（自助区间判）",
+  "gamma_ci95": [
+   0.8838599505464407,
+   1.055546203294626
+  ],
+  "cond1_gamma_ci_contains_zero": false,
+  "cond2_not_better_on_B7": false,
+  "observed": false,
+  "evidence": "results/Q2/experiments/round1/metrics/q2_M1s.json"
+ },
+ "assumptions": {
+  "load_bearing": [
+   "AMB-Q2-2 跨源统一假设：p 的效应形状可跨尺度/跨来源迁移（b 在 B 侧不可验证）",
+   "beta 可跨源共享（P8 只检验了 A/alpha/B，未检验 beta）",
+   "裁定6 敏感性臂：A 侧与 B 侧在指定参照点上 dL/dp_i 相等"
+  ],
+  "tested_and_rejected": [
+   "E 跨源共享（P1 FAIL，极差 1.6898）",
+   "A/alpha/B 跨源共享（P8 FAIL，gamma 位移占区间宽 98.5%）"
+  ],
+  "declared_unidentifiable": [
+   "kappa（b 的尺度因子），B 侧 RMSE 随其变化恰为 0.0"
+  ]
+ },
+ "gc5_disclosure": {
+  "semi_synthetic_sources_used_in_fit": [
+   "B7"
+  ],
+  "semi_synthetic_sources_used_in_validation_only": [
+   "B2"
+  ],
+  "semi_synthetic_all_touched": [
+   "B2",
+   "B7"
+  ],
+  "real_data_sources": [
+   "B1 (主拟合)",
+   "B4 (跨族验证)",
+   "B5 (文献值验证)"
+  ],
+  "per_source_provenance": {
+   "B1": "真实 Pythia 训练日志（但拟合异常干净，使用者约束『B1 处理要谨慎』挂起）",
+   "B2": "**半合成** Cerebras 轨迹 —— 其 Spearman 0.788102 不得表述为直接观测的迁移验证",
+   "B4": "真实跨族收敛点 57 行",
+   "B5": "文献标度律值 44 行（他人发表值，非本队观测）",
+   "B7": "**半合成** N-D-Q 实验 —— 唯一含 Q 变化的数据，gamma 完全由它决定"
+  },
+  "semi_synthetic_only_quantities": [
+   "dL_dQ",
+   "elasticity_Q",
+   "substitution_dN_dQ",
+   "dN_for_Q_plus_0.1",
+   "elasticity_ratio_Q_over_D"
+  ],
+  "real_data_supported_quantities": [
+   "dL_dN",
+   "dL_dD",
+   "elasticity_N",
+   "elasticity_D"
+  ],
+  "b7_val_loss_lower_bound_anomaly": "B8 的 calibrated 半数 val_loss 下界 0.5，低于自然语言熵常见量级",
+  "not_in_fit": [
+   "B8",
+   "B9",
+   "B10"
+  ],
+  "review_finding_F1_repair": "评审发现 B2 参与验证却未列入披露清单（GC5 硬约束、方法卡 unacceptable failure 第 2 条）。已补入本块"
+ },
+ "environment": {
+  "python": "3.14.6",
+  "numpy": "2.5.1",
+  "scipy": "1.18.0",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "matlab": "not available on this machine"
+ },
+ "warnings": [
+  "B1 拟合异常干净（R2=0.9999998、RMSE=1.465e-4）；使用者已附加『B1 的处理要谨慎』，核查经其指示暂缓",
+  "sigma_s 取值方式未经使用者裁定（现为 residual，可否决）"
+ ],
+ "errors": []
+}

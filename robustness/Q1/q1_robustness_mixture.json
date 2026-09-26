@@ -1,0 +1,351 @@
+{
+ "schema_version": 1,
+ "question": "Q1",
+ "side": "mixture",
+ "round_under_test": "round1",
+ "seed": 20260924,
+ "n_train_rows": 512,
+ "criteria_predeclared_before_execution": true,
+ "checks": {
+  "R6_q_source_swap": {
+   "check_id": "R6_q_source_swap",
+   "tested_claim": "『17 维 p 加入域级 Q_corpus 后三尺度增量的 95% 区间均含 0』不依赖 Q 的来源方法与归一化臂",
+   "why_load_bearing": "该零结果要作为对题目『是否以及如何引入质量评分 Q 由参赛队伍论证』的有证据回答写入论文，但 round1 只用了 M1 pooled Huber 一个 Q 源；若换源后出现显著增量，则论文结论须改写",
+   "sources": [
+    "results/Q1/experiments/round1/metrics/q1_mixture_M0c.json#q_increment_test",
+    "results/Q1/experiments/round1/metrics/q1_quality_M0.json",
+    "results/Q1/experiments/round1/metrics/q1_quality_M1.json"
+   ],
+   "perturbation": "域级 Q 的来源 ∈ {M1,M0} × {pooled, per_domain}，其余口径（目标 pweighted13、同子集拟合、B=400）不变",
+   "predeclared_criterion": "全部 4 个 Q 源下，三个尺度的增量 95% 区间均含 0",
+   "observed": {
+    "M1_pooled": {
+     "domain_Q_used": {
+      "arxiv": 0.3814958169252389,
+      "book": 0.2667677487138408,
+      "c4": 0.36380540835066516,
+      "commoncrawl": 0.3479423814342351,
+      "github": 0.22330626848410468,
+      "stackexchange": 0.29429286232728874,
+      "wikipedia": 0.25563849117989446
+     },
+     "mapped_mass_median": 0.5995,
+     "n_train_used": 507,
+     "train_r2_A": 0.897237939073899,
+     "train_r2_B": 0.8972644252254816,
+     "by_scale": {
+      "test_1m": {
+       "n_used": 256,
+       "p_only_r2_deoffset": 0.9128971788613184,
+       "p_plus_Q_r2_deoffset": 0.9131786615918864,
+       "increment": 0.00028148273056805007,
+       "increment_ci95": [
+        -0.0002211129683945656,
+        0.0007929466183384996
+       ],
+       "ci_contains_zero": true,
+       "significant": false
+      },
+      "test_60m": {
+       "n_used": 256,
+       "p_only_r2_deoffset": 0.7716475445317985,
+       "p_plus_Q_r2_deoffset": 0.7714320496715983,
+       "increment": -0.00021549486020022712,
+       "increment_ci95": [
+        -0.0006024336402166375,
+        0.00014302922207171662
+       ],
+       "ci_contains_zero": true,
+       "significant": false
+      },
+      "test_1B": {
+       "n_used": 64,
+       "p_only_r2_deoffset": 0.7075329982575805,
+       "p_plus_Q_r2_deoffset": 0.706714270418627,
+       "increment": -0.0008187278389535368,
+       "increment_ci95": [
+        -0.0020975292713832777,
+        -3.831432666817703e-06
+       ],
+       "ci_contains_zero": false,
+       "significant": true
+      }
+     },
+     "q_range_across_domains": 0.1581895484411342
+    },
+    "M0_pooled": {
+     "domain_Q_used": {
+      "arxiv": 0.6493909156015422,
+      "book": 0.5263847797610973,
+      "c4": 0.6018769294789214,
+      "commoncrawl": 0.6012953484268058,
+      "github": 0.4736464703754714,
+      "stackexchange": 0.5830207436707928,
+      "wikipedia": 0.5325573825100731
+     },
+     "mapped_mass_median": 0.5995,
+     "n_train_used": 507,
+     "train_r2_A": 0.897237939073899,
+     "train_r2_B": 0.8972738928568497,
+     "by_scale": {
+      "test_1m": {
+       "n_used": 256,
+       "p_only_r2_deoffset": 0.9128971788613184,
+       "p_plus_Q_r2_deoffset": 0.9131750627970648,
+       "increment": 0.0002778839357464591,
+       "increment_ci95": [
+        -0.0003253231773668652,
+        0.0008870919814852879
+       ],
+       "ci_contains_zero": true,
+       "significant": false
+      },
+      "test_60m": {
+       "n_used": 256,
+       "p_only_r2_deoffset": 0.7716475445317985,
+       "p_plus_Q_r2_deoffset": 0.771369715579078,
+       "increment": -0.0002778289527205491,
+       "increment_ci95": [
+        -0.0007763432300749024,
+        0.0001729743047288869
+       ],
+       "ci_contains_zero": true,
+       "significant": false
+      },
+      "test_1B": {
+       "n_used": 64,
+       "p_only_r2_deoffset": 0.7075329982575805,
+       "p_plus_Q_r2_deoffset": 0.7066959221352036,
+       "increment": -0.0008370761223769341,
+       "increment_ci95": [
+        -0.002260682394705751,
+        5.1224318163861206e-05
+       ],
+       "ci_contains_zero": true,
+       "significant": false
+      }
+     },
+     "q_range_across_domains": 0.17574444522607074
+    },
+    "M1_per_domain": {
+     "domain_Q_used": {
+      "arxiv": 0.25017875648662075,
+      "book": 0.2507822467009479,
+      "c4": 0.25410393595943714,
+      "commoncrawl": 0.2568455539440042,
+      "github": 0.24533698375597812,
+      "stackexchange": 0.2498534511551785,
+      "wikipedia": 0.25010344035312887
+     },
+     "mapped_mass_median": 0.5995,
+     "n_train_used": 507,
+     "train_r2_A": 0.897237939073899,
+     "train_r2_B": 0.8987922566371418,
+     "by_scale": {
+      "test_1m": {
+       "n_used": 256,
+       "p_only_r2_deoffset": 0.9128971788613184,
+       "p_plus_Q_r2_deoffset": 0.9154204302441641,
+       "increment": 0.0025232513828457037,
+       "increment_ci95": [
+        -0.0016772775772182778,
+        0.006357188954461579
+       ],
+       "ci_contains_zero": true,
+       "significant": false
+      },
+      "test_60m": {
+       "n_used": 256,
+       "p_only_r2_deoffset": 0.7716475445317985,
+       "p_plus_Q_r2_deoffset": 0.7692529265716275,
+       "increment": -0.0023946179601710416,
+       "increment_ci95": [
+        -0.006377488490923438,
+        0.0008644098045456536
+       ],
+       "ci_contains_zero": true,
+       "significant": false
+      },
+      "test_1B": {
+       "n_used": 64,
+       "p_only_r2_deoffset": 0.7075329982575805,
+       "p_plus_Q_r2_deoffset": 0.7016629109408035,
+       "increment": -0.005870087316777073,
+       "increment_ci95": [
+        -0.015205905294240967,
+        0.00289566429877636
+       ],
+       "ci_contains_zero": true,
+       "significant": false
+      }
+     },
+     "q_range_across_domains": 0.01150857018802609
+    },
+    "M0_per_domain": {
+     "domain_Q_used": {
+      "arxiv": 0.502493754319274,
+      "book": 0.5028429527541137,
+      "c4": 0.5040502746517829,
+      "commoncrawl": 0.5032864920307475,
+      "github": 0.5018361244459492,
+      "stackexchange": 0.5007837758836282,
+      "wikipedia": 0.5035757029650002
+     },
+     "mapped_mass_median": 0.5995,
+     "n_train_used": 507,
+     "train_r2_A": 0.897237939073899,
+     "train_r2_B": 0.8979086264550137,
+     "by_scale": {
+      "test_1m": {
+       "n_used": 256,
+       "p_only_r2_deoffset": 0.9128971788613184,
+       "p_plus_Q_r2_deoffset": 0.9126509807766379,
+       "increment": -0.00024619808468051563,
+       "increment_ci95": [
+        -0.0024512818328579684,
+        0.0017590277191216848
+       ],
+       "ci_contains_zero": true,
+       "significant": false
+      },
+      "test_60m": {
+       "n_used": 256,
+       "p_only_r2_deoffset": 0.7716475445317985,
+       "p_plus_Q_r2_deoffset": 0.7706034626568479,
+       "increment": -0.001044081874950642,
+       "increment_ci95": [
+        -0.003036147035563788,
+        0.0008409433987794662
+       ],
+       "ci_contains_zero": true,
+       "significant": false
+      },
+      "test_1B": {
+       "n_used": 64,
+       "p_only_r2_deoffset": 0.7075329982575805,
+       "p_plus_Q_r2_deoffset": 0.7002902730161225,
+       "increment": -0.007242725241458081,
+       "increment_ci95": [
+        -0.020538835086280613,
+        0.0042069295427584995
+       ],
+       "ci_contains_zero": true,
+       "significant": false
+      }
+     },
+     "q_range_across_domains": 0.0032664987681546576
+    }
+   },
+   "status": "FAIL",
+   "limitation": "per_domain 臂的域级 Q 近乎恒等（极差约 0.003/0.012），其零增量部分是恒等输入的必然结果，不构成独立证据；构造性相关（Q_corpus 由 6/17 映射域的 p 加权而成）在所有源下同样存在",
+   "fallback_relevance": "不涉及 M2 触发条件"
+  },
+  "R7_target_definition_swap": {
+   "check_id": "R7_target_definition_swap",
+   "tested_claim": "M0c 的 17 个系数所表达的域效应方向，不是目标口径 pweighted13 的部分循环所造出来的",
+   "why_load_bearing": "AMB-Q1-2：pweighted13 把 p 同时置于等式两侧，须在论文声明；round1 只比了训练 R²（0.896 vs 0.296），未检验系数方向与跨尺度表现",
+   "sources": [
+    "results/Q1/experiments/round1/metrics/q1_mixture_M0c.json#target_comparison_mean13",
+    "code/Q1/q1_common.py#make_target"
+   ],
+   "perturbation": "目标变量由 pweighted13 换为 mean13（13 域简单均值），其余不变",
+   "predeclared_criterion": "两口径的系数符号一致率 >= 0.8，且 mean13 下三尺度去偏 R² 仍全为正",
+   "observed": {
+    "pweighted13": {
+     "train_r2": 0.8958076500288483,
+     "coef": {
+      "train_the_pile_arxiv": 3.8925625053467723,
+      "train_the_pile_freelaw": 4.111363742719915,
+      "train_the_pile_nih_exporter": 4.799634721859708,
+      "train_the_pile_pubmed_central": 4.100334138095452,
+      "train_the_pile_wikipedia_en": 5.010271966509738,
+      "train_the_pile_dm_mathematics": 2.1553453424691584,
+      "train_the_pile_github": 3.9727701515069302,
+      "train_the_pile_philpapers": 6.139533610345552,
+      "train_the_pile_stackexchange": 4.19501444291037,
+      "train_the_pile_enron_emails": 4.794013622270205,
+      "train_the_pile_gutenberg_pg_19": 5.090685826493679,
+      "train_the_pile_pile_cc": 5.253979854536466,
+      "train_the_pile_ubuntu_irc": 5.320232395430037,
+      "train_the_pile_europarl": 5.024980774429764,
+      "train_the_pile_hackernews": 5.51710719528703,
+      "train_the_pile_pubmed_abstracts": 4.717748493371401,
+      "train_the_pile_uspto_backgrounds": 4.413206577756675
+     },
+     "frac_coefs_sign_stable_ge_0.95": 1.0,
+     "mean_relative_se": 0.03373710988737639,
+     "validation_by_scale": {
+      "test_1m": {
+       "r2_after_offset_removal": 0.9131428810282568,
+       "spearman": 0.9530699244678414,
+       "bias_share_of_rmse": 0.03460960510855714
+      },
+      "test_60m": {
+       "r2_after_offset_removal": 0.7706036133327078,
+       "spearman": 0.9220917257953762,
+       "bias_share_of_rmse": 0.9877383673600968
+      },
+      "test_1B": {
+       "r2_after_offset_removal": 0.7046683378917764,
+       "spearman": 0.8871794871794871,
+       "bias_share_of_rmse": 0.9991515476347557
+      }
+     }
+    },
+    "mean13": {
+     "train_r2": 0.29623578938386796,
+     "coef": {
+      "train_the_pile_arxiv": 5.624926650455599,
+      "train_the_pile_freelaw": 5.717112661906338,
+      "train_the_pile_nih_exporter": 3.352876747577795,
+      "train_the_pile_pubmed_central": 5.559598208279448,
+      "train_the_pile_wikipedia_en": 5.432805458043371,
+      "train_the_pile_dm_mathematics": 4.21258266085589,
+      "train_the_pile_github": 5.6868832051253815,
+      "train_the_pile_philpapers": 1.2372322696848514,
+      "train_the_pile_stackexchange": 5.3040430742615445,
+      "train_the_pile_enron_emails": 0.9858240174332323,
+      "train_the_pile_gutenberg_pg_19": 5.1942086185394025,
+      "train_the_pile_pile_cc": 5.497629448494911,
+      "train_the_pile_ubuntu_irc": 3.287264163014526,
+      "train_the_pile_europarl": 4.288242533812512,
+      "train_the_pile_hackernews": 3.596065241687863,
+      "train_the_pile_pubmed_abstracts": 5.2793501650293,
+      "train_the_pile_uspto_backgrounds": 5.450215808625606
+     },
+     "frac_coefs_sign_stable_ge_0.95": 0.8823529411764706,
+     "mean_relative_se": 0.21980755123160253,
+     "validation_by_scale": {
+      "test_1m": {
+       "r2_after_offset_removal": 0.35920499515255966,
+       "spearman": 0.6260764763103683,
+       "bias_share_of_rmse": 0.21569113714909394
+      },
+      "test_60m": {
+       "r2_after_offset_removal": 0.2119486037577385,
+       "spearman": 0.5595480945296406,
+       "bias_share_of_rmse": 0.9918059860501353
+      },
+      "test_1B": {
+       "r2_after_offset_removal": -8.666829471910368,
+       "spearman": 0.34780219780219773,
+       "bias_share_of_rmse": 0.998720613555745
+      }
+     }
+    },
+    "comparison": {
+     "coef_sign_agreement": 1.0,
+     "n_coefs": 17,
+     "n_sign_flipped": 0,
+     "flipped_domains": [],
+     "spearman_between_coef_vectors": -0.5808823529411765,
+     "mean13_all_scales_r2_positive": false
+    }
+   },
+   "status": "FAIL",
+   "limitation": "mean13 不含配比权重，故其自身不是可主报的目标（训练 R² 仅 0.296）；本检查只用它作方向一致性的独立对照，不作为替代主报口径",
+   "fallback_relevance": "不涉及 M2 触发条件"
+  }
+ },
+ "execution_time_seconds": 2.0
+}

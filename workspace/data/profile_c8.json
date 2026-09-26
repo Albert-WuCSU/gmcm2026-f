@@ -1,0 +1,72 @@
+{
+ "n_dirs": 1863,
+ "n_json_files": 1958,
+ "dirs_with_parseable_json": 1860,
+ "dirs_empty": 0,
+ "truncated_or_unparseable_files": [
+  "DreadPoor_Winter_Dawn-8B-TIES/results_2025-02-13T18-27-04.338360.json",
+  "FINGU-AI_Chocolatine-Fusion-14B/results_2025-02-13T18-27-04.338360.json",
+  "Intel_neural-chat-7b-v3-3/results_2025-02-13T18-27-04.338360.json",
+  "L-RAGE_3_PRYMMAL-ECE-7B-SLERP-V1/results_2025-02-13T18-27-04.338360.json"
+ ],
+ "n_truncated": 4,
+ "files_per_dir_hist": {
+  "1": 1768,
+  "2": 95
+ },
+ "top_level_keys": {
+  "results": 1860,
+  "group_subtasks": 1860,
+  "configs": 1860,
+  "versions": 1860,
+  "n-shot": 1860,
+  "higher_is_better": 1860,
+  "n-samples": 1860,
+  "config": 1860,
+  "git_hash": 1860,
+  "date": 1860,
+  "pretty_env_info": 1860,
+  "transformers_version": 1860,
+  "upper_git_hash": 1860,
+  "task_hashes": 1860,
+  "model_source": 1860,
+  "model_name": 1860,
+  "model_name_sanitized": 1860,
+  "system_instruction": 1860,
+  "system_instruction_sha": 1860,
+  "chat_template": 1860
+ },
+ "results_task_count_hist": {
+  "25": 3,
+  "33": 1,
+  "44": 1771,
+  "45": 85
+ },
+ "most_common_task_keys": {
+  "leaderboard_bbh": 1860,
+  "leaderboard_bbh_boolean_expressions": 1860,
+  "leaderboard_bbh_causal_judgement": 1860,
+  "leaderboard_bbh_date_understanding": 1860,
+  "leaderboard_bbh_disambiguation_qa": 1860,
+  "leaderboard_bbh_formal_fallacies": 1860,
+  "leaderboard_bbh_geometric_shapes": 1860,
+  "leaderboard_bbh_hyperbaton": 1860,
+  "leaderboard_bbh_logical_deduction_five_objects": 1860,
+  "leaderboard_bbh_logical_deduction_seven_objects": 1860,
+  "leaderboard_bbh_logical_deduction_three_objects": 1860,
+  "leaderboard_bbh_movie_recommendation": 1860,
+  "leaderboard_bbh_navigate": 1860,
+  "leaderboard_bbh_object_counting": 1860,
+  "leaderboard_bbh_penguins_in_a_table": 1860,
+  "leaderboard_bbh_reasoning_about_colored_objects": 1860,
+  "leaderboard_bbh_ruin_names": 1860,
+  "leaderboard_bbh_salient_translation_error_detection": 1860,
+  "leaderboard_bbh_snarks": 1860,
+  "leaderboard_bbh_sports_understanding": 1860,
+  "leaderboard_bbh_temporal_sequences": 1860,
+  "leaderboard_bbh_tracking_shuffled_objects_five_objects": 1860,
+  "leaderboard_bbh_tracking_shuffled_objects_seven_objects": 1860,
+  "leaderboard_bbh_tracking_shuffled_objects_three_objects": 1860,
+  "leaderboard_bbh_web_of_lies": 1860
+ }
+}

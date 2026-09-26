@@ -1,0 +1,75 @@
+# 本仓库用于队伍内部协作：论文工程 + 建模代码 + 结果证据链 + 绘图脚本 + skills。
+#
+# 排除项只有四类：
+#   ① 赛题原始附件（体积与权属，且单个文件超过 GitHub 的 100 MB 上限）；
+#   ② 从《数据说明》PDF 提取的隐藏注入文本（仅内部追溯，不分发）；
+#   ③ 嵌套的上游 git 仓库（防止把上游提交历史带进来）；
+#   ④ 编译产物与临时缓存。
+#
+# 保留下来的内容足以让队友在本地重跑全部绘图脚本并逐张核对：
+#   code/**、results/**、robustness/**、workspace/data/**、workspace/code/**；
+# 这五处之外绘图脚本不读任何其他路径。
+
+# ---------------------------------------------------------------- ① 原始附件
+# 建模主流程（code/Qx/run_all.py）需要这些附件；绘图脚本不需要。
+# 队友若要重跑主流程，请自备赛题附件放到 F题/real_attachments/ 或 workspace/data_raw/。
+F题/real_attachments/
+workspace/data_raw/
+
+# ---------------------------------------------------------------- ② 隐藏文本提取物
+scratch/data_desc_hidden.json
+scratch/data_desc_hidden_unique.txt
+scratch/data_desc_visible.txt
+scratch/data_description.txt
+
+# ---------------------------------------------------------------- ③ 嵌套仓库
+# 这两处各含一个指向上游的 .git，作为内容推送会变成 gitlink。
+# skills 已分别完整放在 .claude/skills、.codex/skills、.agents/skills 三棵树里，无需此处。
+.mathmodeling-skills/
+# paper/ 原本是模板仓库的克隆，内含 .git 时会让 git 把整个 paper/ 当成 submodule、
+# 一个文件都不收录。已把它改名为 .git-upstream-template 以保留在本机，此处排除。
+paper/.git-upstream-template/
+paper/.git/
+# 模板自带的 GitHub Actions 工作流不适用于本仓库，排除以免推送后触发无谓的 CI。
+paper/.github/
+
+# ---------------------------------------------------------------- ④ 编译产物与缓存
+*.aux
+*.bcf
+*.bbl
+*.blg
+*.fdb_latexmk
+*.fls
+*.lof
+*.lot
+*.loa
+*.lol
+*.run.xml
+*.synctex.gz
+*.toc
+*.xdv
+anonymous.pdf
+GMCM2026-Overleaf/main.pdf
+paper/_p2pages/
+scratch/render_check/
+scratch/crop_before.png
+scratch/crop_after.png
+scratch/tex/*
+!scratch/tex/README.md
+__pycache__/
+*.pyc
+GMCM2026-Overleaf.zip
+
+# ---------------------------------------------------------------- 本地私有配置
+# 沿用模板约定：封面个人信息可写入 config.local.tex，该文件不入库。
+config.local.tex
+paper/docs/cover.pdf
+# 本地权限允许列表，因人而异，不入库。
+.claude/settings.local.json
+.env
+.env.*
+
+# ---------------------------------------------------------------- 编辑器 / 系统
+.DS_Store
+Thumbs.db
+*.swp

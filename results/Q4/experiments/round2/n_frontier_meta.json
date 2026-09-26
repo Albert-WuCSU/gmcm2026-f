@@ -1,0 +1,10 @@
+{
+  "logN_q10_slope_per_month": -0.05714,
+  "logN_q50_slope_per_month": -0.00209,
+  "logN_q90_slope_per_month": -0.06281,
+  "logN_q90_cum_dex": -0.5653,
+  "N_q90_ratio_first_over_last": 3.162,
+  "S_q90_slope_per_month": 1.5333,
+  "S_q90_first": 25.9201,
+  "S_q90_last": 41.3875
+}

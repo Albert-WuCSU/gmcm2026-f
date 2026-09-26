@@ -1,0 +1,329 @@
+{
+  "schema_version": 1,
+  "problem_id": "GMCM2026-F",
+  "classified_from": "planning/parse/problem_parse.json",
+  "classification_basis": "按『必须产出并为之辩护的东西』分类，不按题目用词（如『预测』『最优』）分类。混合型仅在一个产出真正进入另一建模结构时认定，而非因为存在多个分析步骤。",
+  "created_at": "2026-09-24T00:30:00+08:00",
+
+  "subquestions": [
+    {
+      "id": "Q1",
+      "title": "数据质量评价、质量冲突消解与领域配比建模",
+      "primary_type": "evaluation",
+      "secondary_type": "prediction",
+      "confidence": "high",
+      "mixed_justification": "真正的混合，不是多步骤：Q1a 产出的域级质量分 Q 是一个可选进入 Q1c 配比→Loss 模型的自变量（题目明确『是否以及如何引入质量评分 Q，由参赛队伍论证』），即一个产出进入另一建模结构。若 Q 不引入，Q1c 仍独立成立，故 Q1c 为次要类型而非并列主类型。",
+      "subtask_types": [
+        {
+          "id": "Q1a",
+          "name": "数据质量评价",
+          "type": "evaluation",
+          "reason": "必须产出并辩护的是 22 指标合成的质量分 Q 及域级排序，属评分/分级/比较性评估"
+        },
+        {
+          "id": "Q1b",
+          "name": "质量冲突消解",
+          "type": "descriptive_inference",
+          "secondary": "evaluation",
+          "reason": "先要发现并解释指标间不一致的模式与成因（描述/推断），再据此重建综合评价模型（评价）；题目要求『定义冲突、分析其成因，并建立相应的综合评价模型』"
+        },
+        {
+          "id": "Q1c",
+          "name": "领域配比建模",
+          "type": "prediction",
+          "reason": "必须产出 17 维 p 到交叉熵损失的定量关系，并在留出的 A6–A11 三个尺度检验集上验证、在 A12–A15 外推表上讨论稳健性；口径是样本外误差与外推，属预测/估计而非单纯描述"
+        }
+      ],
+      "evidence": [
+        "parse:subquestions[Q1].required_outputs — 域级质量评分 Q（7 个质量域；抽样集 vs 扩展集对照）",
+        "parse:subquestions[Q1].subtasks[Q1c] — 模型须在检验集 A6–A11 上验证，并利用外推表 A12–A15 讨论外推稳健性",
+        "parse:global_constraints[GC2] — 22 个质量指标须统一为『越高越好』（评价型任务的方向性要求）",
+        "parse:global_constraints[GC4] — 配比满足单纯形约束 p_i ≥ 0, Σp_i = 1（约束回归结构）",
+        "parse:data_inventory_summary.structural_facts_verified — 配比表 17 域 vs Loss 表 13 域，4 域无 Loss 列"
+      ],
+      "required_validation": [
+        "指标语义与方向：22 个指标逐一标注正/负向，8 个列表型指标的标量化规则须可复核（evaluation 类型要求）",
+        "权重来源与区分度：权重方案须可追溯；须检验 Q 是否真正区分域（避免评分退化为常数或单一指标主导）",
+        "排序稳定性：更换权重方案/重抽样后域排序的稳定性（evaluation 类型的核心检验）",
+        "抽样集 vs 扩展集一致性：同域 Q 在 A1 与 A2/A3 上的对照（题目硬性要求）",
+        "样本量不平衡：A3 记录数为 A2 的 11.6 倍（203752 vs 17523），域级聚合须处理该不平衡对可比性的影响",
+        "切分设计与泄漏：Q1c 的训练（A4/A5）与检验（A6–A11）严格分离，按 index 成对，不得跨表串行",
+        "外推误差：A12–A15 为外推/子集数据，须单独报告且标注可信度边界，不与真实检验集混算",
+        "单纯形约束可行性：预测值对应的 p 须满足非负且和为 1",
+        "baseline 对照（HD-2=B）：Q1a 对等权平均、Q1b 对无消解等权、Q1c 对带约束线性回归"
+      ],
+      "framing_decision_id": ["hd2_success_criteria", "hd3_scope_and_budget"],
+      "risks": [
+        {
+          "id": "R-Q1-1",
+          "risk": "评分退化：22 指标经归一化与合成后，域级 Q 可能区分度极低或被单一高方差指标主导",
+          "consequence": "Q 无信息量，传到 Q2/Q3 后整条链条失效",
+          "probe_requirement": "风险探针必须包含输出退化检查（Q 的方差、唯一值数、域间极差、指标贡献集中度）"
+        },
+        {
+          "id": "R-Q1-2",
+          "risk": "冲突率为 0 或为 100%：冲突判据若设定不当，会使子任务空洞化",
+          "consequence": "无法完成题目要求的『定义冲突、分析成因、建立相应评价模型』",
+          "probe_requirement": "冲突率须落在 (0,1) 开区间，且判据阈值须有量纲依据而非任取；注：隐藏文本曾声称冲突率约 0%，已判定为伪造，须实测"
+        },
+        {
+          "id": "R-Q1-3",
+          "risk": "4 个域（nih_exporter、philpapers、enron_emails、europarl）只有配比列、无 Loss 列",
+          "consequence": "因变量口径不完整；若直接丢弃这 4 列配比，会破坏单纯形约束（和不为 1）",
+          "probe_requirement": "须显式声明处理方式（保留/合并/正则化/仅解释间接影响）并说明理由，题目已授权但要求说明"
+        },
+        {
+          "id": "R-Q1-4",
+          "risk": "跨体系域映射误差：7 个质量域 ↔ 17 个配方域不一一对应，c4 仅在质量侧出现",
+          "consequence": "把 Q 引入 Q1c 时携带不可验证假设",
+          "probe_requirement": "A16 的 direct/near_direct/inferred 三级须分层敏感性分析；HD-3=B 已承诺用 A18 抽样文本统计量做独立校验"
+        }
+      ]
+    },
+
+    {
+      "id": "Q2",
+      "title": "跨维度数据融合与广义标度律",
+      "primary_type": "mechanism",
+      "secondary_type": "prediction",
+      "confidence": "high",
+      "mixed_justification": "真正的混合：广义标度律的解析形式与估计参数（机理）直接成为百亿参数以上外推与跨族预测的结构（预测）。题目要求『完成参数估计、检验与验证』并结合 B9/B10 讨论外推，两者不可分离。",
+      "primary_type_reason": "必须产出并辩护的是一个带物理含义的参数化关系式 L(N,D,Q,p)——含不可约损失 E、幂律指数 α、β，以及 Q、p 的进入方式；须保证单位一致、参数可辨识、Q→1 时退化行为有依据、拟合与观测相符。这是机理/动力学型任务的口径，不是纯曲线拟合。",
+      "not_classified_as": [
+        {
+          "type": "prediction_only",
+          "why_not": "若仅按预测分类，则弹性、边际效用、替代条件的推导失去依据——这些要求函数形式本身可微且有结构含义，属机理型产出"
+        },
+        {
+          "type": "descriptive_inference",
+          "why_not": "题目要求的不是关联性描述，而是可代入 Q3 优化模型的解析目标函数"
+        }
+      ],
+      "evidence": [
+        "parse:subquestions[Q2].subtasks[Q2a] — 同时含 N、D、Q、p；若设 Q→1 退化为经典形式须说明依据",
+        "parse:subquestions[Q2].subtasks[Q2c] — 各因素边际效用与弹性；推导 Q 与 N 可相互替代的可计算条件",
+        "parse:subquestions[Q2].required_outputs — 参数估计值与不确定性（E、A、α、B、β 及 Q、p 相关参数）",
+        "parse:global_constraints[GC10] — 单位换算须严格（N_params_B、D_tokens_B 乘 1e9），机理型任务的单位一致性要求",
+        "parse:subquestions[Q2].constraints — B1 主拟合 + B2或B3 轨迹验证 + B4 跨族 + B5 文献验证"
+      ],
+      "required_validation": [
+        "单位与量纲一致性：N、D 的十亿单位换算，C_FLOPs_1e21 口径，代入 6ND 时的乘 1e9（GC10）",
+        "参数可辨识性：E、A、α、B、β 与 Q/p 相关参数是否可同时辨识；须检查参数间相关性与置信区间宽度",
+        "退化行为：若采用 Q→1 退化为经典式的约束，须验证该极限确实成立而非仅声称",
+        "符号与物理方向：∂L/∂N < 0、∂L/∂D < 0、∂L/∂Q < 0（标度律的基本性质）",
+        "拟合与观测相符：B1 主拟合残差结构（是否存在系统性偏差而非仅看 R²）",
+        "族外/轨迹验证：B2 或 B3 之一（硬性）",
+        "跨族与文献验证：B4（57 点 12 族）与 B5（44 点）（硬性）",
+        "外推可信度分层：B9（真实公开报告值）与 B10（估算 Loss，非观测）须分层，外推结论标注边界",
+        "半合成数据角色限定：B6–B8 是唯一含 Q 的数据且为半合成，其在拟合中的权重须显式限定，不得表述为直接观测（GC5）",
+        "baseline 对照（HD-2=B）：对经典标度律 L=E+A·N^-α+B·D^-β 的改进须超过重抽样噪声"
+      ],
+      "framing_decision_id": ["hd2_success_criteria"],
+      "risks": [
+        {
+          "id": "R-Q2-1",
+          "risk": "Q 的尺度对齐：Q1 产出的 Q 与 B6–B8 的 Q_score 是否同尺度，题目未说明",
+          "consequence": "若尺度不一致而直接代入，所有含 Q 的参数估计与 Q3 的最优解全部偏移",
+          "probe_requirement": "须先做尺度对齐检验（分布对照/秩对照），并把对齐规则作为显式假设记录；这是全链条最脆弱的接口"
+        },
+        {
+          "id": "R-Q2-2",
+          "risk": "半合成数据承重过度：Q 是 Q2/Q3 的核心自变量，而唯一含 Q 的 B6–B8 为半合成",
+          "consequence": "结论可信度被系统性高估",
+          "probe_requirement": "须报告仅用真实数据与加入半合成数据两种情形的参数差异"
+        },
+        {
+          "id": "R-Q2-3",
+          "risk": "跨来源尺度区间不同：附件 A 为 1M–1B 小模型，附件 B 为 0.07–12B",
+          "consequence": "『将不同来源规律统一到同一模型』的假设可能不成立",
+          "probe_requirement": "题目要求『提出可检验的假设』，须显式陈述并检验，不得默认成立"
+        },
+        {
+          "id": "R-Q2-4",
+          "risk": "p 为 17 维，进入标度律的方式未定，可能导致过参数化",
+          "consequence": "参数不可辨识或过拟合",
+          "probe_requirement": "须检查有效样本量与参数个数之比，以及多重共线性"
+        }
+      ]
+    },
+
+    {
+      "id": "Q3",
+      "title": "算力约束下的多维资源联合优化与结构性转移",
+      "primary_type": "optimization",
+      "secondary_type": "mechanism",
+      "confidence": "high",
+      "mixed_justification": "真正的混合：最优解 (N*,D*,Q*,p*) 作为预算 C 的函数，其定性变化（结构性转移）本身是一个需要数学定义与识别方法的机理性对象。题目明确要求『给出明确的数学定义与识别方法』，这不是求解的副产品，而是独立的必交产出。",
+      "primary_type_reason": "必须产出并辩护的是在总成本不超过 C 的约束下的资源配置方案，含决策变量 (N,D,Q,p)、目标（最小化 Loss）、显式约束（三项算力开销之和、Q∈(0,1]、单纯形），属计划/分配/极值型任务。",
+      "secondary_type_reason": "结构性转移是比较静态（comparative statics）问题：随参数 C 跨量级变化，最优解结构是否发生质变。其检验口径（定义、识别方法、跨档判定）属机理/动力学，而非再解一次优化。",
+      "not_classified_as": [
+        {
+          "type": "simulation_scenario",
+          "why_not": "无随机分布与重复抽样；三档预算与 L_ctx 取值是确定性参数扫描，不是情景模拟"
+        }
+      ],
+      "evidence": [
+        "parse:subquestions[Q3].subtasks[Q3a] — 目标为最小化 Loss，约束 C_train + C_Q + C_attn ≤ C，至少三个不同量级预算",
+        "parse:subquestions[Q3].subtasks[Q3c] — 给出结构性转移的明确数学定义与识别方法",
+        "parse:subquestions[Q3].constraints — C_train=6ND、C_Q=D[g(Q)-g(Q0)]_+、C_attn=ηND·L_ctx（η=2e-4），均为题目给定",
+        "parse:subquestions[Q3].constraints — L_ctx 外生给定、非寻优变量，可行取值须依据 C7",
+        "parse:data_inventory_summary.structural_facts_verified — C7 可行 L_ctx {2048:18, 4096:8, 8192:7, 32768:11, 131072:1}；L_ctx^crit=6/η=30000，其中 2 档跨越临界值"
+      ],
+      "required_validation": [
+        "决策变量与可行域：(N,D,Q,p) 定义域明确，Q∈(0,1]，p 满足单纯形，N、D 正",
+        "目标函数来源：必须来自 Q2 已验证的广义标度律，不得另造",
+        "约束正确实现：三项开销按题目给定闭式实现，η=2e-4 不得改动；训练/质量/注意力默认同一 D",
+        "可行性与预算占用：最优解须可行且预算基本用尽（若大量剩余说明模型或求解有误）",
+        "最优性条件：KKT 条件或等价判据的数值核验，而非仅取网格最小值",
+        "解析结果核验：L_ctx^crit = 6/η = 30000 须解析推导给出（题目硬性）",
+        "跨临界敏感性：L_ctx 敏感性分析须覆盖 32768、131072 两档跨越临界值的情形（由 C7 实测取值决定，非主观设定）",
+        "成本函数对比：三类 g(Q)（指数型 γ=1e7,λ=6.0；幂函数型 γ=5e9,λ=4.0；对数渐进型 γ=2e9,λ=10.0）对最优解影响须实测比较",
+        "结构性转移可识别性：定义须可操作，判定结论须有数值证据支撑",
+        "外推有效性：高预算档（1e24 FLOPs）依赖 Q2 标度律外推，须结合 B9/B10 可信度边界说明",
+        "baseline 对照（HD-2=B）：对 Chinchilla 经验配置（N 与 D 成比例、忽略 Q 与 attn 开销）的改进"
+      ],
+      "framing_decision_id": ["hd2_success_criteria"],
+      "pending_framing_items": [
+        {
+          "item": "p 是否作为联立决策变量，还是由 Q1/Q2 结果固定",
+          "why_human": "题目明确『可作为联立决策变量，也可由前两问结果确定，但须说明理由』——属建模判断，且显著改变问题维度与可解性",
+          "resolve_at": "Q3 的 method-screening 决策卡",
+          "not_a_g1_blocker": true
+        }
+      ],
+      "risks": [
+        {
+          "id": "R-Q3-1",
+          "risk": "三类 g(Q) 量级差异极大（1e7·e^6 ≈ 4e9 vs 5e9 vs 2e9·ln11 ≈ 4.8e9，且曲率完全不同）",
+          "consequence": "成本函数选择可能主导可行域，使最优解对该选择极端敏感",
+          "probe_requirement": "约束可行性检查：在三档预算下逐一验证可行域非空；须实测比较而非先验断定"
+        },
+        {
+          "id": "R-Q3-2",
+          "risk": "解退化到边界：最优 Q 可能被推到 Q=1 或 Q=Q0，使质量维度失去决策含义",
+          "consequence": "『多维联合优化』退化为低维问题，结构性转移无从识别",
+          "probe_requirement": "输出退化检查：三档预算下最优解的内点/边界状态、活跃约束集、各维度取值分散度。注：隐藏文本曾声称各档最优均为 Q*=1，已判定为伪造，须实测"
+        },
+        {
+          "id": "R-Q3-3",
+          "risk": "误差累积：Q3 的输入是 Q1 的 Q 与 Q2 的参数，二者各自带估计误差",
+          "consequence": "最优解的不确定性可能远大于点解显示的精度",
+          "probe_requirement": "须对 Q2 参数的置信区间做传播，报告最优解的区间而非仅点值"
+        }
+      ]
+    },
+
+    {
+      "id": "Q4",
+      "title": "技术演进分析与前沿预测",
+      "primary_type": "descriptive_inference",
+      "secondary_type": "prediction",
+      "confidence": "medium",
+      "confidence_reason": "两个必交产出（贡献分解、前沿预测）权重相近，主/次类型的指派取决于论文要为哪一个承担更强的辩护责任。已登记为待人工框定项，在 Q4 的 method-screening 决策卡解决。",
+      "mixed_justification": "真正的混合：贡献分解得到的非规模技术进步速率是前沿预测的结构性输入（『在算力增长放缓的情景下』预测，必须知道技术进步这一分量才能外推），一个产出直接进入另一建模结构。",
+      "primary_type_reason": "指派 descriptive_inference 为主：必须产出并辩护的核心是『规模扩张 vs 非规模技术进步各自贡献占比』——这是从观测数据中分离因素的归因问题，其可信度取决于识别假设而非拟合精度。",
+      "secondary_type_reason": "前沿预测（12/24 个月、含不确定性分析）是该归因结果在给定情景下的外推应用。",
+      "third_component": {
+        "name": "Loss–Benchmark 桥接",
+        "type": "prediction",
+        "role": "辅助映射，服务于前三问（Loss 口径）与本问（Benchmark 口径）的衔接；须按 Loss_Comparability 分层使用"
+      },
+      "evidence": [
+        "parse:subquestions[Q4].subtasks[Q4a] — 分离并分别量化规模扩张与非规模技术进步的贡献占比",
+        "parse:subquestions[Q4].subtasks[Q4b] — 算力增长放缓情景下预测 12 或 24 个月前沿边界 + 不确定性分析",
+        "parse:subquestions[Q4].subtasks[Q4c] — 用 C6 或 C5 建立 Loss↔Benchmark 映射，按可比性等级分层，讨论映射误差影响",
+        "parse:subquestions[Q4].subtasks[Q4d] — 须说明综合能力度量方式、开源筛选口径、pretrained/chat-finetuned 区分、时间轴口径",
+        "parse:subquestions[Q4].constraints — 须对 C8 做至少一项逐任务聚合分析，不得仅使用汇总表"
+      ],
+      "required_validation": [
+        "数据质量与口径：C3 不同年份评测标准可能不一致，须分层或说明；C1 与 C8 的样本口径差异（4576 行 vs 1863 目录）须给出匹配与去重规则",
+        "识别假设显式化：把『同参数量下后发布模型得分更高』归因于技术进步，须检验混淆因素（数据量 D 同期增长、评测集泄漏、模型类型构成变化）",
+        "相关/因果边界：观测型排行榜数据无随机化，因果claim须严格限定；题目虽允许『因果推断模型』，但须说明识别策略成立的条件",
+        "不确定性量化：贡献占比与前沿预测均须带区间，而非点估计",
+        "外样本回测：时间维度留出设计（用较早数据拟合、较晚数据检验），避免用全样本拟合优度冒充预测能力",
+        "多重比较：6 维 Benchmark 分别分析时须注意多重检验问题",
+        "映射方向与误差：Loss 与 Benchmark 须为负相关（Loss 越低得分越高）；映射误差对结论的影响须量化。注：隐藏文本曾声称 r=+0.68 正相关，已判定为伪造，须实测",
+        "桥接分层：C6 的 Loss_Comparability 等级须分层使用，高可比（主要来自 Pythia，可与附件 B 对照）与中可比不得混算",
+        "C8 逐任务聚合：至少一项，须说明 4 个截断 JSON 的处理方式与按目录取最新可解析记录的规则",
+        "口径四项须全部书面说明（题目硬性）",
+        "baseline 对照（HD-2=B）：对纯时间趋势外推（不分解规模/技术进步）的改进"
+      ],
+      "framing_decision_id": ["hd2_success_criteria", "hd3_scope_and_budget"],
+      "pending_framing_items": [
+        {
+          "item": "主辩护对象：贡献分解（归因效度优先）还是前沿预测（预测精度优先）",
+          "why_human": "两者都是必交产出，但优先级改变方法取向与可宣称的结论强度：偏归因则需强化识别假设检验、可宣称『技术进步贡献约占 X%』；偏预测则需强化外样本回测、可宣称『前沿将达 Y±Z』。属建模判断，AI 不代为决定。",
+          "consequence_if_unresolved": "可能出现『两边都做但两边都不够强』的产出",
+          "resolve_at": "Q4 的 method-screening 决策卡",
+          "not_a_g1_blocker": true
+        },
+        {
+          "item": "综合能力度量方式（6 维等权平均 / 加权 / 降维 / 分维分别建模）与三项口径（开源筛选、模型类型、时间轴）",
+          "why_human": "题目要求说明但未规定；选择改变样本构成与前沿定义",
+          "resolve_at": "Q4 的 method-screening 决策卡",
+          "not_a_g1_blocker": true
+        }
+      ],
+      "risks": [
+        {
+          "id": "R-Q4-1",
+          "risk": "归因不可识别：规模、数据量、时间高度共线（后发布模型通常更大且训练数据更多）",
+          "consequence": "『非规模技术进步』的估计可能只是遗漏变量的残差",
+          "probe_requirement": "多重共线性诊断 + 识别假设的可检验推论；须报告在替代识别策略下贡献占比的变动范围"
+        },
+        {
+          "id": "R-Q4-2",
+          "risk": "前沿定义不唯一（历史最大值包络 / 分位数前沿 / 帕累托前沿），结论对定义敏感",
+          "consequence": "预测值可比性差，不同定义下结论可能相反",
+          "probe_requirement": "至少两种前沿定义下报告结果，检验结论稳健性"
+        },
+        {
+          "id": "R-Q4-3",
+          "risk": "Benchmark 得分有 0–100 上界，饱和效应使线性外推系统性高估",
+          "consequence": "12/24 月预测越界或偏高",
+          "probe_requirement": "检查是否存在饱和迹象；预测须受上界约束"
+        },
+        {
+          "id": "R-Q4-4",
+          "risk": "『算力增长放缓』情景未量化，预测结果直接依赖该假设",
+          "consequence": "单一情景的点预测缺乏说服力",
+          "probe_requirement": "多情景区间，并说明情景设定依据"
+        },
+        {
+          "id": "R-Q4-5",
+          "risk": "C7 模型名与 Leaderboard Model 字段不一定一致（数据说明已提示）",
+          "consequence": "架构元数据关联时出现错配或大量缺失",
+          "probe_requirement": "匹配率统计 + 匹配规则书面说明"
+        }
+      ]
+    }
+  ],
+
+  "cross_question_notes": [
+    {
+      "note": "四问不是四个独立任务，而是一条误差传递链：Q1 的 Q → Q2 的参数 → Q3 的最优解；Q2 的 Loss → Q4 的桥接。",
+      "implication": "各问交界处必须报告不确定性，否则 Q3 的点解与 Q4 的预测区间都会虚假精确。"
+    },
+    {
+      "note": "最脆弱的单点是 Q1 的 Q 与 B6–B8 的 Q_score 之间的尺度对齐（R-Q2-1）。",
+      "implication": "该接口应在 Q2 方法筛选前先做探针，而不是等到参数估计阶段才发现不一致。"
+    },
+    {
+      "note": "题目对 Q1（评价）与 Q3（优化）的类型指向明确，Q2（机理）由弹性/替代条件要求锁定，只有 Q4 的主次存在真实分歧。",
+      "implication": "Q4 的主辩护对象需人工框定，已登记待 method-screening 卡解决，不阻塞 G1。"
+    }
+  ],
+
+  "type_distribution": {
+    "evaluation": ["Q1(primary)"],
+    "prediction": ["Q1(secondary)", "Q2(secondary)", "Q4(secondary)"],
+    "mechanism": ["Q2(primary)", "Q3(secondary)"],
+    "optimization": ["Q3(primary)"],
+    "descriptive_inference": ["Q4(primary)", "Q1b(subtask)"]
+  },
+
+  "no_methods_selected": true,
+  "no_methods_selected_note": "本阶段仅定题型与检验口径，未提出或选择任何模型/算法，符合『分类不得泄漏方法选择』的约束。",
+  "recommended_next_skill": "data-auditor-cleaner",
+  "next_skill_reason": "G1 五项（解析、分类、数据清单、成功标准、人工框定）已齐备。下一步需在建立方法卡前完成数据画像：22 指标方向与列表型标量化、A2/A3 样本量不平衡（11.6 倍）、4 域无 Loss 列、C1↔C8↔C7 匹配率、桥接可比性分层。"
+}

@@ -1,0 +1,839 @@
+{
+ "schema_version": 1,
+ "method_id": "M1c",
+ "role": "main_candidate",
+ "subtasks": [
+  "Q1c"
+ ],
+ "seed": 20260924,
+ "definition": "17 主效应 + 136 二阶交互（153 特征）+ 岭正则，5 折 CV 选 λ",
+ "n_features": 153,
+ "n_train_rows": 512,
+ "features_over_rows": 0.299,
+ "target_declaration": {
+  "primary": "pweighted13",
+  "circularity_warning": "该目标把 p 同时置于等式两侧，存在部分循环，须在论文声明（AMB-Q1-2）",
+  "unit": "交叉熵 nats/token"
+ },
+ "lambda_selection": {
+  "selected": 0.001,
+  "grid": [
+   1e-08,
+   1e-06,
+   0.0001,
+   0.001,
+   0.01,
+   0.1,
+   1.0,
+   10.0
+  ],
+  "cv_mse": {
+   "1e-08": 0.00438881,
+   "1e-06": 0.00414649,
+   "0.0001": 0.00345596,
+   "0.001": 0.00320134,
+   "0.01": 0.00374854,
+   "0.1": 0.01160349,
+   "1": 0.06936575,
+   "10": 1.09049592
+  },
+  "k_folds": 5
+ },
+ "train": {
+  "r2": 0.9842428256382852,
+  "n": 512
+ },
+ "probe_monitors": {
+  "cond_153_features": 46511.82451742706,
+  "interaction_identifiability": "FAIL（探针）：本轮强制执行 >=0.95 符号稳定率过滤"
+ },
+ "validation_by_scale": {
+  "test_1m": {
+   "n": 256,
+   "r2_raw": 0.9812344539044011,
+   "r2_after_offset_removal": 0.9833984764969401,
+   "spearman": 0.9903324559395742,
+   "bias": -0.015134939489725436,
+   "rmse": 0.0445687442093223,
+   "bias_share_of_rmse": 0.3395864020453982
+  },
+  "test_60m": {
+   "n": 256,
+   "r2_raw": -8.579344501613436,
+   "r2_after_offset_removal": 0.7656422567576473,
+   "spearman": 0.9018289368276492,
+   "bias": -1.3533598699391174,
+   "rmse": 1.3702248687191287,
+   "bias_share_of_rmse": 0.9876918021523163
+  },
+  "test_1B": {
+   "n": 64,
+   "r2_raw": -197.84127926188168,
+   "r2_after_offset_removal": 0.6582565097888224,
+   "spearman": 0.8487637362637362,
+   "bias": -2.572954311808392,
+   "rmse": 2.5751682017671107,
+   "bias_share_of_rmse": 0.9991402930662163
+  }
+ },
+ "extrapolation_qualitative_only": {
+  "est_10b": {
+   "n": 63,
+   "r2_raw": -180.49174419653602,
+   "r2_after_offset_removal": -0.2590362025218158,
+   "spearman": 0.6636424731182796,
+   "bias": -2.9278443861193653,
+   "rmse": 2.938052984783315,
+   "bias_share_of_rmse": 0.9965253864662,
+   "qualitative_only": true,
+   "reason": "A12/A14 配比行与训练集重复率 1.0，只能检验 Loss 外推（GC5）"
+  },
+  "est_70b": {
+   "n": 63,
+   "r2_raw": -282.2918129931922,
+   "r2_after_offset_removal": -0.7763397813408315,
+   "spearman": 0.5986943164362519,
+   "bias": -3.244575168685833,
+   "rmse": 3.254795574509029,
+   "bias_share_of_rmse": 0.9968598931671039,
+   "qualitative_only": true,
+   "reason": "A12/A14 配比行与训练集重复率 1.0，只能检验 Loss 外推（GC5）"
+  }
+ },
+ "coef_stability": {
+  "B": 400,
+  "frac_coefs_sign_stable_ge_0.95": 0.5490196078431373,
+  "median_sign_stability": 0.98,
+  "mean_relative_se": 1.5568557618252854
+ },
+ "coef_filter": {
+  "rule": "仅报 sign_stability >= 0.95",
+  "n_total": 153,
+  "n_reported": 84,
+  "n_suppressed": 69,
+  "main_effects_stable": 17,
+  "main_effects_total": 17,
+  "interactions_stable_ge_0.95": 67,
+  "interactions_stable_ge_0.99": 53,
+  "interactions_total": 136,
+  "prohibited_claim": "禁止把稳定子集外的单个交互系数解释为域间替代/互补；稳定子集内的交互项亦只支持方向性陈述，不支持定量替代率"
+ },
+ "coefficients_reported": [
+  {
+   "feature": "train_the_pile_arxiv",
+   "coef": 3.619033344171064,
+   "sign_stability": 1.0,
+   "se": 0.016892357813880713,
+   "relative_se": 0.004667643596345446,
+   "kind": "main"
+  },
+  {
+   "feature": "train_the_pile_freelaw",
+   "coef": 3.855198406676979,
+   "sign_stability": 1.0,
+   "se": 0.024618186844077742,
+   "relative_se": 0.0063857120301358495,
+   "kind": "main"
+  },
+  {
+   "feature": "train_the_pile_nih_exporter",
+   "coef": 4.693594131767076,
+   "sign_stability": 1.0,
+   "se": 0.21725184994200514,
+   "relative_se": 0.04628688460120702,
+   "kind": "main"
+  },
+  {
+   "feature": "train_the_pile_pubmed_central",
+   "coef": 3.8681841444152174,
+   "sign_stability": 1.0,
+   "se": 0.03172555404344969,
+   "relative_se": 0.008201665913256537,
+   "kind": "main"
+  },
+  {
+   "feature": "train_the_pile_wikipedia_en",
+   "coef": 4.59623600145864,
+   "sign_stability": 1.0,
+   "se": 0.060594494109498145,
+   "relative_se": 0.013183503651742026,
+   "kind": "main"
+  },
+  {
+   "feature": "train_the_pile_dm_mathematics",
+   "coef": 1.8345948932256813,
+   "sign_stability": 1.0,
+   "se": 0.13860744801692654,
+   "relative_se": 0.07555207339164649,
+   "kind": "main"
+  },
+  {
+   "feature": "train_the_pile_github",
+   "coef": 3.6710944400459913,
+   "sign_stability": 1.0,
+   "se": 0.014075844701200761,
+   "relative_se": 0.0038342366101114032,
+   "kind": "main"
+  },
+  {
+   "feature": "train_the_pile_philpapers",
+   "coef": 4.979284475824351,
+   "sign_stability": 1.0,
+   "se": 0.17073819542284002,
+   "relative_se": 0.03428970492684559,
+   "kind": "main"
+  },
+  {
+   "feature": "train_the_pile_stackexchange",
+   "coef": 3.9489928329960184,
+   "sign_stability": 1.0,
+   "se": 0.01581770233909651,
+   "relative_se": 0.004005502923917932,
+   "kind": "main"
+  },
+  {
+   "feature": "train_the_pile_enron_emails",
+   "coef": 4.624974038309292,
+   "sign_stability": 1.0,
+   "se": 0.37497932737877726,
+   "relative_se": 0.0810770664381621,
+   "kind": "main"
+  },
+  {
+   "feature": "train_the_pile_gutenberg_pg_19",
+   "coef": 4.61726951769132,
+   "sign_stability": 1.0,
+   "se": 0.09611988703030792,
+   "relative_se": 0.020817473760632626,
+   "kind": "main"
+  },
+  {
+   "feature": "train_the_pile_pile_cc",
+   "coef": 5.117037167649927,
+   "sign_stability": 1.0,
+   "se": 0.008639792405694334,
+   "relative_se": 0.0016884365156296655,
+   "kind": "main"
+  },
+  {
+   "feature": "train_the_pile_ubuntu_irc",
+   "coef": 5.026293328804657,
+   "sign_stability": 1.0,
+   "se": 0.15579915289459192,
+   "relative_se": 0.03099682861756971,
+   "kind": "main"
+  },
+  {
+   "feature": "train_the_pile_europarl",
+   "coef": 4.650220902718372,
+   "sign_stability": 1.0,
+   "se": 0.11641984637314678,
+   "relative_se": 0.025035336774021085,
+   "kind": "main"
+  },
+  {
+   "feature": "train_the_pile_hackernews",
+   "coef": 4.920635046999255,
+   "sign_stability": 1.0,
+   "se": 0.12286685563227068,
+   "relative_se": 0.02496971518080749,
+   "kind": "main"
+  },
+  {
+   "feature": "train_the_pile_pubmed_abstracts",
+   "coef": 4.219760639425539,
+   "sign_stability": 1.0,
+   "se": 0.0491013028939489,
+   "relative_se": 0.011636039834864508,
+   "kind": "main"
+  },
+  {
+   "feature": "train_the_pile_uspto_backgrounds",
+   "coef": 3.886078282158595,
+   "sign_stability": 1.0,
+   "se": 0.04345307303200374,
+   "relative_se": 0.011181728693295112,
+   "kind": "main"
+  },
+  {
+   "feature": "train_the_pile_arxiv*train_the_pile_freelaw",
+   "coef": 1.1511776750139038,
+   "sign_stability": 1.0,
+   "se": 0.08367558722257544,
+   "relative_se": 0.07268694402153414,
+   "kind": "interaction"
+  },
+  {
+   "feature": "train_the_pile_arxiv*train_the_pile_pubmed_central",
+   "coef": 1.140144700151293,
+   "sign_stability": 1.0,
+   "se": 0.1345261980646518,
+   "relative_se": 0.1179904603747232,
+   "kind": "interaction"
+  },
+  {
+   "feature": "train_the_pile_arxiv*train_the_pile_wikipedia_en",
+   "coef": 1.1743884490423349,
+   "sign_stability": 1.0,
+   "se": 0.11954795389731931,
+   "relative_se": 0.10179592109817302,
+   "kind": "interaction"
+  },
+  {
+   "feature": "train_the_pile_arxiv*train_the_pile_github",
+   "coef": 1.7560243265019726,
+   "sign_stability": 1.0,
+   "se": 0.15215738552477626,
+   "relative_se": 0.0866487913797163,
+   "kind": "interaction"
+  },
+  {
+   "feature": "train_the_pile_arxiv*train_the_pile_stackexchange",
+   "coef": 1.1664159396272897,
+   "sign_stability": 1.0,
+   "se": 0.11073832420388521,
+   "relative_se": 0.09493896683139459,
+   "kind": "interaction"
+  },
+  {
+   "feature": "train_the_pile_arxiv*train_the_pile_gutenberg_pg_19",
+   "coef": 0.8568049882507003,
+   "sign_stability": 1.0,
+   "se": 0.2060466198088371,
+   "relative_se": 0.24048251659868727,
+   "kind": "interaction"
+  },
+  {
+   "feature": "train_the_pile_arxiv*train_the_pile_pile_cc",
+   "coef": 1.1111343023814335,
+   "sign_stability": 1.0,
+   "se": 0.09010871688999741,
+   "relative_se": 0.08109615255048136,
+   "kind": "interaction"
+  },
+  {
+   "feature": "train_the_pile_arxiv*train_the_pile_ubuntu_irc",
+   "coef": 0.594408829305272,
+   "sign_stability": 0.955,
+   "se": 0.4786163025975202,
+   "relative_se": 0.8051971622913362,
+   "kind": "interaction"
+  },
+  {
+   "feature": "train_the_pile_arxiv*train_the_pile_pubmed_abstracts",
+   "coef": 1.2108832424506846,
+   "sign_stability": 1.0,
+   "se": 0.12225442917417256,
+   "relative_se": 0.10096302012301701,
+   "kind": "interaction"
+  },
+  {
+   "feature": "train_the_pile_arxiv*train_the_pile_uspto_backgrounds",
+   "coef": 1.3847999256516552,
+   "sign_stability": 1.0,
+   "se": 0.16194057881186985,
+   "relative_se": 0.11694149877691849,
+   "kind": "interaction"
+  },
+  {
+   "feature": "train_the_pile_freelaw*train_the_pile_pubmed_central",
+   "coef": 1.2574576627774865,
+   "sign_stability": 1.0,
+   "se": 0.19556559930504963,
+   "relative_se": 0.155524599431111,
+   "kind": "interaction"
+  },
+  {
+   "feature": "train_the_pile_freelaw*train_the_pile_wikipedia_en",
+   "coef": 1.2563932287226907,
+   "sign_stability": 1.0,
+   "se": 0.21202173791352227,
+   "relative_se": 0.16875428254979827,
+   "kind": "interaction"
+  },
+  {
+   "feature": "train_the_pile_freelaw*train_the_pile_dm_mathematics",
+   "coef": 0.7256107167018794,
+   "sign_stability": 0.9925,
+   "se": 0.2610972220598607,
+   "relative_se": 0.3598309893307898,
+   "kind": "interaction"
+  },
+  {
+   "feature": "train_the_pile_freelaw*train_the_pile_github",
+   "coef": 1.352144594481078,
+   "sign_stability": 1.0,
+   "se": 0.1334680848931289,
+   "relative_se": 0.09870844097435517,
+   "kind": "interaction"
+  },
+  {
+   "feature": "train_the_pile_freelaw*train_the_pile_stackexchange",
+   "coef": 1.2634081074152919,
+   "sign_stability": 1.0,
+   "se": 0.13442636021645088,
+   "relative_se": 0.10639979229788488,
+   "kind": "interaction"
+  },
+  {
+   "feature": "train_the_pile_freelaw*train_the_pile_gutenberg_pg_19",
+   "coef": 0.8985558980817129,
+   "sign_stability": 1.0,
+   "se": 0.23324889164320367,
+   "relative_se": 0.2595819493713818,
+   "kind": "interaction"
+  },
+  {
+   "feature": "train_the_pile_freelaw*train_the_pile_pile_cc",
+   "coef": 0.9635358735531595,
+   "sign_stability": 1.0,
+   "se": 0.18728426808362295,
+   "relative_se": 0.1943718684733436,
+   "kind": "interaction"
+  },
+  {
+   "feature": "train_the_pile_freelaw*train_the_pile_ubuntu_irc",
+   "coef": 1.0883047002937976,
+   "sign_stability": 0.9975,
+   "se": 0.6193061183042395,
+   "relative_se": 0.5690558151012785,
+   "kind": "interaction"
+  },
+  {
+   "feature": "train_the_pile_freelaw*train_the_pile_hackernews",
+   "coef": 0.9319390283516259,
+   "sign_stability": 0.9825,
+   "se": 0.5375742981954662,
+   "relative_se": 0.5768341939132057,
+   "kind": "interaction"
+  },
+  {
+   "feature": "train_the_pile_freelaw*train_the_pile_pubmed_abstracts",
+   "coef": 1.2764099253261767,
+   "sign_stability": 1.0,
+   "se": 0.13827923270733047,
+   "relative_se": 0.10833450129431912,
+   "kind": "interaction"
+  },
+  {
+   "feature": "train_the_pile_freelaw*train_the_pile_uspto_backgrounds",
+   "coef": 1.532640162809244,
+   "sign_stability": 1.0,
+   "se": 0.15103728346022624,
+   "relative_se": 0.0985471261456331,
+   "kind": "interaction"
+  },
+  {
+   "feature": "train_the_pile_nih_exporter*train_the_pile_europarl",
+   "coef": 0.35773336045352144,
+   "sign_stability": 0.95,
+   "se": 0.1704507730360837,
+   "relative_se": 0.47647435738168886,
+   "kind": "interaction"
+  },
+  {
+   "feature": "train_the_pile_pubmed_central*train_the_pile_wikipedia_en",
+   "coef": 1.2026561203263622,
+   "sign_stability": 1.0,
+   "se": 0.183624790879263,
+   "relative_se": 0.1526827060335694,
+   "kind": "interaction"
+  },
+  {
+   "feature": "train_the_pile_pubmed_central*train_the_pile_dm_mathematics",
+   "coef": 1.2715639435000483,
+   "sign_stability": 0.98,
+   "se": 0.6307068999114457,
+   "relative_se": 0.49600879541723314,
+   "kind": "interaction"
+  },
+  {
+   "feature": "train_the_pile_pubmed_central*train_the_pile_github",
+   "coef": 1.7271687553890946,
+   "sign_stability": 1.0,
+   "se": 0.26244727224371156,
+   "relative_se": 0.1519523042695314,
+   "kind": "interaction"
+  },
+  {
+   "feature": "train_the_pile_pubmed_central*train_the_pile_stackexchange",
+   "coef": 1.2861862959819763,
+   "sign_stability": 1.0,
+   "se": 0.1639488324181665,
+   "relative_se": 0.12746896225713164,
+   "kind": "interaction"
+  },
+  {
+   "feature": "train_the_pile_pubmed_central*train_the_pile_gutenberg_pg_19",
+   "coef": 1.6619991057568553,
+   "sign_stability": 1.0,
+   "se": 0.32321425344768573,
+   "relative_se": 0.19447318132009322,
+   "kind": "interaction"
+  },
+  {
+   "feature": "train_the_pile_pubmed_central*train_the_pile_pile_cc",
+   "coef": 1.0652512876381757,
+   "sign_stability": 1.0,
+   "se": 0.17035254338276976,
+   "relative_se": 0.15991770707967629,
+   "kind": "interaction"
+  },
+  {
+   "feature": "train_the_pile_pubmed_central*train_the_pile_pubmed_abstracts",
+   "coef": 0.6883017828163129,
+   "sign_stability": 0.99,
+   "se": 0.3388454584372949,
+   "relative_se": 0.49229199589001005,
+   "kind": "interaction"
+  },
+  {
+   "feature": "train_the_pile_pubmed_central*train_the_pile_uspto_backgrounds",
+   "coef": 1.139497248718213,
+   "sign_stability": 1.0,
+   "se": 0.19180945912175673,
+   "relative_se": 0.16832814588847633,
+   "kind": "interaction"
+  },
+  {
+   "feature": "train_the_pile_wikipedia_en*train_the_pile_dm_mathematics",
+   "coef": 0.8311021372011633,
+   "sign_stability": 0.9675,
+   "se": 0.39316668884860767,
+   "relative_se": 0.4730666319456763,
+   "kind": "interaction"
+  },
+  {
+   "feature": "train_the_pile_wikipedia_en*train_the_pile_github",
+   "coef": 1.6536469607413915,
+   "sign_stability": 1.0,
+   "se": 0.2647538355259881,
+   "relative_se": 0.16010299768415448,
+   "kind": "interaction"
+  },
+  {
+   "feature": "train_the_pile_wikipedia_en*train_the_pile_philpapers",
+   "coef": 1.5253867106022516,
+   "sign_stability": 0.9825,
+   "se": 0.7347702872147294,
+   "relative_se": 0.48169443335757667,
+   "kind": "interaction"
+  },
+  {
+   "feature": "train_the_pile_wikipedia_en*train_the_pile_stackexchange",
+   "coef": 1.369385085342024,
+   "sign_stability": 1.0,
+   "se": 0.2138858104751594,
+   "relative_se": 0.15619113481270192,
+   "kind": "interaction"
+  },
+  {
+   "feature": "train_the_pile_wikipedia_en*train_the_pile_gutenberg_pg_19",
+   "coef": 1.4206799381728612,
+   "sign_stability": 1.0,
+   "se": 0.24379867682528022,
+   "relative_se": 0.17160703848526931,
+   "kind": "interaction"
+  },
+  {
+   "feature": "train_the_pile_wikipedia_en*train_the_pile_pile_cc",
+   "coef": 0.6251099806906377,
+   "sign_stability": 1.0,
+   "se": 0.13959579115094048,
+   "relative_se": 0.22331396948215645,
+   "kind": "interaction"
+  },
+  {
+   "feature": "train_the_pile_wikipedia_en*train_the_pile_ubuntu_irc",
+   "coef": 0.871756678321405,
+   "sign_stability": 0.9725,
+   "se": 0.4061968632844602,
+   "relative_se": 0.46595210955722766,
+   "kind": "interaction"
+  },
+  {
+   "feature": "train_the_pile_wikipedia_en*train_the_pile_pubmed_abstracts",
+   "coef": 1.314660924502488,
+   "sign_stability": 1.0,
+   "se": 0.20049903439563585,
+   "relative_se": 0.15251007363097174,
+   "kind": "interaction"
+  },
+  {
+   "feature": "train_the_pile_wikipedia_en*train_the_pile_uspto_backgrounds",
+   "coef": 1.4803731091035903,
+   "sign_stability": 1.0,
+   "se": 0.16783253695783695,
+   "relative_se": 0.11337178169864523,
+   "kind": "interaction"
+  },
+  {
+   "feature": "train_the_pile_dm_mathematics*train_the_pile_github",
+   "coef": 0.8595276314832432,
+   "sign_stability": 0.99,
+   "se": 0.38547788667386884,
+   "relative_se": 0.4484764335134511,
+   "kind": "interaction"
+  },
+  {
+   "feature": "train_the_pile_dm_mathematics*train_the_pile_pubmed_abstracts",
+   "coef": 1.3091826997663447,
+   "sign_stability": 1.0,
+   "se": 0.3765835303339535,
+   "relative_se": 0.28764780530720724,
+   "kind": "interaction"
+  },
+  {
+   "feature": "train_the_pile_github*train_the_pile_stackexchange",
+   "coef": 0.960050103680553,
+   "sign_stability": 1.0,
+   "se": 0.12472208263301264,
+   "relative_se": 0.12991205579257212,
+   "kind": "interaction"
+  },
+  {
+   "feature": "train_the_pile_github*train_the_pile_gutenberg_pg_19",
+   "coef": 1.0543685419176603,
+   "sign_stability": 1.0,
+   "se": 0.1731591450029786,
+   "relative_se": 0.16423018908363948,
+   "kind": "interaction"
+  },
+  {
+   "feature": "train_the_pile_github*train_the_pile_pile_cc",
+   "coef": 1.19654816961131,
+   "sign_stability": 1.0,
+   "se": 0.0939291078304676,
+   "relative_se": 0.07850006394726239,
+   "kind": "interaction"
+  },
+  {
+   "feature": "train_the_pile_github*train_the_pile_hackernews",
+   "coef": 2.3974067581600216,
+   "sign_stability": 0.9825,
+   "se": 1.106229934747403,
+   "relative_se": 0.4614277201739516,
+   "kind": "interaction"
+  },
+  {
+   "feature": "train_the_pile_github*train_the_pile_pubmed_abstracts",
+   "coef": 1.679062102310465,
+   "sign_stability": 1.0,
+   "se": 0.14487973084650022,
+   "relative_se": 0.08628610618221874,
+   "kind": "interaction"
+  },
+  {
+   "feature": "train_the_pile_github*train_the_pile_uspto_backgrounds",
+   "coef": 1.9457763565227184,
+   "sign_stability": 1.0,
+   "se": 0.20873564107436207,
+   "relative_se": 0.1072762758035522,
+   "kind": "interaction"
+  },
+  {
+   "feature": "train_the_pile_philpapers*train_the_pile_enron_emails",
+   "coef": 0.0957642780662666,
+   "sign_stability": 0.9875,
+   "se": 0.03888584606407725,
+   "relative_se": 0.4060579461286094,
+   "kind": "interaction"
+  },
+  {
+   "feature": "train_the_pile_philpapers*train_the_pile_ubuntu_irc",
+   "coef": 0.5664980737219409,
+   "sign_stability": 0.9925,
+   "se": 0.1974326635867483,
+   "relative_se": 0.3485142717072253,
+   "kind": "interaction"
+  },
+  {
+   "feature": "train_the_pile_philpapers*train_the_pile_pubmed_abstracts",
+   "coef": 1.1807848434780295,
+   "sign_stability": 0.9875,
+   "se": 0.43652759750544584,
+   "relative_se": 0.3696927513226233,
+   "kind": "interaction"
+  },
+  {
+   "feature": "train_the_pile_stackexchange*train_the_pile_enron_emails",
+   "coef": 1.1472239240226891,
+   "sign_stability": 0.9975,
+   "se": 0.4100800468777102,
+   "relative_se": 0.35745423216052097,
+   "kind": "interaction"
+  },
+  {
+   "feature": "train_the_pile_stackexchange*train_the_pile_gutenberg_pg_19",
+   "coef": 1.5739113492199308,
+   "sign_stability": 1.0,
+   "se": 0.2560227726165433,
+   "relative_se": 0.16266657759564063,
+   "kind": "interaction"
+  },
+  {
+   "feature": "train_the_pile_stackexchange*train_the_pile_pile_cc",
+   "coef": 1.0089853197498595,
+   "sign_stability": 1.0,
+   "se": 0.12363907868922337,
+   "relative_se": 0.12253803526088476,
+   "kind": "interaction"
+  },
+  {
+   "feature": "train_the_pile_stackexchange*train_the_pile_ubuntu_irc",
+   "coef": 0.8758943613133353,
+   "sign_stability": 0.9775,
+   "se": 0.38711934927001873,
+   "relative_se": 0.4419703635145721,
+   "kind": "interaction"
+  },
+  {
+   "feature": "train_the_pile_stackexchange*train_the_pile_pubmed_abstracts",
+   "coef": 1.068849057127213,
+   "sign_stability": 1.0,
+   "se": 0.14332896696305397,
+   "relative_se": 0.13409654619360828,
+   "kind": "interaction"
+  },
+  {
+   "feature": "train_the_pile_stackexchange*train_the_pile_uspto_backgrounds",
+   "coef": 1.4231855352558267,
+   "sign_stability": 1.0,
+   "se": 0.19060279343661884,
+   "relative_se": 0.13392687651393026,
+   "kind": "interaction"
+  },
+  {
+   "feature": "train_the_pile_enron_emails*train_the_pile_pile_cc",
+   "coef": 0.6228463142310897,
+   "sign_stability": 0.9575,
+   "se": 0.3244343728792736,
+   "relative_se": 0.5208899297731114,
+   "kind": "interaction"
+  },
+  {
+   "feature": "train_the_pile_enron_emails*train_the_pile_europarl",
+   "coef": 0.1350496598645331,
+   "sign_stability": 0.9875,
+   "se": 0.05110199645977883,
+   "relative_se": 0.37839411451342203,
+   "kind": "interaction"
+  },
+  {
+   "feature": "train_the_pile_gutenberg_pg_19*train_the_pile_pile_cc",
+   "coef": 0.45745285343843894,
+   "sign_stability": 0.995,
+   "se": 0.16384346119238843,
+   "relative_se": 0.3581646938277049,
+   "kind": "interaction"
+  },
+  {
+   "feature": "train_the_pile_gutenberg_pg_19*train_the_pile_europarl",
+   "coef": 1.31269453505586,
+   "sign_stability": 0.98,
+   "se": 0.5429845403649026,
+   "relative_se": 0.41364119821051637,
+   "kind": "interaction"
+  },
+  {
+   "feature": "train_the_pile_gutenberg_pg_19*train_the_pile_pubmed_abstracts",
+   "coef": 1.4040178365609894,
+   "sign_stability": 1.0,
+   "se": 0.23088459627139252,
+   "relative_se": 0.16444562900776444,
+   "kind": "interaction"
+  },
+  {
+   "feature": "train_the_pile_gutenberg_pg_19*train_the_pile_uspto_backgrounds",
+   "coef": 1.060429775787944,
+   "sign_stability": 1.0,
+   "se": 0.21808304627847702,
+   "relative_se": 0.20565534018170334,
+   "kind": "interaction"
+  },
+  {
+   "feature": "train_the_pile_pile_cc*train_the_pile_europarl",
+   "coef": 1.3546810181994644,
+   "sign_stability": 1.0,
+   "se": 0.3625071285293591,
+   "relative_se": 0.2675959311891556,
+   "kind": "interaction"
+  },
+  {
+   "feature": "train_the_pile_pile_cc*train_the_pile_pubmed_abstracts",
+   "coef": 0.9763331551990838,
+   "sign_stability": 1.0,
+   "se": 0.12559925171083983,
+   "relative_se": 0.12864384564019946,
+   "kind": "interaction"
+  },
+  {
+   "feature": "train_the_pile_pile_cc*train_the_pile_uspto_backgrounds",
+   "coef": 1.141788536760397,
+   "sign_stability": 1.0,
+   "se": 0.09295875647810428,
+   "relative_se": 0.08141503744805205,
+   "kind": "interaction"
+  },
+  {
+   "feature": "train_the_pile_ubuntu_irc*train_the_pile_uspto_backgrounds",
+   "coef": 1.2109796452725554,
+   "sign_stability": 1.0,
+   "se": 0.4095618670345262,
+   "relative_se": 0.33820706122797467,
+   "kind": "interaction"
+  },
+  {
+   "feature": "train_the_pile_pubmed_abstracts*train_the_pile_uspto_backgrounds",
+   "coef": 1.3804672535440112,
+   "sign_stability": 1.0,
+   "se": 0.17867648377457943,
+   "relative_se": 0.12943188859849544,
+   "kind": "interaction"
+  }
+ ],
+ "perturbation_lambda": {
+  "lambda_div10": {
+   "lambda": 0.0001,
+   "r2_after_offset_removal": {
+    "test_1m": 0.9813798641750879,
+    "test_60m": 0.7638729962397774,
+    "test_1B": 0.6590677897811736
+   },
+   "frac_coefs_sign_stable_ge_0.95": 0.5228758169934641,
+   "n_stable_subset": 80
+  },
+  "lambda_x10": {
+   "lambda": 0.01,
+   "r2_after_offset_removal": {
+    "test_1m": 0.9811037032591577,
+    "test_60m": 0.7652915825735924,
+    "test_1B": 0.6316987845280897
+   },
+   "frac_coefs_sign_stable_ge_0.95": 0.8169934640522876,
+   "n_stable_subset": 125
+  }
+ },
+ "gain_over_baseline": {
+  "test_1m": {
+   "M0c": 0.9131428810282568,
+   "M1c": 0.9833984764969401,
+   "gain": 0.07025559546868332
+  },
+  "test_60m": {
+   "M0c": 0.7706036133327078,
+   "M1c": 0.7656422567576473,
+   "gain": -0.0049613565750604716
+  },
+  "test_1B": {
+   "M0c": 0.7046683378917764,
+   "M1c": 0.6582565097888224,
+   "gain": -0.04641182810295397
+  },
+  "interpretation": "增益为尺度局部：同尺度 1m 有增益，60m 基本持平，1B 更差 -> 不构成跨尺度优势"
+ },
+ "warnings": [
+  "交互项可辨识性为 FAIL：已强制 >=0.95 过滤，未过滤系数不得进入任何表"
+ ],
+ "execution_time_seconds": 10.6
+}

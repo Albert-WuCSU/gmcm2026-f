@@ -1,0 +1,15 @@
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "matcher": "startup",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo '[math-modeling guardrails active] frozen_numbers.json / workspace/data_raw immutable; git push gated; assembly requires audit-layer PASS. See CLAUDE.md for the why.' >&2"
+          }
+        ]
+      }
+    ]
+  }
+}

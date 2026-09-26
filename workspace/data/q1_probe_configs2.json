@@ -1,0 +1,228 @@
+{
+ "schema_version": 1,
+ "n_rows": 272486,
+ "domains": [
+  "arxiv",
+  "book",
+  "c4",
+  "commoncrawl",
+  "github",
+  "stackexchange",
+  "wikipedia"
+ ],
+ "dsir_preprocessing_note": "PT* 配置先做 dsir/word_count 逐 token 归一化；证据见 q1_probe_dsir_length.json",
+ "configs": {
+  "A_raw_all_plus": {
+   "n_indicator_columns": 22,
+   "direction_consistency": {
+    "n_pairs_lt_-0.5": 20,
+    "n_pairs_lt_-0.8": 10,
+    "worst3": [
+     {
+      "r": -0.9346,
+      "a": "dsir_math",
+      "b": "rps_doc_word_count"
+     },
+     {
+      "r": -0.9284,
+      "a": "dsir_wiki",
+      "b": "rps_doc_word_count"
+     },
+     {
+      "r": -0.9268,
+      "a": "dsir_books",
+      "b": "rps_doc_word_count"
+     }
+    ]
+   },
+   "domain_order_best_to_worst": [
+    "arxiv",
+    "c4",
+    "commoncrawl",
+    "stackexchange",
+    "book",
+    "wikipedia",
+    "github"
+   ],
+   "domain_huber": {
+    "arxiv": 0.63353,
+    "book": 0.52672,
+    "c4": 0.58348,
+    "commoncrawl": 0.57383,
+    "github": 0.48029,
+    "stackexchange": 0.55278,
+    "wikipedia": 0.52182
+   },
+   "domain_range": 0.153244,
+   "auc_arxiv_vs_github_of_Q": 0.9838,
+   "ranks": {
+    "arxiv": 1,
+    "book": 5,
+    "c4": 2,
+    "commoncrawl": 3,
+    "github": 7,
+    "stackexchange": 4,
+    "wikipedia": 6
+   }
+  },
+  "R_raw_collapsed_nonmono": {
+   "n_indicator_columns": 20,
+   "direction_consistency": {
+    "n_pairs_lt_-0.5": 6,
+    "n_pairs_lt_-0.8": 1,
+    "worst3": [
+     {
+      "r": -0.8531,
+      "a": "rps_doc_unigram_entropy",
+      "b": "dsir_prose_likeness"
+     },
+     {
+      "r": -0.7165,
+      "a": "modernbert_professionalism",
+      "b": "dsir_prose_likeness"
+     },
+     {
+      "r": -0.6839,
+      "a": "rps_doc_unigram_entropy",
+      "b": "rps_doc_frac_unique_words"
+     }
+    ]
+   },
+   "domain_order_best_to_worst": [
+    "arxiv",
+    "c4",
+    "commoncrawl",
+    "stackexchange",
+    "wikipedia",
+    "github",
+    "book"
+   ],
+   "domain_huber": {
+    "arxiv": 0.60827,
+    "book": 0.4787,
+    "c4": 0.59026,
+    "commoncrawl": 0.57498,
+    "github": 0.4803,
+    "stackexchange": 0.57146,
+    "wikipedia": 0.52316
+   },
+   "domain_range": 0.129573,
+   "auc_arxiv_vs_github_of_Q": 0.9393,
+   "ranks": {
+    "arxiv": 1,
+    "book": 7,
+    "c4": 2,
+    "commoncrawl": 3,
+    "github": 6,
+    "stackexchange": 4,
+    "wikipedia": 5
+   }
+  },
+  "PT_pertoken_collapsed_nonmono": {
+   "n_indicator_columns": 20,
+   "direction_consistency": {
+    "n_pairs_lt_-0.5": 3,
+    "n_pairs_lt_-0.8": 0,
+    "worst3": [
+     {
+      "r": -0.6839,
+      "a": "rps_doc_unigram_entropy",
+      "b": "rps_doc_frac_unique_words"
+     },
+     {
+      "r": -0.6065,
+      "a": "modernbert_professionalism",
+      "b": "rps_doc_frac_unique_words"
+     },
+     {
+      "r": -0.597,
+      "a": "modernbert_reasoning",
+      "b": "rps_doc_frac_unique_words"
+     }
+    ]
+   },
+   "domain_order_best_to_worst": [
+    "arxiv",
+    "c4",
+    "commoncrawl",
+    "stackexchange",
+    "wikipedia",
+    "book",
+    "github"
+   ],
+   "domain_huber": {
+    "arxiv": 0.64939,
+    "book": 0.52638,
+    "c4": 0.60188,
+    "commoncrawl": 0.6013,
+    "github": 0.47365,
+    "stackexchange": 0.58302,
+    "wikipedia": 0.53256
+   },
+   "domain_range": 0.175744,
+   "auc_arxiv_vs_github_of_Q": 0.9741,
+   "ranks": {
+    "arxiv": 1,
+    "book": 6,
+    "c4": 2,
+    "commoncrawl": 3,
+    "github": 7,
+    "stackexchange": 4,
+    "wikipedia": 5
+   }
+  },
+  "PT_pertoken_collapsed_len_plus": {
+   "n_indicator_columns": 20,
+   "direction_consistency": {
+    "n_pairs_lt_-0.5": 5,
+    "n_pairs_lt_-0.8": 1,
+    "worst3": [
+     {
+      "r": -0.8546,
+      "a": "rps_doc_word_count",
+      "b": "rps_doc_frac_unique_words"
+     },
+     {
+      "r": -0.7016,
+      "a": "rps_doc_num_sentences",
+      "b": "rps_doc_frac_unique_words"
+     },
+     {
+      "r": -0.6839,
+      "a": "rps_doc_unigram_entropy",
+      "b": "rps_doc_frac_unique_words"
+     }
+    ]
+   },
+   "domain_order_best_to_worst": [
+    "arxiv",
+    "book",
+    "commoncrawl",
+    "c4",
+    "stackexchange",
+    "wikipedia",
+    "github"
+   ],
+   "domain_huber": {
+    "arxiv": 0.73159,
+    "book": 0.62355,
+    "c4": 0.58763,
+    "commoncrawl": 0.6152,
+    "github": 0.46672,
+    "stackexchange": 0.56551,
+    "wikipedia": 0.51866
+   },
+   "domain_range": 0.264872,
+   "auc_arxiv_vs_github_of_Q": 0.9958,
+   "ranks": {
+    "arxiv": 1,
+    "book": 2,
+    "c4": 4,
+    "commoncrawl": 3,
+    "github": 7,
+    "stackexchange": 5,
+    "wikipedia": 6
+   }
+  }
+ }
+}

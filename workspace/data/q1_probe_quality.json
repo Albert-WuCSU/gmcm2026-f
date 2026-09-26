@@ -1,0 +1,445 @@
+{
+ "schema_version": 1,
+ "seed": 20260924,
+ "meta": {
+  "columns": [
+   "fineweb_edu",
+   "ad_en_margin",
+   "fluency_en_margin",
+   "modernbert_cleanliness",
+   "modernbert_readability",
+   "modernbert_reasoning",
+   "modernbert_professionalism",
+   "qurater",
+   "dsir_books",
+   "dsir_wiki",
+   "dsir_math",
+   "rps_doc_word_count",
+   "rps_doc_num_sentences",
+   "rps_doc_unigram_entropy",
+   "rps_doc_frac_unique_words",
+   "rps_doc_frac_no_alph_words",
+   "rps_doc_frac_chars_top_2gram",
+   "rps_doc_frac_chars_top_3gram",
+   "rps_lines_uppercase_letter_fraction",
+   "rps_lines_ending_with_terminal_punctution_mark",
+   "rps_lines_numerical_chars_fraction",
+   "rps_doc_mean_word_length"
+  ],
+  "domains": [
+   "arxiv",
+   "book",
+   "c4",
+   "commoncrawl",
+   "github",
+   "stackexchange",
+   "wikipedia"
+  ],
+  "rows_per_file": {
+   "A1": 51212,
+   "A2": 17523,
+   "A3": 203751
+  },
+  "rows_skipped_nan": {
+   "A1": 18,
+   "A2": 0,
+   "A3": 1
+  },
+  "n_rows": 272486
+ },
+ "runtime_load_seconds": 62.2,
+ "direction_table": {
+  "fineweb_edu": {
+   "sign": 1,
+   "tier": "A",
+   "basis": "赛题正文明示：教育价值越高越好"
+  },
+  "ad_en_margin": {
+   "sign": 1,
+   "tier": "A",
+   "basis": "原文核验：margin 最低 6/6 条为广告文案，最高端为论坛/新闻 → margin 度量非广告性"
+  },
+  "fluency_en_margin": {
+   "sign": 1,
+   "tier": "A",
+   "basis": "原文核验：margin 最低端为 SEO 垃圾/机翻乱码，最高端为通顺散文 → margin 度量流畅度"
+  },
+  "modernbert_cleanliness": {
+   "sign": 1,
+   "tier": "A",
+   "basis": "6 类有序 logits 的 softmax 期望类别，与 fineweb_edu pearson +0.302"
+  },
+  "modernbert_readability": {
+   "sign": 1,
+   "tier": "A",
+   "basis": "期望类别与 fineweb_edu pearson +0.331"
+  },
+  "modernbert_reasoning": {
+   "sign": 1,
+   "tier": "A",
+   "basis": "期望类别与 fineweb_edu spearman +0.485"
+  },
+  "modernbert_professionalism": {
+   "sign": 1,
+   "tier": "A",
+   "basis": "期望类别与 fineweb_edu spearman +0.368"
+  },
+  "qurater": {
+   "sign": 1,
+   "tier": "A",
+   "basis": "4 个准则与 fineweb_edu 全为正相关 +0.24~+0.61"
+  },
+  "dsir_books": {
+   "sign": 1,
+   "tier": "C",
+   "basis": "DSIR 对数似然比，越大越接近 books 参照分布；AUC(arxiv:github)=0.034 强域指示，'更像书=质量更高'属建模判断"
+  },
+  "dsir_wiki": {
+   "sign": 1,
+   "tier": "C",
+   "basis": "同上，AUC=0.035"
+  },
+  "dsir_math": {
+   "sign": 1,
+   "tier": "C",
+   "basis": "同上，AUC=0.045"
+  },
+  "rps_doc_word_count": {
+   "sign": 1,
+   "tier": "C",
+   "basis": "文档长度对质量非单调；AUC=0.987 近乎纯域标签"
+  },
+  "rps_doc_num_sentences": {
+   "sign": 1,
+   "tier": "C",
+   "basis": "句数对质量非单调；AUC=0.947"
+  },
+  "rps_doc_unigram_entropy": {
+   "sign": 1,
+   "tier": "B",
+   "basis": "一元词熵 = 词汇多样性，低熵对应重复/模板文本"
+  },
+  "rps_doc_frac_unique_words": {
+   "sign": 1,
+   "tier": "B",
+   "basis": "唯一词占比高 = 重复度低"
+  },
+  "rps_doc_frac_no_alph_words": {
+   "sign": -1,
+   "tier": "B",
+   "basis": "非字母词占比高 = 符号/数字噪声，Gopher 过滤视为劣质"
+  },
+  "rps_doc_frac_chars_top_2gram": {
+   "sign": -1,
+   "tier": "B",
+   "basis": "最高频 2-gram 字符占比高 = 模板化重复"
+  },
+  "rps_doc_frac_chars_top_3gram": {
+   "sign": -1,
+   "tier": "B",
+   "basis": "最高频 3-gram 字符占比高 = 模板化重复"
+  },
+  "rps_lines_uppercase_letter_fraction": {
+   "sign": -1,
+   "tier": "B",
+   "basis": "大写字母占比高 = 标题堆砌/全大写喊话"
+  },
+  "rps_lines_ending_with_terminal_punctution_mark": {
+   "sign": 1,
+   "tier": "B",
+   "basis": "C4 规则保留以终止标点结尾的行，句子完整性"
+  },
+  "rps_lines_numerical_chars_fraction": {
+   "sign": -1,
+   "tier": "B",
+   "basis": "数字字符占比高 = 表格/清单残渣"
+  },
+  "rps_doc_mean_word_length": {
+   "sign": 0,
+   "tier": "C",
+   "basis": "非单调：Gopher 过滤保留区间约 [3,10]，过短为乱码、过长为连写/编码残渣（本库 max=83）"
+  }
+ },
+ "naive_minmax_degeneracy": {
+  "fineweb_edu": {
+   "raw_min": -0.652137815952301,
+   "raw_max": 4.694155216217041,
+   "raw_median": 1.181040108203888,
+   "median_position_in_naive_minmax": 0.342888,
+   "frac_mass_in_top_1pct_of_range": 4e-06
+  },
+  "ad_en_margin": {
+   "raw_min": -7.138671875,
+   "raw_max": 8.537109375,
+   "raw_median": 5.337890625,
+   "median_position_in_naive_minmax": 0.795913,
+   "frac_mass_in_top_1pct_of_range": 0.000195
+  },
+  "fluency_en_margin": {
+   "raw_min": -6.224609375,
+   "raw_max": 7.533203125,
+   "raw_median": 0.637481689453125,
+   "median_position_in_naive_minmax": 0.498778,
+   "frac_mass_in_top_1pct_of_range": 3.7e-05
+  },
+  "modernbert_cleanliness": {
+   "raw_min": 1.000000024434899,
+   "raw_max": 4.999999961220566,
+   "raw_median": 2.0069822934191635,
+   "median_position_in_naive_minmax": 0.251746,
+   "frac_mass_in_top_1pct_of_range": 0.101712
+  },
+  "modernbert_readability": {
+   "raw_min": 0.03027825005843413,
+   "raw_max": 4.999719720417957,
+   "raw_median": 3.164757633293358,
+   "median_position_in_naive_minmax": 0.630751,
+   "frac_mass_in_top_1pct_of_range": 0.022438
+  },
+  "modernbert_reasoning": {
+   "raw_min": 5.391254747637515e-05,
+   "raw_max": 4.999998380852863,
+   "raw_median": 1.0937777456494124,
+   "median_position_in_naive_minmax": 0.218747,
+   "frac_mass_in_top_1pct_of_range": 0.073982
+  },
+  "modernbert_professionalism": {
+   "raw_min": 1.0000103620660563,
+   "raw_max": 4.999992883211951,
+   "raw_median": 4.278755357525155,
+   "median_position_in_naive_minmax": 0.81969,
+   "frac_mass_in_top_1pct_of_range": 0.306889
+  },
+  "qurater": {
+   "raw_min": -6.96875,
+   "raw_max": 7.783203125,
+   "raw_median": -0.402374267578125,
+   "median_position_in_naive_minmax": 0.445119,
+   "frac_mass_in_top_1pct_of_range": 7e-06
+  },
+  "dsir_books": {
+   "raw_min": -2026325.80102772,
+   "raw_max": -16.82294988,
+   "raw_median": -2395.21264696,
+   "median_position_in_naive_minmax": 0.998826,
+   "frac_mass_in_top_1pct_of_range": 0.913306
+  },
+  "dsir_wiki": {
+   "raw_min": -1966147.71309439,
+   "raw_max": -17.66218046,
+   "raw_median": -2409.915937715,
+   "median_position_in_naive_minmax": 0.998783,
+   "frac_mass_in_top_1pct_of_range": 0.911027
+  },
+  "dsir_math": {
+   "raw_min": -1754034.28491041,
+   "raw_max": -15.05893869,
+   "raw_median": -2301.91608178,
+   "median_position_in_naive_minmax": 0.998696,
+   "frac_mass_in_top_1pct_of_range": 0.916165
+  },
+  "rps_doc_word_count": {
+   "raw_min": 1.0,
+   "raw_max": 552671.0,
+   "raw_median": 152.0,
+   "median_position_in_naive_minmax": 0.000273,
+   "frac_mass_in_top_1pct_of_range": 4e-06
+  },
+  "rps_doc_num_sentences": {
+   "raw_min": 1.0,
+   "raw_max": 30449.0,
+   "raw_median": 24.0,
+   "median_position_in_naive_minmax": 0.000755,
+   "frac_mass_in_top_1pct_of_range": 4e-06
+  },
+  "rps_doc_unigram_entropy": {
+   "raw_min": 0.0,
+   "raw_max": 7.84673154,
+   "raw_median": 4.13431271,
+   "median_position_in_naive_minmax": 0.526883,
+   "frac_mass_in_top_1pct_of_range": 7e-06
+  },
+  "rps_doc_frac_unique_words": {
+   "raw_min": 1.2174256383258752,
+   "raw_max": 100.0,
+   "raw_median": 56.896551724137936,
+   "median_position_in_naive_minmax": 0.563653,
+   "frac_mass_in_top_1pct_of_range": 0.038817
+  },
+  "rps_doc_frac_no_alph_words": {
+   "raw_min": 4.347826086956516,
+   "raw_max": 100.0,
+   "raw_median": 33.16247278054451,
+   "median_position_in_naive_minmax": 0.301244,
+   "frac_mass_in_top_1pct_of_range": 0.002734
+  },
+  "rps_doc_frac_chars_top_2gram": {
+   "raw_min": 0.0,
+   "raw_max": 194.0,
+   "raw_median": 2.0,
+   "median_position_in_naive_minmax": 0.010309,
+   "frac_mass_in_top_1pct_of_range": 4e-06
+  },
+  "rps_doc_frac_chars_top_3gram": {
+   "raw_min": 0.0,
+   "raw_max": 284.0,
+   "raw_median": 1.0,
+   "median_position_in_naive_minmax": 0.003521,
+   "frac_mass_in_top_1pct_of_range": 4e-06
+  },
+  "rps_lines_uppercase_letter_fraction": {
+   "raw_min": 0.0,
+   "raw_max": 96.49122807017544,
+   "raw_median": 20.767675515873044,
+   "median_position_in_naive_minmax": 0.215229,
+   "frac_mass_in_top_1pct_of_range": 4e-06
+  },
+  "rps_lines_ending_with_terminal_punctution_mark": {
+   "raw_min": 0.0,
+   "raw_max": 100.0,
+   "raw_median": 25.0,
+   "median_position_in_naive_minmax": 0.25,
+   "frac_mass_in_top_1pct_of_range": 0.041279
+  },
+  "rps_lines_numerical_chars_fraction": {
+   "raw_min": 0.0,
+   "raw_max": 85.67810452791292,
+   "raw_median": 0.8165414359137093,
+   "median_position_in_naive_minmax": 0.00953,
+   "frac_mass_in_top_1pct_of_range": 4e-06
+  },
+  "rps_doc_mean_word_length": {
+   "raw_min": 1.9272030651340997,
+   "raw_max": 87.0,
+   "raw_median": 8.056946359192882,
+   "median_position_in_naive_minmax": 0.072053,
+   "frac_mass_in_top_1pct_of_range": 4e-06
+  }
+ },
+ "tier_counts": {
+  "A": 8,
+  "B": 8,
+  "C": 6
+ },
+ "normalization_population_comparison": {
+  "pooled|ecdf": {
+   "cross_domain_range": 0.153244,
+   "cross_domain_cv": 0.083111,
+   "domain_huber": {
+    "arxiv": 0.63353,
+    "book": 0.52672,
+    "c4": 0.58348,
+    "commoncrawl": 0.57383,
+    "github": 0.48029,
+    "stackexchange": 0.55278,
+    "wikipedia": 0.52182
+   },
+   "auc_arxiv_vs_github_of_Q": 0.9838,
+   "sample_level_std": 0.080818
+  },
+  "pooled|winsor_minmax": {
+   "cross_domain_range": 0.149579,
+   "cross_domain_cv": 0.075061,
+   "domain_huber": {
+    "arxiv": 0.69775,
+    "book": 0.59702,
+    "c4": 0.62158,
+    "commoncrawl": 0.62006,
+    "github": 0.54818,
+    "stackexchange": 0.6054,
+    "wikipedia": 0.55856
+   },
+   "auc_arxiv_vs_github_of_Q": 0.9876,
+   "sample_level_std": 0.06575
+  },
+  "per_domain|ecdf": {
+   "cross_domain_range": 0.002771,
+   "cross_domain_cv": 0.001757,
+   "domain_huber": {
+    "arxiv": 0.50223,
+    "book": 0.50194,
+    "c4": 0.50337,
+    "commoncrawl": 0.5028,
+    "github": 0.50265,
+    "stackexchange": 0.5006,
+    "wikipedia": 0.50123
+   },
+   "auc_arxiv_vs_github_of_Q": 0.4982,
+   "sample_level_std": 0.076506
+  },
+  "per_domain|winsor_minmax": {
+   "cross_domain_range": 0.112299,
+   "cross_domain_cv": 0.061789,
+   "domain_huber": {
+    "arxiv": 0.67507,
+    "book": 0.5638,
+    "c4": 0.59173,
+    "commoncrawl": 0.59652,
+    "github": 0.56442,
+    "stackexchange": 0.58711,
+    "wikipedia": 0.56277
+   },
+   "auc_arxiv_vs_github_of_Q": 0.9275,
+   "sample_level_std": 0.064044
+  },
+  "ref_A1|ecdf": {
+   "cross_domain_range": 0.194198,
+   "cross_domain_cv": 0.11078,
+   "domain_huber": {
+    "arxiv": 0.6092,
+    "book": 0.5117,
+    "c4": 0.55584,
+    "commoncrawl": 0.54325,
+    "github": 0.415,
+    "stackexchange": 0.50287,
+    "wikipedia": 0.4772
+   },
+   "auc_arxiv_vs_github_of_Q": 0.9936,
+   "sample_level_std": 0.08776
+  },
+  "ref_A1|winsor_minmax": {
+   "cross_domain_range": 0.13748,
+   "cross_domain_cv": 0.071026,
+   "domain_huber": {
+    "arxiv": 0.69144,
+    "book": 0.58514,
+    "c4": 0.62497,
+    "commoncrawl": 0.62535,
+    "github": 0.55396,
+    "stackexchange": 0.6107,
+    "wikipedia": 0.56281
+   },
+   "auc_arxiv_vs_github_of_Q": 0.9851,
+   "sample_level_std": 0.064411
+  }
+ },
+ "assumption_checks_raw": {
+  "max_abs_offdiag_corr": 0.9998,
+  "mean_abs_offdiag_corr": 0.2904,
+  "n_pairs_absdcorr_gt_0.9": 7,
+  "n_pairs_absdcorr_gt_0.7": 26,
+  "corr_condition_number": 55721.8,
+  "pc1_variance_share": 0.3818,
+  "pc1_pc2_variance_share": 0.5379,
+  "block_structure": {
+   "mean_corr_within_value": 0.0511,
+   "mean_corr_within_pollution": 0.0261,
+   "mean_corr_between": 0.0156,
+   "n_value_cols": 16,
+   "n_pollution_cols": 6
+  }
+ },
+ "entropy_weight_confound_check": {
+  "n_matched_indicators": 21,
+  "pearson_w_vs_domain_separation": 0.5672,
+  "entropy_weight_max": 0.0455,
+  "entropy_weight_min": 0.0445,
+  "entropy_weight_max_over_equal": 1.002,
+  "top3_weight_mass": 0.1366,
+  "top3_columns": [
+   "modernbert_professionalism",
+   "modernbert_reasoning",
+   "modernbert_cleanliness"
+  ]
+ }
+}

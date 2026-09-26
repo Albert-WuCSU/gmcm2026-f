@@ -1,0 +1,126 @@
+{
+ "schema_version": 1,
+ "question_id": "Q1",
+ "language": "python",
+ "round": "round1",
+ "reviewed_files": [
+  "code/Q1/q1_common.py",
+  "code/Q1/q1_quality_baseline.py",
+  "code/Q1/q1_quality_main.py",
+  "code/Q1/q1_mixture_baseline.py",
+  "code/Q1/q1_mixture_main.py",
+  "code/Q1/run_all.py",
+  "code/Q1/q1_figures.py"
+ ],
+ "decision_id": [
+  "q1_tierC_direction",
+  "q1_normalization_population",
+  "q1c_interaction_tradeoff",
+  "q1_frac_unique_words_treatment"
+ ],
+ "checks": {
+  "syntax": {
+   "status": "PASS",
+   "evidence": [
+    "python -m py_compile code/Q1/*.py 全部通过",
+    "四个方法脚本均实跑成功：M0 91.6s / M1 96.0s / M0c 0.5s / M1c 4.0s，无异常退出"
+   ]
+  },
+  "input_contract": {
+   "status": "PASS",
+   "evidence": [
+    "全量 272486 行；剔除 A1=18 / A3=1，与 workspace/data/missingness_a.json 独立审计精确一致",
+    "canonical 20 列，含 dsir_prose_likeness；rps_doc_frac_unique_words 保持原始列（决策 no_treatment）",
+    "配比 17 列 / Loss 13 列，removeprefix+removesuffix 映射 13/13 全匹配",
+    "cond(17 去截距)=61.2、cond(18 含截距)=4773.4，与探针一致",
+    "未写 workspace/data_raw/；原始数据仅经 q1_features.load_all() 读取"
+   ]
+  },
+  "method_alignment": {
+   "status": "PASS",
+   "evidence": [
+    "M1 只实现门控式 Q=V·(1−P)；差值式仅作 excluded_variant 记录，implemented=false",
+    "冲突判据全为分位数锚定；绝对阈版未实现",
+    "M0c 显式去截距（lstsq 无常数列），另附参照域变体作等价性对照",
+    "M1c 强制 sign_stability>=0.95 过滤：报 84/153，压制 69",
+    "M2 未实现，仅在 run_summary.fallback_trigger 记录触发条件与实测值",
+    "per_domain 消融臂对 M0/M1 均已跑；V/P 为 14/6 列（canonical 口径）"
+   ]
+  },
+  "reproducibility": {
+   "status": "PASS",
+   "evidence": [
+    "种子 20260924 经 default_rng 显式传入；无全局 np.random 调用",
+    "未依赖 sklearn，岭回归与 5 折 CV 用 numpy 显式实现",
+    "重跑配比侧与装配后 run_summary.json 除计时字段外逐字节一致",
+    "environment 记录 Python 3.14.6 / numpy 2.5.1 / scipy 1.18.0"
+   ]
+  },
+  "output_contract": {
+   "status": "PASS",
+   "evidence": [
+    "tables/ 7 个、figures/ 4 个、metrics/ 4 个、run_summary.json 均存在",
+    "主方法与 baseline 指标逐项可比：质量侧同口径同聚合，配比侧同目标同检验集",
+    "退化证据齐备：M0 gini 0.1114 / CV 0.1952，M1 gini 0.2028 / CV 0.3591，均未退化",
+    "fallback_trigger 记录 observed=false 与两条件实测值（r<−0.8 对数=0、冲突率 0.0408）",
+    "HD-2 判定附重抽样区间：τ 差 [0.019, 0.057] 不含 0",
+    "Q 增量检验三尺度区间均含 0，零结果已如实落表"
+   ]
+  }
+ },
+ "findings": [
+  {
+   "id": "F1",
+   "severity": "minor",
+   "file": "code/Q1/q1_quality_main.py",
+   "check": "output_contract",
+   "status": "RESOLVED",
+   "issue": "CD1 的阈值 0.25 为固定阈，对分位锚点不敏感：三锚点取值完全相同（canonical 实测 0.303058；探针的 0.374753 为决策前口径）。",
+   "impact": "不影响任何数值结论；影响表的可读性与『判据一律分位数锚定』的表述准确性。",
+   "resolution": "按决策 q1b_conflict_criterion 的 required_fix 新增 CD1_indicator_MAD_anchored（按 MAD 自身分位数锚定），固定阈版保留为 CD1_indicator_MAD_gt_0.25_fixed_ref 作衔接对照。已重跑 M1 + run_all + 绘图。",
+   "blocks_gate": false
+  },
+  {
+   "id": "F2",
+   "severity": "minor",
+   "file": "code/Q1/q1_quality_main.py",
+   "check": "method_alignment",
+   "status": "RESOLVED",
+   "issue": "perturb_weights 调用处的 `w * U.shape[1]` 是空操作——gated() 内部已按 V/P 组重归一化，整体缩放无效（已数值验证 allclose）。",
+   "impact": "无数值影响，仅为冗余表达，可能误导读者以为权重被放大 20 倍。",
+   "resolution": "已删除该乘子并加注说明；重跑后 M1 全部指标不变（域间极差 0.1582、可分辨 21/21、AUC 0.9486），证实确为空操作。",
+   "blocks_gate": false
+  },
+  {
+   "id": "F3",
+   "severity": "info",
+   "file": "results/Q1/experiments/round1/run_summary.json",
+   "check": "output_contract",
+   "issue": "M1 新分开的 book~wikipedia 域对不稳固：分离裕度仅为区间和的 1.12 倍，且方向与 M0 相反（M0 判 wikipedia 高，M1 判 book 高）。",
+   "impact": "该对不可作为稳固结论；已由 caveat_newly_resolved_pairs 记入 run_summary，须在第二张决策卡由使用者裁定表述口径。",
+   "suggestion": "论文中按『统计上接近、方向依合成方式而变』表述，不报单一方向。",
+   "blocks_gate": false,
+   "status": "RESOLVED_BY_DECISION",
+   "resolution": "已由决策 q1a_book_wikipedia_claim_scope=report_indistinguishable 裁定表述口径：不得声称方向，须报统计上不可区分且方向随合成方式而变；该口径仅限此对，c4~commoncrawl 照常报方向。"
+  },
+  {
+   "id": "F4",
+   "severity": "info",
+   "file": "results/Q1/experiments/round1/tables/q1b_conflict_rates.csv",
+   "check": "output_contract",
+   "status": "OPEN",
+   "issue": "修掉 F1 后暴露的新事实：CD1 锚定版的**全局**冲突率是恒等式，恰等于 1 − 锚点（p70/75/80 实测 0.300001/0.250002/0.199999）——按 MAD 自身 p70 切，定义上即有 30% 在上方。故锚定版 CD1 的全局率不含信息。",
+   "impact": "不影响主报判据 CD2。但若论文把 CD1 的全局冲突率与 CD2 并列比较，会是一个无信息量的对照。",
+   "suggestion": "CD1 作敏感性臂时只报**域级分布**与**与 CD2 的集合重叠**（Jaccard 0.030），不报全局率；或改用固定阈版并注明其不随锚点变化。此项须在 G4 结果报告阶段落实表述。",
+   "blocks_gate": false
+  }
+ ],
+ "verdict": "PASSED",
+ "verdict_basis": "五项命名检查全 PASS，无 FAIL。F1/F2 已按决策 q1b_conflict_criterion 的 required_fix 修复并重跑验证；F3（book~wikipedia 不稳固）已由决策 q1a_book_wikipedia_claim_scope 裁定表述口径；F4 为修复 F1 后新发现的表述项（CD1 锚定版全局率为恒等式），info 级、留待 G4 结果报告落实。均不阻塞 G3。",
+ "reviewed_at": "2026-09-24T21:55:00+08:00",
+ "post_review_reruns": [
+  "q1_quality_main.py",
+  "q1_figures.py",
+  "run_all.py"
+ ]
+}

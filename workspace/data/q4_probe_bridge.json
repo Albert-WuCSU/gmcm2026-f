@@ -1,0 +1,515 @@
+{
+  "schema_version": 1,
+  "probes": {
+    "B1_inventory": {
+      "verdict": "PASS",
+      "C5": {
+        "file": "loss_benchmark_bridge.csv",
+        "rows": 43,
+        "columns": [
+          "Model",
+          "N_params_B",
+          "D_tokens_B",
+          "Val_Loss",
+          "LB_Average",
+          "LB_IFEval",
+          "LB_BBH",
+          "LB_MATH",
+          "LB_GPQA",
+          "LB_MUSR",
+          "LB_MMLU_PRO",
+          "Loss_Source",
+          "Loss_Comparability"
+        ],
+        "value_counts::Loss_Source": {
+          "Pythia training log (Attachment B, final checkpoint D=299.9B tokens)": 7,
+          "Qwen2.5 Technical Report (Alibaba, 2024), validation loss": 6,
+          "Qwen2 Technical Report (Alibaba, 2024), validation loss": 4,
+          "Gemma 2 Technical Report (Google, 2024), final loss": 3,
+          "Gemma Technical Report (Google, 2024), final loss": 3,
+          "Phi-3 Technical Report (Microsoft, 2024), training loss": 3,
+          "LLaMA 3 Technical Report (Meta, 2024), training loss at convergence": 2,
+          "LLaMA 2 paper (Touvron et al., 2023), training loss": 2,
+          "Yi Technical Report (01.AI, 2023), training loss": 2,
+          "Falcon technical report (TII, 2023), validation loss": 2,
+          "LLaMA 2 paper (Touvron et al., 2023), training loss at convergence": 1,
+          "LLaMA 3.1 Technical Report (Meta, 2024), training loss": 1,
+          "Phi-2 model card (Microsoft, 2023), training loss": 1,
+          "Phi-1.5 paper (Microsoft, 2023), training loss": 1,
+          "Mistral 7B technical report (Mistral AI, 2023), validation loss": 1,
+          "Mistral 7B model card (Mistral AI, 2024)": 1,
+          "Mixtral technical report (Mistral AI, 2023), validation loss": 1,
+          "OPT paper (Zhang et al., 2022), Pile validation loss": 1,
+          "DeepSeek LLM Technical Report (DeepSeek-AI, 2023), validation loss": 1
+        },
+        "value_counts::Loss_Comparability": {
+          "Medium (different validation set, approximate)": 36,
+          "High (same model, same validation set)": 7
+        }
+      },
+      "C6": {
+        "file": "loss_benchmark_bridge_expanded.csv",
+        "rows": 75,
+        "columns": [
+          "Model",
+          "N_params_B",
+          "D_tokens_B",
+          "Val_Loss",
+          "LB_Average",
+          "LB_IFEval",
+          "LB_BBH",
+          "LB_MATH",
+          "LB_GPQA",
+          "LB_MUSR",
+          "LB_MMLU_PRO",
+          "Loss_Source",
+          "Loss_Comparability"
+        ],
+        "value_counts::Loss_Source": {
+          "Qwen2.5 report": 8,
+          "Pythia training log (Attachment B, final checkpoint D=299.9B tokens)": 7,
+          "Qwen2.5 Technical Report (Alibaba, 2024), validation loss": 6,
+          "Qwen2 Technical Report (Alibaba, 2024), validation loss": 4,
+          "Yi-1.5 report": 4,
+          "Yi technical report": 4,
+          "Gemma2 report": 4,
+          "Gemma 2 Technical Report (Google, 2024), final loss": 3,
+          "Gemma Technical Report (Google, 2024), final loss": 3,
+          "Phi-3 Technical Report (Microsoft, 2024), training loss": 3,
+          "Qwen2 report": 3,
+          "LLaMA 3 Technical Report (Meta, 2024), training loss at convergence": 2,
+          "LLaMA 2 paper (Touvron et al., 2023), training loss": 2,
+          "Yi Technical Report (01.AI, 2023), training loss": 2,
+          "Falcon technical report (TII, 2023), validation loss": 2,
+          "Llama3 technical report": 2,
+          "Falcon technical report": 2,
+          "LLaMA 2 paper (Touvron et al., 2023), training loss at convergence": 1,
+          "LLaMA 3.1 Technical Report (Meta, 2024), training loss": 1,
+          "Phi-2 model card (Microsoft, 2023), training loss": 1,
+          "Phi-1.5 paper (Microsoft, 2023), training loss": 1,
+          "Mistral 7B technical report (Mistral AI, 2023), validation loss": 1,
+          "Mistral 7B model card (Mistral AI, 2024)": 1,
+          "Mixtral technical report (Mistral AI, 2023), validation loss": 1,
+          "OPT paper (Zhang et al., 2022), Pile validation loss": 1,
+          "DeepSeek LLM Technical Report (DeepSeek-AI, 2023), validation loss": 1,
+          "GPT-NeoX paper": 1,
+          "Qwen2 MoE report": 1,
+          "BLOOM paper": 1,
+          "Gemma report": 1,
+          "Phi-1.5 paper": 1
+        },
+        "value_counts::Loss_Comparability": {
+          "Medium (different validation set, approximate)": 68,
+          "High (same model, same validation set)": 7
+        }
+      },
+      "same_model_set": false,
+      "c5_models": 43,
+      "c6_models": 75
+    },
+    "B2_tier": {
+      "verdict": "PASS",
+      "criterion": "存在 High 可比层",
+      "tier_columns_found": {
+        "C5": [
+          "Loss_Comparability"
+        ],
+        "C6": [
+          "Loss_Comparability"
+        ]
+      },
+      "observed_tiers": {
+        "C5.Loss_Comparability": {
+          "Medium (different validation set, approximate)": 36,
+          "High (same model, same validation set)": 7
+        },
+        "C6.Loss_Comparability": {
+          "Medium (different validation set, approximate)": 68,
+          "High (same model, same validation set)": 7
+        }
+      },
+      "high_tier_exists": true,
+      "high_tier_n": 14
+    },
+    "B3_monotone": {
+      "verdict": "PASS",
+      "criterion": "spearman(Loss, Score) < 0",
+      "detail": {
+        "C5": {
+          "loss_col": "Val_Loss",
+          "score_col": "LB_Average",
+          "all": {
+            "spearman": -0.5674,
+            "p": 7.26204947095838e-05,
+            "n": 43
+          },
+          "by::Loss_Source": {
+            "DeepSeek LLM Technical Report (DeepSeek-AI, 2023), validation loss": {
+              "spearman": null,
+              "p": null,
+              "n": 1
+            },
+            "Falcon technical report (TII, 2023), validation loss": {
+              "spearman": null,
+              "p": null,
+              "n": 2
+            },
+            "Gemma 2 Technical Report (Google, 2024), final loss": {
+              "spearman": -1.0,
+              "p": 0.0,
+              "n": 3
+            },
+            "Gemma Technical Report (Google, 2024), final loss": {
+              "spearman": -1.0,
+              "p": 0.0,
+              "n": 3
+            },
+            "LLaMA 2 paper (Touvron et al., 2023), training loss": {
+              "spearman": null,
+              "p": null,
+              "n": 2
+            },
+            "LLaMA 2 paper (Touvron et al., 2023), training loss at convergence": {
+              "spearman": null,
+              "p": null,
+              "n": 1
+            },
+            "LLaMA 3 Technical Report (Meta, 2024), training loss at convergence": {
+              "spearman": null,
+              "p": null,
+              "n": 2
+            },
+            "LLaMA 3.1 Technical Report (Meta, 2024), training loss": {
+              "spearman": null,
+              "p": null,
+              "n": 1
+            },
+            "Mistral 7B model card (Mistral AI, 2024)": {
+              "spearman": null,
+              "p": null,
+              "n": 1
+            },
+            "Mistral 7B technical report (Mistral AI, 2023), validation loss": {
+              "spearman": null,
+              "p": null,
+              "n": 1
+            },
+            "Mixtral technical report (Mistral AI, 2023), validation loss": {
+              "spearman": null,
+              "p": null,
+              "n": 1
+            },
+            "OPT paper (Zhang et al., 2022), Pile validation loss": {
+              "spearman": null,
+              "p": null,
+              "n": 1
+            },
+            "Phi-1.5 paper (Microsoft, 2023), training loss": {
+              "spearman": null,
+              "p": null,
+              "n": 1
+            },
+            "Phi-2 model card (Microsoft, 2023), training loss": {
+              "spearman": null,
+              "p": null,
+              "n": 1
+            },
+            "Phi-3 Technical Report (Microsoft, 2024), training loss": {
+              "spearman": -1.0,
+              "p": 0.0,
+              "n": 3
+            },
+            "Pythia training log (Attachment B, final checkpoint D=299.9B tokens)": {
+              "spearman": -0.6071,
+              "p": 0.14823116148116164,
+              "n": 7
+            },
+            "Qwen2 Technical Report (Alibaba, 2024), validation loss": {
+              "spearman": -1.0,
+              "p": 0.0,
+              "n": 4
+            },
+            "Qwen2.5 Technical Report (Alibaba, 2024), validation loss": {
+              "spearman": -1.0,
+              "p": 0.0,
+              "n": 6
+            },
+            "Yi Technical Report (01.AI, 2023), training loss": {
+              "spearman": null,
+              "p": null,
+              "n": 2
+            }
+          },
+          "by::Loss_Comparability": {
+            "High (same model, same validation set)": {
+              "spearman": -0.6071,
+              "p": 0.14823116148116164,
+              "n": 7
+            },
+            "Medium (different validation set, approximate)": {
+              "spearman": -0.5075,
+              "p": 0.0015796528375936862,
+              "n": 36
+            }
+          }
+        },
+        "C6": {
+          "loss_col": "Val_Loss",
+          "score_col": "LB_Average",
+          "all": {
+            "spearman": -0.5491,
+            "p": 3.3815392640754863e-07,
+            "n": 75
+          },
+          "by::Loss_Source": {
+            "BLOOM paper": {
+              "spearman": null,
+              "p": null,
+              "n": 1
+            },
+            "DeepSeek LLM Technical Report (DeepSeek-AI, 2023), validation loss": {
+              "spearman": null,
+              "p": null,
+              "n": 1
+            },
+            "Falcon technical report": {
+              "spearman": null,
+              "p": null,
+              "n": 2
+            },
+            "Falcon technical report (TII, 2023), validation loss": {
+              "spearman": null,
+              "p": null,
+              "n": 2
+            },
+            "GPT-NeoX paper": {
+              "spearman": null,
+              "p": null,
+              "n": 1
+            },
+            "Gemma 2 Technical Report (Google, 2024), final loss": {
+              "spearman": -1.0,
+              "p": 0.0,
+              "n": 3
+            },
+            "Gemma Technical Report (Google, 2024), final loss": {
+              "spearman": -1.0,
+              "p": 0.0,
+              "n": 3
+            },
+            "Gemma report": {
+              "spearman": null,
+              "p": null,
+              "n": 1
+            },
+            "Gemma2 report": {
+              "spearman": -0.9487,
+              "p": 0.05131670194948613,
+              "n": 4
+            },
+            "LLaMA 2 paper (Touvron et al., 2023), training loss": {
+              "spearman": null,
+              "p": null,
+              "n": 2
+            },
+            "LLaMA 2 paper (Touvron et al., 2023), training loss at convergence": {
+              "spearman": null,
+              "p": null,
+              "n": 1
+            },
+            "LLaMA 3 Technical Report (Meta, 2024), training loss at convergence": {
+              "spearman": null,
+              "p": null,
+              "n": 2
+            },
+            "LLaMA 3.1 Technical Report (Meta, 2024), training loss": {
+              "spearman": null,
+              "p": null,
+              "n": 1
+            },
+            "Llama3 technical report": {
+              "spearman": null,
+              "p": null,
+              "n": 2
+            },
+            "Mistral 7B model card (Mistral AI, 2024)": {
+              "spearman": null,
+              "p": null,
+              "n": 1
+            },
+            "Mistral 7B technical report (Mistral AI, 2023), validation loss": {
+              "spearman": null,
+              "p": null,
+              "n": 1
+            },
+            "Mixtral technical report (Mistral AI, 2023), validation loss": {
+              "spearman": null,
+              "p": null,
+              "n": 1
+            },
+            "OPT paper (Zhang et al., 2022), Pile validation loss": {
+              "spearman": null,
+              "p": null,
+              "n": 1
+            },
+            "Phi-1.5 paper": {
+              "spearman": null,
+              "p": null,
+              "n": 1
+            },
+            "Phi-1.5 paper (Microsoft, 2023), training loss": {
+              "spearman": null,
+              "p": null,
+              "n": 1
+            },
+            "Phi-2 model card (Microsoft, 2023), training loss": {
+              "spearman": null,
+              "p": null,
+              "n": 1
+            },
+            "Phi-3 Technical Report (Microsoft, 2024), training loss": {
+              "spearman": -1.0,
+              "p": 0.0,
+              "n": 3
+            },
+            "Pythia training log (Attachment B, final checkpoint D=299.9B tokens)": {
+              "spearman": -0.6071,
+              "p": 0.14823116148116164,
+              "n": 7
+            },
+            "Qwen2 MoE report": {
+              "spearman": null,
+              "p": null,
+              "n": 1
+            },
+            "Qwen2 Technical Report (Alibaba, 2024), validation loss": {
+              "spearman": -1.0,
+              "p": 0.0,
+              "n": 4
+            },
+            "Qwen2 report": {
+              "spearman": -1.0,
+              "p": 0.0,
+              "n": 3
+            },
+            "Qwen2.5 Technical Report (Alibaba, 2024), validation loss": {
+              "spearman": -1.0,
+              "p": 0.0,
+              "n": 6
+            },
+            "Qwen2.5 report": {
+              "spearman": -0.988,
+              "p": 4.256164416841797e-06,
+              "n": 8
+            },
+            "Yi Technical Report (01.AI, 2023), training loss": {
+              "spearman": null,
+              "p": null,
+              "n": 2
+            },
+            "Yi technical report": {
+              "spearman": -0.8944,
+              "p": 0.10557280900008416,
+              "n": 4
+            },
+            "Yi-1.5 report": {
+              "spearman": NaN,
+              "p": NaN,
+              "n": 4
+            }
+          },
+          "by::Loss_Comparability": {
+            "High (same model, same validation set)": {
+              "spearman": -0.6071,
+              "p": 0.14823116148116164,
+              "n": 7
+            },
+            "Medium (different validation set, approximate)": {
+              "spearman": -0.5087,
+              "p": 9.444557491983934e-06,
+              "n": 68
+            }
+          }
+        }
+      }
+    },
+    "B4_circularity": {
+      "verdict": "PASS",
+      "criterion": "不存在由标度律估算/插值而来的 Loss 行进入拟合",
+      "source_value_counts": {
+        "C5.Loss_Source": {
+          "Pythia training log (Attachment B, final checkpoint D=299.9B tokens)": 7,
+          "Qwen2.5 Technical Report (Alibaba, 2024), validation loss": 6,
+          "Qwen2 Technical Report (Alibaba, 2024), validation loss": 4,
+          "Gemma 2 Technical Report (Google, 2024), final loss": 3,
+          "Gemma Technical Report (Google, 2024), final loss": 3,
+          "Phi-3 Technical Report (Microsoft, 2024), training loss": 3,
+          "LLaMA 3 Technical Report (Meta, 2024), training loss at convergence": 2,
+          "LLaMA 2 paper (Touvron et al., 2023), training loss": 2,
+          "Yi Technical Report (01.AI, 2023), training loss": 2,
+          "Falcon technical report (TII, 2023), validation loss": 2,
+          "LLaMA 2 paper (Touvron et al., 2023), training loss at convergence": 1,
+          "LLaMA 3.1 Technical Report (Meta, 2024), training loss": 1,
+          "Phi-2 model card (Microsoft, 2023), training loss": 1,
+          "Phi-1.5 paper (Microsoft, 2023), training loss": 1,
+          "Mistral 7B technical report (Mistral AI, 2023), validation loss": 1,
+          "Mistral 7B model card (Mistral AI, 2024)": 1,
+          "Mixtral technical report (Mistral AI, 2023), validation loss": 1,
+          "OPT paper (Zhang et al., 2022), Pile validation loss": 1,
+          "DeepSeek LLM Technical Report (DeepSeek-AI, 2023), validation loss": 1
+        },
+        "C6.Loss_Source": {
+          "Qwen2.5 report": 8,
+          "Pythia training log (Attachment B, final checkpoint D=299.9B tokens)": 7,
+          "Qwen2.5 Technical Report (Alibaba, 2024), validation loss": 6,
+          "Qwen2 Technical Report (Alibaba, 2024), validation loss": 4,
+          "Yi-1.5 report": 4,
+          "Yi technical report": 4,
+          "Gemma2 report": 4,
+          "Gemma 2 Technical Report (Google, 2024), final loss": 3,
+          "Gemma Technical Report (Google, 2024), final loss": 3,
+          "Phi-3 Technical Report (Microsoft, 2024), training loss": 3,
+          "Qwen2 report": 3,
+          "LLaMA 3 Technical Report (Meta, 2024), training loss at convergence": 2,
+          "LLaMA 2 paper (Touvron et al., 2023), training loss": 2,
+          "Yi Technical Report (01.AI, 2023), training loss": 2,
+          "Falcon technical report (TII, 2023), validation loss": 2,
+          "Llama3 technical report": 2,
+          "Falcon technical report": 2,
+          "LLaMA 2 paper (Touvron et al., 2023), training loss at convergence": 1,
+          "LLaMA 3.1 Technical Report (Meta, 2024), training loss": 1,
+          "Phi-2 model card (Microsoft, 2023), training loss": 1,
+          "Phi-1.5 paper (Microsoft, 2023), training loss": 1,
+          "Mistral 7B technical report (Mistral AI, 2023), validation loss": 1,
+          "Mistral 7B model card (Mistral AI, 2024)": 1,
+          "Mixtral technical report (Mistral AI, 2023), validation loss": 1,
+          "OPT paper (Zhang et al., 2022), Pile validation loss": 1,
+          "DeepSeek LLM Technical Report (DeepSeek-AI, 2023), validation loss": 1,
+          "GPT-NeoX paper": 1,
+          "Qwen2 MoE report": 1,
+          "BLOOM paper": 1,
+          "Gemma report": 1,
+          "Phi-1.5 paper": 1
+        }
+      },
+      "suspect_rows": {
+        "C5.Loss_Source": {},
+        "C6.Loss_Source": {}
+      },
+      "n_suspect": 0,
+      "ruling": "估算/插值行不得进入 Loss->Score 拟合,只可作外部验证;须按 GC5 披露"
+    },
+    "B5_p4_total_sign": {
+      "verdict": "FAIL",
+      "criterion": "P4 子集分解的 total_points > 0,否则该子集上「份额」不可直接解释",
+      "p4_jia_tech_share": 0.3096,
+      "p4_yi_tech_share": 0.2557,
+      "p4_jia_scale_points": -3.1404,
+      "p4_yi_scale_points": -3.3855,
+      "p4_jia_total_points_implied": -4.5487,
+      "p4_yi_total_points_implied": -4.5486,
+      "consequence": "若 total 为负,则 P4 的 PASS 只说明 (甲 tech_share > 乙 tech_share) 这一符号关系成立,不支持把该子集的 share 数值当占比解读。偏误须改报绝对点数差。"
+    }
+  },
+  "generated_at": "2026-09-25T17:10:27.817399+08:00"
+}

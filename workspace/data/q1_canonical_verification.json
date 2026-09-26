@@ -1,0 +1,75 @@
+{
+ "schema_version": 1,
+ "n_rows": 272486,
+ "canonical_spec": {
+  "dsir_per_token": true,
+  "dsir_collapse": true,
+  "population_primary": "pooled",
+  "population_ablation": "per_domain",
+  "scheme": "ecdf",
+  "n_columns_after_collapse": 20
+ },
+ "expected": {
+  "canonical_PT": {
+   "n_cols": 20,
+   "n_contra_lt_08": 0,
+   "domain_range": 0.1757,
+   "auc": 0.9741
+  },
+  "pre_decision_A": {
+   "n_cols": 22,
+   "n_contra_lt_08": 10,
+   "domain_range": 0.1532,
+   "auc": 0.9838
+  }
+ },
+ "measured": {
+  "canonical_PT": {
+   "n_cols": 20,
+   "n_contra_lt_08": 0,
+   "domain_range": 0.1757,
+   "auc": 0.9741,
+   "domain_order": [
+    "arxiv",
+    "c4",
+    "commoncrawl",
+    "stackexchange",
+    "wikipedia",
+    "book",
+    "github"
+   ]
+  },
+  "pre_decision_A": {
+   "n_cols": 22,
+   "n_contra_lt_08": 10,
+   "domain_range": 0.1532,
+   "auc": 0.9838,
+   "domain_order": [
+    "arxiv",
+    "c4",
+    "commoncrawl",
+    "stackexchange",
+    "book",
+    "wikipedia",
+    "github"
+   ]
+  },
+  "canonical_ablation_per_domain": {
+   "n_cols": 20,
+   "n_contra_lt_08": 0,
+   "domain_range": 0.0033,
+   "auc": 0.5002,
+   "domain_order": [
+    "c4",
+    "wikipedia",
+    "commoncrawl",
+    "book",
+    "arxiv",
+    "github",
+    "stackexchange"
+   ]
+  }
+ },
+ "failures": [],
+ "verdict": "PASS"
+}

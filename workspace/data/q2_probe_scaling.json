@@ -1,0 +1,325 @@
+{
+ "schema_version": 1,
+ "question": "Q2",
+ "seed": 20260924,
+ "scope": "G2 风险探针：只查承重风险；判据在执行前写入脚本 docstring",
+ "criteria_predeclared_before_execution": true,
+ "probes": {
+  "P1_cross_source_shared_E": {
+   "probe_id": "P1_cross_source_shared_E",
+   "load_bearing_risk": "B1/B4/B5 的 val_loss 下界分别约 2.09/1.71/1.47，若强行共享不可约损失 E，跨源拟合会把来源差异吸收进 E 或 alpha/beta",
+   "predeclared_criterion": "三源各自拟合的 E 极差 < 0.15 才可共享",
+   "per_source": {
+    "B1": {
+     "E": 1.6897975629224566,
+     "A": 0.3539803206576468,
+     "alpha": 0.3399765819016327,
+     "B": 1.2403055835558001,
+     "beta": 0.27987812854218963,
+     "rmse": 0.000146496089925887,
+     "r2": 0.9999998165821044,
+     "n": 1176,
+     "E_at_lower_bound": false,
+     "val_loss_min": 2.0933
+    },
+    "B4": {
+     "E": 0.033051000544624856,
+     "A": 2.4438500122011972,
+     "alpha": 0.07248604246892827,
+     "B": 4.157527741052251,
+     "beta": 0.6381524400265141,
+     "rmse": 0.08817516724648385,
+     "r2": 0.9641006030782467,
+     "n": 57,
+     "E_at_lower_bound": false,
+     "val_loss_min": 1.71
+    },
+    "B5": {
+     "E": 1.937754040619923e-12,
+     "A": 0.8937506977559452,
+     "alpha": 0.19428670811869714,
+     "B": 2.3935002882094927,
+     "beta": 0.07649780338867981,
+     "rmse": 0.1316655409424013,
+     "r2": 0.8803657509229381,
+     "n": 44,
+     "E_at_lower_bound": true,
+     "val_loss_min": 1.473
+    }
+   },
+   "E_by_source": {
+    "B1": 1.6897975629224566,
+    "B4": 0.033051000544624856,
+    "B5": 1.937754040619923e-12
+   },
+   "val_loss_min_by_source": {
+    "B1": 2.0933,
+    "B4": 1.71,
+    "B5": 1.473
+   },
+   "E_spread": 1.6897975629205189,
+   "shared_E_admissible": false,
+   "verdict": "FAIL"
+  },
+  "P2_p_and_ND_joint_scale_overlap": {
+   "probe_id": "P2_p_and_ND_joint_scale_overlap",
+   "load_bearing_risk": "11 个 B 文件逐列核验均无配比列 —— p 只能由 Q1（附件 A 侧）引入。若 A 侧尺度不落在 B 侧区间内，L(N,D,Q,p) 在任何单一来源上都不可辨识",
+   "predeclared_criterion": "A 侧三尺度全部落入 B1 的 N 区间才算可直接联合",
+   "B_files_with_mixture_columns": 0,
+   "B_files_checked": 11,
+   "B1_N_range_B": [
+    0.070542,
+    11.965825
+   ],
+   "A_side_scales_N_B": {
+    "1m": 0.001,
+    "60m": 0.06,
+    "1B": 1.0
+   },
+   "A_scale_inside_B1_range": {
+    "1m": false,
+    "60m": false,
+    "1B": true
+   },
+   "n_inside": 1,
+   "direct_joint_identifiable": false,
+   "consequence": "跨来源统一假设是承重假设，非可选设计（对应 AMB-Q2-2）。Q1 已实测的跨尺度可分性 L(p,scale) ~ f(p)+g(scale)（去偏后 R² 0.771/0.705、Spearman 0.922/0.887）可作为该假设的经验支撑 —— 属 AI 意见，采纳由使用者在 G2.5 裁定",
+   "verdict": "FAIL"
+  },
+  "P3_Q_entry_additive_vs_multiplicative": {
+   "probe_id": "P3_Q_entry_additive_vs_multiplicative",
+   "load_bearing_risk": "Q 的进入方式决定边际效用与替代率的函数形式，题目要求自行设计并论证",
+   "predeclared_criterion": "两式在 B6 上的 RMSE 相对差 > 10% 才算可区分",
+   "additive_independent_term": {
+    "rmse": 0.06990692443086688,
+    "r2": 0.9589549492717486,
+    "params": [
+     1.0706767354944967e-20,
+     -0.6308612690552942,
+     -1.2641001887812098,
+     0.27841477749644,
+     -1.2279694943481447,
+     0.444671746289502,
+     -2.490918692828603
+    ]
+   },
+   "multiplicative_D_eff": {
+    "rmse": 0.0724711308038097,
+    "r2": 0.955888636604211,
+    "params": [
+     0.4117721437345382,
+     -0.6158656507404447,
+     -1.276350399607996,
+     0.7337575333509208,
+     0.19593929851575276,
+     -2.6606564614785673
+    ]
+   },
+   "rmse_relative_difference": 0.03538245290920752,
+   "distinguishable_on_B6": false,
+   "better_fit": "additive",
+   "verdict": "CONDITIONAL",
+   "note": "两式若不可区分，则形式选择须靠机理论证与下游可用性（Q3 需要 dL=0 的可解替代率），不能只靠 B6 拟合优度。选择权属使用者"
+  },
+  "P4_beta_gamma_identifiability": {
+   "probe_id": "P4_beta_gamma_identifiability",
+   "load_bearing_risk": "评审 3.2 的必查项：D_eff = D·Q^γ 形式下 Q 与 D 的弹性比恒等于 γ，沿 Q 方向只能辨识乘积 βγ",
+   "predeclared_criterion": "沿 βγ=const 重参数化后预测最大变化 < 1e-8 即确认 β 与 γ 不可分辨",
+   "reparameterizations": [
+    {
+     "scale": 0.5,
+     "beta": 0.14,
+     "gamma": 4.0,
+     "beta_times_gamma": 0.56,
+     "max_abs_pred_diff": 0.757315907047253
+    },
+    {
+     "scale": 0.8,
+     "beta": 0.22400000000000003,
+     "gamma": 2.5,
+     "beta_times_gamma": 0.56,
+     "max_abs_pred_diff": 0.2348994174912571
+    },
+    {
+     "scale": 1.25,
+     "beta": 0.35000000000000003,
+     "gamma": 1.6,
+     "beta_times_gamma": 0.56,
+     "max_abs_pred_diff": 0.22918402147003603
+    },
+    {
+     "scale": 2.0,
+     "beta": 0.56,
+     "gamma": 1.0,
+     "beta_times_gamma": 0.56,
+     "max_abs_pred_diff": 0.6576550891781805
+    },
+    {
+     "scale": 4.0,
+     "beta": 1.12,
+     "gamma": 0.5,
+     "beta_times_gamma": 0.56,
+     "max_abs_pred_diff": 0.9944728324465535
+    }
+   ],
+   "worst_max_abs_pred_diff": 0.9944728324465535,
+   "beta_gamma_separately_identifiable": true,
+   "elasticity_ratio_Q_over_D": {
+    "min": 2.0,
+    "max": 2.0,
+    "constant": true,
+    "value": 2.0
+   },
+   "required_estimation_order": "β 必须先由 B1 真实数据（无 Q 变化，Q 视为常数）钉住，再用 B6-B8 估 γ；不得在含 Q 数据上同时自由估 β 与 γ",
+   "prohibited_claim": "不得在采用该形式的同时声称『Q 与 D 的替代率随位置变化』—— 该比值恒为 γ",
+   "verdict": "CONDITIONAL"
+  },
+  "P5_B8_extrapolated_consistency": {
+   "probe_id": "P5_B8_extrapolated_consistency",
+   "load_bearing_risk": "B8 的 extrapolated 半数 N 上到 700B、val_loss 低至 0.5，低于自然语言熵下界的常见量级；若与 calibrated 不同律，混入拟合会污染参数（GC5 亦禁止表述为直接观测）",
+   "predeclared_criterion": "用 calibrated 拟合去预测 extrapolated，偏差占 RMSE < 50% 才算同律",
+   "n_calibrated": 984,
+   "n_extrapolated": 720,
+   "calibrated_fit": {
+    "rmse": 0.6673140958248107,
+    "E": 0.8682023270239912,
+    "gamma": 0.006737946999085473,
+    "beta": 0.2667916663836626
+   },
+   "extrapolated_prediction": {
+    "rmse": 0.6293200406951934,
+    "bias": 0.020152256937944396,
+    "bias_share_of_rmse": 0.03202227107797604
+   },
+   "val_loss_range": {
+    "calibrated": [
+     0.5,
+     3.3659
+    ],
+    "extrapolated": [
+     0.5,
+     2.6033
+    ]
+   },
+   "N_range_B": {
+    "calibrated": [
+     0.07,
+     12.0
+    ],
+    "extrapolated": [
+     20.0,
+     700.0
+    ]
+   },
+   "same_law": true,
+   "verdict": "PASS"
+  },
+  "P6_Q_is_design_factor_and_B6_B7_nesting": {
+   "probe_id": "P6_Q_is_design_factor_and_B6_B7_nesting",
+   "load_bearing_risk": "数据审计 F8：B6-B8 的 Q_score 是实验设计因子（离散刻度），Q1 产出的 Q 是连续经验值且受域混淆（AUC 0.95-0.97）。二者不是同类对象 —— 对应 AMB-Q2-3",
+   "predeclared_criterion": "Q 取值数 <= 20 即判为离散设计网格",
+   "per_file": {
+    "B6": {
+     "n_rows": 360,
+     "n_unique_Q": 8,
+     "Q_values": [
+      0.1,
+      0.2,
+      0.3,
+      0.4,
+      0.6,
+      0.8,
+      0.9,
+      1.0
+     ],
+     "Q_min": 0.1,
+     "Q_max": 1.0,
+     "is_discrete_grid": true
+    },
+    "B7": {
+     "n_rows": 450,
+     "n_unique_Q": 10,
+     "Q_values": [
+      0.1,
+      0.2,
+      0.3,
+      0.4,
+      0.5,
+      0.6,
+      0.7,
+      0.8,
+      0.9,
+      1.0
+     ],
+     "Q_min": 0.1,
+     "Q_max": 1.0,
+     "is_discrete_grid": true
+    },
+    "B8": {
+     "n_rows": 1704,
+     "n_unique_Q": 12,
+     "Q_values": [
+      0.05,
+      0.1,
+      0.2,
+      0.3,
+      0.4,
+      0.5,
+      0.6,
+      0.7,
+      0.8,
+      0.9,
+      0.95,
+      1.0
+     ],
+     "Q_min": 0.05,
+     "Q_max": 1.0,
+     "is_discrete_grid": true
+    }
+   },
+   "B6_B7_nesting": {
+    "n_B6": 360,
+    "n_B7": 450,
+    "B6_subset_of_B7": true,
+    "n_shared": 360
+   },
+   "consequence": "Q1->Q2 是尺度校准问题，不是直接代入；须建立对齐规则并声明假设",
+   "verdict": "CONDITIONAL"
+  },
+  "P7_B9_B10_usability": {
+   "probe_id": "P7_B9_B10_usability",
+   "load_bearing_risk": "B9 无 val_loss 列、B10 的 val_loss 是估算值（GC5）",
+   "predeclared_criterion": "仅记录事实，不设通过判据",
+   "B9": {
+    "n_rows": 132,
+    "columns": [
+     "country",
+     "FLOPs",
+     "model_name",
+     "D_tokens_B",
+     "publication_date",
+     "N_params_B",
+     "accessibility",
+     "organization"
+    ],
+    "has_val_loss": false,
+    "D_tokens_zero_or_missing": 4,
+    "N_range_B": [
+     100.0,
+     10000.0
+    ]
+   },
+   "B10": {
+    "n_rows": 128,
+    "has_val_loss": true,
+    "val_loss_range": [
+     1.7838,
+     4.0812
+    ],
+    "provenance": "估算值，非观测（GC5）"
+   },
+   "permitted_use": "仅用于百亿参数以上外推的可信度讨论，不进主拟合",
+   "verdict": "CONDITIONAL"
+  }
+ }
+}

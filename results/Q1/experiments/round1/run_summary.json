@@ -1,0 +1,742 @@
+{
+ "schema_version": 1,
+ "question": "Q1",
+ "round": "round1",
+ "implementation_target": "python",
+ "random_seed": 20260924,
+ "approved_decision_id": [
+  "q1_tierC_direction",
+  "q1_normalization_population",
+  "q1c_interaction_tradeoff",
+  "q1_frac_unique_words_treatment"
+ ],
+ "decision_ledger": "methods/Q1/q1_decisions.jsonl",
+ "code_plan": "code/Q1/q1_code_plan.md",
+ "canonical_spec": "workspace/code/scripts/q1_features.py#CANONICAL",
+ "methods": [
+  {
+   "method_id": "M0",
+   "role": "usable_baseline",
+   "script": "code/Q1/q1_quality_baseline.py",
+   "status": "success",
+   "execution_time_seconds": 91.6,
+   "input_files": [
+    "workspace/data_raw/real_attachments/A_data_value/slimpajama_quality_signal_sample.jsonl.xz",
+    "workspace/data_raw/real_attachments/A_data_value/slimpajama_quality_extended/"
+   ],
+   "output_files": [
+    "results/Q1/experiments/round1/metrics/q1_quality_M0.json"
+   ],
+   "figure_files": [
+    "results/Q1/experiments/round1/figures/F1_domain_quality_M0_vs_M1.png",
+    "results/Q1/experiments/round1/figures/F2_conflict_rate_vs_anchor.png"
+   ],
+   "metrics_summary": {
+    "domain_range": 0.17574444522607074,
+    "n_pairs_distinguishable": 19,
+    "auc_Q_recovering_domain": 0.9741193844998352,
+    "domain_order": [
+     "arxiv",
+     "c4",
+     "commoncrawl",
+     "stackexchange",
+     "wikipedia",
+     "book",
+     "github"
+    ]
+   },
+   "output_degeneracy": {
+    "mean": 0.5000009728057536,
+    "std": 0.09761132266360799,
+    "coefficient_of_variation": 0.19522226550052976,
+    "unique_output_count": 259415,
+    "unique_ratio": 0.9520305630381011,
+    "gini": 0.111399998662528,
+    "top1pct_mass_share": 0.014261986004145244,
+    "p05_p95_spread": 0.3219706735244862,
+    "min": 0.15773244839814987,
+    "max": 0.8265948467266329
+   },
+   "warnings": [],
+   "errors": []
+  },
+  {
+   "method_id": "M1",
+   "role": "main_candidate",
+   "script": "code/Q1/q1_quality_main.py",
+   "status": "success",
+   "execution_time_seconds": 97.2,
+   "input_files": [
+    "workspace/data_raw/real_attachments/A_data_value/slimpajama_quality_signal_sample.jsonl.xz",
+    "workspace/data_raw/real_attachments/A_data_value/slimpajama_quality_extended/"
+   ],
+   "output_files": [
+    "results/Q1/experiments/round1/metrics/q1_quality_M1.json"
+   ],
+   "figure_files": [
+    "results/Q1/experiments/round1/figures/F1_domain_quality_M0_vs_M1.png",
+    "results/Q1/experiments/round1/figures/F2_conflict_rate_vs_anchor.png"
+   ],
+   "metrics_summary": {
+    "domain_range": 0.1581895484411342,
+    "n_pairs_distinguishable": 21,
+    "auc_Q_recovering_domain": 0.9486135877662673,
+    "domain_order": [
+     "arxiv",
+     "c4",
+     "commoncrawl",
+     "stackexchange",
+     "book",
+     "wikipedia",
+     "github"
+    ]
+   },
+   "output_degeneracy": {
+    "mean": 0.24891798995125097,
+    "std": 0.08939499551141744,
+    "coefficient_of_variation": 0.3591343298607099,
+    "unique_output_count": 261066,
+    "unique_ratio": 0.958089589923886,
+    "gini": 0.20278905019312748,
+    "top1pct_mass_share": 0.020149143857352968,
+    "p05_p95_spread": 0.2962452378131353,
+    "min": 0.015030528173460438,
+    "max": 0.6804971028358516
+   },
+   "warnings": [],
+   "errors": []
+  },
+  {
+   "method_id": "M0c",
+   "role": "usable_baseline",
+   "script": "code/Q1/q1_mixture_baseline.py",
+   "status": "success",
+   "execution_time_seconds": 0.4,
+   "input_files": [
+    "workspace/data_raw/real_attachments/A_data_value/regmix_tables/"
+   ],
+   "output_files": [
+    "results/Q1/experiments/round1/metrics/q1_mixture_M0c.json"
+   ],
+   "figure_files": [
+    "results/Q1/experiments/round1/figures/F3_mixture_M0c_vs_M1c_by_scale.png",
+    "results/Q1/experiments/round1/figures/F4_q_increment_test.png"
+   ],
+   "metrics_summary": {
+    "train_r2": 0.8958076500288483,
+    "r2_after_offset_removal": {
+     "test_1m": 0.9131428810282568,
+     "test_60m": 0.7706036133327078,
+     "test_1B": 0.7046683378917764
+    },
+    "spearman": {
+     "test_1m": 0.9530699244678414,
+     "test_60m": 0.9220917257953762,
+     "test_1B": 0.8871794871794871
+    }
+   },
+   "output_degeneracy": {},
+   "warnings": [],
+   "errors": []
+  },
+  {
+   "method_id": "M1c",
+   "role": "main_candidate",
+   "script": "code/Q1/q1_mixture_main.py",
+   "status": "success",
+   "execution_time_seconds": 10.6,
+   "input_files": [
+    "workspace/data_raw/real_attachments/A_data_value/regmix_tables/"
+   ],
+   "output_files": [
+    "results/Q1/experiments/round1/metrics/q1_mixture_M1c.json"
+   ],
+   "figure_files": [
+    "results/Q1/experiments/round1/figures/F3_mixture_M0c_vs_M1c_by_scale.png",
+    "results/Q1/experiments/round1/figures/F4_q_increment_test.png"
+   ],
+   "metrics_summary": {
+    "train_r2": 0.9842428256382852,
+    "r2_after_offset_removal": {
+     "test_1m": 0.9833984764969401,
+     "test_60m": 0.7656422567576473,
+     "test_1B": 0.6582565097888224
+    },
+    "spearman": {
+     "test_1m": 0.9903324559395742,
+     "test_60m": 0.9018289368276492,
+     "test_1B": 0.8487637362637362
+    }
+   },
+   "output_degeneracy": {},
+   "warnings": [
+    "交互项可辨识性为 FAIL：已强制 >=0.95 过滤，未过滤系数不得进入任何表"
+   ],
+   "errors": []
+  }
+ ],
+ "ablation": {
+  "arm": "per_domain+ecdf",
+  "applied_to": [
+   "M0",
+   "M1"
+  ],
+  "metrics": {
+   "M0": {
+    "domain_range": 0.0032664987681546576,
+    "auc_Q_recovering_domain": 0.5001882934568116,
+    "domain_order": [
+     "c4",
+     "wikipedia",
+     "commoncrawl",
+     "book",
+     "arxiv",
+     "github",
+     "stackexchange"
+    ]
+   },
+   "M1": {
+    "domain_range": 0.01150857018802609,
+    "auc_Q_recovering_domain": 0.5163040224777776,
+    "domain_order": [
+     "commoncrawl",
+     "c4",
+     "book",
+     "arxiv",
+     "wikipedia",
+     "stackexchange",
+     "github"
+    ]
+   }
+  },
+  "interpretation": "按域归一化后域级 Q 近乎恒等（极差约 0.003、AUC 约 0.500），证明主口径选择的代价；该臂不是备选主口径"
+ },
+ "perturbation": {
+  "weights_pm10pct_reps40": {
+   "M0": {
+    "perturbation": "weights uniform +/-10%, reps=40",
+    "domain_rank_kendall_tau_mean": 0.9595238095238094,
+    "domain_rank_kendall_tau_min": 0.8095238095238095,
+    "domain_rank_max_position_change_max": 1,
+    "frac_reps_domain_order_unchanged": 0.625,
+    "sample_top1pct_overlap_mean": 0.9409783406754773,
+    "sample_top1pct_overlap_min": 0.8513215859030837,
+    "tau_per_rep": [
+     1.0,
+     0.9047619047619048,
+     1.0,
+     1.0,
+     0.9047619047619048,
+     1.0,
+     1.0,
+     1.0,
+     1.0,
+     1.0,
+     1.0,
+     1.0,
+     0.9047619047619048,
+     0.8095238095238095,
+     0.8095238095238095,
+     1.0,
+     0.9047619047619048,
+     1.0,
+     1.0,
+     0.9047619047619048,
+     1.0,
+     1.0,
+     1.0,
+     0.9047619047619048,
+     0.9047619047619048,
+     0.9047619047619048,
+     1.0,
+     1.0,
+     0.9047619047619048,
+     1.0,
+     0.9047619047619048,
+     0.9047619047619048,
+     0.9047619047619048,
+     1.0,
+     1.0,
+     1.0,
+     1.0,
+     0.9047619047619048,
+     1.0,
+     1.0
+    ],
+    "top1pct_overlap_per_rep": [
+     0.9441997063142438,
+     0.9563142437591777,
+     0.9247430249632893,
+     0.94640234948605,
+     0.8828928046989721,
+     0.9280469897209985,
+     0.9754038179148311,
+     0.9585168869309838,
+     0.9346549192364171,
+     0.9386930983847284,
+     0.8895007342143906,
+     0.961453744493392,
+     0.961453744493392,
+     0.9265785609397944,
+     0.9555800293685757,
+     0.9581497797356828,
+     0.9397944199706314,
+     0.9353891336270191,
+     0.9658590308370044,
+     0.947136563876652,
+     0.9350220264317181,
+     0.9493392070484582,
+     0.9537444933920705,
+     0.959618208516887,
+     0.9717327459618208,
+     0.9262114537444934,
+     0.9390602055800293,
+     0.9698972099853157,
+     0.9599853157121879,
+     0.9185022026431718,
+     0.9129955947136564,
+     0.9405286343612335,
+     0.9508076358296622,
+     0.908223201174743,
+     0.9530102790014684,
+     0.9519089574155654,
+     0.9408957415565345,
+     0.9592511013215859,
+     0.8513215859030837,
+     0.9563142437591777
+    ]
+   },
+   "M1": {
+    "perturbation": "weights uniform +/-10%, reps=40",
+    "domain_rank_kendall_tau_mean": 0.9976190476190476,
+    "domain_rank_kendall_tau_min": 0.9047619047619048,
+    "domain_rank_max_position_change_max": 1,
+    "frac_reps_domain_order_unchanged": 0.975,
+    "sample_top1pct_overlap_mean": 0.9474302496328928,
+    "sample_top1pct_overlap_min": 0.869309838472834,
+    "tau_per_rep": [
+     1.0,
+     1.0,
+     1.0,
+     1.0,
+     1.0,
+     1.0,
+     1.0,
+     1.0,
+     1.0,
+     1.0,
+     1.0,
+     1.0,
+     1.0,
+     1.0,
+     1.0,
+     1.0,
+     1.0,
+     1.0,
+     1.0,
+     1.0,
+     1.0,
+     1.0,
+     1.0,
+     1.0,
+     1.0,
+     1.0,
+     1.0,
+     1.0,
+     1.0,
+     1.0,
+     1.0,
+     1.0,
+     1.0,
+     1.0,
+     1.0,
+     1.0,
+     1.0,
+     1.0,
+     0.9047619047619048,
+     1.0
+    ],
+    "top1pct_overlap_per_rep": [
+     0.9526431718061674,
+     0.9508076358296622,
+     0.933186490455213,
+     0.9497063142437592,
+     0.9280469897209985,
+     0.934287812041116,
+     0.9779735682819384,
+     0.972834067547724,
+     0.9291483113069016,
+     0.94640234948605,
+     0.9269456681350955,
+     0.9588839941262849,
+     0.9537444933920705,
+     0.94640234948605,
+     0.9566813509544787,
+     0.9588839941262849,
+     0.9372246696035242,
+     0.9497063142437592,
+     0.9559471365638766,
+     0.9493392070484582,
+     0.9419970631424376,
+     0.9548458149779736,
+     0.9493392070484582,
+     0.9632892804698973,
+     0.9640234948604993,
+     0.947136563876652,
+     0.9441997063142438,
+     0.9691629955947136,
+     0.9559471365638766,
+     0.9269456681350955,
+     0.9060205580029369,
+     0.959618208516887,
+     0.9533773861967695,
+     0.9394273127753304,
+     0.9563142437591777,
+     0.9511747430249633,
+     0.9515418502202643,
+     0.9629221732745962,
+     0.869309838472834,
+     0.9618208516886931
+    ]
+   }
+  },
+  "group_weights_pm10pct": {
+   "perturbation": "Q = (gv·V)·(1 - gp·P)，gv/gp ~ U(0.9,1.1)，reps=40",
+   "domain_rank_kendall_tau_mean": 1.0,
+   "domain_rank_kendall_tau_min": 1.0,
+   "domain_rank_max_position_change_max": 0,
+   "note": "探针未测项，按代码计划 §4.6 在 G3 补测。**口径说明**：gv 是全局乘子，对 Q 是严格单调变换，域序恒不变；故本项实质只检验 gp 的敏感性，不可解读为『V 权重也不敏感』。V 组内各列权重的敏感性由上一项 perturbation_weights（20 列 ±10%）覆盖。",
+   "effective_factor": "gp only"
+  },
+  "conflict_anchor_p70_p75_p80": {
+   "p70": {
+    "CD2_high_value_and_high_pollution": 0.0687191268542237,
+    "CD1_indicator_MAD_anchored": 0.3000007339826633,
+    "CD1_indicator_MAD_gt_0.25_fixed_ref": 0.30305777177543064,
+    "CD3_ge5_high_and_ge5_low": 0.3950698384504158,
+    "CD3_ge3_high_and_ge3_low": 0.8356722914204766
+   },
+   "p75": {
+    "CD2_high_value_and_high_pollution": 0.04082411573438635,
+    "CD1_indicator_MAD_anchored": 0.25000183495665834,
+    "CD1_indicator_MAD_gt_0.25_fixed_ref": 0.30305777177543064,
+    "CD3_ge5_high_and_ge5_low": 0.21805890944855882,
+    "CD3_ge3_high_and_ge3_low": 0.6561254523168163
+   },
+   "p80": {
+    "CD2_high_value_and_high_pollution": 0.020830427985290986,
+    "CD1_indicator_MAD_anchored": 0.19999926601733667,
+    "CD1_indicator_MAD_gt_0.25_fixed_ref": 0.30305777177543064,
+    "CD3_ge5_high_and_ge5_low": 0.1151838993562972,
+    "CD3_ge3_high_and_ge3_low": 0.4687763775019634
+   }
+  },
+  "bootstrap_B400": {
+   "M0c": {
+    "B": 400,
+    "frac_coefs_sign_stable_ge_0.95": 1.0,
+    "median_sign_stability": 1.0,
+    "mean_relative_se": 0.03373710988737639
+   },
+   "M1c": {
+    "B": 400,
+    "frac_coefs_sign_stable_ge_0.95": 0.5490196078431373,
+    "median_sign_stability": 0.98,
+    "mean_relative_se": 1.5568557618252854
+   }
+  },
+  "lambda_pm1decade": {
+   "lambda_div10": {
+    "lambda": 0.0001,
+    "r2_after_offset_removal": {
+     "test_1m": 0.9813798641750879,
+     "test_60m": 0.7638729962397774,
+     "test_1B": 0.6590677897811736
+    },
+    "frac_coefs_sign_stable_ge_0.95": 0.5228758169934641,
+    "n_stable_subset": 80
+   },
+   "lambda_x10": {
+    "lambda": 0.01,
+    "r2_after_offset_removal": {
+     "test_1m": 0.9811037032591577,
+     "test_60m": 0.7652915825735924,
+     "test_1B": 0.6316987845280897
+    },
+    "frac_coefs_sign_stable_ge_0.95": 0.8169934640522876,
+    "n_stable_subset": 125
+   }
+  }
+ },
+ "comparison": {
+  "quality_side": {
+   "significance_tests": {
+    "kendall_tau_M1_minus_M0": {
+     "mean_diff": 0.03809523809523818,
+     "ci95": [
+      0.01904761904761898,
+      0.05714285714285727
+     ],
+     "significant": true,
+     "direction": "a>b"
+    },
+    "top1pct_overlap_M1_minus_M0": {
+     "mean_diff": 0.006451908957415542,
+     "ci95": [
+      -0.002206314243758994,
+      0.016166483113069008
+     ],
+     "significant": false,
+     "direction": "a>b"
+    },
+    "pairs_resolved_by_M1_that_M0_left_tied": [
+     "book~wikipedia",
+     "c4~commoncrawl"
+    ],
+    "method": "两方法各 40 次权重扰动的指标分布之差的自助 95% 区间（B=400）"
+   },
+   "declared_metric": "域间可分辨性（bootstrap 区间不重叠的域对数）+ 权重扰动下的排序稳定性",
+   "M0": {
+    "n_pairs_distinguishable": 19,
+    "tied_pairs": [
+     "book~wikipedia",
+     "c4~commoncrawl"
+    ],
+    "kendall_tau_mean": 0.9595238095238094,
+    "kendall_tau_min": 0.8095238095238095,
+    "frac_order_unchanged": 0.625,
+    "domain_range": 0.17574444522607074,
+    "auc_Q_recovering_domain": 0.9741193844998352
+   },
+   "M1": {
+    "n_pairs_distinguishable": 21,
+    "tied_pairs": [],
+    "kendall_tau_mean": 0.9976190476190476,
+    "kendall_tau_min": 0.9047619047619048,
+    "frac_order_unchanged": 0.975,
+    "domain_range": 0.1581895484411342,
+    "auc_Q_recovering_domain": 0.9486135877662673
+   },
+   "verdict_vs_baseline": "M1 在两项预声明指标上均超过 M0，且排序稳定性的超出幅度大于重抽样噪声",
+   "caveat_domain_range": "域间极差方向相反（M0 0.1757 > M1 0.1582），但极差不是预声明指标；可分辨性已计入 bootstrap 不确定性，M1 以更小的极差达成 21/21 说明其区间相对更窄",
+   "note_auc": "M1 的 AUC 更低（0.9486 vs 0.9741），即域混淆更小；该项为披露项而非优劣判据",
+   "caveat_newly_resolved_pairs": {
+    "book~wikipedia": {
+     "M0": {
+      "gap": 0.006172602748975797,
+      "half_width_sum": 0.010981083902033728,
+      "margin_ratio": 0.5621123382758795,
+      "higher": "wikipedia"
+     },
+     "M1": {
+      "gap": 0.011129257533946335,
+      "half_width_sum": 0.009954558478407649,
+      "margin_ratio": 1.1180061434253177,
+      "higher": "book"
+     },
+     "order_agrees_with_baseline": false,
+     "marginal": true,
+     "verdict": "不稳固：方向与 baseline 相反（M0 判 wikipedia 高，M1 判 book 高）；分离裕度仅为区间和的 1.12 倍"
+    },
+    "c4~commoncrawl": {
+     "M0": {
+      "gap": 0.0005815810521155873,
+      "half_width_sum": 0.0031659016853716193,
+      "margin_ratio": 0.18370155169468577,
+      "higher": "c4"
+     },
+     "M1": {
+      "gap": 0.015863026916430045,
+      "half_width_sum": 0.003626987183434821,
+      "margin_ratio": 4.373609862444421,
+      "higher": "c4"
+     },
+     "order_agrees_with_baseline": true,
+     "marginal": false,
+     "verdict": "稳固"
+    }
+   }
+  },
+  "mixture_side": {
+   "declared_metric": "检验集去尺度偏移后的 R² 与 Spearman（A6–A11 三尺度分报）",
+   "by_scale": {
+    "test_1m": {
+     "M0c_r2_deoffset": 0.9131428810282568,
+     "M1c_r2_deoffset": 0.9833984764969401,
+     "gain_r2": 0.07025559546868332,
+     "M0c_spearman": 0.9530699244678414,
+     "M1c_spearman": 0.9903324559395742,
+     "gain_spearman": 0.03726253147173275
+    },
+    "test_60m": {
+     "M0c_r2_deoffset": 0.7706036133327078,
+     "M1c_r2_deoffset": 0.7656422567576473,
+     "gain_r2": -0.0049613565750604716,
+     "M0c_spearman": 0.9220917257953762,
+     "M1c_spearman": 0.9018289368276492,
+     "gain_spearman": -0.02026278896772704
+    },
+    "test_1B": {
+     "M0c_r2_deoffset": 0.7046683378917764,
+     "M1c_r2_deoffset": 0.6582565097888224,
+     "gain_r2": -0.04641182810295397,
+     "M0c_spearman": 0.8871794871794871,
+     "M1c_spearman": 0.8487637362637362,
+     "gain_spearman": -0.03841575091575089
+    }
+   },
+   "scales_with_positive_gain": [
+    "test_1m"
+   ],
+   "verdict_vs_baseline": "增益仅在 test_1m 成立，60m 持平、1B 为负 -> 不构成跨尺度优势；与决策 q1c_interaction_tradeoff=C 一致：M0c 为主、M1c 作组合效应辅证",
+   "prohibited_claim": "禁止把稳定子集外的单个交互系数解释为域间替代/互补；稳定子集内的交互项亦只支持方向性陈述，不支持定量替代率",
+   "stable_subset": {
+    "n_reported": 84,
+    "n_total": 153,
+    "n_suppressed": 69,
+    "main_effects_stable": 17,
+    "interactions_stable_ge_0.95": 67,
+    "interactions_stable_ge_0.99": 53
+   },
+   "raw_r2_must_not_be_cited_alone": {
+    "test_1m": {
+     "r2_raw": 0.9130387166493963,
+     "bias_share_of_rmse": 0.03460960510855714
+    },
+    "test_60m": {
+     "r2_raw": -8.411937873434578,
+     "bias_share_of_rmse": 0.9877383673600968
+    },
+    "test_1B": {
+     "r2_raw": -173.11525667650517,
+     "bias_share_of_rmse": 0.9991515476347557
+    }
+   }
+  },
+  "q_increment_test": {
+   "mapping_info": {
+    "n_mapped_domains": 6,
+    "mapped": [
+     "arxiv",
+     "wikipedia_en",
+     "github",
+     "stackexchange",
+     "gutenberg_pg_19",
+     "pile_cc"
+    ],
+    "mapped_mass_median": 0.5995,
+    "mapped_mass_min": 0.0,
+    "mapped_mass_max": 1.0,
+    "n_rows_with_zero_mapped_mass": 5,
+    "n_rows_total": 512,
+    "zero_mass_handling": "该类行在 6 个映射域上配比质量全为 0，无任何质量信息；不作插补，嵌套检验限定在 mass>0 的同一子集上（A/B 同行，保持可比）"
+   },
+   "domain_Q_source": "M1 pooled Huber",
+   "fit_subset": {
+    "n_train_used": 507,
+    "n_train_dropped_zero_mass": 5,
+    "note": "A（仅 p）与 B（p+Q）在同一子集上拟合与评估"
+   },
+   "cond_17": 60.98207463687169,
+   "cond_18_with_Q": 86.06952159930644,
+   "train_r2_A": 0.897237939073899,
+   "train_r2_B": 0.8972644252254816,
+   "constructive_correlation_note": "Q_corpus 由 6 个已映射域的 p 加权构成，与 p 存在构造性相关，须在论文声明",
+   "by_scale": {
+    "test_1m": {
+     "n_used": 256,
+     "n_dropped_zero_mass": 0,
+     "p_only_r2_deoffset": 0.9128971788613184,
+     "p_plus_Q_r2_deoffset": 0.9131786615918864,
+     "increment": 0.00028148273056805007,
+     "increment_ci95": [
+      -0.000220122328034944,
+      0.0008030283007274121
+     ],
+     "significant": false,
+     "p_only_spearman": 0.9523181792172121,
+     "p_plus_Q_spearman": 0.9526021400778208
+    },
+    "test_60m": {
+     "n_used": 256,
+     "n_dropped_zero_mass": 0,
+     "p_only_r2_deoffset": 0.7716475445317985,
+     "p_plus_Q_r2_deoffset": 0.7714320496715983,
+     "increment": -0.00021549486020022712,
+     "increment_ci95": [
+      -0.0006606950047855969,
+      0.00013069326612011865
+     ],
+     "significant": false,
+     "p_only_spearman": 0.9234371423666742,
+     "p_plus_Q_spearman": 0.9227039940489813
+    },
+    "test_1B": {
+     "n_used": 64,
+     "n_dropped_zero_mass": 0,
+     "p_only_r2_deoffset": 0.7075329982575805,
+     "p_plus_Q_r2_deoffset": 0.706714270418627,
+     "increment": -0.0008187278389535368,
+     "increment_ci95": [
+      -0.0020576629763016663,
+      1.5187367884833054e-05
+     ],
+     "significant": false,
+     "p_only_spearman": 0.8869963369963368,
+     "p_plus_Q_spearman": 0.8859890109890108
+    }
+   }
+  }
+ },
+ "fallback_trigger": {
+  "fallback_id": "M2",
+  "condition": "n_pairs_lt_-0.8 >= 3 OR M1 conflict_rate outside (0.01, 0.50)",
+  "observed": false,
+  "evidence": {
+   "n_pairs_lt_-0.8": 0,
+   "condition1_triggered": false,
+   "conflict_rate_CD2_p75": 0.04082411573438635,
+   "condition2_triggered": false
+  },
+  "action": "未触发，M2 保持休眠"
+ },
+ "probe_monitors": {
+  "M0": {
+   "direction_table_internal_consistency": {
+    "n_pairs_lt_-0.8": 0,
+    "n_pairs_lt_-0.5": 3,
+    "expected_lt_-0.8": 0
+   },
+   "indicator_redundancy": {
+    "max_abs_offdiag_corr": 0.728046458947025,
+    "corr_condition_number": 48.800696575413525
+   },
+   "naive_minmax_not_used": true,
+   "frac_unique_words_uncorrected": true
+  },
+  "M1c": {
+   "cond_153_features": 46511.82451742706,
+   "interaction_identifiability": "FAIL（探针）：本轮强制执行 >=0.95 符号稳定率过滤"
+  },
+  "M0c": {
+   "simplex_induced_singularity": {
+    "cond_main_17_no_intercept": 61.239895330576324,
+    "cond_with_intercept_18": 4773.353496133449,
+    "rowsum_max_deviation": 0.0040000000000000036,
+    "intercept_explicitly_removed": true
+   }
+  }
+ },
+ "environment": {
+  "python": "3.14.6",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "numpy": "2.5.1",
+  "scipy": "1.18.0",
+  "sklearn_used": false,
+  "note": "岭回归与 5 折 CV 用 numpy 显式实现，避免隐藏默认值影响可复现性"
+ },
+ "warnings": [
+  "交互项可辨识性为 FAIL：已强制 >=0.95 过滤，未过滤系数不得进入任何表"
+ ],
+ "run_status": {}
+}

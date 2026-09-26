@@ -1,0 +1,581 @@
+{
+ "schema_version": 1,
+ "question": "Q3",
+ "round": "round1",
+ "implementation_target": "python",
+ "random_seed": 20260924,
+ "approved_decision_id": [
+  "q3_p_joint_optimization",
+  "q3_structural_transition_definition",
+  "q3_optimum_acceptability_criterion"
+ ],
+ "methods": [
+  {
+   "method_id": "M1o",
+   "role": "main",
+   "script": "code/Q3/q3_optimize_main.py",
+   "status": "success",
+   "execution_time_seconds": 1.91,
+   "input_files": [
+    "results/Q2/experiments/round1/metrics/q2_M1s.json",
+    "results/Q1/experiments/round1/tables/q1c_coefficients.csv"
+   ],
+   "output_files": [
+    "results/Q3/experiments/round1/tables/q3_baseline_gap_decomposition.csv",
+    "results/Q3/experiments/round1/tables/q3_chinchilla_reference.csv",
+    "results/Q3/experiments/round1/tables/q3_cost_form_comparison.csv",
+    "results/Q3/experiments/round1/tables/q3_dldp_direction.csv",
+    "results/Q3/experiments/round1/tables/q3_lctx_sensitivity.csv",
+    "results/Q3/experiments/round1/tables/q3_optimal_by_budget.csv",
+    "results/Q3/experiments/round1/tables/q3_transition_definitions.csv",
+    "results/Q3/experiments/round1/metrics/q3_M1o.json"
+   ],
+   "figure_files": [
+    "results/Q3/experiments/round1/figures/diag_q3_optimal_path.png",
+    "results/Q3/experiments/round1/figures/diag_q3_definitionD_grid_sensitivity.png"
+   ],
+   "metrics_summary": {
+    "anchor_Q": {
+     "1e+19": 0.6460174872692858,
+     "1e+22": 1.0,
+     "1e+24": 1.0
+    },
+    "anchor_loss": {
+     "1e+19": 3.1467632843314814,
+     "1e+22": 2.1510606786916924,
+     "1e+24": 1.913908795455085
+    },
+    "transition_A_log10_C": 21.405181884765625,
+    "transition_C_log10_C": 22.625,
+    "transition_D_verdict": "NO_TRANSITION",
+    "cost_form_max_spread": 0.46095601286892085
+   },
+   "warnings": [],
+   "errors": []
+  },
+  {
+   "method_id": "M0o",
+   "role": "usable_baseline",
+   "script": "code/Q3/q3_optimize_baseline.py",
+   "status": "success",
+   "execution_time_seconds": 0.012,
+   "input_files": [
+    "results/Q2/experiments/round1/metrics/q2_M1s.json"
+   ],
+   "output_files": [
+    "results/Q3/experiments/round1/metrics/q3_M0o.json"
+   ],
+   "figure_files": [],
+   "metrics_summary": {
+    "loss": {
+     "1e+19": 3.253794624717184,
+     "1e+22": 2.245726124436224,
+     "1e+24": 1.9701840642911292
+    },
+    "D_over_N": 20.0
+   },
+   "warnings": [],
+   "errors": []
+  }
+ ],
+ "comparison": {
+  "predeclared_metric_1_optimal_loss": [
+   {
+    "C": 1e+19,
+    "M1o_loss": 3.1467632843314814,
+    "M0o_loss": 3.253794624717184,
+    "M1o_better": true
+   },
+   {
+    "C": 1e+22,
+    "M1o_loss": 2.1510606786916924,
+    "M0o_loss": 2.245726124436224,
+    "M1o_better": true
+   },
+   {
+    "C": 1e+24,
+    "M1o_loss": 1.913908795455085,
+    "M0o_loss": 1.9701840642911292,
+    "M1o_better": true
+   }
+  ],
+  "predeclared_metric_2_feasibility": {
+   "criterion": "(cost - C)/C < 1e-6",
+   "all_passed": true
+  },
+  "predeclared_metric_3_stability": [
+   {
+    "C": 1e+19,
+    "numeric_loss": 3.1467632843312425,
+    "kkt_loss": 3.1467632843314814,
+    "loss_relative_gap": 7.592563320189796e-14,
+    "numeric_better_by_rel": 7.592563320189796e-14,
+    "active_set_agreement": true,
+    "numeric_active_set": [
+     "budget"
+    ],
+    "purpose": "仅用于 fallback 触发判定,不作结果报出"
+   },
+   {
+    "C": 1e+22,
+    "numeric_loss": 2.1510606786911435,
+    "kkt_loss": 2.1510606786916924,
+    "loss_relative_gap": 2.5517377022979347e-13,
+    "numeric_better_by_rel": 2.5517377022979347e-13,
+    "active_set_agreement": true,
+    "numeric_active_set": [
+     "budget",
+     "Q_le_1"
+    ],
+    "purpose": "仅用于 fallback 触发判定,不作结果报出"
+   },
+   {
+    "C": 1e+24,
+    "numeric_loss": 1.9139087954549745,
+    "kkt_loss": 1.913908795455085,
+    "loss_relative_gap": 5.777611426169288e-14,
+    "numeric_better_by_rel": 5.777611426169288e-14,
+    "active_set_agreement": true,
+    "numeric_active_set": [
+     "budget",
+     "Q_le_1"
+    ],
+    "purpose": "仅用于 fallback 触发判定,不作结果报出"
+   }
+  ],
+  "kkt_vs_numeric": {
+   "max_loss_gap": 2.5517377022979347e-13,
+   "active_set_agreement": true,
+   "purpose": "仅用于 fallback 触发判定,不作结果报出"
+  }
+ },
+ "fallback_trigger": {
+  "fallback_id": "M2o",
+  "implemented": false,
+  "condition": "分段 KKT 边界枚举不完备(数值解优于全部解析分支,Loss 相对差 > 1e-6) 或 分段 KKT 与数值解给出不同活跃约束集",
+  "observed": false,
+  "evidence": {
+   "loss_gap_violations": [],
+   "active_set_mismatches": [],
+   "max_numeric_advantage_rel": 2.5517377022979347e-13,
+   "all_active_sets_agree": true
+  }
+ },
+ "Q0_spec": {
+  "value": 0.35,
+  "source": "Q1 实测域级 Q 范围 0.2233-0.3815 的上端附近",
+  "status": "未经使用者裁定,可被否决",
+  "amb_q2_3_note": "Q1 经验域级 Q 与 B7 设计网格 Q(0.1-1.0)的尺度对齐未解决;gamma 的解释绑定在 B7 设计刻度上"
+ },
+ "baseline_gap_decomposition": [
+  {
+   "gap_reported": 0.10703134038570239,
+   "gap_quality_only": 0.07267082532779279,
+   "gap_ratio_handicap": 0.0343605150579096,
+   "handicap_share_of_reported_pct": 32.10322783409671,
+   "why": "HD-2 为相对 baseline 制。M0o 的 D/N 被强制为 20,而本律自身的无质量投入最优比值不同,故 gap_reported 含一部分与质量通道无关的虚增",
+   "status": "M0o 定义未改动;是否改动属使用者未裁定项",
+   "C": 1e+19
+  },
+  {
+   "gap_reported": 0.0946654457445315,
+   "gap_quality_only": 0.06848249078456226,
+   "gap_ratio_handicap": 0.02618295495996925,
+   "handicap_share_of_reported_pct": 27.65840772632896,
+   "why": "HD-2 为相对 baseline 制。M0o 的 D/N 被强制为 20,而本律自身的无质量投入最优比值不同,故 gap_reported 含一部分与质量通道无关的虚增",
+   "status": "M0o 定义未改动;是否改动属使用者未裁定项",
+   "C": 1e+22
+  },
+  {
+   "gap_reported": 0.05627526883604417,
+   "gap_quality_only": 0.03713700133237574,
+   "gap_ratio_handicap": 0.019138267503668427,
+   "handicap_share_of_reported_pct": 34.00830933287415,
+   "why": "HD-2 为相对 baseline 制。M0o 的 D/N 被强制为 20,而本律自身的无质量投入最优比值不同,故 gap_reported 含一部分与质量通道无关的虚增",
+   "status": "M0o 定义未改动;是否改动属使用者未裁定项",
+   "C": 1e+24
+  }
+ ],
+ "structural_transition": {
+  "main_definition_A": {
+   "definition": "结构性转移 := 最优解处的活跃约束集 A(C) 发生变化。本问中 A 的可变元素为 {Q ≤ 1}",
+   "identification": "沿 log10 C 扫描活跃集与互补松弛乘子 mu;转移点 = mu 由 0 转正(等价地 Q* 触及 1)的位置,用二分定位到 1e-4",
+   "depends_on_threshold": false,
+   "depends_on_grid_step": false,
+   "needs_numerical_differentiation": false,
+   "changes": [
+    {
+     "bracket": [
+      21.375,
+      21.5
+     ],
+     "located_log10_C": 21.405181884765625,
+     "from": [
+      "budget"
+     ],
+     "to": [
+      "budget",
+      "Q_le_1"
+     ]
+    }
+   ],
+   "verdict": "TRANSITION_EXISTS"
+  },
+  "definition_C": {
+   "definition": "成本分项占比(C_train/C_Q/C_attn)的排序发生变化",
+   "changes": [
+    {
+     "at_log10_C": 22.625,
+     "from": "C_train|C_Q|C_attn",
+     "to": "C_train|C_attn|C_Q"
+    }
+   ],
+   "n_changes": 1,
+   "verdict": "TRANSITION_EXISTS"
+  },
+  "definition_D": {
+   "definition": "若相邻扫描点间 |ΔQ*| 超过阈值 delta = 0.05,则判发生转移",
+   "threshold": 0.05,
+   "grid_sensitivity_table": [
+    {
+     "step": 0.5,
+     "n_points": 9,
+     "max_abs_dQ": 0.08140429441531805,
+     "at_log10_C": 18.5,
+     "n_jumps_over_threshold": 7,
+     "verdict": "TRANSITION_EXISTS"
+    },
+    {
+     "step": 0.25,
+     "n_points": 17,
+     "max_abs_dQ": 0.04204175643837149,
+     "at_log10_C": 18.25,
+     "n_jumps_over_threshold": 0,
+     "verdict": "NO_TRANSITION"
+    },
+    {
+     "step": 0.125,
+     "n_points": 33,
+     "max_abs_dQ": 0.021473499144984753,
+     "at_log10_C": 18.125,
+     "n_jumps_over_threshold": 0,
+     "verdict": "NO_TRANSITION"
+    }
+   ],
+   "verdict_at_main_step": "NO_TRANSITION",
+   "why_not_main_definition": "结论是扫描步长的函数:饱和前 Q* 光滑上升且斜率稳定(约 +0.149),一阶差分 ≈ 斜率 × 步长,与固定阈值比较不是网格不变量"
+  },
+  "derivative_at_saturation": {
+   "sequence": [
+    {
+     "log10_C": 20.875,
+     "Q": 0.9207992999598227,
+     "dQ_dlogC": 0.14828870408585804,
+     "interval": [
+      20.75,
+      20.875
+     ],
+     "straddles_saturation": false
+    },
+    {
+     "log10_C": 21.0,
+     "Q": 0.939386876522284,
+     "dQ_dlogC": 0.1487006124996908,
+     "interval": [
+      20.875,
+      21.0
+     ],
+     "straddles_saturation": false
+    },
+    {
+     "log10_C": 21.125,
+     "Q": 0.9580266803869779,
+     "dQ_dlogC": 0.14911843091755106,
+     "interval": [
+      21.0,
+      21.125
+     ],
+     "straddles_saturation": false
+    },
+    {
+     "log10_C": 21.25,
+     "Q": 0.9767191055333879,
+     "dQ_dlogC": 0.14953940117128006,
+     "interval": [
+      21.125,
+      21.25
+     ],
+     "straddles_saturation": false
+    },
+    {
+     "log10_C": 21.375,
+     "Q": 0.9954642571294836,
+     "dQ_dlogC": 0.1499612127687655,
+     "interval": [
+      21.25,
+      21.375
+     ],
+     "straddles_saturation": false
+    },
+    {
+     "log10_C": 21.5,
+     "Q": 1.0,
+     "dQ_dlogC": 0.036285942964131124,
+     "interval": [
+      21.375,
+      21.5
+     ],
+     "straddles_saturation": true
+    },
+    {
+     "log10_C": 21.625,
+     "Q": 1.0,
+     "dQ_dlogC": 0.0,
+     "interval": [
+      21.5,
+      21.625
+     ],
+     "straddles_saturation": false
+    },
+    {
+     "log10_C": 21.75,
+     "Q": 1.0,
+     "dQ_dlogC": 0.0,
+     "interval": [
+      21.625,
+      21.75
+     ],
+     "straddles_saturation": false
+    },
+    {
+     "log10_C": 21.875,
+     "Q": 1.0,
+     "dQ_dlogC": 0.0,
+     "interval": [
+      21.75,
+      21.875
+     ],
+     "straddles_saturation": false
+    },
+    {
+     "log10_C": 22.0,
+     "Q": 1.0,
+     "dQ_dlogC": 0.0,
+     "interval": [
+      21.875,
+      22.0
+     ],
+     "straddles_saturation": false
+    }
+   ],
+   "sign_at_saturation": "positive_to_zero",
+   "left_derivative_range": [
+    0.14828870408585804,
+    0.1499612127687655
+   ],
+   "right_derivative_max_abs": 0.0,
+   "straddling_interval_excluded": {
+    "log10_C": 21.5,
+    "Q": 1.0,
+    "dQ_dlogC": 0.036285942964131124,
+    "interval": [
+     21.375,
+     21.5
+    ],
+    "straddles_saturation": true
+   },
+   "upstream_card_said": "negative_to_zero",
+   "upstream_card_is_wrong": true,
+   "note": "方法卡与选择卡称『由负转零』;实测为由正转零。论文不得沿用错误表述。跨越饱和点的那个区间(部分步长差商)已单列排除,不参与符号判定"
+  },
+  "joint_reading": "A 测『活跃约束集是否改变』⇒ 发生且位置明确;D 测『是否有突跳』⇒ 判不出。两者合读:转移形态为连续饱和而非突跳。D 的结论随步长翻转,故不作主定义",
+  "three_definitions_three_answers": {
+   "A": 21.405181884765625,
+   "C": 22.625,
+   "D": "NO_TRANSITION"
+  }
+ },
+ "kkt_audit": {
+  "predeclared_tolerances": {
+   "feasibility": 1e-09,
+   "stationarity_rel": 1e-08,
+   "multiplier": 1e-08
+  },
+  "criterion_is_hard_pass_fail": true,
+  "anchors": [
+   {
+    "C": "1e+19",
+    "branch": "interior",
+    "kkt_passed": true,
+    "checks": {
+     "budget_feasible": true,
+     "stationarity_R1": true,
+     "stationarity_R2": true,
+     "complementary_slackness": true,
+     "lambda_positive": true,
+     "bounds_ok": true
+    },
+    "multipliers": {
+     "lambda": 2.4671452668880515e-20,
+     "mu_upper": 3.4416913763379853e-15,
+     "nu_lower": -3.4416913763379853e-15
+    },
+    "n_branch_candidates": 3
+   },
+   {
+    "C": "1e+22",
+    "branch": "upper_Q_eq_1",
+    "kkt_passed": true,
+    "checks": {
+     "budget_feasible": true,
+     "stationarity_R1": true,
+     "stationarity_R2": null,
+     "complementary_slackness": true,
+     "lambda_positive": true,
+     "bounds_ok": true
+    },
+    "multipliers": {
+     "lambda": 7.410090547045831e-24,
+     "mu_upper": 0.026901530827136762,
+     "nu_lower": -0.026901530827136762
+    },
+    "n_branch_candidates": 2
+   },
+   {
+    "C": "1e+24",
+    "branch": "upper_Q_eq_1",
+    "kkt_passed": true,
+    "checks": {
+     "budget_feasible": true,
+     "stationarity_R1": true,
+     "stationarity_R2": null,
+     "complementary_slackness": true,
+     "lambda_positive": true,
+     "bounds_ok": true
+    },
+    "multipliers": {
+     "lambda": 3.46357565068871e-26,
+     "mu_upper": 0.030293548605091716,
+     "nu_lower": -0.030293548605091716
+    },
+    "n_branch_candidates": 2
+   }
+  ],
+  "sweep_all_passed": true
+ },
+ "chinchilla_reference": {
+  "reference_only": true,
+  "not_a_pass_fail_criterion": true,
+  "law_implied_D_over_N_by_budget": {
+   "1e+19": {
+    "N_B": 0.14000786803753834,
+    "D_B": 11.143372027786018,
+    "implied_D_over_N": 79.59104144631574
+   },
+   "1e+22": {
+    "N_B": 3.167515113975836,
+    "D_B": 492.5500602903714,
+    "implied_D_over_N": 155.5004609503274
+   },
+   "1e+24": {
+    "N_B": 25.337447669132256,
+    "D_B": 6157.525338513673,
+    "implied_D_over_N": 243.02074222002932
+   }
+  },
+  "drift_exponent_dlog_DN_dlogC": 0.09695583109191029,
+  "chinchilla_folklore_ratio": 20.0,
+  "why_not_a_hard_criterion": "本律隐含 D/N 随预算漂移而非常数 20(20 tokens/param 出自 Chinchilla Approach 1/2 的 a≈b≈0.5;本律用 Approach 3 的 alpha≠beta)。把 20 当硬判据会拒绝本律自身的真最优解",
+  "external_anchor_claim_is_void": "本律 B1 侧参数与 Chinchilla Approach-3 常数按十亿单位折算后数值同一(相对差 9.4e-6 ~ 4.4e-4) ⇒ 以 Chinchilla 对照本律等于自证",
+  "constants_verified_against_paper": false,
+  "caveat": "上述 Chinchilla 常数由 AI 凭记忆复现,引用前须核原文(Hoffmann et al. 2022)"
+ },
+ "lctx_sensitivity": {
+  "L_ctx_crit_analytic": 30000.0,
+  "L_ctx_crit_derivation": "C_attn/C_train = eta*N*D*L_ctx/(6*N*D) = eta*L_ctx/6;令其=1 得 L_ctx = 6/eta = 30000",
+  "L_ctx_crit_recomputed": 30000.0,
+  "feasible_from_C7": [
+   2048,
+   4096,
+   8192,
+   32768,
+   131072
+  ],
+  "above_crit": [
+   32768,
+   131072
+  ],
+  "N_over_D_relative_spread": 0.03224451883831904,
+  "N_B_change_pct": -54.83512125256155,
+  "D_B_change_pct": -53.37880146895937,
+  "accurate_statement": "跨临界显著压缩可负担规模,几乎不改变相对配比",
+  "writing_red_lines": [
+   "L_ctx_crit = 30000 仅为两类成本相等的临界尺度,不是最优上下文长度",
+   "准确表述为『跨临界显著压缩可负担规模,几乎不改变相对配比』,而非『最优配置显著偏移』",
+   "AI 曾断言『L_ctx 只等价于预算缩放』,实测仅近似且随 L_ctx 失效(N:D 相对差 1.97e-2 → 3.34e-1),强版本不得入论文"
+  ]
+ },
+ "writing_red_lines": [
+  "L_ctx_crit = 30000 仅为两类成本相等的临界尺度,不是最优上下文长度",
+  "准确表述为『跨临界显著压缩可负担规模,几乎不改变相对配比』,而非『最优配置显著偏移』",
+  "AI 曾断言『L_ctx 只等价于预算缩放』,实测仅近似且随 L_ctx 失效(N:D 相对差 1.97e-2 → 3.34e-1),强版本不得入论文",
+  "不得笼统写『各档预算最优质量恒为 1』—— 低预算档明确不是。该笼统说法亦为隐藏文本伪造断言之一,本结果是其反证",
+  "饱和点处 dQ*/dlogC 为由正转零;方法卡与选择卡的『由负转零』是符号错误,不得沿用",
+  "不得声称 Chinchilla 对照构成外部锚点(本律与其数值同一)"
+ ],
+ "extrapolation_disclosure": {
+  "B1_observed_ranges": {
+   "N_B": [
+    0.070542,
+    11.965825
+   ],
+   "D_B": [
+    0.1,
+    299.9
+   ]
+  },
+  "extrapolation_factor": {
+   "1e+19": {
+    "N": 0.020013514726824177,
+    "D": 0.017226419292692315
+   },
+   "1e+22": {
+    "N": 0.4719656210490428,
+    "D": 0.8304849840120839
+   },
+   "1e+24": {
+    "N": 3.4059903063249575,
+    "D": 12.574318155320217
+   }
+  },
+  "amb_q3_3": "高预算档为外推,须结合 B9/B10 可信度边界,不得表述为可靠预测"
+ },
+ "supersedes_upstream_numbers": {
+  "why": "探针与方法卡/选择卡引用的转移位置是 0.25 步长下的网格点;本轮主定义 A 用二分定位到 1e-4,C 定义用 0.125 步长扫描,两者均比上游更精。论文须用本轮数值,不得再引用网格值作为实测位置",
+  "definition_A_location": {
+   "upstream_grid_value": 21.5,
+   "this_round_bisected": 21.405181884765625,
+   "relation": "refinement_not_contradiction"
+  },
+  "definition_C_location": {
+   "upstream_grid_value": 22.75,
+   "this_round_finer_grid": 22.625,
+   "relation": "refinement_not_contradiction"
+  },
+  "decision_ledger_untouched": "methods/Q3/q3_decisions.jsonl 的 rationale 为使用者原话,不因本轮数值细化而改动"
+ },
+ "not_done_this_round": [
+  "未新增第四类 g(Q)(题目『或改进』部分,时间预算不允许)",
+  "figures 仅含 Type 1 诊断图,论文图留到装配阶段(figure-table-planner)",
+  "Q0 取值未经使用者裁定",
+  "M0o 定义是否改为本律自身最优比值,属使用者未裁定项"
+ ],
+ "environment": {
+  "python": "3.14.6",
+  "numpy": "2.5.1",
+  "scipy": "1.18.0",
+  "platform": "Windows-11-10.0.26200-SP0"
+ },
+ "total_runtime_seconds": 3.243,
+ "warnings": []
+}

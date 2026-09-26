@@ -1,0 +1,762 @@
+{
+ "schema_version": 1,
+ "question": "Q1",
+ "round_under_test": "round1",
+ "seed": 20260924,
+ "rigor_profile": "lean",
+ "authorized_by": "methods/Q1/q1_decisions.jsonl#q1_result_verdict (choice B)",
+ "scope": "裁定 1 选项 B 的两项补算；不改动主结论，不改 R4/R6 的 FAIL 判定",
+ "checks": {
+  "B1_bootstrap_depth_at_1B": {
+   "check_id": "B1_bootstrap_depth_at_1B",
+   "purpose": "判定 R6 的 M1_pooled@test_1B 一格上界符号是真信号还是蒙特卡洛噪声",
+   "authorized_by": "methods/Q1/q1_decisions.jsonl#q1_result_verdict (choice B)",
+   "does_not_relax_predeclared_criterion": "R6 的预声明判据是 12 格全含 0，实测 11 格 -> FAIL 不变。本项只定这一格的事实。",
+   "point_estimate": -0.0008187278389535368,
+   "n_used": 64,
+   "round1_reported_ci_upper": 1.5e-05,
+   "r6_rerun_ci_upper": -3.831432666817703e-06,
+   "predeclared_reading_rule": "B=40000 下 8 种子上界符号全一致 -> 按该符号表述；否则表述为上界在自助精度内与零重合",
+   "grid": {
+    "B_400": {
+     "per_seed": {
+      "seed_20260924": {
+       "ci95": [
+        -0.001884599843621479,
+        3.3196584836980336e-05
+       ],
+       "upper_sign": "pos_or_zero",
+       "contains_zero": true
+      },
+      "seed_1": {
+       "ci95": [
+        -0.001871737932994988,
+        -1.831461118257137e-05
+       ],
+       "upper_sign": "neg",
+       "contains_zero": false
+      },
+      "seed_7": {
+       "ci95": [
+        -0.0018628729285053158,
+        1.8361105828978623e-05
+       ],
+       "upper_sign": "pos_or_zero",
+       "contains_zero": true
+      },
+      "seed_42": {
+       "ci95": [
+        -0.0018209691391417925,
+        0.00012146454739437594
+       ],
+       "upper_sign": "pos_or_zero",
+       "contains_zero": true
+      },
+      "seed_2026": {
+       "ci95": [
+        -0.001971930384677473,
+        4.599742255992527e-05
+       ],
+       "upper_sign": "pos_or_zero",
+       "contains_zero": true
+      },
+      "seed_99": {
+       "ci95": [
+        -0.0018378120517010099,
+        3.1602139078278963e-05
+       ],
+       "upper_sign": "pos_or_zero",
+       "contains_zero": true
+      },
+      "seed_12345": {
+       "ci95": [
+        -0.0019018753560614138,
+        1.5206532517619583e-05
+       ],
+       "upper_sign": "pos_or_zero",
+       "contains_zero": true
+      },
+      "seed_777": {
+       "ci95": [
+        -0.0020271697046259085,
+        0.00010093183534793018
+       ],
+       "upper_sign": "pos_or_zero",
+       "contains_zero": true
+      }
+     },
+     "upper_bound_min": -1.831461118257137e-05,
+     "upper_bound_max": 0.00012146454739437594,
+     "upper_bound_spread": 0.00013977915857694731,
+     "upper_sign_unanimous": false,
+     "n_seeds_contains_zero": 7,
+     "n_seeds": 8
+    },
+    "B_4000": {
+     "per_seed": {
+      "seed_20260924": {
+       "ci95": [
+        -0.0019164368973320438,
+        6.126770333065863e-05
+       ],
+       "upper_sign": "pos_or_zero",
+       "contains_zero": true
+      },
+      "seed_1": {
+       "ci95": [
+        -0.0018980501452154435,
+        4.9488173855238946e-05
+       ],
+       "upper_sign": "pos_or_zero",
+       "contains_zero": true
+      },
+      "seed_7": {
+       "ci95": [
+        -0.0018495882828456045,
+        4.61480831490372e-05
+       ],
+       "upper_sign": "pos_or_zero",
+       "contains_zero": true
+      },
+      "seed_42": {
+       "ci95": [
+        -0.001889781463088208,
+        7.596809740851314e-05
+       ],
+       "upper_sign": "pos_or_zero",
+       "contains_zero": true
+      },
+      "seed_2026": {
+       "ci95": [
+        -0.0018756269911037126,
+        4.4331573868527974e-05
+       ],
+       "upper_sign": "pos_or_zero",
+       "contains_zero": true
+      },
+      "seed_99": {
+       "ci95": [
+        -0.0019130874413709558,
+        3.9484375232168345e-05
+       ],
+       "upper_sign": "pos_or_zero",
+       "contains_zero": true
+      },
+      "seed_12345": {
+       "ci95": [
+        -0.0018682886702105828,
+        5.241560928330754e-05
+       ],
+       "upper_sign": "pos_or_zero",
+       "contains_zero": true
+      },
+      "seed_777": {
+       "ci95": [
+        -0.001924025984378308,
+        4.9634679479021496e-05
+       ],
+       "upper_sign": "pos_or_zero",
+       "contains_zero": true
+      }
+     },
+     "upper_bound_min": 3.9484375232168345e-05,
+     "upper_bound_max": 7.596809740851314e-05,
+     "upper_bound_spread": 3.64837221763448e-05,
+     "upper_sign_unanimous": true,
+     "n_seeds_contains_zero": 8,
+     "n_seeds": 8
+    },
+    "B_40000": {
+     "per_seed": {
+      "seed_20260924": {
+       "ci95": [
+        -0.0019059704528064324,
+        6.12510202858936e-05
+       ],
+       "upper_sign": "pos_or_zero",
+       "contains_zero": true
+      },
+      "seed_1": {
+       "ci95": [
+        -0.0019110367666656358,
+        5.615411873871358e-05
+       ],
+       "upper_sign": "pos_or_zero",
+       "contains_zero": true
+      },
+      "seed_7": {
+       "ci95": [
+        -0.001880078090658735,
+        6.506588787629792e-05
+       ],
+       "upper_sign": "pos_or_zero",
+       "contains_zero": true
+      },
+      "seed_42": {
+       "ci95": [
+        -0.0019010411728198173,
+        4.6479686486753314e-05
+       ],
+       "upper_sign": "pos_or_zero",
+       "contains_zero": true
+      },
+      "seed_2026": {
+       "ci95": [
+        -0.0018929892728061144,
+        5.7085581909197247e-05
+       ],
+       "upper_sign": "pos_or_zero",
+       "contains_zero": true
+      },
+      "seed_99": {
+       "ci95": [
+        -0.0018996695113854185,
+        5.427750294442773e-05
+       ],
+       "upper_sign": "pos_or_zero",
+       "contains_zero": true
+      },
+      "seed_12345": {
+       "ci95": [
+        -0.0019029020555769217,
+        5.1317155755973335e-05
+       ],
+       "upper_sign": "pos_or_zero",
+       "contains_zero": true
+      },
+      "seed_777": {
+       "ci95": [
+        -0.0019167137313609085,
+        5.6142767416350734e-05
+       ],
+       "upper_sign": "pos_or_zero",
+       "contains_zero": true
+      }
+     },
+     "upper_bound_min": 4.6479686486753314e-05,
+     "upper_bound_max": 6.506588787629792e-05,
+     "upper_bound_spread": 1.8586201389544602e-05,
+     "upper_sign_unanimous": true,
+     "n_seeds_contains_zero": 8,
+     "n_seeds": 8
+    }
+   },
+   "verdict": "upper_bound_sign_resolved_nonnegative",
+   "resulting_wording_for_paper": "1B 尺度上区间含 0（B=40000，8 个种子一致）"
+  },
+  "B2_r4_variant_margins": {
+   "check_id": "B2_r4_variant_margins",
+   "purpose": "回答『被推翻的 3 个变体中 c4 反超 arxiv 是否统计可分』",
+   "authorized_by": "methods/Q1/q1_decisions.jsonl#q1_result_verdict (choice B)",
+   "does_not_change_r4": "R4 的预声明判据（claim 保持）与 FAIL 状态不变；本项只补描述性证据",
+   "bootstrap": "B=400，Huber，与 R1 同口径以便可比",
+   "observed": {
+    "base": {
+     "order": [
+      "arxiv",
+      "c4",
+      "commoncrawl",
+      "stackexchange",
+      "book",
+      "wikipedia",
+      "github"
+     ],
+     "top3": [
+      "arxiv",
+      "c4",
+      "commoncrawl"
+     ],
+     "arxiv_rank": 1,
+     "per_domain": {
+      "arxiv": {
+       "n": 18942,
+       "point": 0.3814958169252389,
+       "ci95_lo": 0.3807309342030877,
+       "ci95_hi": 0.3823416403167808,
+       "half_width": 0.0008053530568465639
+      },
+      "c4": {
+       "n": 10000,
+       "point": 0.36380540835066516,
+       "ci95_lo": 0.36192658904311553,
+       "ci95_hi": 0.3657935369715142,
+       "half_width": 0.0019334739641993226
+      },
+      "commoncrawl": {
+       "n": 9636,
+       "point": 0.3479423814342351,
+       "ci95_lo": 0.3463665058115854,
+       "ci95_hi": 0.3497535322500564,
+       "half_width": 0.0016935132192354985
+      }
+     },
+     "pair_arxiv_vs_c4": {
+      "higher": "arxiv",
+      "abs_gap": 0.017690408574573713,
+      "half_width_sum": 0.0027388270210458865,
+      "ratio": 6.4591186075775635,
+      "distinguishable": true
+     },
+     "pair_c4_vs_commoncrawl": {
+      "higher": "c4",
+      "abs_gap": 0.015863026916430045,
+      "half_width_sum": 0.003626987183434821,
+      "ratio": 4.373609862444421,
+      "distinguishable": true
+     }
+    },
+    "P_to_V:ad_en_margin": {
+     "order": [
+      "c4",
+      "commoncrawl",
+      "arxiv",
+      "book",
+      "stackexchange",
+      "wikipedia",
+      "github"
+     ],
+     "top3": [
+      "c4",
+      "commoncrawl",
+      "arxiv"
+     ],
+     "arxiv_rank": 3,
+     "per_domain": {
+      "arxiv": {
+       "n": 18942,
+       "point": 0.362537715027009,
+       "ci95_lo": 0.3617665129836734,
+       "ci95_hi": 0.3633067674008208,
+       "half_width": 0.0007701272085736954
+      },
+      "c4": {
+       "n": 10000,
+       "point": 0.3879416576018432,
+       "ci95_lo": 0.3860066603032242,
+       "ci95_hi": 0.38988470633466793,
+       "half_width": 0.0019390230157218524
+      },
+      "commoncrawl": {
+       "n": 9636,
+       "point": 0.36562720573980534,
+       "ci95_lo": 0.3639621723760054,
+       "ci95_hi": 0.3672335691334574,
+       "half_width": 0.001635698378725986
+      }
+     },
+     "pair_arxiv_vs_c4": {
+      "higher": "c4",
+      "abs_gap": 0.025403942574834193,
+      "half_width_sum": 0.002709150224295548,
+      "ratio": 9.377088928850338,
+      "distinguishable": true
+     },
+     "pair_c4_vs_commoncrawl": {
+      "higher": "c4",
+      "abs_gap": 0.022314451862037843,
+      "half_width_sum": 0.0035747213944478384,
+      "ratio": 6.242291188537393,
+      "distinguishable": true
+     }
+    },
+    "P_to_V:rps_doc_frac_no_alph_words": {
+     "order": [
+      "arxiv",
+      "c4",
+      "commoncrawl",
+      "stackexchange",
+      "book",
+      "wikipedia",
+      "github"
+     ],
+     "top3": [
+      "arxiv",
+      "c4",
+      "commoncrawl"
+     ],
+     "arxiv_rank": 1,
+     "per_domain": {
+      "arxiv": {
+       "n": 18942,
+       "point": 0.37148087086665516,
+       "ci95_lo": 0.37058952327999667,
+       "ci95_hi": 0.372358295511102,
+       "half_width": 0.0008843861155526656
+      },
+      "c4": {
+       "n": 10000,
+       "point": 0.3379148039297752,
+       "ci95_lo": 0.3360790568137943,
+       "ci95_hi": 0.3399468541902966,
+       "half_width": 0.00193389868825114
+      },
+      "commoncrawl": {
+       "n": 9636,
+       "point": 0.31471939319338765,
+       "ci95_lo": 0.31306659142929194,
+       "ci95_hi": 0.3165675827995008,
+       "half_width": 0.0017504956851044362
+      }
+     },
+     "pair_arxiv_vs_c4": {
+      "higher": "arxiv",
+      "abs_gap": 0.03356606693687997,
+      "half_width_sum": 0.0028182848038038055,
+      "ratio": 11.910104646477263,
+      "distinguishable": true
+     },
+     "pair_c4_vs_commoncrawl": {
+      "higher": "c4",
+      "abs_gap": 0.023195410736387534,
+      "half_width_sum": 0.003684394373355576,
+      "ratio": 6.295583041850708,
+      "distinguishable": true
+     }
+    },
+    "P_to_V:rps_doc_frac_chars_top_2gram": {
+     "order": [
+      "c4",
+      "arxiv",
+      "commoncrawl",
+      "stackexchange",
+      "wikipedia",
+      "book",
+      "github"
+     ],
+     "top3": [
+      "c4",
+      "arxiv",
+      "commoncrawl"
+     ],
+     "arxiv_rank": 2,
+     "per_domain": {
+      "arxiv": {
+       "n": 18942,
+       "point": 0.3648781865638934,
+       "ci95_lo": 0.36400622437329927,
+       "ci95_hi": 0.3658522844258192,
+       "half_width": 0.0009230300262599578
+      },
+      "c4": {
+       "n": 10000,
+       "point": 0.3761284029092811,
+       "ci95_lo": 0.37422034709224344,
+       "ci95_hi": 0.37811601295490654,
+       "half_width": 0.0019478329313315501
+      },
+      "commoncrawl": {
+       "n": 9636,
+       "point": 0.3501695862136969,
+       "ci95_lo": 0.3485619753089719,
+       "ci95_hi": 0.3520182241877325,
+       "half_width": 0.0017281244393802797
+      }
+     },
+     "pair_arxiv_vs_c4": {
+      "higher": "c4",
+      "abs_gap": 0.011250216345387698,
+      "half_width_sum": 0.002870862957591508,
+      "ratio": 3.9187577085971372,
+      "distinguishable": true
+     },
+     "pair_c4_vs_commoncrawl": {
+      "higher": "c4",
+      "abs_gap": 0.025958816695584197,
+      "half_width_sum": 0.00367595737071183,
+      "ratio": 7.061783932101859,
+      "distinguishable": true
+     }
+    },
+    "P_to_V:rps_doc_frac_chars_top_3gram": {
+     "order": [
+      "c4",
+      "arxiv",
+      "commoncrawl",
+      "stackexchange",
+      "book",
+      "wikipedia",
+      "github"
+     ],
+     "top3": [
+      "c4",
+      "arxiv",
+      "commoncrawl"
+     ],
+     "arxiv_rank": 2,
+     "per_domain": {
+      "arxiv": {
+       "n": 18942,
+       "point": 0.3743289501104886,
+       "ci95_lo": 0.3734486696989941,
+       "ci95_hi": 0.3752515419646426,
+       "half_width": 0.000901436132824257
+      },
+      "c4": {
+       "n": 10000,
+       "point": 0.37533250659553274,
+       "ci95_lo": 0.373285133976279,
+       "ci95_hi": 0.3772677796298897,
+       "half_width": 0.001991322826805364
+      },
+      "commoncrawl": {
+       "n": 9636,
+       "point": 0.3564197066882011,
+       "ci95_lo": 0.3548364635039332,
+       "ci95_hi": 0.3583131393114498,
+       "half_width": 0.0017383379037582969
+      }
+     },
+     "pair_arxiv_vs_c4": {
+      "higher": "c4",
+      "abs_gap": 0.0010035564850441325,
+      "half_width_sum": 0.002892758959629621,
+      "ratio": 0.3469201890131297,
+      "distinguishable": false
+     },
+     "pair_c4_vs_commoncrawl": {
+      "higher": "c4",
+      "abs_gap": 0.018912799907331634,
+      "half_width_sum": 0.003729660730563661,
+      "ratio": 5.070916974390149,
+      "distinguishable": true
+     }
+    },
+    "P_to_V:rps_lines_uppercase_letter_fraction": {
+     "order": [
+      "arxiv",
+      "c4",
+      "commoncrawl",
+      "stackexchange",
+      "book",
+      "wikipedia",
+      "github"
+     ],
+     "top3": [
+      "arxiv",
+      "c4",
+      "commoncrawl"
+     ],
+     "arxiv_rank": 1,
+     "per_domain": {
+      "arxiv": {
+       "n": 18942,
+       "point": 0.37470776415237345,
+       "ci95_lo": 0.3739672872012306,
+       "ci95_hi": 0.37546760941366364,
+       "half_width": 0.000750161106216507
+      },
+      "c4": {
+       "n": 10000,
+       "point": 0.335901271831375,
+       "ci95_lo": 0.334055580593947,
+       "ci95_hi": 0.3378993206412455,
+       "half_width": 0.0019218700236492414
+      },
+      "commoncrawl": {
+       "n": 9636,
+       "point": 0.3194903232249335,
+       "ci95_lo": 0.31785526317986496,
+       "ci95_hi": 0.32130547128393344,
+       "half_width": 0.001725104052034243
+      }
+     },
+     "pair_arxiv_vs_c4": {
+      "higher": "arxiv",
+      "abs_gap": 0.03880649232099842,
+      "half_width_sum": 0.0026720311298657484,
+      "ratio": 14.523218643395142,
+      "distinguishable": true
+     },
+     "pair_c4_vs_commoncrawl": {
+      "higher": "c4",
+      "abs_gap": 0.016410948606441544,
+      "half_width_sum": 0.0036469740756834845,
+      "ratio": 4.499880795935174,
+      "distinguishable": true
+     }
+    },
+    "P_to_V:rps_lines_numerical_chars_fraction": {
+     "order": [
+      "arxiv",
+      "c4",
+      "commoncrawl",
+      "stackexchange",
+      "book",
+      "wikipedia",
+      "github"
+     ],
+     "top3": [
+      "arxiv",
+      "c4",
+      "commoncrawl"
+     ],
+     "arxiv_rank": 1,
+     "per_domain": {
+      "arxiv": {
+       "n": 18942,
+       "point": 0.4095985086541587,
+       "ci95_lo": 0.4087834553924493,
+       "ci95_hi": 0.4104984269838388,
+       "half_width": 0.0008574857956947513
+      },
+      "c4": {
+       "n": 10000,
+       "point": 0.367256319866814,
+       "ci95_lo": 0.36534761646538455,
+       "ci95_hi": 0.36927934091402287,
+       "half_width": 0.0019658622243191592
+      },
+      "commoncrawl": {
+       "n": 9636,
+       "point": 0.3642587243915539,
+       "ci95_lo": 0.3627631838128841,
+       "ci95_hi": 0.3660721574205043,
+       "half_width": 0.0016544868038101124
+      }
+     },
+     "pair_arxiv_vs_c4": {
+      "higher": "arxiv",
+      "abs_gap": 0.04234218878734469,
+      "half_width_sum": 0.0028233480200139105,
+      "ratio": 14.997155323110352,
+      "distinguishable": true
+     },
+     "pair_c4_vs_commoncrawl": {
+      "higher": "c4",
+      "abs_gap": 0.0029975954752601286,
+      "half_width_sum": 0.0036203490281292716,
+      "ratio": 0.8279852168864128,
+      "distinguishable": false
+     }
+    },
+    "V_to_P:rps_lines_ending_with_terminal_punctution_mark": {
+     "order": [
+      "arxiv",
+      "c4",
+      "commoncrawl",
+      "stackexchange",
+      "book",
+      "wikipedia",
+      "github"
+     ],
+     "top3": [
+      "arxiv",
+      "c4",
+      "commoncrawl"
+     ],
+     "arxiv_rank": 1,
+     "per_domain": {
+      "arxiv": {
+       "n": 18942,
+       "point": 0.3913557464111601,
+       "ci95_lo": 0.3907196851632732,
+       "ci95_hi": 0.3920146654889873,
+       "half_width": 0.000647490162857034
+      },
+      "c4": {
+       "n": 10000,
+       "point": 0.37600156431857334,
+       "ci95_lo": 0.37391526456843005,
+       "ci95_hi": 0.37791215703714004,
+       "half_width": 0.0019984462343549947
+      },
+      "commoncrawl": {
+       "n": 9636,
+       "point": 0.35916914734007505,
+       "ci95_lo": 0.35752415908677804,
+       "ci95_hi": 0.3609888020215752,
+       "half_width": 0.0017323214673985732
+      }
+     },
+     "pair_arxiv_vs_c4": {
+      "higher": "arxiv",
+      "abs_gap": 0.015354182092586766,
+      "half_width_sum": 0.0026459363972120287,
+      "ratio": 5.802929393452226,
+      "distinguishable": true
+     },
+     "pair_c4_vs_commoncrawl": {
+      "higher": "c4",
+      "abs_gap": 0.0168324169784983,
+      "half_width_sum": 0.003730767701753568,
+      "ratio": 4.511783719631373,
+      "distinguishable": true
+     }
+    },
+    "V_to_P:modernbert_cleanliness": {
+     "order": [
+      "arxiv",
+      "c4",
+      "commoncrawl",
+      "stackexchange",
+      "book",
+      "wikipedia",
+      "github"
+     ],
+     "top3": [
+      "arxiv",
+      "c4",
+      "commoncrawl"
+     ],
+     "arxiv_rank": 1,
+     "per_domain": {
+      "arxiv": {
+       "n": 18942,
+       "point": 0.40790962498964517,
+       "ci95_lo": 0.4072491863463382,
+       "ci95_hi": 0.40863880739446523,
+       "half_width": 0.000694810524063505
+      },
+      "c4": {
+       "n": 10000,
+       "point": 0.37199117797379544,
+       "ci95_lo": 0.3698988849794167,
+       "ci95_hi": 0.3739063478965461,
+       "half_width": 0.002003731458564695
+      },
+      "commoncrawl": {
+       "n": 9636,
+       "point": 0.36119682823437044,
+       "ci95_lo": 0.35960333315831655,
+       "ci95_hi": 0.36293925447604664,
+       "half_width": 0.001667960658865042
+      }
+     },
+     "pair_arxiv_vs_c4": {
+      "higher": "arxiv",
+      "abs_gap": 0.03591844701584973,
+      "half_width_sum": 0.0026985419826281998,
+      "ratio": 13.310316180764978,
+      "distinguishable": true
+     },
+     "pair_c4_vs_commoncrawl": {
+      "higher": "c4",
+      "abs_gap": 0.010794349739425002,
+      "half_width_sum": 0.0036716921174297368,
+      "ratio": 2.9398842261810554,
+      "distinguishable": true
+     }
+    }
+   },
+   "summary": {
+    "breaking_variants": [
+     "P_to_V:ad_en_margin",
+     "P_to_V:rps_doc_frac_chars_top_2gram",
+     "P_to_V:rps_doc_frac_chars_top_3gram"
+    ],
+    "c4_over_arxiv_statistically_distinguishable": {
+     "P_to_V:ad_en_margin": true,
+     "P_to_V:rps_doc_frac_chars_top_2gram": true,
+     "P_to_V:rps_doc_frac_chars_top_3gram": false
+    },
+    "top3_set_invariant": true,
+    "top3_set": [
+     "arxiv",
+     "c4",
+     "commoncrawl"
+    ]
+   }
+  }
+ },
+ "execution_time_seconds": 36887.7
+}

@@ -1,0 +1,203 @@
+{
+  "schema_version": 1,
+  "question_id": "Q3",
+  "title": "算力约束下的多维资源联合优化与结构性转移",
+  "rigor_profile": "lean",
+  "current_gate": "G4",
+  "status": "g4_passed_round1_final_paper_figures_pending",
+  "depends_on": [
+    "Q1",
+    "Q2"
+  ],
+  "artifacts": {
+    "parse": "planning/parse/problem_parse.json",
+    "classification": "planning/classification/problem_classification.json",
+    "data_profile": "workspace/data/data_profile.json",
+    "method_card": "methods/Q3/q3_method_card.md",
+    "decision_ledger": "methods/Q3/q3_decisions.jsonl",
+    "risk_probe": "methods/Q3/probes/risk_probe_summary.json",
+    "latest_run": "results/Q3/experiments/round1/run_summary.json",
+    "framing_decisions": "planning/framing_decisions.jsonl",
+    "choice_card": "planning/choice_cards/q3_method_card.md",
+    "idea_review": "planning/review_of_user_ideas.md",
+    "data_report": "workspace/data/data_report.md",
+    "probe_evidence": [
+      "workspace/data/q3_probe_optimization.json"
+    ],
+    "probe_script": "workspace/code/scripts/probe_q3_optimization.py",
+    "upstream_q2_run": "results/Q2/experiments/round1/run_summary.json",
+    "code_plan": "code/Q3/q3_code_plan.md",
+    "code": [
+      "code/Q3/q3_common.py",
+      "code/Q3/q3_optimize_baseline.py",
+      "code/Q3/q3_optimize_main.py",
+      "code/Q3/run_all.py"
+    ],
+    "review": "code/Q3/reviews/q3_python_review.json",
+    "robustness_report": "robustness/Q3/q3_robustness_report.md",
+    "final_result_analysis": "results/Q3/reports/q3_final_result_analysis.md",
+    "choice_card_round1_verdict": "planning/choice_cards/q3_round1_verdict_card.md",
+    "supplement_metrics": "results/Q3/experiments/round1/metrics/q3_supplement_Q0_and_4th_g.json",
+    "supplement_script": "workspace/code/scripts/probe_q3_Q0_and_fourth_g.py",
+    "number_provenance_check": "scratch/verify_q2q3_report_numbers.py",
+    "figure_plan": [
+      "methods/Q3/q3_figure_table_plan.md"
+    ],
+    "paper_figures": [
+      "paper/figures/fig_q3_optimal_path.pdf",
+      "paper/figures/fig_q3_transition_definitions.pdf",
+      "paper/figures/fig_q3_lctx_compression.pdf"
+    ],
+    "paper_figures_png": [
+      "paper/figures/fig_q3_optimal_path.png",
+      "paper/figures/fig_q3_transition_definitions.png",
+      "paper/figures/fig_q3_lctx_compression.png"
+    ],
+    "figure_scripts": [
+      "code/Q3/q3_paper_figures.py",
+      "code/figstyle.py"
+    ],
+    "figure_source_table": "results/Q3/experiments/round1/tables/q3_optimal_path_sweep.csv",
+    "method_flow_figure": [
+      "paper/figures/fig_framework_q3.pdf",
+      "paper/figures/fig_framework_q3.png"
+    ],
+    "shared_paper_figures": [
+      "paper/figures/fig_framework_overall.pdf",
+      "paper/figures/fig_framework_overall.png",
+      "paper/figures/fig_data_pipeline.pdf",
+      "paper/figures/fig_data_pipeline.png"
+    ],
+    "framework_script": [
+      "code/paper_framework_figures.py"
+    ]
+  },
+  "allowed": {
+    "code_generation": true,
+    "freeze": true,
+    "paper_writing": false,
+    "final_assembly": false
+  },
+  "blockers": [],
+  "next_action": {
+    "owner": "human",
+    "skill": "paper-section-writer",
+    "target": "paper",
+    "reason": "论文图已出（3 张，Type 3，均通过渲染核验，33 项对拍通过）。下一步：写作时须遵守六条限制（30000 非最优上下文长度、由正转零、F4 三数同报等）。"
+  },
+  "updated_at": "2026-09-26T00:32:34+08:00",
+  "success_criteria_mode": "relative_to_baseline",
+  "declared_baseline": "Chinchilla 经验配置（固定 N:D 比例、Q=Q0 不投质量）",
+  "scope_profile": "mandatory_plus_A18_sampling",
+  "gate_history": [
+    {
+      "gate": "G1",
+      "result": "PASSED",
+      "at": "2026-09-24T00:35:00+08:00",
+      "basis": [
+        "planning/parse/problem_parse.json",
+        "planning/classification/problem_classification.json",
+        "planning/framing_decisions.jsonl"
+      ]
+    },
+    {
+      "gate": "G2",
+      "result": "PASSED",
+      "at": "2026-09-25T15:50:00+08:00",
+      "basis": [
+        "methods/Q3/q3_method_card.md",
+        "methods/Q3/probes/risk_probe_summary.json",
+        "workspace/data/q3_probe_optimization.json"
+      ],
+      "note": "角色化清单成立：main=M1o（分段 KKT + log C 密集扫描）、usable_baseline=M0o（HD-2 声明的 Chinchilla 经验配置）、conditional_fallback=M2o（纯数值全局优化，有显式触发）。6 项风险探针实跑，main 与 baseline 七字段齐备、均 CONDITIONAL 并附解除条件。P1/P3/P6 三项 FAIL 改变了求解结构（必须分段 KKT；p 联立须加正则；高预算为外推）；P2 定位了成本函数影响的区间；P4 确认转移存在且形态为连续饱和；P5 记录了跨临界压缩规模而非重排配比，并更正了一条 AI 过强断言。已据证据排除：把 L_ctx 作为寻优变量（题目禁止）、拉格朗日松弛后不检验互补松弛。"
+    },
+    {
+      "gate": "G2.5",
+      "result": "PASSED",
+      "at": "2026-09-25T16:45:00+08:00",
+      "basis": [
+        "methods/Q3/q3_decisions.jsonl",
+        "planning/choice_cards/q3_method_card.md"
+      ],
+      "note": "三条人工 method_choice 已裁定并落账,rationale 逐字照录使用者原话。① q3_p_joint_optimization = B_main_plus_C_supplement:p 由 Q1/Q2 固定(z_p=0),另报 dL/dp_i 符号与排序作补充;KKT 维度 3。② q3_structural_transition_definition = A_main_plus_D_reported_as_contrast:主定义为活跃约束集变化(实测 log10 C = 21.5),并一并报 D 定义下判不出转移,以说明转移形态为连续饱和而非突跳。③ q3_optimum_acceptability_criterion = C:KKT 为硬判据,Chinchilla 对照仅作参考。裁定 3 的理由经核验后与选择卡原文不同:本律 B1 侧参数与 Chinchilla Approach-3 常数数值同一,故 Chinchilla 不构成外部锚点;且本律隐含 D/N 随预算漂移 32.06→97.89,把常数 20 当硬判据会拒绝本律自身的真最优解。"
+    },
+    {
+      "gate": "G3",
+      "result": "PASSED",
+      "at": "2026-09-25T17:40:00+08:00",
+      "basis": [
+        "code/Q3/q3_code_plan.md",
+        "code/Q3/reviews/q3_python_review.json",
+        "results/Q3/experiments/round1/run_summary.json"
+      ],
+      "note": "M1o(分段 KKT 三分支 + log C 扫描 57 点)与 M0o 均跑通,3.2s 零 warning。五项命名检查全 PASS,verdict PASSED。独立核验(scratch/q3_review_checks.py,不复用被审的 R1/R2):拉格朗日中心差分 9 组合残差 < 3.3e-8、邻域 4000 采样无更优者、差分进化与 KKT 相对差 1e-14 ⇒ 分支枚举完备,M2o 确认休眠未触发。三条裁定逐条落地。5 条 findings 无阻塞项,其中 F4(M0o 的 D/N=20 虚增 M1o 优势 27.7%-34.0%)为待使用者裁定项。"
+    },
+    {
+      "gate": "G4",
+      "result": "PASSED",
+      "at": "2026-09-25T22:25:00+08:00",
+      "basis": [
+        "methods/Q3/q3_decisions.jsonl",
+        "robustness/Q3/q3_robustness_report.md",
+        "results/Q3/reports/q3_final_result_analysis.md",
+        "results/Q3/experiments/round1/run_summary.json",
+        "code/Q3/reviews/q3_python_review.json"
+      ],
+      "verdicts": {
+        "baseline_definition_f4": "keep_M0o_as_declared_baseline_report_three_numbers",
+        "result": "supplement_Q0_sensitivity_and_4th_cost_form_then_finalize",
+        "stability": "supplement_Q0_sensitivity_then_restate",
+        "claim_scope": "claim_three_transition_scale_dldp",
+        "fourth_cost_form": "no_candidate_adopted_report_analysis_only",
+        "stability_v2": "add_Q0_sensitivity_result_not_load_bearing"
+      },
+      "decision_count": 9,
+      "note": "F4 裁定维持 M0o（D/N=20）为官方 baseline、三数同报（依据：M0o 独立于本律，M0o' 是本律自身的退化分支）。补做 Q0 敏感性（判 NOT_LOAD_BEARING）与第四类 g 三候选分析（裁定不采用，只作分析报告）"
+    }
+  ],
+  "task_type": {
+    "primary": "optimization",
+    "secondary": "mechanism",
+    "confidence": "high"
+  },
+  "carried_forward_todos": [
+    "F4 已裁定（A）：维持 M0o，三数同报；M0o' 不得作为官方 baseline 报出",
+    "Q0 实测非承重（扫 Q1 实测范围内 Q* 极差 0.011711868561441796），但 Q0=0.35 未经裁定的状态不变，须在论文声明",
+    "第四类 g 已作分析、不采用；不得表述为「给定三类 g 是最优选择」，只能说它们不被这两个方向的改进取代",
+    "上游三处过期数字不得引用（见 must_write_limits 末条）",
+    "符号错误只在 planning/choice_cards/q3_method_card.md 的定义 B 行，不在方法卡；结论「由正转零」本身正确",
+    "Chinchilla 常数引用前须核 Hoffmann et al. 2022 原文",
+    "AMB-Q2-3 尺度对齐未解决，沿用 Q2 的限制",
+    "P5 的 WEAK_EFFECT 不得读成「L_ctx 不重要」：N* 与 D* 各自腰斩（-54.83512125256155% / -53.37880146895937%）",
+    "高预算档外推须结合 B9/B10 可信度边界；不得表述为可靠预测",
+    "figures 仅 2 张 Type 1 诊断图（diag_ 前缀，未冒充论文图）；论文图另在 paper/figures/ 制作",
+    "G5 前必须按模板目录内的修改说明把届数由第二十二届改为第二十三届",
+    "Q3 侧 G4 已过，无阻塞项"
+  ],
+  "data_readiness": {
+    "status": "ready",
+    "warnings": [
+      "依赖 Q1/Q2 输出；C7 可行 L_ctx 已确认 5 个取值，2 个跨越临界值 30000"
+    ]
+  },
+  "g4_summary": {
+    "main_claim": "存在结构性转移；主定义（活跃约束集变化）位置 log10 C = 21.405181884765625，不依赖阈值与步长；三定义三答案（A 21.405181884765625 / C 22.625 / D 判不出）；形态为连续饱和而非突跳",
+    "supporting_claims": [
+      "跨 L_ctx^crit 压缩规模而非重排配比：N* -54.83512125256155%、D* -53.37880146895937%、N:D 仅 3.22%",
+      "dL/dp 只报符号与域间排序（dL/dp_i ÷ dL/dp_j = b_i/b_j，kappa 无关）",
+      "成本函数影响集中在低预算档：Q* 极差 0.46095601286892085 全部来自 1e19"
+    ],
+    "f4_resolution": "维持 M0o（D/N=20）；三数同报 gap_reported / gap_quality_only / gap_ratio_handicap；handicap 占报告差距 32.10322783409671% / 27.65840772632896% / 34.00830933287415%；M0o' 保持 diagnostic_reference_NOT_baseline，不得作为官方 baseline 报出",
+    "q0_sensitivity": "扫 [0.223306, 0.381496]：Q* 极差 0.011711868561441796、转移位置移动 0.0059814453125 ⇒ NOT_LOAD_BEARING_IN_TESTED_RANGE；但 Q0=0.35 未经使用者裁定的状态不变",
+    "fourth_cost_form": "三候选均未进入主 claim（裁定 A）。C1 饱和指数型与 C2 Hill 型均使 Q*≡1、NO_TRANSITION（会消灭核心发现）；C3 二次型产生双侧转移但定义 A 定位失败（nan）且左支依赖未裁定的 Q0",
+    "must_write_limits": [
+      "L_ctx_crit = 30000 仅为两类成本相等的临界尺度，不是最优上下文长度",
+      "不得笼统写「各档预算最优质量恒为 1」——低预算档明确不是（0.6460174872692858 / 0.5390439871310791）",
+      "饱和点 dQ*/dlogC 由正转零（上游写的「由负转零」是符号错误）",
+      "1e24 为外推：N 3.4059903063249575×、D 12.574318155320217×，不得表述为可靠预测",
+      "Chinchilla 对照不构成外部锚点；常数未经原文核验（constants_verified_against_paper=false）",
+      "Q0 = 0.35 未经使用者裁定；第四类 g 的候选结果不得当作主结果报出",
+      "上游三处过期数字不得引用：隐含 D/N 用 79.59104144631574/155.5004609503274/243.02074222002932（非 32.06/62.64/97.89）；N:D 变化用 3.22%（非 3.12%）；Python 用 3.14.6（非 3.13.7）"
+    ]
+  }
+}

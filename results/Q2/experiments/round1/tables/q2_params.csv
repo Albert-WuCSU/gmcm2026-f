@@ -1,0 +1,18 @@
+method,param,value,source_of_information,note
+M0s,E,1.68979756,B1 (real),HD-2 声明的 baseline，仅用 B1
+M0s,A,0.35398032,B1 (real),HD-2 声明的 baseline，仅用 B1
+M0s,alpha,0.33997658,B1 (real),HD-2 声明的 baseline，仅用 B1
+M0s,B,1.24030558,B1 (real),HD-2 声明的 baseline，仅用 B1
+M0s,beta,0.27987813,B1 (real),HD-2 声明的 baseline，仅用 B1
+M1s,E_B1,1.68979741,B1 (real),形状参数来源专属（P8 FAIL）
+M1s,A_B1,0.35398032,B1 (real),形状参数来源专属（P8 FAIL）
+M1s,alpha_B1,0.33997658,B1 (real),形状参数来源专属（P8 FAIL）
+M1s,B_B1,1.24030577,B1 (real),形状参数来源专属（P8 FAIL）
+M1s,E_B7,1.65423173,B7 (semi-synthetic),形状参数来源专属（P8 FAIL）
+M1s,A_B7,0.52912380,B7 (semi-synthetic),形状参数来源专属（P8 FAIL）
+M1s,alpha_B7,0.28321756,B7 (semi-synthetic),形状参数来源专属（P8 FAIL）
+M1s,B_B7,1.05387051,B7 (semi-synthetic),形状参数来源专属（P8 FAIL）
+M1s,beta,0.27987806,B1 (real; B7 权重份额 ~1.6e-6),跨源共享
+M1s,gamma,0.96591294,B7 (semi-synthetic; B1 上 Q=1 无信息),跨源共享
+M1s,gamma_ci95_lo,0.88385995,B7 (semi-synthetic),自助 B=400 逐行
+M1s,gamma_ci95_hi,1.05554620,B7 (semi-synthetic),含 1.0 ⇒ D_eff≈D·Q

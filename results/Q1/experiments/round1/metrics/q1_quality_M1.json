@@ -1,0 +1,509 @@
+{
+ "schema_version": 1,
+ "method_id": "M1",
+ "role": "main_candidate",
+ "subtasks": [
+  "Q1a",
+  "Q1b"
+ ],
+ "seed": 20260924,
+ "definition": "语义分组 V/P + 门控合成 Q = V·(1-P)；冲突判据分位数锚定",
+ "columns": [
+  "fineweb_edu",
+  "ad_en_margin",
+  "fluency_en_margin",
+  "modernbert_cleanliness",
+  "modernbert_readability",
+  "modernbert_reasoning",
+  "modernbert_professionalism",
+  "qurater",
+  "rps_doc_word_count",
+  "rps_doc_num_sentences",
+  "rps_doc_unigram_entropy",
+  "rps_doc_frac_unique_words",
+  "rps_doc_frac_no_alph_words",
+  "rps_doc_frac_chars_top_2gram",
+  "rps_doc_frac_chars_top_3gram",
+  "rps_lines_uppercase_letter_fraction",
+  "rps_lines_ending_with_terminal_punctution_mark",
+  "rps_lines_numerical_chars_fraction",
+  "rps_doc_mean_word_length",
+  "dsir_prose_likeness"
+ ],
+ "n_rows": 272486,
+ "value_columns": [
+  "fineweb_edu",
+  "fluency_en_margin",
+  "modernbert_cleanliness",
+  "modernbert_readability",
+  "modernbert_reasoning",
+  "modernbert_professionalism",
+  "qurater",
+  "rps_doc_word_count",
+  "rps_doc_num_sentences",
+  "rps_doc_unigram_entropy",
+  "rps_doc_frac_unique_words",
+  "rps_lines_ending_with_terminal_punctution_mark",
+  "rps_doc_mean_word_length",
+  "dsir_prose_likeness"
+ ],
+ "pollution_columns": [
+  "ad_en_margin",
+  "rps_doc_frac_no_alph_words",
+  "rps_doc_frac_chars_top_2gram",
+  "rps_doc_frac_chars_top_3gram",
+  "rps_lines_uppercase_letter_fraction",
+  "rps_lines_numerical_chars_fraction"
+ ],
+ "excluded_variant": {
+  "form": "Q = V - P",
+  "reason": "跨零使 CV=1.44e6、基尼 8.17e5；负 Q 与 Q3 的 γQ^4、γe^{6Q} 不相容",
+  "implemented": false
+ },
+ "excluded_conflict_criterion": {
+  "form": "绝对阈 V>0.75 ∧ P>0.75",
+  "reason": "冲突率恰为 0.0（16 列均值 p75 仅 0.567）",
+  "implemented": false
+ },
+ "conflict_criterion_decision": {
+  "decision_id": "q1b_conflict_criterion",
+  "choice": "CD2@p75",
+  "primary_key": "CD2_high_value_and_high_pollution",
+  "primary_anchor": "p75",
+  "sensitivity_arms": [
+   "CD1_indicator_MAD_anchored",
+   "CD3_ge5_high_and_ge5_low",
+   "CD3_ge3_high_and_ge3_low"
+  ],
+  "note": "CD1 已按决策的 required_fix 改为 MAD 分位数锚定；固定阈 0.25 版仅作衔接对照"
+ },
+ "claim_scope_decision": {
+  "decision_id": "q1a_book_wikipedia_claim_scope",
+  "choice": "report_indistinguishable",
+  "prohibited_claim": "不得声称 book 与 wikipedia 的先后方向",
+  "scope_limit": "仅限该对；c4~commoncrawl 照常报方向"
+ },
+ "group_cohesion": {
+  "within_value": 0.14974687242121879,
+  "within_pollution": 0.02613600109104764,
+  "between": -0.013386758057588115,
+  "interpretation": "组内与组间同量级 => 分组为语义划分，不得声称由相关结构导出"
+ },
+ "perturbation_weights": {
+  "perturbation": "weights uniform +/-10%, reps=40",
+  "domain_rank_kendall_tau_mean": 0.9976190476190476,
+  "domain_rank_kendall_tau_min": 0.9047619047619048,
+  "domain_rank_max_position_change_max": 1,
+  "frac_reps_domain_order_unchanged": 0.975,
+  "sample_top1pct_overlap_mean": 0.9474302496328928,
+  "sample_top1pct_overlap_min": 0.869309838472834,
+  "tau_per_rep": [
+   1.0,
+   1.0,
+   1.0,
+   1.0,
+   1.0,
+   1.0,
+   1.0,
+   1.0,
+   1.0,
+   1.0,
+   1.0,
+   1.0,
+   1.0,
+   1.0,
+   1.0,
+   1.0,
+   1.0,
+   1.0,
+   1.0,
+   1.0,
+   1.0,
+   1.0,
+   1.0,
+   1.0,
+   1.0,
+   1.0,
+   1.0,
+   1.0,
+   1.0,
+   1.0,
+   1.0,
+   1.0,
+   1.0,
+   1.0,
+   1.0,
+   1.0,
+   1.0,
+   1.0,
+   0.9047619047619048,
+   1.0
+  ],
+  "top1pct_overlap_per_rep": [
+   0.9526431718061674,
+   0.9508076358296622,
+   0.933186490455213,
+   0.9497063142437592,
+   0.9280469897209985,
+   0.934287812041116,
+   0.9779735682819384,
+   0.972834067547724,
+   0.9291483113069016,
+   0.94640234948605,
+   0.9269456681350955,
+   0.9588839941262849,
+   0.9537444933920705,
+   0.94640234948605,
+   0.9566813509544787,
+   0.9588839941262849,
+   0.9372246696035242,
+   0.9497063142437592,
+   0.9559471365638766,
+   0.9493392070484582,
+   0.9419970631424376,
+   0.9548458149779736,
+   0.9493392070484582,
+   0.9632892804698973,
+   0.9640234948604993,
+   0.947136563876652,
+   0.9441997063142438,
+   0.9691629955947136,
+   0.9559471365638766,
+   0.9269456681350955,
+   0.9060205580029369,
+   0.959618208516887,
+   0.9533773861967695,
+   0.9394273127753304,
+   0.9563142437591777,
+   0.9511747430249633,
+   0.9515418502202643,
+   0.9629221732745962,
+   0.869309838472834,
+   0.9618208516886931
+  ]
+ },
+ "perturbation_group_weights": {
+  "perturbation": "Q = (gv·V)·(1 - gp·P)，gv/gp ~ U(0.9,1.1)，reps=40",
+  "domain_rank_kendall_tau_mean": 1.0,
+  "domain_rank_kendall_tau_min": 1.0,
+  "domain_rank_max_position_change_max": 0,
+  "note": "探针未测项，按代码计划 §4.6 在 G3 补测。**口径说明**：gv 是全局乘子，对 Q 是严格单调变换，域序恒不变；故本项实质只检验 gp 的敏感性，不可解读为『V 权重也不敏感』。V 组内各列权重的敏感性由上一项 perturbation_weights（20 列 ±10%）覆盖。",
+  "effective_factor": "gp only"
+ },
+ "conflict_anchor_sensitivity": {
+  "p70": {
+   "CD2_high_value_and_high_pollution": 0.0687191268542237,
+   "CD1_indicator_MAD_anchored": 0.3000007339826633,
+   "CD1_indicator_MAD_gt_0.25_fixed_ref": 0.30305777177543064,
+   "CD3_ge5_high_and_ge5_low": 0.3950698384504158,
+   "CD3_ge3_high_and_ge3_low": 0.8356722914204766
+  },
+  "p75": {
+   "CD2_high_value_and_high_pollution": 0.04082411573438635,
+   "CD1_indicator_MAD_anchored": 0.25000183495665834,
+   "CD1_indicator_MAD_gt_0.25_fixed_ref": 0.30305777177543064,
+   "CD3_ge5_high_and_ge5_low": 0.21805890944855882,
+   "CD3_ge3_high_and_ge3_low": 0.6561254523168163
+  },
+  "p80": {
+   "CD2_high_value_and_high_pollution": 0.020830427985290986,
+   "CD1_indicator_MAD_anchored": 0.19999926601733667,
+   "CD1_indicator_MAD_gt_0.25_fixed_ref": 0.30305777177543064,
+   "CD3_ge5_high_and_ge5_low": 0.1151838993562972,
+   "CD3_ge3_high_and_ge3_low": 0.4687763775019634
+  }
+ },
+ "fallback_trigger": {
+  "fallback_id": "M2",
+  "condition": "n_pairs_lt_-0.8 >= 3 OR M1 conflict_rate outside (0.01, 0.50)",
+  "observed": false,
+  "evidence": {
+   "n_pairs_lt_-0.8": 0,
+   "condition1_triggered": false,
+   "conflict_rate_CD2_p75": 0.04082411573438635,
+   "condition2_triggered": false
+  },
+  "action": "未触发，M2 保持休眠"
+ },
+ "warnings": [],
+ "arms": {
+  "pooled": {
+   "domain": {
+    "per_domain": {
+     "arxiv": {
+      "n": 18942,
+      "huber": 0.3814958169252389,
+      "trimmed10": 0.38164702848579185,
+      "median": 0.3833724283685098,
+      "ci95_lo": 0.3807309342030877,
+      "ci95_hi": 0.3823416403167808,
+      "half_width": 0.0008053530568465639
+     },
+     "book": {
+      "n": 171,
+      "huber": 0.2667677487138408,
+      "trimmed10": 0.2667429993602853,
+      "median": 0.2631941408478812,
+      "ci95_lo": 0.2584282731389468,
+      "ci95_hi": 0.27525549696572066,
+      "half_width": 0.008413611913386937
+     },
+     "c4": {
+      "n": 10000,
+      "huber": 0.36380540835066516,
+      "trimmed10": 0.3639953422662312,
+      "median": 0.36650273521782917,
+      "ci95_lo": 0.36192658904311553,
+      "ci95_hi": 0.3657935369715142,
+      "half_width": 0.0019334739641993226
+     },
+     "commoncrawl": {
+      "n": 9636,
+      "huber": 0.3479423814342351,
+      "trimmed10": 0.34804742171863895,
+      "median": 0.35084592536045844,
+      "ci95_lo": 0.3463665058115854,
+      "ci95_hi": 0.3497535322500564,
+      "half_width": 0.0016935132192354985
+     },
+     "github": {
+      "n": 213751,
+      "huber": 0.22330626848410468,
+      "trimmed10": 0.2231760304320206,
+      "median": 0.22215714915268267,
+      "ci95_lo": 0.22297508441287503,
+      "ci95_hi": 0.22360793179598404,
+      "half_width": 0.00031642369155450434
+     },
+     "stackexchange": {
+      "n": 10000,
+      "huber": 0.29429286232728874,
+      "trimmed10": 0.2942984085107128,
+      "median": 0.29406331146980014,
+      "ci95_lo": 0.2928961256293917,
+      "ci95_hi": 0.2958405476988514,
+      "half_width": 0.0014722110347298312
+     },
+     "wikipedia": {
+      "n": 9986,
+      "huber": 0.25563849117989446,
+      "trimmed10": 0.2557108675645053,
+      "median": 0.25768530748067175,
+      "ci95_lo": 0.2541599532223525,
+      "ci95_hi": 0.25724184635239394,
+      "half_width": 0.0015409465650207121
+     }
+    },
+    "order_best_to_worst": [
+     "arxiv",
+     "c4",
+     "commoncrawl",
+     "stackexchange",
+     "book",
+     "wikipedia",
+     "github"
+    ],
+    "domain_range": 0.1581895484411342
+   },
+   "distinguishability": {
+    "n_pairs_total": 21,
+    "n_pairs_distinguishable": 21,
+    "n_pairs_tied": 0,
+    "tied_pairs": []
+   },
+   "degeneracy": {
+    "mean": 0.24891798995125097,
+    "std": 0.08939499551141744,
+    "coefficient_of_variation": 0.3591343298607099,
+    "unique_output_count": 261066,
+    "unique_ratio": 0.958089589923886,
+    "gini": 0.20278905019312748,
+    "top1pct_mass_share": 0.020149143857352968,
+    "p05_p95_spread": 0.2962452378131353,
+    "min": 0.015030528173460438,
+    "max": 0.6804971028358516
+   },
+   "auc_Q_recovering_domain_arxiv_vs_github": 0.9486135877662673,
+   "V_summary": {
+    "mean": 0.5000013897225052,
+    "std": 0.13241339003305955,
+    "p75": 0.6041130489929882
+   },
+   "P_summary": {
+    "mean": 0.5,
+    "std": 0.12433764527449513,
+    "p75": 0.5871594332940654
+   },
+   "corr_V_vs_P": 0.06576208337986159,
+   "conflict_rates": {
+    "p70": {
+     "CD2_high_value_and_high_pollution": 0.0687191268542237,
+     "CD1_indicator_MAD_anchored": 0.3000007339826633,
+     "CD1_indicator_MAD_gt_0.25_fixed_ref": 0.30305777177543064,
+     "CD3_ge5_high_and_ge5_low": 0.3950698384504158,
+     "CD3_ge3_high_and_ge3_low": 0.8356722914204766
+    },
+    "p75": {
+     "CD2_high_value_and_high_pollution": 0.04082411573438635,
+     "CD1_indicator_MAD_anchored": 0.25000183495665834,
+     "CD1_indicator_MAD_gt_0.25_fixed_ref": 0.30305777177543064,
+     "CD3_ge5_high_and_ge5_low": 0.21805890944855882,
+     "CD3_ge3_high_and_ge3_low": 0.6561254523168163
+    },
+    "p80": {
+     "CD2_high_value_and_high_pollution": 0.020830427985290986,
+     "CD1_indicator_MAD_anchored": 0.19999926601733667,
+     "CD1_indicator_MAD_gt_0.25_fixed_ref": 0.30305777177543064,
+     "CD3_ge5_high_and_ge5_low": 0.1151838993562972,
+     "CD3_ge3_high_and_ge3_low": 0.4687763775019634
+    }
+   }
+  },
+  "per_domain": {
+   "domain": {
+    "per_domain": {
+     "arxiv": {
+      "n": 18942,
+      "huber": 0.25017875648662075,
+      "trimmed10": 0.25012452922456013,
+      "median": 0.24924865341981,
+      "ci95_lo": 0.24885686355716555,
+      "ci95_hi": 0.25140208778543705,
+      "half_width": 0.0012726121141357488
+     },
+     "book": {
+      "n": 171,
+      "huber": 0.2507822467009479,
+      "trimmed10": 0.24957087231594213,
+      "median": 0.24753057208100468,
+      "ci95_lo": 0.23673573709490497,
+      "ci95_hi": 0.2657888099277838,
+      "half_width": 0.014526536416439417
+     },
+     "c4": {
+      "n": 10000,
+      "huber": 0.25410393595943714,
+      "trimmed10": 0.2538506907200406,
+      "median": 0.2521492731843863,
+      "ci95_lo": 0.2517741801419747,
+      "ci95_hi": 0.2564580569770708,
+      "half_width": 0.0023419384175480396
+     },
+     "commoncrawl": {
+      "n": 9636,
+      "huber": 0.2568455539440042,
+      "trimmed10": 0.2561202368696907,
+      "median": 0.25117671292246285,
+      "ci95_lo": 0.25390128213127844,
+      "ci95_hi": 0.2593724416863766,
+      "half_width": 0.0027355797775490687
+     },
+     "github": {
+      "n": 213751,
+      "huber": 0.24533698375597812,
+      "trimmed10": 0.24522952728664887,
+      "median": 0.24459659030188427,
+      "ci95_lo": 0.24498908529574356,
+      "ci95_hi": 0.2456859491216008,
+      "half_width": 0.00034843191292861786
+     },
+     "stackexchange": {
+      "n": 10000,
+      "huber": 0.2498534511551785,
+      "trimmed10": 0.2492943652582681,
+      "median": 0.24519542659268753,
+      "ci95_lo": 0.24794551357798544,
+      "ci95_hi": 0.2518082147521175,
+      "half_width": 0.001931350587066033
+     },
+     "wikipedia": {
+      "n": 9986,
+      "huber": 0.25010344035312887,
+      "trimmed10": 0.24981743536032738,
+      "median": 0.24689818583277084,
+      "ci95_lo": 0.24802499468492703,
+      "ci95_hi": 0.25217327084811203,
+      "half_width": 0.0020741380815925
+     }
+    },
+    "order_best_to_worst": [
+     "commoncrawl",
+     "c4",
+     "book",
+     "arxiv",
+     "wikipedia",
+     "stackexchange",
+     "github"
+    ],
+    "domain_range": 0.01150857018802609
+   },
+   "distinguishability": {
+    "n_pairs_total": 21,
+    "n_pairs_distinguishable": 9,
+    "n_pairs_tied": 12,
+    "tied_pairs": [
+     "arxiv~book",
+     "arxiv~stackexchange",
+     "arxiv~wikipedia",
+     "book~c4",
+     "book~commoncrawl",
+     "book~github",
+     "book~stackexchange",
+     "book~wikipedia",
+     "c4~commoncrawl",
+     "c4~stackexchange",
+     "c4~wikipedia",
+     "stackexchange~wikipedia"
+    ]
+   },
+   "degeneracy": {
+    "mean": 0.2486901158003992,
+    "std": 0.08556444911371283,
+    "coefficient_of_variation": 0.3440605141797738,
+    "unique_output_count": 261066,
+    "unique_ratio": 0.958089589923886,
+    "gini": 0.19417574465369214,
+    "top1pct_mass_share": 0.0201358099621689,
+    "p05_p95_spread": 0.28088197686128463,
+    "min": 0.003861599962820018,
+    "max": 0.6948206191263813
+   },
+   "auc_Q_recovering_domain_arxiv_vs_github": 0.5163040224777776,
+   "V_summary": {
+    "mean": 0.5000056958223754,
+    "std": 0.12637912348809838,
+    "p75": 0.5930797055198814
+   },
+   "P_summary": {
+    "mean": 0.5,
+    "std": 0.12649525366842565,
+    "p75": 0.5875255780694169
+   },
+   "corr_V_vs_P": 0.08211576428791138,
+   "conflict_rates": {
+    "p70": {
+     "CD2_high_value_and_high_pollution": 0.08456948246882409,
+     "CD1_indicator_MAD_anchored": 0.3000007339826633,
+     "CD1_indicator_MAD_gt_0.25_fixed_ref": 0.3050175054865204,
+     "CD3_ge5_high_and_ge5_low": 0.43136161123874256,
+     "CD3_ge3_high_and_ge3_low": 0.8224532636539125
+    },
+    "p75": {
+     "CD2_high_value_and_high_pollution": 0.05503402009644532,
+     "CD1_indicator_MAD_anchored": 0.25000183495665834,
+     "CD1_indicator_MAD_gt_0.25_fixed_ref": 0.3050175054865204,
+     "CD3_ge5_high_and_ge5_low": 0.2558223174768612,
+     "CD3_ge3_high_and_ge3_low": 0.6677223783974222
+    },
+    "p80": {
+     "CD2_high_value_and_high_pollution": 0.03170071122920077,
+     "CD1_indicator_MAD_anchored": 0.19999926601733667,
+     "CD1_indicator_MAD_gt_0.25_fixed_ref": 0.3050175054865204,
+     "CD3_ge5_high_and_ge5_low": 0.14108247763187834,
+     "CD3_ge3_high_and_ge3_low": 0.48101553841298267
+    }
+   }
+  }
+ },
+ "execution_time_seconds": 97.2
+}
