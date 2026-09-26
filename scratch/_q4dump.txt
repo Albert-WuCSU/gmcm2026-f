@@ -1,0 +1,172 @@
+=== experiments/round2/metrics/q4_trend_method.json ===
+{
+ "schema_version": 1,
+ "round": 2,
+ "seed": 20260925,
+ "purpose": "兑现 q4_result_verdict 的 supplementary_run_required",
+ "endpoint_sensitivity": [
+  {
+   "endpoint_def": "single_last_month",
+   "scale_points": 1.7175070832909345,
+   "tech_points": 4.906940400824513,
+   "total_points": 6.624447484115447,
+   "scale_share": 0.2592679747872242,
+   "tech_share": 0.7407320252127758,
+   "n": 4561
+  },
+  {
+   "endpoint_def": "first_vs_last2_merged",
+   "scale_points": 1.2039579819929749,
+   "tech_points": 5.443774656600176,
+   "total_points": 6.647732638593151,
+   "scale_share": 0.1811080630715267,
+   "tech_share": 0.8188919369284733,
+   "n": 1477
+  },
+  {
+   "endpoint_def": "first_vs_last3_merged",
+   "scale_points": -0.15466420382928803,
+   "tech_points": 5.641192418286121,
+   "total_points": 5.486528214456833,
+   "scale_share": -0.028189812898756744,
+   "tech_share": 1.0281898128987568,
+   "n": 2345
+  },
+  {
+   "endpoint_def": "drop_last_month",
+   "scale_points": 1.4684702976435702,
+   "tech_points": 5.190770321919762,
+   "total_points": 6.659240619563332,
+   "scale_share": 0.22051617917657743,
+   "tech_share": 0.7794838208234226,
+   "n": 4219
+  }
+ ],
+ "endpoint_share_spread": 0.28745778768598096,
+ "endpoint_sign_flips": true,
+ "total_points_range": [
+  5.486528214456833,
+  6.659240619563332
+ ],
+ "trend_method": {
+  "decile": {
+   "slope_f": 0.057503131563025896,
+   "slope_tau": 0.5737747463972586,
+   "slope_ratio": 9.97814781214788,
+   "scale_points": 0.5175281840672331,
+   "tech_points": 5.163972717575327,
+   "total_points": 5.68150090164256,
+   "scale_share": 0.09109004698346738,
+   "tech_share": 0.9089099530165327,
+   "n_months": 10
+  },
+  "linear": {
+   "slope_f": -0.33714499477741566,
+   "slope_tau": 0.9684228727377,
+   "slope_ratio": -2.872422511795129,
+   "scale_points": -3.0343049529967407,
+   "tech_points": 8.7158058546393,
+   "total_points": 5.681500901642559,
+   "scale_share": -0.5340674947564478,
+   "tech_share": 1.5340674947564479,
+   "n_months": 10
+  }
+ },
+ "trend_method_drop_last": {
+  "decile": {
+   "slope_f": -0.07091940526764268,
+   "slope_tau": 0.7406836077266293,
+   "slope_ratio": -10.444018882157348,
+   "scale_points": -0.5673552421411414,
+   "tech_points": 5.925468861813035,
+   "total_points": 5.358113619671894,
+   "scale_share": -0.1058871241658895,
+   "tech_share": 1.1058871241658894,
+   "n_months": 9
+  },
+  "linear": {
+   "slope_f": -0.41162623548651667,
+   "slope_tau": 1.0813904379455093,
+   "slope_ratio": -2.6271173815424396,
+   "scale_points": -3.2930098838921333,
+   "tech_points": 8.651123503564074,
+   "total_points": 5.358113619671941,
+   "scale_share": -0.6145838102055314,
+   "tech_share": 1.6145838102055314,
+   "n_months": 9
+  }
+ },
+ "trend_scale_share_ci95": [
+  -0.19424361172079332,
+  0.22575049179717038
+ ],
+ "trend_ci_contains_zero": true,
+ "n_boot": 1000,
+ "scenario_spread_scaling": [
+  {
+   "scale_share": 0.2592679747872242,
+   "implied_scenario_spread_h12": 11.786
+  },
+  {
+   "scale_share": 0.09109004698346738,
+   "implied_scenario_spread_h12": 4.1408
+  },
+  {
+   "scale_share": 0.0,
+   "implied_scenario_spread_h12": 0.0
+  }
+ ],
+ "robust_claim": "规模通道贡献与 0 不可区分；非规模技术/数据工程综合进步主导",
+ "fragile_claim_withdrawn": "26%/74% 等任何具体百分比分割",
+ "generated_at": "2026-09-25T20:27:15.510409+08:00"
+}
+=== experiments/round2/n_frontier_meta.json ===
+{
+ "logN_q10_slope_per_month": -0.05714,
+ "logN_q50_slope_per_month": -0.00209,
+ "logN_q90_slope_per_month": -0.06281,
+ "logN_q90_cum_dex": -0.5653,
+ "N_q90_ratio_first_over_last": 3.162,
+ "S_q90_slope_per_month": 1.5333,
+ "S_q90_first": 25.9201,
+ "S_q90_last": 41.3875
+}
+=== experiments/round1/metrics/q4_M0a.json ===
+{
+ "method_id": "M0a",
+ "role": "usable_baseline",
+ "form": "q90_t = a + b*t（纯时间趋势，不分解）",
+ "frontier_definition": "每月 Average 的 0.9 分位",
+ "q90_by_month": {
+  "2024-06": 25.92,
+  "2024-07": 28.094,
+  "2024-08": 35.851,
+  "2024-09": 32.382,
+  "2024-10": 34.45,
+  "2024-11": 35.092,
+  "2024-12": 38.696,
+  "2025-01": 38.024,
+  "2025-02": 40.001,
+  "2025-03": 41.387
+ },
+ "slope_per_month": 1.5333,
+ "resid_sigma": 2.021,
+ "current_frontier": 41.387,
+ "predictions": {
+  "h12": {
+   "point": 60.29,
+   "lo80": 56.448,
+   "hi80": 64.131,
+   "lo95": 54.415,
+   "hi95": 66.165
+  },
+  "h24": {
+   "point": 78.69,
+   "lo80": 73.914,
+   "hi80": 83.466,
+   "lo95": 71.386,
+   "hi95": 85.994
+  }
+ },
+ "structural_limitation": "该 baseline 结构上产出不了归因分解 ⇒ 主方法在归因维度上是定义性胜出；预测维度上主方法须真打赢它，不得回避比较。"
+}

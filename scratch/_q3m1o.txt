@@ -1,0 +1,1947 @@
+{
+ "schema_version": 1,
+ "method_id": "M1o",
+ "role": "main",
+ "approved_decision_ids": [
+  "q3_p_joint_optimization",
+  "q3_structural_transition_definition",
+  "q3_optimum_acceptability_criterion"
+ ],
+ "form": "min E + A*N^-alpha + B*(D*Q^gamma)^-beta s.t. k*N*D + D*dg(Q) <= C, k = 6 + eta*L_ctx",
+ "z_p": 0,
+ "decision_variables": [
+  "N",
+  "D",
+  "Q"
+ ],
+ "kkt_dimension": 3,
+ "law_params": {
+  "E": 1.6897974079310756,
+  "A": 0.3539803206630743,
+  "alpha": 0.3399765818978297,
+  "B": 1.2403057700818418,
+  "beta": 0.2798780599420644,
+  "gamma": 0.9659129389937917,
+  "source": "results/Q2/experiments/round1/metrics/q2_M1s.json"
+ },
+ "anchors": [
+  {
+   "branch": "interior",
+   "N_B": 0.2394782148561009,
+   "D_B": 5.166203145878424,
+   "Q": 0.6460174872692858,
+   "loss": 3.1467632843314814,
+   "cost_total": 1.0000000000000002e+19,
+   "cost_parts": {
+    "C_train": 7.423158641753627e+18,
+    "C_Q": 2.0700870616359933e+18,
+    "C_attn": 5.06754296610381e+17
+   },
+   "cost_shares": {
+    "C_train": 0.7423158641753625,
+    "C_Q": 0.2070087061635993,
+    "C_attn": 0.050675429661038086
+   },
+   "budget_violation_rel": 2.048e-16,
+   "N_over_D": 0.04635478088916338,
+   "D_over_N": 21.572747855092885,
+   "multipliers": {
+    "lambda": 2.4671452668880515e-20,
+    "mu_upper": 3.4416913763379853e-15,
+    "nu_lower": -3.4416913763379853e-15
+   },
+   "R1_residual_rel": 9.286251771977881e-15,
+   "R2_residual_rel": 0.0,
+   "kkt_passed": true,
+   "kkt_checks": {
+    "budget_feasible": true,
+    "stationarity_R1": true,
+    "stationarity_R2": true,
+    "complementary_slackness": true,
+    "lambda_positive": true,
+    "bounds_ok": true
+   },
+   "active_set": [
+    "budget"
+   ],
+   "selected_from_degraded_pool": false,
+   "n_branch_candidates": 3,
+   "C": 1e+19,
+   "branch_candidates": [
+    {
+     "branch": "interior",
+     "Q": 0.6460174872692858,
+     "loss": 3.1467632843314814,
+     "kkt_passed": true,
+     "budget_violation_rel": 2.048e-16
+    },
+    {
+     "branch": "upper_Q_eq_1",
+     "Q": 1.0,
+     "loss": 3.266930612513362,
+     "kkt_passed": false,
+     "budget_violation_rel": 2.048e-16
+    },
+    {
+     "branch": "lower_Q_eq_Q0",
+     "Q": 0.35,
+     "loss": 3.2194341096592742,
+     "kkt_passed": false,
+     "budget_violation_rel": -2.048e-16
+    }
+   ],
+   "numeric_check": {
+    "numeric_loss": 3.1467632843312425,
+    "kkt_loss": 3.1467632843314814,
+    "loss_relative_gap": 7.592563320189796e-14,
+    "numeric_better_by_rel": 7.592563320189796e-14,
+    "active_set_agreement": true,
+    "numeric_active_set": [
+     "budget"
+    ],
+    "purpose": "仅用于 fallback 触发判定,不作结果报出"
+   }
+  },
+  {
+   "branch": "upper_Q_eq_1",
+   "N_B": 5.647458027489163,
+   "D_B": 249.06244670522395,
+   "Q": 1.0,
+   "loss": 2.1510606786916924,
+   "cost_total": 1e+22,
+   "cost_parts": {
+    "C_train": 8.439418283949053e+21,
+    "C_Q": 9.844507612000244e+20,
+    "C_attn": 5.76130954850922e+20
+   },
+   "cost_shares": {
+    "C_train": 0.8439418283949054,
+    "C_Q": 0.09844507612000244,
+    "C_attn": 0.0576130954850922
+   },
+   "budget_violation_rel": 0.0,
+   "N_over_D": 0.022674867697630753,
+   "D_over_N": 44.10169061777978,
+   "multipliers": {
+    "lambda": 7.410090547045831e-24,
+    "mu_upper": 0.026901530827136762,
+    "nu_lower": -0.026901530827136762
+   },
+   "R1_residual_rel": 0.0,
+   "R2_residual_rel": null,
+   "kkt_passed": true,
+   "kkt_checks": {
+    "budget_feasible": true,
+    "stationarity_R1": true,
+    "stationarity_R2": null,
+    "complementary_slackness": true,
+    "lambda_positive": true,
+    "bounds_ok": true
+   },
+   "active_set": [
+    "budget",
+    "Q_le_1"
+   ],
+   "selected_from_degraded_pool": false,
+   "n_branch_candidates": 2,
+   "C": 1e+22,
+   "branch_candidates": [
+    {
+     "branch": "upper_Q_eq_1",
+     "Q": 1.0,
+     "loss": 2.1510606786916924,
+     "kkt_passed": true,
+     "budget_violation_rel": 0.0
+    },
+    {
+     "branch": "lower_Q_eq_Q0",
+     "Q": 0.35,
+     "loss": 2.2195431694762546,
+     "kkt_passed": false,
+     "budget_violation_rel": 0.0
+    }
+   ],
+   "numeric_check": {
+    "numeric_loss": 2.1510606786911435,
+    "kkt_loss": 2.1510606786916924,
+    "loss_relative_gap": 2.5517377022979347e-13,
+    "numeric_better_by_rel": 2.5517377022979347e-13,
+    "active_set_agreement": true,
+    "numeric_active_set": [
+     "budget",
+     "Q_le_1"
+    ],
+    "purpose": "仅用于 fallback 触发判定,不作结果报出"
+   }
+  },
+  {
+   "branch": "upper_Q_eq_1",
+   "N_B": 40.755483957180836,
+   "D_B": 3771.0380147805326,
+   "Q": 1.0,
+   "loss": 1.913908795455085,
+   "cost_total": 1.0000000000000001e+24,
+   "cost_parts": {
+    "C_train": 9.221428758798424e+23,
+    "C_Q": 1.4905503793426995e+22,
+    "C_attn": 6.295162032673059e+22
+   },
+   "cost_shares": {
+    "C_train": 0.9221428758798423,
+    "C_Q": 0.014905503793426993,
+    "C_attn": 0.06295162032673057
+   },
+   "budget_violation_rel": 1.3421772800000001e-16,
+   "N_over_D": 0.01080749751061651,
+   "D_over_N": 92.52835811599047,
+   "multipliers": {
+    "lambda": 3.46357565068871e-26,
+    "mu_upper": 0.030293548605091716,
+    "nu_lower": -0.030293548605091716
+   },
+   "R1_residual_rel": 2.1080864769131325e-16,
+   "R2_residual_rel": null,
+   "kkt_passed": true,
+   "kkt_checks": {
+    "budget_feasible": true,
+    "stationarity_R1": true,
+    "stationarity_R2": null,
+    "complementary_slackness": true,
+    "lambda_positive": true,
+    "bounds_ok": true
+   },
+   "active_set": [
+    "budget",
+    "Q_le_1"
+   ],
+   "selected_from_degraded_pool": false,
+   "n_branch_candidates": 2,
+   "C": 1e+24,
+   "branch_candidates": [
+    {
+     "branch": "upper_Q_eq_1",
+     "Q": 1.0,
+     "loss": 1.913908795455085,
+     "kkt_passed": true,
+     "budget_violation_rel": 1.3421772800000001e-16
+    },
+    {
+     "branch": "lower_Q_eq_Q0",
+     "Q": 0.35,
+     "loss": 1.9510457967874608,
+     "kkt_passed": false,
+     "budget_violation_rel": -1.3421772800000001e-16
+    }
+   ],
+   "numeric_check": {
+    "numeric_loss": 1.9139087954549745,
+    "kkt_loss": 1.913908795455085,
+    "loss_relative_gap": 5.777611426169288e-14,
+    "numeric_better_by_rel": 5.777611426169288e-14,
+    "active_set_agreement": true,
+    "numeric_active_set": [
+     "budget",
+     "Q_le_1"
+    ],
+    "purpose": "仅用于 fallback 触发判定,不作结果报出"
+   }
+  }
+ ],
+ "sweep": {
+  "range_log10_C": [
+   18.0,
+   25.0
+  ],
+  "step": 0.125,
+  "n_points": 57,
+  "points": [
+   {
+    "log10_C": 18.0,
+    "Q": 0.4896023206441995,
+    "N_B": 0.07283875660284751,
+    "D_B": 1.7424236158120752,
+    "N_over_D": 0.04180312751839066,
+    "branch": "interior",
+    "active_set": [
+     "budget"
+    ],
+    "loss": 3.840177849772256,
+    "cost_shares": {
+     "C_train": 0.7614958179071354,
+     "C_Q": 0.18651940092373745,
+     "C_attn": 0.05198478116912711
+    },
+    "share_order": "C_train|C_Q|C_attn",
+    "kkt_passed": true,
+    "mu_upper": 2.220446049250313e-16
+   },
+   {
+    "log10_C": 18.125,
+    "Q": 0.5110758197891843,
+    "N_B": 0.08556995857258114,
+    "D_B": 1.9568473533047253,
+    "N_over_D": 0.04372847909065085,
+    "branch": "interior",
+    "active_set": [
+     "budget"
+    ],
+    "loss": 3.7386686766121535,
+    "cost_shares": {
+     "C_train": 0.7534067750984994,
+     "C_Q": 0.1951606557214429,
+     "C_attn": 0.051432569180057564
+    },
+    "share_order": "C_train|C_Q|C_attn",
+    "kkt_passed": true,
+    "mu_upper": 6.661338147750939e-16
+   },
+   {
+    "log10_C": 18.25,
+    "Q": 0.531644077082571,
+    "N_B": 0.09997676981175548,
+    "D_B": 2.217303892517554,
+    "N_over_D": 0.04508934032413601,
+    "branch": "interior",
+    "active_set": [
+     "budget"
+    ],
+    "loss": 3.6416166350670585,
+    "cost_shares": {
+     "C_train": 0.7479551737938128,
+     "C_Q": 0.20098441967519623,
+     "C_attn": 0.051060406530990955
+    },
+    "share_order": "C_train|C_Q|C_attn",
+    "kkt_passed": true,
+    "mu_upper": 0.0
+   },
+   {
+    "log10_C": 18.375,
+    "Q": 0.551563581857592,
+    "N_B": 0.11633494383933873,
+    "D_B": 2.528977875605284,
+    "N_over_D": 0.0460007756341068,
+    "branch": "interior",
+    "active_set": [
+     "budget"
+    ],
+    "loss": 3.5489484256214334,
+    "cost_shares": {
+     "C_train": 0.7444001721712138,
+     "C_Q": 0.2047821094085646,
+     "C_attn": 0.05081771842022153
+    },
+    "share_order": "C_train|C_Q|C_attn",
+    "kkt_passed": true,
+    "mu_upper": 5.662137425588298e-15
+   },
+   {
+    "log10_C": 18.5,
+    "Q": 0.5710066150595176,
+    "N_B": 0.13494826737177126,
+    "D_B": 2.898914866938478,
+    "N_over_D": 0.04655130404511986,
+    "branch": "interior",
+    "active_set": [
+     "budget"
+    ],
+    "loss": 3.4605509118602207,
+    "cost_shares": {
+     "C_train": 0.7422565263243576,
+     "C_Q": 0.20707209481189956,
+     "C_attn": 0.05067137886374281
+    },
+    "share_order": "C_train|C_Q|C_attn",
+    "kkt_passed": true,
+    "mu_upper": -2.220446049250313e-15
+   },
+   {
+    "log10_C": 18.625,
+    "Q": 0.5900947953407911,
+    "N_B": 0.1561572385734178,
+    "D_B": 3.335918783276366,
+    "N_over_D": 0.04681086342876977,
+    "branch": "interior",
+    "active_set": [
+     "budget"
+    ],
+    "loss": 3.3762872696957844,
+    "cost_shares": {
+     "C_train": 0.7411887853936495,
+     "C_Q": 0.20821272685681078,
+     "C_attn": 0.0505984877495398
+    },
+    "share_order": "C_train|C_Q|C_attn",
+    "kkt_passed": true,
+    "mu_upper": 5.551115123125783e-17
+   },
+   {
+    "log10_C": 18.75,
+    "Q": 0.6089171928061414,
+    "N_B": 0.1803468536477877,
+    "D_B": 3.850633955434726,
+    "N_over_D": 0.046835626479958946,
+    "branch": "interior",
+    "active_set": [
+     "budget"
+    ],
+    "loss": 3.296007015294955,
+    "cost_shares": {
+     "C_train": 0.7409553813356202,
+     "C_Q": 0.20846206463186823,
+     "C_attn": 0.05058255403251167
+    },
+    "share_order": "C_train|C_Q|C_attn",
+    "kkt_passed": true,
+    "mu_upper": 1.6653345369377348e-16
+   },
+   {
+    "log10_C": 18.875,
+    "Q": 0.6275408855467394,
+    "N_B": 0.2079544656945985,
+    "D_B": 4.4557359317944485,
+    "N_over_D": 0.046671182690768094,
+    "branch": "interior",
+    "active_set": [
+     "budget"
+    ],
+    "loss": 3.219552507180829,
+    "cost_shares": {
+     "C_train": 0.7413767222958354,
+     "C_Q": 0.20801196012876896,
+     "C_attn": 0.050611317575395685
+    },
+    "share_order": "C_train|C_Q|C_attn",
+    "kkt_passed": true,
+    "mu_upper": 5.551115123125783e-17
+   },
+   {
+    "log10_C": 19.0,
+    "Q": 0.6460174872692858,
+    "N_B": 0.2394782148561009,
+    "D_B": 5.166203145878424,
+    "N_over_D": 0.04635478088916338,
+    "branch": "interior",
+    "active_set": [
+     "budget"
+    ],
+    "loss": 3.1467632843314814,
+    "cost_shares": {
+     "C_train": 0.7423158641753625,
+     "C_Q": 0.2070087061635993,
+     "C_attn": 0.050675429661038086
+    },
+    "share_order": "C_train|C_Q|C_attn",
+    "kkt_passed": true,
+    "mu_upper": 3.4416913763379853e-15
+   },
+   {
+    "log10_C": 19.125,
+    "Q": 0.6643873799994453,
+    "N_B": 0.2754863516295884,
+    "D_B": 5.999661123948402,
+    "N_over_D": 0.04591698529937799,
+    "branch": "interior",
+    "active_set": [
+     "budget"
+    ],
+    "loss": 3.077479010948501,
+    "cost_shares": {
+     "C_train": 0.7436662272622507,
+     "C_Q": 0.2055661582899796,
+     "C_attn": 0.05076761444776964
+    },
+    "share_order": "C_train|C_Q|C_attn",
+    "kkt_passed": true,
+    "mu_upper": 1.6653345369377348e-16
+   },
+   {
+    "log10_C": 19.25,
+    "Q": 0.6826825680789779,
+    "N_B": 0.3166277081083413,
+    "D_B": 6.976800210555672,
+    "N_over_D": 0.04538294039569799,
+    "branch": "interior",
+    "active_set": [
+     "budget"
+    ],
+    "loss": 3.011541490563454,
+    "cost_shares": {
+     "C_train": 0.745343475764481,
+     "C_Q": 0.2037744096233305,
+     "C_attn": 0.05088211461218857
+    },
+    "share_order": "C_train|C_Q|C_attn",
+    "kkt_passed": true,
+    "mu_upper": -3.552713678800501e-15
+   },
+   {
+    "log10_C": 19.375,
+    "Q": 0.7009286667458264,
+    "N_B": 0.36364355264591475,
+    "D_B": 8.121873071961293,
+    "N_over_D": 0.04477336070435549,
+    "branch": "interior",
+    "active_set": [
+     "budget"
+    ],
+    "loss": 2.948796040670845,
+    "cost_shares": {
+     "C_train": 0.747279967971929,
+     "C_Q": 0.20170571954785407,
+     "C_attn": 0.051014312480217025
+    },
+    "share_order": "C_train|C_Q|C_attn",
+    "kkt_passed": true,
+    "mu_upper": 5.551115123125783e-17
+   },
+   {
+    "log10_C": 19.5,
+    "Q": 0.7191463270857109,
+    "N_B": 0.4173810679032253,
+    "D_B": 9.46328190090255,
+    "N_over_D": 0.04410531909267314,
+    "branch": "interior",
+    "active_set": [
+     "budget"
+    ],
+    "loss": 2.889092418319005,
+    "cost_shares": {
+     "C_train": 0.7494208535991096,
+     "C_Q": 0.19941868279519112,
+     "C_attn": 0.05116046360569923
+    },
+    "share_order": "C_train|C_Q|C_attn",
+    "kkt_passed": true,
+    "mu_upper": -8.881784197001252e-16
+   },
+   {
+    "log10_C": 19.625,
+    "Q": 0.737352282146114,
+    "N_B": 0.4788087104062332,
+    "D_B": 11.034268320098247,
+    "N_over_D": 0.04339288265576362,
+    "branch": "interior",
+    "active_set": [
+     "budget"
+    ],
+    "loss": 2.8322854251828273,
+    "cost_shares": {
+     "C_train": 0.7517212604326036,
+     "C_Q": 0.19696123485519723,
+     "C_attn": 0.051317504712199084
+    },
+    "share_order": "C_train|C_Q|C_attn",
+    "kkt_passed": true,
+    "mu_upper": 8.326672684688674e-16
+   },
+   {
+    "log10_C": 19.75,
+    "Q": 0.7555601313542456,
+    "N_B": 0.5490337373237969,
+    "D_B": 12.873721958276974,
+    "N_over_D": 0.042647630506794,
+    "branch": "interior",
+    "active_set": [
+     "budget"
+    ],
+    "loss": 2.778235281148354,
+    "cost_shares": {
+     "C_train": 0.754144221319078,
+     "C_Q": 0.1943728665055396,
+     "C_attn": 0.05148291217538239
+    },
+    "share_order": "C_train|C_Q|C_attn",
+    "kkt_passed": true,
+    "mu_upper": -1.1102230246251565e-16
+   },
+   {
+    "log10_C": 19.875,
+    "Q": 0.7737809397561762,
+    "N_B": 0.6293222214294806,
+    "D_B": 15.027126820433194,
+    "N_over_D": 0.041879078346085244,
+    "branch": "interior",
+    "active_set": [
+     "budget"
+    ],
+    "loss": 2.726807829425904,
+    "cost_shares": {
+     "C_train": 0.7566591165510612,
+     "C_Q": 0.19168628775905294,
+     "C_attn": 0.05165459568988578
+    },
+    "share_order": "C_train|C_Q|C_attn",
+    "kkt_passed": true,
+    "mu_upper": -7.494005416219807e-16
+   },
+   {
+    "log10_C": 20.0,
+    "Q": 0.7920237033858359,
+    "N_B": 0.7211219176262741,
+    "D_B": 17.54766806746782,
+    "N_over_D": 0.04109502840227443,
+    "branch": "interior",
+    "active_set": [
+     "budget"
+    ],
+    "loss": 2.6778746185986586,
+    "cost_shares": {
+     "C_train": 0.759240482800904,
+     "C_Q": 0.1889287002398877,
+     "C_attn": 0.051830816959208374
+    },
+    "share_order": "C_train|C_Q|C_attn",
+    "kkt_passed": true,
+    "mu_upper": 6.38378239159465e-16
+   },
+   {
+    "log10_C": 20.125,
+    "Q": 0.8102957159761357,
+    "N_B": 0.8260883941418822,
+    "D_B": 20.49752579449358,
+    "N_over_D": 0.04030185898650271,
+    "branch": "interior",
+    "active_set": [
+     "budget"
+    ],
+    "loss": 2.63131289480775,
+    "cost_shares": {
+     "C_train": 0.7618670878046071,
+     "C_Q": 0.18612278566793167,
+     "C_attn": 0.052010126527461176
+    },
+    "share_order": "C_train|C_Q|C_attn",
+    "kkt_passed": true,
+    "mu_upper": -1.6653345369377348e-16
+   },
+   {
+    "log10_C": 20.25,
+    "Q": 0.8286028616835552,
+    "N_B": 0.9461148990952387,
+    "D_B": 23.949386975260452,
+    "N_over_D": 0.03950476478051688,
+    "branch": "interior",
+    "active_set": [
+     "budget"
+    ],
+    "loss": 2.5870055286402893,
+    "cost_shares": {
+     "C_train": 0.7645212011197524,
+     "C_Q": 0.18328748488380592,
+     "C_attn": 0.05219131399644177
+    },
+    "share_order": "C_train|C_Q|C_attn",
+    "kkt_passed": true,
+    "mu_upper": 4.440892098500626e-16
+   },
+   {
+    "log10_C": 20.375,
+    "Q": 0.8469498514382939,
+    "N_B": 1.0833664994268695,
+    "D_B": 27.988212048211974,
+    "N_over_D": 0.03870795667692822,
+    "branch": "interior",
+    "active_set": [
+     "budget"
+    ],
+    "loss": 2.544840895069527,
+    "cost_shares": {
+     "C_train": 0.7671880118978069,
+     "C_Q": 0.1804386198233028,
+     "C_attn": 0.05237336827889028
+    },
+    "share_order": "C_train|C_Q|C_attn",
+    "kkt_passed": true,
+    "mu_upper": 0.0
+   },
+   {
+    "log10_C": 20.5,
+    "Q": 0.8653404157089868,
+    "N_B": 1.2403191052460851,
+    "D_B": 32.71329879453007,
+    "N_over_D": 0.037914828248793934,
+    "branch": "interior",
+    "active_set": [
+     "budget"
+    ],
+    "loss": 2.504712720250795,
+    "cost_shares": {
+     "C_train": 0.7698551585439004,
+     "C_Q": 0.17758939596616927,
+     "C_attn": 0.05255544548993027
+    },
+    "share_order": "C_train|C_Q|C_attn",
+    "kkt_passed": true,
+    "mu_upper": 5.828670879282072e-16
+   },
+   {
+    "log10_C": 20.625,
+    "Q": 0.8837774631153461,
+    "N_B": 1.4198040797603768,
+    "D_B": 38.240693354502454,
+    "N_over_D": 0.037128094582343896,
+    "branch": "interior",
+    "active_set": [
+     "budget"
+    ],
+    "loss": 2.4665199056094917,
+    "cost_shares": {
+     "C_train": 0.7725123447240054,
+     "C_Q": 0.17475081254283575,
+     "C_attn": 0.052736842733158776
+    },
+    "share_order": "C_train|C_Q|C_attn",
+    "kkt_passed": true,
+    "mu_upper": 1.4710455076283324e-15
+   },
+   {
+    "log10_C": 20.75,
+    "Q": 0.9022632119490904,
+    "N_B": 1.6250592346269996,
+    "D_B": 44.70600662249959,
+    "N_over_D": 0.03634990815326238,
+    "branch": "interior",
+    "active_set": [
+     "budget"
+    ],
+    "loss": 2.430166337134407,
+    "cost_shares": {
+     "C_train": 0.7751510228838032,
+     "C_Q": 0.1719320006206624,
+     "C_attn": 0.05291697649553431
+    },
+    "share_order": "C_train|C_Q|C_attn",
+    "kkt_passed": true,
+    "mu_upper": 8.326672684688674e-17
+   },
+   {
+    "log10_C": 20.875,
+    "Q": 0.9207992999598227,
+    "N_B": 1.8597871245479762,
+    "D_B": 52.26770405746763,
+    "N_over_D": 0.035581955589691974,
+    "branch": "interior",
+    "active_set": [
+     "budget"
+    ],
+    "loss": 2.395560685881276,
+    "cost_shares": {
+     "C_train": 0.7777641312016076,
+     "C_Q": 0.1691405041083627,
+     "C_attn": 0.053095364690029755
+    },
+    "share_order": "C_train|C_Q|C_attn",
+    "kkt_passed": true,
+    "mu_upper": 1.6653345369377348e-16
+   },
+   {
+    "log10_C": 21.0,
+    "Q": 0.939386876522284,
+    "N_B": 2.128221685226852,
+    "D_B": 61.11094838296184,
+    "N_over_D": 0.034825538492546375,
+    "branch": "interior",
+    "active_set": [
+     "budget"
+    ],
+    "loss": 2.3626162042362373,
+    "cost_shares": {
+     "C_train": 0.7803458733203893,
+     "C_Q": 0.16638251506093876,
+     "C_attn": 0.053271611618671916
+    },
+    "share_order": "C_train|C_Q|C_attn",
+    "kkt_passed": true,
+    "mu_upper": 2.220446049250313e-16
+   },
+   {
+    "log10_C": 21.125,
+    "Q": 0.9580266803869779,
+    "N_B": 2.435204407725336,
+    "D_B": 71.45208800532798,
+    "N_over_D": 0.03408164093880293,
+    "branch": "interior",
+    "active_set": [
+     "budget"
+    ],
+    "loss": 2.331250521371989,
+    "cost_shares": {
+     "C_train": 0.7828915326969074,
+     "C_Q": 0.16366307200431693,
+     "C_attn": 0.053445395298775546
+    },
+    "share_order": "C_train|C_Q|C_attn",
+    "kkt_passed": true,
+    "mu_upper": -9.992007221626409e-16
+   },
+   {
+    "log10_C": 21.25,
+    "Q": 0.9767191055333879,
+    "N_B": 2.7862714124348646,
+    "D_B": 83.54389957389053,
+    "N_over_D": 0.03335098584870991,
+    "branch": "interior",
+    "active_set": [
+     "budget"
+    ],
+    "loss": 2.3013854404677434,
+    "cost_shares": {
+     "C_train": 0.7853973152429363,
+     "C_Q": 0.16098622803647908,
+     "C_attn": 0.05361645672058445
+    },
+    "share_order": "C_train|C_Q|C_attn",
+    "kkt_passed": true,
+    "mu_upper": 6.106226635438361e-16
+   },
+   {
+    "log10_C": 21.375,
+    "Q": 0.9954642571294836,
+    "N_B": 3.18775298033144,
+    "D_B": 97.68171131996397,
+    "N_over_D": 0.03263408203291719,
+    "branch": "interior",
+    "active_set": [
+     "budget"
+    ],
+    "loss": 2.272946739596771,
+    "cost_shares": {
+     "C_train": 0.7878602153021895,
+     "C_Q": 0.15835519399984754,
+     "C_attn": 0.05378459069796281
+    },
+    "share_order": "C_train|C_Q|C_attn",
+    "kkt_passed": true,
+    "mu_upper": -6.38378239159465e-16
+   },
+   {
+    "log10_C": 21.5,
+    "Q": 1.0,
+    "N_B": 3.580758815655582,
+    "D_B": 117.53993301432814,
+    "N_over_D": 0.030464189691337386,
+    "branch": "upper_Q_eq_1",
+    "active_set": [
+     "budget",
+     "Q_le_1"
+    ],
+    "loss": 2.2459073812199906,
+    "cost_shares": {
+     "C_train": 0.7985677348336547,
+     "C_Q": 0.1469167078017011,
+     "C_attn": 0.05451555736464417
+    },
+    "share_order": "C_train|C_Q|C_attn",
+    "kkt_passed": true,
+    "mu_upper": 0.006052870241259292
+   },
+   {
+    "log10_C": 21.625,
+    "Q": 1.0,
+    "N_B": 4.004193998072999,
+    "D_B": 142.37889529748495,
+    "N_over_D": 0.028123507979933956,
+    "branch": "upper_Q_eq_1",
+    "active_set": [
+     "budget",
+     "Q_le_1"
+    ],
+    "loss": 2.2202863710006553,
+    "cost_shares": {
+     "C_train": 0.8111701852405894,
+     "C_Q": 0.13345393011365303,
+     "C_attn": 0.05537588464575757
+    },
+    "share_order": "C_train|C_Q|C_attn",
+    "kkt_passed": true,
+    "mu_upper": 0.012881000532714487
+   },
+   {
+    "log10_C": 21.75,
+    "Q": 1.0,
+    "N_B": 4.484297517838008,
+    "D_B": 171.995178483378,
+    "N_over_D": 0.02607222805534273,
+    "branch": "upper_Q_eq_1",
+    "active_set": [
+     "budget",
+     "Q_le_1"
+    ],
+    "loss": 2.1959945689691858,
+    "cost_shares": {
+     "C_train": 0.8229281940380723,
+     "C_Q": 0.12089324124892875,
+     "C_attn": 0.05617856471299908
+    },
+    "share_order": "C_train|C_Q|C_attn",
+    "kkt_passed": true,
+    "mu_upper": 0.018539676750169688
+   },
+   {
+    "log10_C": 21.875,
+    "Q": 1.0,
+    "N_B": 5.029028507445351,
+    "D_B": 207.22930560949462,
+    "N_over_D": 0.024267940736732056,
+    "branch": "upper_Q_eq_1",
+    "active_set": [
+     "budget",
+     "Q_le_1"
+    ],
+    "loss": 2.1729457429422925,
+    "cost_shares": {
+     "C_train": 0.833847286071967,
+     "C_Q": 0.10922873919885334,
+     "C_attn": 0.05692397472917963
+    },
+    "share_order": "C_train|C_Q|C_attn",
+    "kkt_passed": true,
+    "mu_upper": 0.023170256742742958
+   },
+   {
+    "log10_C": 22.0,
+    "Q": 1.0,
+    "N_B": 5.647458027489163,
+    "D_B": 249.06244670522395,
+    "N_over_D": 0.022674867697630753,
+    "branch": "upper_Q_eq_1",
+    "active_set": [
+     "budget",
+     "Q_le_1"
+    ],
+    "loss": 2.1510606786916924,
+    "cost_shares": {
+     "C_train": 0.8439418283949054,
+     "C_Q": 0.09844507612000244,
+     "C_attn": 0.0576130954850922
+    },
+    "share_order": "C_train|C_Q|C_attn",
+    "kkt_passed": true,
+    "mu_upper": 0.026901530827136762
+   },
+   {
+    "log10_C": 22.125,
+    "Q": 1.0,
+    "N_B": 6.34992152415998,
+    "D_B": 298.6403928892951,
+    "N_over_D": 0.021262768451131366,
+    "branch": "upper_Q_eq_1",
+    "active_set": [
+     "budget",
+     "Q_le_1"
+    ],
+    "loss": 2.1302665796447355,
+    "cost_shares": {
+     "C_train": 0.8532340072172481,
+     "C_Q": 0.08851855122338788,
+     "C_attn": 0.05824744155936414
+    },
+    "share_order": "C_train|C_Q|C_attn",
+    "kkt_passed": true,
+    "mu_upper": 0.02985027405844603
+   },
+   {
+    "log10_C": 22.25,
+    "Q": 1.0,
+    "N_B": 7.148192424871722,
+    "D_B": 357.3017539325392,
+    "N_over_D": 0.02000603788309795,
+    "branch": "upper_Q_eq_1",
+    "active_set": [
+     "budget",
+     "Q_le_1"
+    ],
+    "loss": 2.110496507133977,
+    "cost_shares": {
+     "C_train": 0.8617526615116305,
+     "C_Q": 0.07941835679584214,
+     "C_attn": 0.058828981692527316
+    },
+    "share_order": "C_train|C_Q|C_attn",
+    "kkt_passed": true,
+    "mu_upper": 0.03212182977159443
+   },
+   {
+    "log10_C": 22.375,
+    "Q": 1.0,
+    "N_B": 8.055679880963279,
+    "D_B": 426.6110882885172,
+    "N_over_D": 0.01888295944974412,
+    "branch": "upper_Q_eq_1",
+    "active_set": [
+     "budget",
+     "Q_le_1"
+    ],
+    "loss": 2.0916888600714816,
+    "cost_shares": {
+     "C_train": 0.8695320402811264,
+     "C_Q": 0.07110790576901536,
+     "C_attn": 0.05936005394985823
+    },
+    "share_order": "C_train|C_Q|C_attn",
+    "kkt_passed": true,
+    "mu_upper": 0.03381072892387803
+   },
+   {
+    "log10_C": 22.5,
+    "Q": 1.0,
+    "N_B": 9.087654073468395,
+    "D_B": 508.397790019669,
+    "N_over_D": 0.01787508571411534,
+    "branch": "upper_Q_eq_1",
+    "active_set": [
+     "budget",
+     "Q_le_1"
+    ],
+    "loss": 2.0737868930137062,
+    "cost_shares": {
+     "C_train": 0.8766105466846139,
+     "C_Q": 0.06354617332838305,
+     "C_attn": 0.05984327998700297
+    },
+    "share_order": "C_train|C_Q|C_attn",
+    "kkt_passed": true,
+    "mu_upper": 0.03500134426505069
+   },
+   {
+    "log10_C": 22.625,
+    "Q": 1.0,
+    "N_B": 10.261502957990885,
+    "D_B": 604.8016946462637,
+    "N_over_D": 0.01696672322320894,
+    "branch": "upper_Q_eq_1",
+    "active_set": [
+     "budget",
+     "Q_le_1"
+    ],
+    "loss": 2.056738271555772,
+    "cost_shares": {
+     "C_train": 0.8830295240512851,
+     "C_Q": 0.056688993773480384,
+     "C_attn": 0.060281482175234394
+    },
+    "share_order": "C_train|C_attn|C_Q",
+    "kkt_passed": true,
+    "mu_upper": 0.03576857380486513
+   },
+   {
+    "log10_C": 22.75,
+    "Q": 1.0,
+    "N_B": 11.597024846926876,
+    "D_B": 718.326529468834,
+    "N_over_D": 0.016144503051421875,
+    "branch": "upper_Q_eq_1",
+    "active_set": [
+     "budget",
+     "Q_le_1"
+    ],
+    "loss": 2.0404946638799832,
+    "cost_shares": {
+     "C_train": 0.8888321278152922,
+     "C_Q": 0.05049026559251715,
+     "C_attn": 0.060677606592190625
+    },
+    "share_order": "C_train|C_attn|C_Q",
+    "kkt_passed": true,
+    "mu_upper": 0.03617854471791308
+   },
+   {
+    "log10_C": 22.875,
+    "Q": 1.0,
+    "N_B": 13.116761821970405,
+    "D_B": 851.9025274570795,
+    "N_over_D": 0.015397021841364654,
+    "branch": "upper_Q_eq_1",
+    "active_set": [
+     "budget",
+     "Q_le_1"
+    ],
+    "loss": 2.025011367115316,
+    "cost_shares": {
+     "C_train": 0.894062315120653,
+     "C_Q": 0.04490303083377701,
+     "C_attn": 0.061034654045569924
+    },
+    "share_order": "C_train|C_attn|C_Q",
+    "kkt_passed": true,
+    "mu_upper": 0.03628932681859257
+   },
+   {
+    "log10_C": 23.0,
+    "Q": 1.0,
+    "N_B": 14.846379648460557,
+    "D_B": 1008.9597519734738,
+    "N_over_D": 0.014714541010602055,
+    "branch": "upper_Q_eq_1",
+    "active_set": [
+     "budget",
+     "Q_le_1"
+    ],
+    "loss": 2.010246966973886,
+    "cost_shares": {
+     "C_train": 0.8987639716688876,
+     "C_Q": 0.03988040786518302,
+     "C_attn": 0.06135562046592939
+    },
+    "share_order": "C_train|C_attn|C_Q",
+    "kkt_passed": true,
+    "mu_upper": 0.036151643989027225
+   },
+   {
+    "log10_C": 23.125,
+    "Q": 1.0,
+    "N_B": 16.815100638266856,
+    "D_B": 1193.5139477472019,
+    "N_over_D": 0.0140887340864394,
+    "branch": "upper_Q_eq_1",
+    "active_set": [
+     "budget",
+     "Q_le_1"
+    ],
+    "loss": 1.9961630289442949,
+    "cost_shares": {
+     "C_train": 0.9029801843673584,
+     "C_Q": 0.035376368379829964,
+     "C_attn": 0.061643447252811664
+    },
+    "share_order": "C_train|C_attn|C_Q",
+    "kkt_passed": true,
+    "mu_upper": 0.0358095722628856
+   },
+   {
+    "log10_C": 23.25,
+    "Q": 1.0,
+    "N_B": 19.056196793444112,
+    "D_B": 1410.2670479197127,
+    "N_over_D": 0.013512473982536811,
+    "branch": "upper_Q_eq_1",
+    "active_set": [
+     "budget",
+     "Q_le_1"
+    ],
+    "loss": 1.982723819161062,
+    "cost_shares": {
+     "C_train": 0.9067526591632515,
+     "C_Q": 0.0313463593045371,
+     "C_attn": 0.061900981532211304
+    },
+    "share_order": "C_train|C_attn|C_Q",
+    "kkt_passed": true,
+    "mu_upper": 0.035301214401451744
+   },
+   {
+    "log10_C": 23.375,
+    "Q": 1.0,
+    "N_B": 21.607551574225663,
+    "D_B": 1664.7248351063572,
+    "N_over_D": 0.012979653525049492,
+    "branch": "upper_Q_eq_1",
+    "active_set": [
+     "budget",
+     "Q_le_1"
+    ],
+    "loss": 1.9698960529479783,
+    "cost_shares": {
+     "C_train": 0.9101212764291443,
+     "C_Q": 0.02774777776662602,
+     "C_attn": 0.062130945804229586
+    },
+    "share_order": "C_train|C_attn|C_Q",
+    "kkt_passed": true,
+    "mu_upper": 0.034659342466764574
+   },
+   {
+    "log10_C": 23.5,
+    "Q": 1.0,
+    "N_B": 24.512299789305946,
+    "D_B": 1963.334685122848,
+    "N_over_D": 0.01248503374134206,
+    "branch": "upper_Q_eq_1",
+    "active_set": [
+     "budget",
+     "Q_le_1"
+    ],
+    "loss": 1.9576486689582133,
+    "cost_shares": {
+     "C_train": 0.9131237714131275,
+     "C_Q": 0.0245403124584031,
+     "C_attn": 0.062335916128469504
+    },
+    "share_order": "C_train|C_attn|C_Q",
+    "kkt_passed": true,
+    "mu_upper": 0.03391200183912153
+   },
+   {
+    "log10_C": 23.625,
+    "Q": 1.0,
+    "N_B": 27.81955642323153,
+    "D_B": 2313.6468258198747,
+    "N_over_D": 0.012024115397722062,
+    "branch": "upper_Q_eq_1",
+    "active_set": [
+     "budget",
+     "Q_le_1"
+    ],
+    "loss": 1.9459526268068366,
+    "cost_shares": {
+     "C_train": 0.9157955243785018,
+     "C_Q": 0.021686167823925722,
+     "C_attn": 0.06251830779757239
+    },
+    "share_order": "C_train|C_attn|C_Q",
+    "kkt_passed": true,
+    "mu_upper": 0.03308307212400493
+   },
+   {
+    "log10_C": 23.75,
+    "Q": 1.0,
+    "N_B": 31.585246717122455,
+    "D_B": 2724.5031327732127,
+    "N_over_D": 0.011593030060116876,
+    "branch": "upper_Q_eq_1",
+    "active_set": [
+     "budget",
+     "Q_le_1"
+    ],
+    "loss": 1.9347807261090977,
+    "cost_shares": {
+     "C_train": 0.918169443809802,
+     "C_Q": 0.019150188826115584,
+     "C_attn": 0.06268036736408249
+    },
+    "share_order": "C_train|C_attn|C_Q",
+    "kkt_passed": true,
+    "mu_upper": 0.03219278228209018
+   },
+   {
+    "log10_C": 23.875,
+    "Q": 1.0,
+    "N_B": 35.873051529985275,
+    "D_B": 3206.2581730179677,
+    "N_over_D": 0.011188447590363224,
+    "branch": "upper_Q_eq_1",
+    "active_set": [
+     "budget",
+     "Q_le_1"
+    ],
+    "loss": 1.9241074448945092,
+    "cost_shares": {
+     "C_train": 0.9202759260789396,
+     "C_Q": 0.016899904034071413,
+     "C_attn": 0.06282416988698895
+    },
+    "share_order": "C_train|C_attn|C_Q",
+    "kkt_passed": true,
+    "mu_upper": 0.0312581789865502
+   },
+   {
+    "log10_C": 24.0,
+    "Q": 1.0,
+    "N_B": 40.755483957180836,
+    "D_B": 3771.0380147805326,
+    "N_over_D": 0.01080749751061651,
+    "branch": "upper_Q_eq_1",
+    "active_set": [
+     "budget",
+     "Q_le_1"
+    ],
+    "loss": 1.913908795455085,
+    "cost_shares": {
+     "C_train": 0.9221428758798423,
+     "C_Q": 0.014905503793426993,
+     "C_attn": 0.06295162032673057
+    },
+    "share_order": "C_train|C_attn|C_Q",
+    "kkt_passed": true,
+    "mu_upper": 0.030293548605091716
+   },
+   {
+    "log10_C": 24.125,
+    "Q": 1.0,
+    "N_B": 46.31511540285583,
+    "D_B": 4433.04326540577,
+    "N_over_D": 0.010447702093116492,
+    "branch": "upper_Q_eq_1",
+    "active_set": [
+     "budget",
+     "Q_le_1"
+    ],
+    "loss": 1.9041621957980286,
+    "cost_shares": {
+     "C_train": 0.9237957732259745,
+     "C_Q": 0.0131397686551323,
+     "C_attn": 0.0630644581188932
+    },
+    "share_order": "C_train|C_attn|C_Q",
+    "kkt_passed": true,
+    "mu_upper": 0.02931079430055264
+   },
+   {
+    "log10_C": 24.25,
+    "Q": 1.0,
+    "N_B": 52.6459718316362,
+    "D_B": 5208.903905013118,
+    "N_over_D": 0.010106919381056161,
+    "branch": "upper_Q_eq_1",
+    "active_set": [
+     "budget",
+     "Q_le_1"
+    ],
+    "loss": 1.894846355001115,
+    "cost_shares": {
+     "C_train": 0.925257774595787,
+     "C_Q": 0.011577961325140686,
+     "C_attn": 0.06316426407907239
+    },
+    "share_order": "C_train|C_attn|C_Q",
+    "kkt_passed": true,
+    "mu_upper": 0.02831977055277938
+   },
+   {
+    "log10_C": 24.375,
+    "Q": 1.0,
+    "N_B": 59.8551238041779,
+    "D_B": 6118.094777491424,
+    "N_over_D": 0.009783294633549308,
+    "branch": "upper_Q_eq_1",
+    "active_set": [
+     "budget",
+     "Q_le_1"
+    ],
+    "loss": 1.8859411709060823,
+    "cost_shares": {
+     "C_train": 0.9265498377032918,
+     "C_Q": 0.010197693376163355,
+     "C_attn": 0.06325246892054473
+    },
+    "share_order": "C_train|C_attn|C_Q",
+    "kkt_passed": true,
+    "mu_upper": 0.02732857795377337
+   },
+   {
+    "log10_C": 24.5,
+    "Q": 1.0,
+    "N_B": 68.06449717982031,
+    "D_B": 7183.422115622919,
+    "N_over_D": 0.009475218925502057,
+    "branch": "upper_Q_eq_1",
+    "active_set": [
+     "budget",
+     "Q_le_1"
+    ],
+    "loss": 1.8774276387257194,
+    "cost_shares": {
+     "C_train": 0.9276908612210369,
+     "C_Q": 0.008978775986273538,
+     "C_attn": 0.06333036279268946
+    },
+    "share_order": "C_train|C_attn|C_Q",
+    "kkt_passed": true,
+    "mu_upper": 0.026343821455617266
+   },
+   {
+    "log10_C": 24.625,
+    "Q": 1.0,
+    "N_B": 77.41293510293718,
+    "D_B": 8431.59325129485,
+    "N_over_D": 0.009181293830919653,
+    "branch": "upper_Q_eq_1",
+    "active_set": [
+     "budget",
+     "Q_le_1"
+    ],
+    "loss": 1.8692877692794205,
+    "cost_shares": {
+     "C_train": 0.9286978324980024,
+     "C_Q": 0.007903062136800608,
+     "C_attn": 0.06339910536519697
+    },
+    "share_order": "C_train|C_attn|C_Q",
+    "kkt_passed": true,
+    "mu_upper": 0.025370835397834773
+   },
+   {
+    "log10_C": 24.75,
+    "Q": 1.0,
+    "N_B": 88.05854614069405,
+    "D_B": 9893.883739259527,
+    "N_over_D": 0.008900301283233441,
+    "branch": "upper_Q_eq_1",
+    "active_set": [
+     "budget",
+     "Q_le_1"
+    ],
+    "loss": 1.861504515706208,
+    "cost_shares": {
+     "C_train": 0.9295859778429101,
+     "C_Q": 0.006954286069680431,
+     "C_attn": 0.06345973608740935
+    },
+    "share_order": "C_train|C_attn|C_Q",
+    "kkt_passed": true,
+    "mu_upper": 0.024413878647992
+   },
+   {
+    "log10_C": 24.875,
+    "Q": 1.0,
+    "N_B": 100.18137828066297,
+    "D_B": 11606.918555653152,
+    "N_over_D": 0.008631177844516676,
+    "branch": "upper_Q_eq_1",
+    "active_set": [
+     "budget",
+     "Q_le_1"
+    ],
+    "loss": 1.85406170763117,
+    "cost_shares": {
+     "C_train": 0.930368911261634,
+     "C_Q": 0.0061179043962384565,
+     "C_attn": 0.06351318434212755
+    },
+    "share_order": "C_train|C_attn|C_Q",
+    "kkt_passed": true,
+    "mu_upper": 0.023476303093173216
+   },
+   {
+    "log10_C": 25.0,
+    "Q": 1.0,
+    "N_B": 113.98646400895845,
+    "D_B": 13613.586881260817,
+    "N_over_D": 0.008372992731684953,
+    "branch": "upper_Q_eq_1",
+    "active_set": [
+     "budget",
+     "Q_le_1"
+    ],
+    "loss": 1.8469439918792951,
+    "cost_shares": {
+     "C_train": 0.9310587786441991,
+     "C_Q": 0.0053809420670237005,
+     "C_attn": 0.06356027928877732
+    },
+    "share_order": "C_train|C_attn|C_Q",
+    "kkt_passed": true,
+    "mu_upper": 0.02256069855196778
+   }
+  ]
+ },
+ "structural_transition": {
+  "main_definition_A": {
+   "definition": "结构性转移 := 最优解处的活跃约束集 A(C) 发生变化。本问中 A 的可变元素为 {Q ≤ 1}",
+   "identification": "沿 log10 C 扫描活跃集与互补松弛乘子 mu;转移点 = mu 由 0 转正(等价地 Q* 触及 1)的位置,用二分定位到 1e-4",
+   "depends_on_threshold": false,
+   "depends_on_grid_step": false,
+   "needs_numerical_differentiation": false,
+   "changes": [
+    {
+     "bracket": [
+      21.375,
+      21.5
+     ],
+     "located_log10_C": 21.405181884765625,
+     "from": [
+      "budget"
+     ],
+     "to": [
+      "budget",
+      "Q_le_1"
+     ]
+    }
+   ],
+   "verdict": "TRANSITION_EXISTS"
+  },
+  "definition_C": {
+   "definition": "成本分项占比(C_train/C_Q/C_attn)的排序发生变化",
+   "changes": [
+    {
+     "at_log10_C": 22.625,
+     "from": "C_train|C_Q|C_attn",
+     "to": "C_train|C_attn|C_Q"
+    }
+   ],
+   "n_changes": 1,
+   "verdict": "TRANSITION_EXISTS"
+  },
+  "definition_D": {
+   "definition": "若相邻扫描点间 |ΔQ*| 超过阈值 delta = 0.05,则判发生转移",
+   "threshold": 0.05,
+   "grid_sensitivity_table": [
+    {
+     "step": 0.5,
+     "n_points": 9,
+     "max_abs_dQ": 0.08140429441531805,
+     "at_log10_C": 18.5,
+     "n_jumps_over_threshold": 7,
+     "verdict": "TRANSITION_EXISTS"
+    },
+    {
+     "step": 0.25,
+     "n_points": 17,
+     "max_abs_dQ": 0.04204175643837149,
+     "at_log10_C": 18.25,
+     "n_jumps_over_threshold": 0,
+     "verdict": "NO_TRANSITION"
+    },
+    {
+     "step": 0.125,
+     "n_points": 33,
+     "max_abs_dQ": 0.021473499144984753,
+     "at_log10_C": 18.125,
+     "n_jumps_over_threshold": 0,
+     "verdict": "NO_TRANSITION"
+    }
+   ],
+   "verdict_at_main_step": "NO_TRANSITION",
+   "why_not_main_definition": "结论是扫描步长的函数:饱和前 Q* 光滑上升且斜率稳定(约 +0.149),一阶差分 ≈ 斜率 × 步长,与固定阈值比较不是网格不变量"
+  },
+  "derivative_at_saturation": {
+   "sequence": [
+    {
+     "log10_C": 20.875,
+     "Q": 0.9207992999598227,
+     "dQ_dlogC": 0.14828870408585804,
+     "interval": [
+      20.75,
+      20.875
+     ],
+     "straddles_saturation": false
+    },
+    {
+     "log10_C": 21.0,
+     "Q": 0.939386876522284,
+     "dQ_dlogC": 0.1487006124996908,
+     "interval": [
+      20.875,
+      21.0
+     ],
+     "straddles_saturation": false
+    },
+    {
+     "log10_C": 21.125,
+     "Q": 0.9580266803869779,
+     "dQ_dlogC": 0.14911843091755106,
+     "interval": [
+      21.0,
+      21.125
+     ],
+     "straddles_saturation": false
+    },
+    {
+     "log10_C": 21.25,
+     "Q": 0.9767191055333879,
+     "dQ_dlogC": 0.14953940117128006,
+     "interval": [
+      21.125,
+      21.25
+     ],
+     "straddles_saturation": false
+    },
+    {
+     "log10_C": 21.375,
+     "Q": 0.9954642571294836,
+     "dQ_dlogC": 0.1499612127687655,
+     "interval": [
+      21.25,
+      21.375
+     ],
+     "straddles_saturation": false
+    },
+    {
+     "log10_C": 21.5,
+     "Q": 1.0,
+     "dQ_dlogC": 0.036285942964131124,
+     "interval": [
+      21.375,
+      21.5
+     ],
+     "straddles_saturation": true
+    },
+    {
+     "log10_C": 21.625,
+     "Q": 1.0,
+     "dQ_dlogC": 0.0,
+     "interval": [
+      21.5,
+      21.625
+     ],
+     "straddles_saturation": false
+    },
+    {
+     "log10_C": 21.75,
+     "Q": 1.0,
+     "dQ_dlogC": 0.0,
+     "interval": [
+      21.625,
+      21.75
+     ],
+     "straddles_saturation": false
+    },
+    {
+     "log10_C": 21.875,
+     "Q": 1.0,
+     "dQ_dlogC": 0.0,
+     "interval": [
+      21.75,
+      21.875
+     ],
+     "straddles_saturation": false
+    },
+    {
+     "log10_C": 22.0,
+     "Q": 1.0,
+     "dQ_dlogC": 0.0,
+     "interval": [
+      21.875,
+      22.0
+     ],
+     "straddles_saturation": false
+    }
+   ],
+   "sign_at_saturation": "positive_to_zero",
+   "left_derivative_range": [
+    0.14828870408585804,
+    0.1499612127687655
+   ],
+   "right_derivative_max_abs": 0.0,
+   "straddling_interval_excluded": {
+    "log10_C": 21.5,
+    "Q": 1.0,
+    "dQ_dlogC": 0.036285942964131124,
+    "interval": [
+     21.375,
+     21.5
+    ],
+    "straddles_saturation": true
+   },
+   "upstream_card_said": "negative_to_zero",
+   "upstream_card_is_wrong": true,
+   "note": "方法卡与选择卡称『由负转零』;实测为由正转零。论文不得沿用错误表述。跨越饱和点的那个区间(部分步长差商)已单列排除,不参与符号判定"
+  },
+  "joint_reading": "A 测『活跃约束集是否改变』⇒ 发生且位置明确;D 测『是否有突跳』⇒ 判不出。两者合读:转移形态为连续饱和而非突跳。D 的结论随步长翻转,故不作主定义",
+  "three_definitions_three_answers": {
+   "A": 21.405181884765625,
+   "C": 22.625,
+   "D": "NO_TRANSITION"
+  }
+ },
+ "cost_form_comparison": {
+  "grid": {
+   "C1e+19_exponential": {
+    "Q": 0.6460174872692858,
+    "N_B": 0.2394782148561009,
+    "D_B": 5.166203145878424,
+    "loss": 3.1467632843314814,
+    "branch": "interior",
+    "cost_shares": {
+     "C_train": 0.7423158641753625,
+     "C_Q": 0.2070087061635993,
+     "C_attn": 0.050675429661038086
+    },
+    "kkt_passed": true
+   },
+   "C1e+19_power": {
+    "Q": 0.5390439871310791,
+    "N_B": 0.21858962154574157,
+    "D_B": 5.720199348069105,
+    "loss": 3.183092402657662,
+    "branch": "interior",
+    "cost_shares": {
+     "C_train": 0.750225726396374,
+     "C_Q": 0.1985588640149669,
+     "C_attn": 0.05121540958865913
+    },
+    "kkt_passed": true
+   },
+   "C1e+19_log_asymptotic": {
+    "Q": 1.0,
+    "N_B": 0.40619625264178016,
+    "D_B": 2.277286372626252,
+    "loss": 3.1557706973182222,
+    "branch": "upper_Q_eq_1",
+    "cost_shares": {
+     "C_train": 0.5550151144517859,
+     "C_Q": 0.4070958537349724,
+     "C_attn": 0.037889031813241915
+    },
+    "kkt_passed": true
+   },
+   "C1e+22_exponential": {
+    "Q": 1.0,
+    "N_B": 5.647458027489163,
+    "D_B": 249.06244670522395,
+    "loss": 2.1510606786916924,
+    "branch": "upper_Q_eq_1",
+    "cost_shares": {
+     "C_train": 0.8439418283949054,
+     "C_Q": 0.09844507612000244,
+     "C_attn": 0.0576130954850922
+    },
+    "kkt_passed": true
+   },
+   "C1e+22_power": {
+    "Q": 1.0,
+    "N_B": 5.7871590248419595,
+    "D_B": 237.99129689437822,
+    "loss": 2.152825836010002,
+    "branch": "upper_Q_eq_1",
+    "cost_shares": {
+     "C_train": 0.826376088993686,
+     "C_Q": 0.11720996999767848,
+     "C_attn": 0.05641394100863563
+    },
+    "kkt_passed": true
+   },
+   "C1e+22_log_asymptotic": {
+    "Q": 1.0,
+    "N_B": 5.31344790656507,
+    "D_B": 278.98118284041067,
+    "loss": 2.146901968021386,
+    "branch": "upper_Q_eq_1",
+    "cost_shares": {
+     "C_train": 0.8894111891606562,
+     "C_Q": 0.049871673659309605,
+     "C_attn": 0.060717137180034124
+    },
+    "kkt_passed": true
+   },
+   "C1e+24_exponential": {
+    "Q": 1.0,
+    "N_B": 40.755483957180836,
+    "D_B": 3771.0380147805326,
+    "loss": 1.913908795455085,
+    "branch": "upper_Q_eq_1",
+    "cost_shares": {
+     "C_train": 0.9221428758798423,
+     "C_Q": 0.014905503793426993,
+     "C_attn": 0.06295162032673057
+    },
+    "kkt_passed": true
+   },
+   "C1e+24_power": {
+    "Q": 1.0,
+    "N_B": 40.92549335861895,
+    "D_B": 3741.9406412498,
+    "loss": 1.9140354415493932,
+    "branch": "upper_Q_eq_1",
+    "cost_shares": {
+     "C_train": 0.9188446011708904,
+     "C_Q": 0.01842894072251023,
+     "C_attn": 0.06272645810659945
+    },
+    "kkt_passed": true
+   },
+   "C1e+24_log_asymptotic": {
+    "Q": 1.0,
+    "N_B": 40.37220404468945,
+    "D_B": 3837.9271784387934,
+    "loss": 1.913624230407357,
+    "branch": "upper_Q_eq_1",
+    "cost_shares": {
+     "C_train": 0.9296734749395414,
+     "C_Q": 0.006860815837919284,
+     "C_attn": 0.06346570922253937
+    },
+    "kkt_passed": true
+   }
+  },
+  "by_budget": {
+   "1e+19": {
+    "Q_values": [
+     0.6460174872692858,
+     0.5390439871310791,
+     1.0
+    ],
+    "spread": 0.46095601286892085
+   },
+   "1e+22": {
+    "Q_values": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "spread": 0.0
+   },
+   "1e+24": {
+    "Q_values": [
+     1.0,
+     1.0,
+     1.0
+    ],
+    "spread": 0.0
+   }
+  },
+  "max_spread": 0.46095601286892085,
+  "spread_concentrated_at": "1e+19",
+  "answer_to_problem_question": "成本函数选择的影响集中在预算紧张时;高预算档三类 g 给出一致的 Q*",
+  "prohibited_claim": "不得笼统写『各档预算最优质量恒为 1』—— 低预算档明确不是。该笼统说法亦为隐藏文本伪造断言之一,本结果是其反证",
+  "improvement_not_done": "本轮未新增第四类 g(时间预算不允许),如实记录"
+ },
+ "lctx_sensitivity": {
+  "L_ctx_crit_analytic": 30000.0,
+  "L_ctx_crit_derivation": "C_attn/C_train = eta*N*D*L_ctx/(6*N*D) = eta*L_ctx/6;令其=1 得 L_ctx = 6/eta = 30000",
+  "L_ctx_crit_recomputed": 30000.0,
+  "feasible_from_C7": [
+   2048,
+   4096,
+   8192,
+   32768,
+   131072
+  ],
+  "above_crit": [
+   32768,
+   131072
+  ],
+  "by_L_ctx": {
+   "2048": {
+    "Q": 1.0,
+    "N_B": 5.647458027489163,
+    "D_B": 249.06244670522395,
+    "N_over_D": 0.022674867697630753,
+    "loss": 2.1510606786916924,
+    "cost_shares": {
+     "C_train": 0.8439418283949054,
+     "C_Q": 0.09844507612000244,
+     "C_attn": 0.0576130954850922
+    },
+    "attn_over_train": 0.06826666666666667,
+    "above_crit": false,
+    "branch": "upper_Q_eq_1"
+   },
+   "4096": {
+    "Q": 1.0,
+    "N_B": 5.472807127925281,
+    "D_B": 242.29036538182348,
+    "N_over_D": 0.022587803354461606,
+    "loss": 2.1552211859287853,
+    "cost_shares": {
+     "C_train": 0.7956050632135585,
+     "C_Q": 0.09576832548901693,
+     "C_attn": 0.10862661129742453
+    },
+    "attn_over_train": 0.13653333333333334,
+    "above_crit": false,
+    "branch": "upper_Q_eq_1"
+   },
+   "8192": {
+    "Q": 1.0,
+    "N_B": 5.167965226978203,
+    "D_B": 230.26824593002814,
+    "N_over_D": 0.022443238780516,
+    "loss": 2.162956617339796,
+    "cost_shares": {
+     "C_train": 0.7140109727061902,
+     "C_Q": 0.09101643101350612,
+     "C_attn": 0.19497259628030367
+    },
+    "attn_over_train": 0.2730666666666667,
+    "above_crit": false,
+    "branch": "upper_Q_eq_1"
+   },
+   "32768": {
+    "Q": 1.0,
+    "N_B": 4.033417327236653,
+    "D_B": 183.19536464645344,
+    "N_over_D": 0.022017027204922445,
+    "loss": 2.1986511916667713,
+    "cost_shares": {
+     "C_train": 0.4433420148206653,
+     "C_Q": 0.07241028045788263,
+     "C_attn": 0.48424770472145207
+    },
+    "attn_over_train": 1.0922666666666667,
+    "above_crit": true,
+    "branch": "upper_Q_eq_1"
+   },
+   "131072": {
+    "Q": 1.0,
+    "N_B": 2.55066757042796,
+    "D_B": 116.11589774470973,
+    "N_over_D": 0.021966566335609023,
+    "loss": 2.2750686890854586,
+    "cost_shares": {
+     "C_train": 0.17770383287313615,
+     "C_Q": 0.04589627438194042,
+     "C_attn": 0.7763998927449235
+    },
+    "attn_over_train": 4.369066666666667,
+    "above_crit": true,
+    "branch": "upper_Q_eq_1"
+   }
+  },
+  "N_over_D_relative_spread": 0.03224451883831904,
+  "N_B_change_pct": -54.83512125256155,
+  "D_B_change_pct": -53.37880146895937,
+  "accurate_statement": "跨临界显著压缩可负担规模,几乎不改变相对配比",
+  "writing_red_lines": [
+   "L_ctx_crit = 30000 仅为两类成本相等的临界尺度,不是最优上下文长度",
+   "准确表述为『跨临界显著压缩可负担规模,几乎不改变相对配比』,而非『最优配置显著偏移』",
+   "AI 曾断言『L_ctx 只等价于预算缩放』,实测仅近似且随 L_ctx 失效(N:D 相对差 1.97e-2 → 3.34e-1),强版本不得入论文"
+  ]
+ },
+ "chinchilla_reference": {
+  "reference_only": true,
+  "not_a_pass_fail_criterion": true,
+  "law_implied_D_over_N_by_budget": {
+   "1e+19": {
+    "N_B": 0.14000786803753834,
+    "D_B": 11.143372027786018,
+    "implied_D_over_N": 79.59104144631574
+   },
+   "1e+22": {
+    "N_B": 3.167515113975836,
+    "D_B": 492.5500602903714,
+    "implied_D_over_N": 155.5004609503274
+   },
+   "1e+24": {
+    "N_B": 25.337447669132256,
+    "D_B": 6157.525338513673,
+    "implied_D_over_N": 243.02074222002932
+   }
+  },
+  "drift_exponent_dlog_DN_dlogC": 0.09695583109191029,
+  "chinchilla_folklore_ratio": 20.0,
+  "why_not_a_hard_criterion": "本律隐含 D/N 随预算漂移而非常数 20(20 tokens/param 出自 Chinchilla Approach 1/2 的 a≈b≈0.5;本律用 Approach 3 的 alpha≠beta)。把 20 当硬判据会拒绝本律自身的真最优解",
+  "external_anchor_claim_is_void": "本律 B1 侧参数与 Chinchilla Approach-3 常数按十亿单位折算后数值同一(相对差 9.4e-6 ~ 4.4e-4) ⇒ 以 Chinchilla 对照本律等于自证",
+  "constants_verified_against_paper": false,
+  "caveat": "上述 Chinchilla 常数由 AI 凭记忆复现,引用前须核原文(Hoffmann et al. 2022)"
+ },
+ "dldp_direction": {
+  "reported": "sign_and_ranking_only",
+  "kappa_free": true,
+  "w_source": "results/Q1/experiments/round1/tables/q1c_coefficients.csv",
+  "n_domains": 17,
+  "ranking_worst_to_best": [
+   "train_the_pile_philpapers",
+   "train_the_pile_hackernews",
+   "train_the_pile_ubuntu_irc",
+   "train_the_pile_pile_cc",
+   "train_the_pile_gutenberg_pg_19",
+   "train_the_pile_europarl",
+   "train_the_pile_wikipedia_en",
+   "train_the_pile_nih_exporter",
+   "train_the_pile_enron_emails",
+   "train_the_pile_pubmed_abstracts",
+   "train_the_pile_uspto_backgrounds",
+   "train_the_pile_stackexchange",
+   "train_the_pile_freelaw",
+   "train_the_pile_pubmed_central",
+   "train_the_pile_github",
+   "train_the_pile_arxiv",
+   "train_the_pile_dm_mathematics"
+  ],
+  "dL_dp_ratio_is_kappa_free": "dL/dp_i ÷ dL/dp_j = b_i/b_j",
+  "highest_marginal_loss_domain": "train_the_pile_philpapers",
+  "lowest_marginal_loss_domain": "train_the_pile_dm_mathematics",
+  "sign_coherence_ok": true,
+  "p_star_not_reported": true,
+  "absolute_magnitude_not_reported": true,
+  "why_p_is_fixed": "P3 实测角点退化:b^T z_p 对 p 线性 ⇒ 单纯形最优在顶点,最大分量 1.0000(全给 dm_mathematics)。论证须本队自撰(GC9)",
+  "reference_point": {
+   "N_B": 5.647458027489163,
+   "D_B": 249.06244670522395,
+   "Q": 1.0
+  }
+ },
+ "runtime_seconds": 1.934044599533081
+}

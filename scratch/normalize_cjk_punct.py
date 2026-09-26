@@ -58,16 +58,25 @@ def normalise(text):
             t = re.sub(r'\)(?=[' + FOLLOWS + r'\x01]|$)', full, t, flags=re.M)
         n[half] = len(before) - len(t)
 
-    # 6. restore
+    # 6. restore. Order matters: the block placeholders were stashed last, and the
+    # block texts still contain \x01 math placeholders, so blocks must come back
+    # before math. Restoring math first leaves \x01 residue inside every figure,
+    # table and equation (that bug corrupted problem1.tex once — hence the assert).
+    def restore_block(m):
+        return blocks[int(m.group(1))]
+
+    t = re.sub(r'\x02(\d+)\x02', restore_block, t)
+
     def restore_math(m):
         return maths[int(m.group(1))]
 
     t = re.sub(r'\x01(\d+)\x01', restore_math, t)
 
-    def restore_block(m):
-        return blocks[int(m.group(1))]
-
-    t = re.sub(r'\x02(\d+)\x02', restore_block, t)
+    residue = t.count('\x01') + t.count('\x02')
+    if residue:
+        raise AssertionError(
+            f'{residue} placeholder(s) survived restore — refusing to return '
+            'corrupted text')
     return t, n
 
 

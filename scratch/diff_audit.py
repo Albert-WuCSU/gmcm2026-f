@@ -1,53 +1,37 @@
-import io, difflib, sys
+import io, difflib, sys, re
 sys.stdout.reconfigure(encoding='utf-8', errors='replace')
 
-old = io.open('scratch/problem1.tex.bak', encoding='utf-8').read().split('\n')
-new = io.open('paper/sections/problem1.tex', encoding='utf-8').read().split('\n')
+old = io.open('scratch/problem1.tex.bak', encoding='utf-8').read()
+new = io.open('paper/sections/problem1.tex', encoding='utf-8').read()
 
-PAIRS = {',': '，', ';': '；', ':': '：', '(': '（', ')': '）'}
-INV = {v: k for k, v in PAIRS.items()}
+MAP = {',': '，', ';': '；', ':': '：', '(': '（', ')': '）'}
+INV = {v: k for k, v in MAP.items()}
 
 
-def punct_only(a, b):
-    """True if a and b become identical once punctuation width is normalised away."""
-    for t in (a, b):
-        pass
-
-    def strip(s):
-        return ' '.join(''.join(c for c in s if c not in set(PAIRS) | set(INV)).split())
-    return strip(a) == strip(b)
+def canon(s):
+    """drop all whitespace and unify punctuation width -> text-identity check"""
+    s = ''.join(INV.get(c, c) for c in s)
+    return re.sub(r'\s+', '', s)
 
 
 sm = difflib.SequenceMatcher(None, old, new, autojunk=False)
-blocks = [b for b in sm.get_opcodes() if b[0] != 'equal']
-punct_only_blocks = 0
-content_blocks = []
-for tag, i1, i2, j1, j2 in blocks:
-    o = old[i1:i2]
-    n = new[j1:j2]
-    if len(o) == len(n) and all(punct_only(x, y) for x, y in zip(o, n)):
-        punct_only_blocks += 1
+unexplained = []
+punct_chunks = 0
+for tag, i1, i2, j1, j2 in sm.get_opcodes():
+    if tag == 'equal':
         continue
-    # allow the case where lines were merged / rewrapped but only punctuation differs
-    oset = set()
-    for l in o:
-        oset.add(''.join(c for c in l if c not in set(PAIRS) | set(INV)).replace(' ', ''))
-    nset = set()
-    for l in n:
-        nset.add(''.join(c for c in l if c not in set(PAIRS) | set(INV)).replace(' ', ''))
-    if oset == nset:
-        content_blocks.append(('REWRAP-only', o, n))
-        continue
-    content_blocks.append(('CONTENT', o, n))
+    o = canon(old[i1:i2])
+    n = canon(new[j1:j2])
+    if o == n:
+        punct_chunks += 1
+    else:
+        unexplained.append((tag, old[i1:i2], new[j1:j2]))
 
-print('diff blocks total          :', len(blocks))
-print('punctuation-only blocks    :', punct_only_blocks)
-print('other blocks               :', len(content_blocks))
+print('chunks differing only in whitespace/punctuation width : %d' % punct_chunks)
+print('chunks with textual differences                      : %d' % len(unexplained))
 print()
-for kind, o, n in content_blocks:
-    print('=== %s' % kind)
-    for l in o:
-        print('  -', l)
-    for l in n:
-        print('  +', l)
+for tag, o, n in unexplained:
+    print('=== %s' % tag)
+    print('  OLD:', repr(o[:400]))
+    print('  NEW:', repr(n[:400]))
     print()

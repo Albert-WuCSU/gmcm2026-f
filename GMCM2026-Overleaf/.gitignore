@@ -15,7 +15,7 @@
 *.synctex.gz
 *.toc
 *.xdv
-/main.pdf
+# 编译产物中保留 main.pdf：它是论文成品，便于在 GitHub 上直接查看。
 /anonymous.pdf
 /build/
 

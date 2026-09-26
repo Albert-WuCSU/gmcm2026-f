@@ -1,0 +1,45 @@
+{
+ "schema_version": 1,
+ "probe_id": "P8_shape_param_cross_source_sharing",
+ "load_bearing_risk": "P1 只检验了 E 的跨源可共享性。若 A/alpha/B 也不可共享，则联合 WLS 中被 B1 钉死的形状参数会迫使 gamma 吸收 B7 的形状失配，使 gamma 失去『Q 的有效数据量指数』这一解释",
+ "criterion_timing_disclosure": "参数数值在调试中先被观察到，本判据非盲设；故判据改挂在 gamma 的自助区间尺度上以保持决策相关性",
+ "predeclared_criterion": "强制共享造成的 gamma 位移 < gamma 自助 95% 区间宽度的 50% 才可共享",
+ "route_A_source_specific_shape": {
+  "gamma": 0.9659128363851796,
+  "gamma_ci95": [
+   0.8838599505464407,
+   1.055546203294626
+  ],
+  "ci_width": 0.17168625274818516,
+  "E_B7": 1.654231815763579,
+  "A": 0.5291238133757337,
+  "alpha": 0.28321755965356715,
+  "B": 1.0538705040385727,
+  "rmse_B7": 0.07638383467565217,
+  "n_boot_ok": 400
+ },
+ "route_B_shared_shape": {
+  "gamma": 0.7968091215858158,
+  "A": 0.35398056318151144,
+  "alpha": 0.3399764683139949,
+  "B": 1.2403053664397914,
+  "E_B1": 1.6897974522767039,
+  "E_B7": 1.7773675437279504,
+  "rmse_B1": 0.0001464961054827835,
+  "rmse_B7": 0.09187721171559748
+ },
+ "shape_param_discrepancy": {
+  "A_ratio_B7_over_B1": 1.4947831347813194,
+  "alpha_B7": 0.28321755965356715,
+  "alpha_B1": 0.3399765818959282,
+  "alpha_absolute_difference": 0.05675902224236107,
+  "B_ratio_B7_over_B1": 0.849686172514896
+ },
+ "gamma_shift": 0.1691037147993637,
+ "threshold": 0.08584312637409258,
+ "shared_shape_admissible": false,
+ "shift_as_fraction_of_ci_width": 0.9849578058377841,
+ "rmse_B7_penalty_of_sharing": 0.015493377039945314,
+ "verdict": "FAIL",
+ "consequence": "若 FAIL：gamma 须取来源专属形状参数下的值（路线 A），且『B1 与 B7 共享 A/alpha/B』不得作为隐含假设使用。连带后果：除 beta 外几乎所有参数都来源专属 ⇒ 裁定3=B 的联合 WLS 在数值上退化为『B1 定 beta、B7 定 gamma』的两段式，WLS 机制本身并非错误，只是在该参数结构下无实质作用 —— 须如实说明"
+}

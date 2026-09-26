@@ -1,15 +1,25 @@
 % 统一填写题目与参赛信息。
 \gmcmsetup{
-  title={基于NSGA-II的过期意大利面-42号混凝土\texorpdfstring{\newline}{}低碳配合比优化},
+  title={广义标度律框架下大语言模型的\texorpdfstring{\newline}{}算力资源配置与能力前沿预测},
   year={2026},
   edition={第二十三届},
-  problem={A}, % A--F；兼容保留，不印在附件3没有的封面栏位中。
-  team={26100009527},
-  school={中国挖掘机大学},
-  member-a={熊大},
-  member-b={熊二},
-  member-c={光头强}
+  problem={F}, % A--F；兼容保留，不印在附件3没有的封面栏位中。
+  team={26105330291},
+  school={中南大学},
+  member-a={吴禄谦},
+  member-b={宋柏辰},
+  member-c={何沛宇}
 }
+
+% ---------------------------------------------------------------------------
+% 图表题注格式：标签（“图 4.1”“表 4.1”）加粗，标签与题注之间用全角冒号。
+% 放在 config.tex 而不是 gmcm2026.cls，是为了让模板类文件保持原样、
+% 本队的排版偏好集中在本文件，便于与 GMCM2026-Overleaf 同步。
+% ---------------------------------------------------------------------------
+\DeclareCaptionLabelSeparator{gmcmcolon}{：}
+\captionsetup{labelfont=bf, labelsep=gmcmcolon}
+\captionsetup[subfigure]{labelfont=bf}
+
 % 私人信息可写入 config.local.tex，格式同上；该文件被 Git 忽略。
 % 手工打包不受 Git 忽略规则保护，分享前请检查压缩包。
 % 默认封面使用附件3的原始Logo，自动填写以上学校、队号及姓名。
