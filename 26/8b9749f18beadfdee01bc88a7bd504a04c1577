@@ -1,0 +1,103 @@
+scratch/apply_d1_d2.py
+  s_b010292afbfb23::t_159db726cf99ed 1-29
+GMCM2026-Overleaf/sections/assumptions.tex
+  s_b010292afbfb23::t_f5b8008a93eb04 3-124
+paper/sections/problem.tex
+  s_b010292afbfb23::t_db04ee388ab60e 32
+scratch/fix_backspace_byte.py
+  s_b010292afbfb23::t_7b1a17762bd975 1-13
+GMCM2026-Overleaf/sections/evaluation.tex
+  s_b010292afbfb23::t_f5b8008a93eb04 4-10,12-87,90-114
+scratch/apply_consistency_fixes.py
+  s_b010292afbfb23::t_f22505502f2329 1-137
+paper/sections/assumptions.tex
+  s_b010292afbfb23::t_59bb1ff4677746 64,78,82-83,86,92
+  s_b010292afbfb23::t_8ca93f537f5840 74,77,84
+GMCM2026-Overleaf/sections/appendix_data.tex
+  s_b010292afbfb23::t_f5b8008a93eb04 1-278
+scratch/_bibcheck.py
+  s_b010292afbfb23::t_6ade07466b9ea5 1-19
+GMCM2026-Overleaf/sections/appendix_code.tex
+  s_b010292afbfb23::t_f5b8008a93eb04 1-909
+scratch/_audit_symbols.py
+  s_b010292afbfb23::t_e5a19ddfb10f5c 1-23
+scratch/diff_audit.py
+  s_b010292afbfb23::t_fbc3b5bcf887ba 1,4-5,7-8,11-14,18-21,23-31,33-36
+GMCM2026-Overleaf/sections/problem3.tex
+  s_b010292afbfb23::t_f5b8008a93eb04 3-255
+GMCM2026-Overleaf/sections/problem2.tex
+  s_b010292afbfb23::t_f5b8008a93eb04 3-341
+GMCM2026-Overleaf/sections/problem4.tex
+  s_b010292afbfb23::t_f5b8008a93eb04 1-230
+paper/sections/problem1.tex
+  s_b010292afbfb23::t_b05bd21821d93a 27,140,340
+  s_b010292afbfb23::t_5759e8c47e1e63 119
+  s_b010292afbfb23::t_30d7d0e13aee9e 18,126,128,130-131,135,216-217,330-331,403
+GMCM2026-Overleaf/sections/abstract.tex
+  s_b010292afbfb23::t_f5b8008a93eb04 3,5-15
+scratch/repair_problem1.py
+  s_b010292afbfb23::t_71274f59a37da1 1-70
+scratch/scan_control_chars.py
+  s_b010292afbfb23::t_f1ea4d46da81e6 1-19
+GMCM2026-Overleaf/sections/problem.tex
+  s_b010292afbfb23::t_f5b8008a93eb04 3-93
+scratch/_q4dump.txt
+  s_b010292afbfb23::t_d8654e9a5e9ef3 1-172
+paper/sections/problem2.tex
+  s_b010292afbfb23::t_30d7d0e13aee9e 39,326
+  s_b010292afbfb23::t_be3b08ddedf284 201-202
+  s_b010292afbfb23::t_db11e7886f5e9b 213
+scratch/_q3m1o.txt
+  s_b010292afbfb23::t_0d017d50c21342 1-1947
+GMCM2026-Overleaf/main.tex
+  s_b010292afbfb23::t_f5b8008a93eb04 18
+scratch/_pbs.txt
+  s_b010292afbfb23::t_4be51262753f3f 1-610
+paper/sections/problem3.tex
+  s_b010292afbfb23::t_30d7d0e13aee9e 18,40,42,49,201,248
+  s_b010292afbfb23::t_db04ee388ab60e 222,243
+scratch/_q3probe.txt
+  s_b010292afbfb23::t_085f3859213a61 1-476
+GMCM2026-Overleaf/sections/appendix.tex
+  s_b010292afbfb23::t_f5b8008a93eb04 12,14
+scratch/_m1s_dump.txt
+  s_b010292afbfb23::t_714a9d8a0d249b 1-181
+GMCM2026-Overleaf/sections/analysis.tex
+  s_b010292afbfb23::t_f5b8008a93eb04 3-119
+scratch/normalize_cjk_punct.py
+  s_b010292afbfb23::t_843a87874665bc 61-69,75-79
+paper/sections/problem4.tex
+  s_b010292afbfb23::t_a79f2722eb99e9 212
+  s_b010292afbfb23::t_30d7d0e13aee9e 175-176,181,206
+  s_b010292afbfb23::t_5759e8c47e1e63 116
+GMCM2026-Overleaf/config.tex
+  s_b010292afbfb23::t_f5b8008a93eb04 3,6-11,13-22
+scratch/_p8.txt
+  s_b010292afbfb23::t_f1a47fb70a3494 1-45
+scratch/_xrefcheck.py
+  s_b010292afbfb23::t_c753fa73c431ad 1-30
+GMCM2026-Overleaf/.gitignore
+  s_b010292afbfb23::t_f5b8008a93eb04 18
+scratch/apply_symbol_table_fixes.py
+  s_b010292afbfb23::t_b9c23238d4a2f2 1-49
+GMCM2026-Overleaf/reference.bib
+  s_b010292afbfb23::t_f5b8008a93eb04 1-200
+GMCM2026-Overleaf/sections/problem1.tex
+  s_b010292afbfb23::t_f5b8008a93eb04 1-406
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.45-trip",
+  "base_commit_sha": "268b9749f18beadfdee01bc88a7bd504a04c1577",
+  "prompts": {},
+  "sessions": {
+    "s_b010292afbfb23": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "d8a13e12-70b1-4af9-9db5-4969c98382d1",
+        "model": "ep-s52bpjk9"
+      },
+      "human_author": "albert <1594650646@qq.com>"
+    }
+  }
+}
